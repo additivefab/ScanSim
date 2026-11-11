@@ -89,8 +89,23 @@ class Segment:
 
 
 @dataclass
+class BlockInfo:
+    """One block that was delivered intact (header fields the reader verified)."""
+
+    seq: int
+    epoch: int
+    clock_domain: int
+    channels: list[int]
+    first_sample_index: int
+    sample_count: int
+    flags: int
+    line_number: int
+
+
+@dataclass
 class ReadResult:
     session: SessionHeader | None = None
+    blocks: list[BlockInfo] = field(default_factory=list)
     segments: list[Segment] = field(default_factory=list)
     losses: list[Loss] = field(default_factory=list)
     errors: list[RawError] = field(default_factory=list)
@@ -189,7 +204,7 @@ def read_all(path: Path) -> ReadResult:
             fail("header_crc", "block header CRC mismatch", pos, fatal=True)
             break
         (magic, version, header_len, session_id, epoch, seq, mask, domain, flags, _r1, first,
-         count, payload_bytes, _line, payload_crc, _r2) = _HEAD.unpack_from(raw)  # fmt: skip
+         count, payload_bytes, line_number, payload_crc, _r2) = _HEAD.unpack_from(raw)  # fmt: skip
         if version != BLOCK_VERSION:
             fail("unknown_version", f"block format version {version} is not supported", pos, True)
             break
@@ -230,9 +245,17 @@ def read_all(path: Path) -> ReadResult:
                 "sample_index_regress", f"samples restart at {first}, expected {expected}", block_at
             )
             continue
+        line_structured = bool(flags & FLAG_LINE_START)
         if expected is not None and first > expected:
-            result.losses.append(Loss("capture", epoch, domain, expected, first - 1,
-                                      "missing_blocks", "exact"))  # fmt: skip
+            # Between line windows a sample gap is by design. Then a loss is only inferred from a
+            # jump in the block sequence, and its range is an estimate (it may include samples
+            # that were never meant to be kept).
+            lost_blocks = prev_seq is not None and seq > prev_seq + 1
+            if not line_structured or lost_blocks:
+                result.losses.append(
+                    Loss("capture", epoch, domain, expected, first - 1, "missing_blocks",
+                         "estimated" if line_structured else "exact")
+                )  # fmt: skip
             open_segment.pop(key, None)
         prev_seq, prev_epoch, next_index[key] = seq, epoch, last + 1
 
@@ -244,6 +267,9 @@ def read_all(path: Path) -> ReadResult:
             open_segment.pop(key, None)
             continue
         rows = np.frombuffer(body, dtype="<u2").reshape(count, len(channels))
+        result.blocks.append(
+            BlockInfo(seq, epoch, domain, channels, first, count, flags, line_number)
+        )
         segment = open_segment.get(key)
         if segment is None or segment.channels != channels:
             segment = Segment(epoch, domain, channels, first, rows.copy())
