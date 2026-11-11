@@ -1,0 +1,33 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "sim_package_a_spice_ac_coupling",
+ "status": "independent_rerun",
+ "conclusion": "not_executed",
+ "started_at": "2026-11-11T08:23:53.524759+00:00",
+ "finished_at": "2026-11-11T08:23:53.599132+00:00",
+ "code": {
+  "commit": "ded24b953f0df147a5e046b023983d3be7d62377",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "legacy/package_a/spice/ac_coupling_risk_ngspice.cir": "56aec78cbcbca9ad1d36fc028213f4cc96b5117bcb763c098d4e124216316cfb"
+ },
+ "commands": [],
+ "criteria": [],
+ "notes": "Not executed: required tool(s) not found on PATH: ngspice. its comment states an RC high-pass behaviour that can be checked analytically. See docs/reports/simulator_install_attempt.md for the installation attempt."
+}

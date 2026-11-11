@@ -1,0 +1,36 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "sim_package_b_rtl_icarus",
+ "status": "independent_rerun",
+ "conclusion": "not_executed",
+ "started_at": "2026-11-11T08:23:53.524759+00:00",
+ "finished_at": "2026-11-11T08:23:53.598344+00:00",
+ "code": {
+  "commit": "ded24b953f0df147a5e046b023983d3be7d62377",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "legacy/package_b/rtl/tag_delay.sv": "a5efa95bd9f6e14bc2b2ac6477a4e624b5a9ac4c1736b81fe41297460c70923f",
+  "legacy/package_b/rtl/adc_stream_fifo.sv": "723fc10f413cf09c1d3d8b1ba3765395abc7686d6a408db81e2b5b8d94e9404a",
+  "legacy/package_b/rtl/tb_scanner.sv": "ea87420f8373754923e08e1e8eec0a0aaad2235fe905ecf52e9cdea4e5146ed4",
+  "legacy/package_b/rtl/run_iverilog.sh": "10cc8b9d8f9d1f4856492b25d298f8947862d7e11613106ed026bb540b4eab36"
+ },
+ "commands": [],
+ "criteria": [],
+ "notes": "Not executed: required tool(s) not found on PATH: iverilog, vvp. See docs/reports/simulator_install_attempt.md for the installation attempt."
+}

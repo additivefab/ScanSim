@@ -1,0 +1,35 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "sim_packages_ab_rtl_vivado_xsim",
+ "status": "independent_rerun",
+ "conclusion": "not_executed",
+ "started_at": "2026-11-11T08:23:53.524759+00:00",
+ "finished_at": "2026-11-11T08:23:53.600265+00:00",
+ "code": {
+  "commit": "ded24b953f0df147a5e046b023983d3be7d62377",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "legacy/package_a/rtl/run_xsim.sh": "1f2341a8e0cccf70073640be3d6c2db853850fd087f30489409626ad4fe8a0a7",
+  "legacy/package_a/rtl/run.tcl": "f4601d867b0b15880910061412a38c225c6e3422ad1246b7a4bf0d9f0e1f7459",
+  "legacy/package_b/rtl/run_xsim.tcl": "f0ed8d1b906e22daa3ccecd9cf95e8dda4a24ed64eb8cc12b11220f875fc1bcd"
+ },
+ "commands": [],
+ "criteria": [],
+ "notes": "Not executed: required tool(s) not found on PATH: xvlog, xelab, xsim. Vivado is not part of this project's tooling. See docs/reports/simulator_install_attempt.md for the installation attempt."
+}

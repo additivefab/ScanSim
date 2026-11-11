@@ -1,0 +1,7 @@
+LTspice: not found (PATH probe)
+iverilog: not found (PATH probe)
+ngspice: not found (PATH probe)
+vvp: not found (PATH probe)
+xelab: not found (PATH probe)
+xsim: not found (PATH probe)
+xvlog: not found (PATH probe)

@@ -1,0 +1,33 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "sim_package_b_spice_behavioral",
+ "status": "independent_rerun",
+ "conclusion": "not_executed",
+ "started_at": "2026-11-11T08:23:53.524759+00:00",
+ "finished_at": "2026-11-11T08:23:53.599468+00:00",
+ "code": {
+  "commit": "ded24b953f0df147a5e046b023983d3be7d62377",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "legacy/package_b/spice/behavioral_log_frontend.cir": "d9de6e274ea592cbc539d1e5818f7f0402793d5473bd21e222ca0150f0c63b4c"
+ },
+ "commands": [],
+ "criteria": [],
+ "notes": "Not executed: required tool(s) not found on PATH: ngspice. See docs/reports/simulator_install_attempt.md for the installation attempt."
+}
