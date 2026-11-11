@@ -68,3 +68,5 @@ select = ["E", "F", "I", "B", "UP"]
 "tools/trace_store_benchmark.py" = ["E501"]
 # Holds the page's CSS, script and HTML as text.
 "src/zlscan/report/viewer.py" = ["E501"]
+# One relation per line, so the table of constraints can be read as a table.
+"src/zlscan/budget/geometry.py" = ["E501"]
