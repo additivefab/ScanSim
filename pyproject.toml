@@ -62,3 +62,5 @@ select = ["E", "F", "I", "B", "UP"]
 # One data row per parameter, with CJK text that ruff counts as double width; wrapping the rows
 # would make the table harder to read, so the line-length rule is relaxed for this file only.
 "tools/build_parameter_table.py" = ["E501"]
+# Embeds the source text of programs that run inside the legacy packages' subprocesses.
+"tools/legacy_experiments.py" = ["E501"]
