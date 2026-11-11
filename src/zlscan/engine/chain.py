@@ -62,6 +62,8 @@ class ChainConfig:
     timeline: list[Phase] = field(default_factory=list)
     domain_id: int = 1
     evidence: dict[str, str] = field(default_factory=dict)
+    # Legacy behaviours, explicit and off by default (only the legacy presets turn them on).
+    legacy_reset_per_line: bool = False
 
     def hash(self) -> str:
         d = asdict(self)
@@ -88,6 +90,8 @@ class Chain:
     def __init__(self, cfg: ChainConfig) -> None:
         if cfg.os < 2 or cfg.os % 2:
             raise ValueError("os must be an even integer >= 2")
+        if cfg.detector.pole_hz is not None:
+            raise NotImplementedError("the PMT bandwidth pole is declared but not implemented")
         self.cfg = cfg
         self.dt = 1.0 / (cfg.fs_hz * cfg.os)
         self.rng = CounterRng(cfg.seed)
@@ -111,6 +115,22 @@ class Chain:
 
     # ---- one chunk ----------------------------------------------------------------------
     def advance(self, n: int) -> ChunkOut:
+        if not self.cfg.legacy_reset_per_line:
+            return self._advance(n)
+        per_line = round(self.cfg.scan.line_period_s * self.cfg.fs_hz * self.cfg.os)
+        parts: list[ChunkOut] = []
+        left = n
+        while left:
+            into = self.step % per_line
+            if into == 0:  # legacy: every line starts from a fresh front-end state
+                self.afe.reset()
+                self.last_v = None
+            take = min(left, per_line - into)
+            parts.append(self._advance(take))
+            left -= take
+        return merge(parts)
+
+    def _advance(self, n: int) -> ChunkOut:
         cfg, s0 = self.cfg, self.step
         t = (s0 + np.arange(n)) * self.dt
         k, x, y, facet, inside = scan_mod.geometry(cfg.scan, t, self.rng, cfg.domain_id)

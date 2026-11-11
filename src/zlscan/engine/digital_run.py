@@ -47,21 +47,28 @@ DEFAULTS: dict[str, Any] = {
 
 def run_digital(out: Path, config: dict[str, Any] | None = None) -> dict[str, Any]:
     cfg = {**DEFAULTS, **(config or {})}
+    dom = ClockDomain(id=1, freq_num=int(cfg["adc_hz"]))
+    n = cfg["line_cycles"] * (cfg["lines"] + 2)
+    src = patterns.make_source({0: patterns.ramp(100, 3, n), 1: patterns.prbs(cfg["seed"], n)}, dom)
+    line_ticks = dom.tick_of(cfg["line_cycles"])
+    syncs = [7_000 + i * line_ticks for i in range(cfg["lines"])]
+    return run_from_source(out, src, syncs, cfg, preset="digital_default")
+
+
+def run_from_source(out: Path, src, syncs: list[int], cfg: dict[str, Any], preset: str,
+                    extra_run: dict[str, Any] | None = None) -> dict[str, Any]:  # fmt: skip
     out = Path(out)
     obs, truth = out / "observable", out / "truth"
     obs.mkdir(parents=True, exist_ok=True)
     truth.mkdir(parents=True, exist_ok=True)
-
-    dom = ClockDomain(id=1, freq_num=int(cfg["adc_hz"]))
-    n = cfg["line_cycles"] * (cfg["lines"] + 2)
-    src = patterns.make_source({0: patterns.ramp(100, 3, n), 1: patterns.prbs(cfg["seed"], n)}, dom)
-    link = LinkConfig(latency_half_cycles=cfg["latency_half_cycles"],
-                      propagation_ps=cfg["propagation_ps"])  # fmt: skip
+    dom = src.domain
+    link = LinkConfig(latency_half_cycles=cfg.get("latency_half_cycles", 24),
+                      propagation_ps=cfg.get("propagation_ps", 1500))  # fmt: skip
     tx = transmit(src, link)
     got = receive(tx, link)
-    acq = AcquisitionConfig(cfg["window_start"], cfg["window_length"], cfg["sync_latency_cycles"])
-    line_ticks = dom.tick_of(cfg["line_cycles"])
-    syncs = [7_000 + i * line_ticks for i in range(cfg["lines"])]
+    acq = AcquisitionConfig(
+        cfg["window_start"], cfg["window_length"], cfg.get("sync_latency_cycles", 2)
+    )
     res = acquire(got, syncs, acq)
 
     items = [
@@ -90,7 +97,7 @@ def run_digital(out: Path, config: dict[str, Any] | None = None) -> dict[str, An
     (obs / "losses.json").write_text(
         json.dumps([asdict(x) for x in tr.losses], indent=1), encoding="utf-8"
     )
-    expected = range(0, cfg["lines"])
+    expected = range(0, len(syncs))
     report = check_file(raw, expected, obs / "losses.json")
     (obs / "integrity.json").write_text(json.dumps(asdict(report), indent=1), encoding="utf-8")
 
@@ -102,11 +109,13 @@ def run_digital(out: Path, config: dict[str, Any] | None = None) -> dict[str, An
     np.savez(obs / "recon.npz", invalid=img.invalid, **{f"ch{c}": v for c, v in img.codes.items()})
 
     run = {
-        "mode": "digital", "preset": "digital_default", "run_id": "digital-run", "session_id": 1,
+        "mode": cfg.get("mode_name", "digital"), "preset": preset, "run_id": "digital-run",
+        "session_id": 1,
         "epoch": got.epoch, "statuses": {"行为模型": "已运行", "RTL 功能协同": "未执行"},
         "recon_status": img.status, "integrity": report.status,
         "lost_blocks": len(tr.losses), "seed": cfg["seed"],
     }  # fmt: skip
+    run.update(extra_run or {})
     (out / "run.json").write_text(json.dumps(run, ensure_ascii=False, indent=1), encoding="utf-8")
 
     digital = _digital_view(got, res, tx, tr, stages, items, cfg)
@@ -152,18 +161,15 @@ def _digital_view(got, res, tx, tr, stages, items, cfg) -> dict[str, Any]:
                 "values": sync.tolist(),
             },
             {"id": "window", "name": "数字保留窗口", "kind": "logic", "values": keep.tolist()},
-            {
-                "id": "ch0",
-                "name": "通道 0 码值",
-                "kind": "analog",
-                "values": [int(v) for v in got.codes[:, 0]],
-            },
-            {
-                "id": "ch1",
-                "name": "通道 1 码值",
-                "kind": "analog",
-                "values": [int(v) for v in got.codes[:, 1]],
-            },
+            *[
+                {
+                    "id": f"ch{c}",
+                    "name": f"通道 {c} 码值",
+                    "kind": "analog",
+                    "values": [int(v) for v in got.codes[:, j]],
+                }
+                for j, c in enumerate(got.channels)
+            ],
         ],  # fmt: skip
         "lineage": lineage,
         "queues": [

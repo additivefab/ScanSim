@@ -105,6 +105,14 @@ class Afe:
             v = f.process(v)
         return v, clipped
 
+    def reset(self) -> None:
+        """Forget all filter state (the next sample starts a new steady state)."""
+        if self.pole is not None:
+            self.pole.zi = None
+        self.vstate = None
+        for f in self.aa:
+            f.zi = None
+
     def state(self) -> dict:
         return {
             "pole": None if self.pole is None else self.pole.state(),
