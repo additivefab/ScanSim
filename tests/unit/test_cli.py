@@ -37,7 +37,7 @@ def test_version(capsys):
 
 
 # Commands that are implemented are tested in test_profile_and_check.py.
-IMPLEMENTED = {"check", "budget", "run"}
+IMPLEMENTED = {"check", "budget", "run", "serve"}
 
 
 @pytest.mark.parametrize("name", sorted(PLANNED - IMPLEMENTED))

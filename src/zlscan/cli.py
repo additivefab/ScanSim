@@ -131,16 +131,37 @@ def _run_run(argv: Sequence[str]) -> int:
     from zlscan.engine.digital_run import run_digital
 
     p = argparse.ArgumentParser(prog="zlscan run")
-    p.add_argument("--mode", choices=["digital"], required=True)
+    p.add_argument("--mode", choices=["digital", "physical"], required=True)
     p.add_argument("--out", type=Path, default=Path("run_out"))
+    p.add_argument("--lines", type=int, default=8)
     args = p.parse_args(list(argv))
-    run = run_digital(args.out)
-    print(f"数字模式完成：重建 {run['recon_status']}，完整性 {run['integrity']}，写入 {args.out}")
+    if args.mode == "physical":
+        from zlscan.config.presets import demo_config
+        from zlscan.engine.physical_run import run_physical
+
+        run = run_physical(args.out, demo_config(), args.lines)
+    else:
+        run = run_digital(args.out)
+    print(
+        f"{run['mode']} 模式完成：重建 {run['recon_status']}，"
+        f"完整性 {run['integrity']}，写入 {args.out}"
+    )
     return 0 if run["recon_status"] == "complete" else CHECK_FAIL_EXIT_CODE
 
 
+def _run_serve(argv: Sequence[str]) -> int:
+    from zlscan.engine.run_service import serve
+
+    p = argparse.ArgumentParser(prog="zlscan serve")
+    p.add_argument("--port", type=int, default=8765)
+    p.add_argument("--lines", type=int, default=6)
+    args = p.parse_args(list(argv))
+    serve(args.port, args.lines)
+    return 0
+
+
 HANDLERS = {"check": _run_check}
-ARG_HANDLERS = {"budget": _run_budget, "run": _run_run}
+ARG_HANDLERS = {"budget": _run_budget, "run": _run_run, "serve": _run_serve}
 
 
 def build_parser() -> argparse.ArgumentParser:

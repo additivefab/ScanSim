@@ -67,6 +67,8 @@ select = ["E", "F", "I", "B", "UP"]
 # Builds a long Markdown report from f-strings, one table row per line.
 "tools/trace_store_benchmark.py" = ["E501"]
 "src/zlscan/experiment/faults.py" = ["E501"]  # detectability table text
+"src/zlscan/api/server.py" = ["E501"]  # endpoint table
+"src/zlscan/engine/run_service.py" = ["E501"]
 "tools/perf_scenarios.py" = ["E501"]  # report text
 "src/zlscan/config/presets.py" = ["E501"]  # config field mapping tables
 "src/zlscan/report/digital_view.py" = ["E501"]  # embedded page script
