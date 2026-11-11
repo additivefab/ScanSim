@@ -16,6 +16,9 @@ from zlscan import __version__
 
 USAGE_EXIT_CODE = 2
 NOT_IMPLEMENTED_EXIT_CODE = 3
+# zlscan check: 0 means the data is complete, which is not the same as verified hardware.
+CHECK_FAIL_EXIT_CODE = 1
+CHECK_UNRESOLVED_EXIT_CODE = 4
 
 
 class Command:
@@ -46,6 +49,40 @@ COMMANDS: tuple[Command, ...] = (
 )
 
 
+def _run_check() -> int:
+    """Rule checks on the hardware profile built from the unified parameter table."""
+    from zlscan.evidence.table import load_parameters
+    from zlscan.hardware.pins import PinRegistry
+    from zlscan.hardware.profile import ProfileStatus, profile_gate
+
+    try:
+        registry = PinRegistry.load()
+    except ValueError as exc:
+        print(f"引脚表结构检查失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    gate = profile_gate(load_parameters())
+    if gate.status is ProfileStatus.UNRESOLVED:
+        print(f"硬件画像门槛：未决（缺少 {len(gate.missing)} 项资料）")
+        for label in gate.missing:
+            print(f"  - {label}")
+    else:
+        print("硬件画像门槛：资料齐全，可进入进一步验证")
+    tables = "、".join(f"{rev} {conn}" for rev, conn in registry.tables())
+    print(
+        f"引脚表：{len(registry.rows)} 行（{tables}），结构检查通过。"
+        "这是板端连接器对照，不是接线批准。"
+    )
+    print(gate.note)
+    return (
+        0
+        if gate.status is ProfileStatus.READY_FOR_FURTHER_VALIDATION
+        else CHECK_UNRESOLVED_EXIT_CODE
+    )
+
+
+HANDLERS = {"check": _run_check}
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="zlscan",
@@ -65,6 +102,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command is None:
         parser.print_help(sys.stderr)
         return USAGE_EXIT_CODE
+    handler = HANDLERS.get(args.command)
+    if handler is not None:
+        return handler()
     cmd = next(c for c in COMMANDS if c.name == args.command)
     print(
         f"zlscan {cmd.name}: 尚未实现（计划在阶段 {cmd.stage} 实现）",

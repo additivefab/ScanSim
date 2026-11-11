@@ -36,7 +36,11 @@ def test_version(capsys):
     assert __version__ in capsys.readouterr().out
 
 
-@pytest.mark.parametrize("name", sorted(PLANNED))
+# Commands that are implemented are tested in test_profile_and_check.py.
+IMPLEMENTED = {"check"}
+
+
+@pytest.mark.parametrize("name", sorted(PLANNED - IMPLEMENTED))
 def test_unimplemented_command_fails_loudly(name, capsys):
     code = main([name])
     assert code == NOT_IMPLEMENTED_EXIT_CODE
