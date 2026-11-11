@@ -1,0 +1,197 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "legacy_cross_compare_steady_state",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-11T08:53:51.439260+00:00",
+ "finished_at": "2026-11-11T08:53:51.440284+00:00",
+ "code": {
+  "commit": "fd7963030885366e18116951e982b92fc1d38c90",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261110,
+ "inputs": {
+  "legacy/MANIFEST.json": "65445f76052b16505eaef84b0d35add4a6beab54e9dce424e51e90fe5572dd24",
+  "tools/legacy_cross_compare.py": "2c2e2c109e803613800e842fb0c88111fc101bfe1b9507a3603b35603f0c6100",
+  "docs/reports/legacy_cross_compare_data.json": "80c7a2be1ed11d0d267d7c39e2163232bf137a57f3df2df794e4954ed56485c2"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/legacy_cross_compare.py",
+    "--record"
+   ],
+   "cwd": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5",
+   "returncode": 0,
+   "seconds": 0.0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "D=0.0.power_w",
+   "expected": 5.000000000000001e-07,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 5e-07,
+   "passed": true
+  },
+  {
+   "quantity": "D=0.0.anode_a",
+   "expected": 5.121630400216748e-05,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 5.1216304e-05,
+   "passed": true
+  },
+  {
+   "quantity": "D=0.0.v_log",
+   "expected": 0.9773520586571751,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 0.9773520587,
+   "passed": true
+  },
+  {
+   "quantity": "D=0.0.v_adc",
+   "expected": 0.977352058657174,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 0.9773520587,
+   "passed": true
+  },
+  {
+   "quantity": "D=0.0.code",
+   "expected": 64793.0,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 0.0
+   },
+   "actual": 64793.0,
+   "passed": true
+  },
+  {
+   "quantity": "D=1.0.power_w",
+   "expected": 5.000000000000001e-08,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 5e-08,
+   "passed": true
+  },
+  {
+   "quantity": "D=1.0.anode_a",
+   "expected": 5.12172040021675e-06,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 5.1217204e-06,
+   "passed": true
+  },
+  {
+   "quantity": "D=1.0.v_log",
+   "expected": 0.7273539665535333,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 0.7273539666,
+   "passed": true
+  },
+  {
+   "quantity": "D=1.0.v_adc",
+   "expected": 0.7273539665535325,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 0.7273539666,
+   "passed": true
+  },
+  {
+   "quantity": "D=1.0.code",
+   "expected": 56601.0,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 0.0
+   },
+   "actual": 56601.0,
+   "passed": true
+  },
+  {
+   "quantity": "D=2.0.power_w",
+   "expected": 5.000000000000001e-09,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 5e-09,
+   "passed": true
+  },
+  {
+   "quantity": "D=2.0.anode_a",
+   "expected": 5.12262040021675e-07,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 5.1226204e-07,
+   "passed": true
+  },
+  {
+   "quantity": "D=2.0.v_log",
+   "expected": 0.4773730436733962,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 0.4773730437,
+   "passed": true
+  },
+  {
+   "quantity": "D=2.0.v_adc",
+   "expected": 0.4773730436733957,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-06
+   },
+   "actual": 0.477373044,
+   "passed": true
+  },
+  {
+   "quantity": "D=2.0.code",
+   "expected": 48410.0,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 0.0
+   },
+   "actual": 48410.0,
+   "passed": true
+  }
+ ],
+ "notes": "Package B compared with package A at identical constant-density conditions; floats within relative 1e-6, ADC codes exactly equal. Expectation = package A's value."
+}
