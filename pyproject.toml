@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zlscan"
+version = "0.0.0"
+description = "Laser film-scanner simulation: optics to ADC to FPGA capture to reconstruction, with a timeline workbench"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pydantic>=2.5",
+    "h5py>=3.10",
+    "tifffile>=2024.1.30",
+    "Pillow>=10",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "hypothesis>=6",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+zlscan = "zlscan.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: takes more than about ten seconds",
+    "legacy: regression against the frozen legacy packages (slow, runs their code in subprocesses)",
+    "perf: performance measurement, not run by default",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "tools"]
+# legacy/ is frozen third-party-style code and must not be reformatted or linted.
+# docs/ holds specification pseudo-code in Markdown fences; ruff must not rewrite it.
+extend-exclude = ["legacy", "evidence_runs", ".venv", "docs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
