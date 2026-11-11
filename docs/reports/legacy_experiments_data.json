@@ -9,14 +9,14 @@
  },
  "cost_per_step": {
   "package_a_demo": {
-   "seconds": 0.2624539169919444,
+   "seconds": 0.2560702500049956,
    "substeps": 931840,
-   "ns_per_substep": 281.651267376314
+   "ns_per_substep": 274.8006632093445
   },
   "package_b_ad9268": {
-   "seconds": 2.5944708330061985,
+   "seconds": 2.549517207997269,
    "substeps": 12800000,
-   "ns_per_substep": 202.69303382860926
+   "ns_per_substep": 199.18103187478664
   }
  },
  "registration_ablation_package_b": {

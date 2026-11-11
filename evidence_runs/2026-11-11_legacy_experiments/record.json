@@ -1,0 +1,68 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "legacy_experiments",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-11T08:54:25.044752+00:00",
+ "finished_at": "2026-11-11T08:54:25.045629+00:00",
+ "code": {
+  "commit": "9cfd890c7be70bf000d89f2617960c5f6dbbe0cf",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261110,
+ "inputs": {
+  "legacy/MANIFEST.json": "65445f76052b16505eaef84b0d35add4a6beab54e9dce424e51e90fe5572dd24",
+  "tools/legacy_experiments.py": "7cb613c542842c7187a8b0fd9b3baacaed2669afbd030f2e993d8dfea7aab436",
+  "docs/reports/legacy_experiments_data.json": "81682387b303803220fae4d79d69cf611d1277743f8706ce85fc6a9b91e3d539"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/legacy_experiments.py",
+    "--record"
+   ],
+   "cwd": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5",
+   "returncode": 0,
+   "seconds": 0.0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "step_response.rms_difference_below_1pct_of_swing",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "cost_per_step.measured_for_both_packages",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "ablation.all_cases_finite",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Step response, cost per fine step and registration ablation. The 1 % threshold is a descriptive choice, not a requirement; the ablation's best shift uses the truth (oracle upper bound). Timings are best of three on one machine, not a benchmark."
+}
