@@ -66,3 +66,5 @@ select = ["E", "F", "I", "B", "UP"]
 "tools/legacy_experiments.py" = ["E501"]
 # Builds a long Markdown report from f-strings, one table row per line.
 "tools/trace_store_benchmark.py" = ["E501"]
+# Holds the page's CSS, script and HTML as text.
+"src/zlscan/report/viewer.py" = ["E501"]
