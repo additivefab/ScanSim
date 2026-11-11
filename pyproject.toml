@@ -64,3 +64,5 @@ select = ["E", "F", "I", "B", "UP"]
 "tools/build_parameter_table.py" = ["E501"]
 # Embeds the source text of programs that run inside the legacy packages' subprocesses.
 "tools/legacy_experiments.py" = ["E501"]
+# Builds a long Markdown report from f-strings, one table row per line.
+"tools/trace_store_benchmark.py" = ["E501"]
