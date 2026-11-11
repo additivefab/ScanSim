@@ -67,7 +67,7 @@ function draw(){
         if(!b.values||!b.values.length)return;paint(cv,b)})});
   api('/events?start='+win.start+'&end='+win.end).then(function(b){if(stale(b))return;
     document.getElementById('events').textContent=b.events.length?
-      b.events.map(function(e){return e.kind+'@'+e.step}).join('，'):'窗口内无事件'});
+      b.events.map(function(e){return e.kind==='transport_loss'?('丢样 层级 '+e.layer+' 样本 '+e.first+'–'+e.last+'（'+e.reason+'）'):(e.kind+'@'+e.step)}).join('；'):'窗口内无事件'});
   moveCursor()}
 function paint(cv,b){var g=cv.getContext('2d'),w=cv.width,h=cv.height,v=b.values,
   flat=typeof v[0]==='number',lo=Infinity,hi=-Infinity;g.clearRect(0,0,w,h);

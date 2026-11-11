@@ -48,13 +48,31 @@ def brancher(parent: Run, overrides: dict) -> Run | None:
                      parent.store.interval_steps, parent=parent.run_id)  # fmt: skip
 
 
+def transport_losses(cfg: ChainConfig, codes: np.ndarray, lines: int) -> list[dict]:
+    """Push one block per line through a small queue graph with a stalled link; list the losses."""
+    from zlscan.transport.queues import Item, StageSpec, simulate
+
+    dom = ClockDomain(cfg.domain_id, cfg.fs_hz)
+    per_line = len(codes) // lines
+    items = [Item(i, per_line * 2 + 64, 0, cfg.domain_id, i * per_line, per_line,
+                  dom.tick_of((i + 1) * per_line), i) for i in range(lines)]  # fmt: skip
+    line_ps = dom.tick_of(per_line)
+    stages = [StageSpec("rx", per_line * 2 + 64, 1e9),
+              StageSpec("net", 2 * (per_line * 2 + 64), 1e9, stalls=((2 * line_ps, 4 * line_ps),))]  # fmt: skip
+    res = simulate(items, stages)
+    return [{"layer": x.layer, "reason": x.reason, "first": x.first_sample_index,
+             "last": x.last_sample_index} for x in res.losses]  # fmt: skip
+
+
 def demo_service(lines: int = 6) -> Service:
     cfg = demo_config()
     steps = round(cfg.scan.line_period_s * cfg.fs_hz * cfg.os) * lines
     cfg.injections = [(steps // 3, 1, 2e-3)]  # a visible single-step light pulse
     svc = Service(brancher)
     probes = {"power_w", "current_a", "v_adc", "t_eff", "x_m"}
-    svc.add(build_run("demo", cfg, steps, probes, steps // lines))
+    run = build_run("demo", cfg, steps, probes, steps // lines)
+    run.losses = transport_losses(cfg, run.codes, lines)  # a stalled link, to show loss tracing
+    svc.add(run)
     return svc
 
 

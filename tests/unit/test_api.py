@@ -15,7 +15,7 @@ from zlscan.engine.run_service import demo_service
 
 @pytest.fixture(scope="module")
 def server():
-    svc = demo_service(lines=3)
+    svc = demo_service(lines=6)
     srv = make_server(svc, "127.0.0.1", 0)
     t = threading.Thread(target=srv.serve_forever, daemon=True)
     t.start()
@@ -164,3 +164,15 @@ def test_w13_the_page_layout_is_fluid():
     html = Path(STATIC / "index.html").read_text(encoding="utf-8")
     assert "@media (max-width:900px)" in html and "min-width:0" in html
     assert not re.search(r"width:\s*\d{4,}px", html)
+
+
+def test_w08_a_stalled_link_shows_up_with_layer_and_sample_range(server):
+    port, svc = server
+    steps = svc.runs["demo"].steps
+    _, b = get(port, f"/runs/demo/events?start=0&end={steps}&kinds=transport_loss")
+    losses = [e for e in b["events"] if e["kind"] == "transport_loss"]
+    assert losses and all(e["layer"] and e["first"] <= e["last"] for e in losses)
+    run = svc.runs["demo"]
+    assert {(e["first"], e["last"]) for e in losses} <= {
+        (x["first"], x["last"]) for x in run.losses
+    }

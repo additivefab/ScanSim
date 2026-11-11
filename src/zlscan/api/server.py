@@ -45,6 +45,7 @@ class Run:
     events: dict[str, list[int]]
     parent: str | None = None
     link: Any = None
+    losses: list[dict] = field(default_factory=list)  # transport losses: layer, first, last
     epoch: int = 0
     session_id: int = 1
     meta: dict[str, Any] = field(default_factory=dict)
@@ -127,6 +128,11 @@ class Service:
             for i in idx:
                 if start <= i * os_ < end:
                     out.append({"kind": kind, "sample": i, "step": i * os_})
+        if not kinds or "transport_loss" in kinds:
+            for x in r.losses:
+                if start <= x["first"] * os_ < end:
+                    out.append({"kind": "transport_loss", "layer": x["layer"], "first": x["first"],
+                                "last": x["last"], "reason": x["reason"], "step": x["first"] * os_})  # fmt: skip
         return {"status": QueryStatus.EXACT_RECORD, "events": sorted(out, key=lambda e: e["step"])}
 
     def lineage(self, r: Run, index: int) -> dict:

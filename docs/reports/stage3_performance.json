@@ -56,5 +56,15 @@
    "goal_met": false,
    "status": "EXTRAPOLATED, NOT RUN"
   }
+ },
+ "scaled_streaming_run_400_lines": {
+  "lines_requested": 400,
+  "lines_written": 400,
+  "fine_steps": 4010000,
+  "wall_s": 54.21673841599841,
+  "steps_per_s": 73962.39827692622,
+  "python_peak_bytes": 4047849,
+  "integrity": "complete",
+  "note": "demo scale: 400 lines of 40 px; NOT a target frame"
  }
 }
