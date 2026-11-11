@@ -171,8 +171,16 @@ def _summary(params: Mapping[str, Param]) -> str:
 
 
 def build_viewer(
-    params: Mapping[str, Param], events: Sequence[Event], meta: Mapping[str, Any]
+    params: Mapping[str, Param],
+    events: Sequence[Event],
+    meta: Mapping[str, Any],
+    digital: Mapping[str, Any] | None = None,
 ) -> str:
+    from zlscan.report.digital_view import CSS as DIG_CSS
+    from zlscan.report.digital_view import build_digital_section
+
+    digital_html = build_digital_section(dict(digital)) if digital else ""
+    css = CSS + (DIG_CSS if digital else "")
     names = load_names()
     statuses = meta.get("statuses", {})
     status_html = "".join(
@@ -210,7 +218,7 @@ def build_viewer(
     return (
         '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        f"<title>仿真工作台（第一级骨架）</title><style>{CSS}</style></head><body>"
+        f"<title>仿真工作台（第一级骨架）</title><style>{css}</style></head><body>"
         f'<header><h1>仿真工作台（第一级骨架）</h1><div class="meta">{top}</div>'
         f'<div class="statuses">{status_html}</div>'
         '<div class="note">没有任何一种"通过"能代替另一种；这里没有物理波形，只有登记的参数与事件。</div></header>'
@@ -221,7 +229,7 @@ def build_viewer(
         f'<input type="range" id="time-cursor" min="0" max="{max(len(events) - 1, 0)}" value="0" '
         f'step="1"{"" if events else " disabled"}><span id="cursor-readout"></span></div>'
         f"<h2>事件</h2>{_events_table(events)}</section>"
-        f"<aside><h2>探针</h2>{panels}</aside></main>"
+        f"<aside><h2>探针</h2>{panels}</aside></main>{digital_html}"
         f'<script type="application/json" id="run-data">{blob}</script><script>{JS}</script></body></html>'
     )
 
@@ -241,5 +249,9 @@ def build_viewer_from_run_dir(run_dir: Path, out: Path) -> Path:
         else []
     )
     out = Path(out)
-    out.write_text(build_viewer(load_parameters(), events, meta), encoding="utf-8")
+    digital_path = run_dir / "digital.json"
+    digital = (
+        json.loads(digital_path.read_text(encoding="utf-8")) if digital_path.exists() else None
+    )
+    out.write_text(build_viewer(load_parameters(), events, meta, digital), encoding="utf-8")
     return out

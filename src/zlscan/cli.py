@@ -125,8 +125,22 @@ def _run_budget(argv: Sequence[str]) -> int:
     return CHECK_UNRESOLVED_EXIT_CODE if "UNRESOLVED" in states else 0
 
 
+def _run_run(argv: Sequence[str]) -> int:
+    from pathlib import Path
+
+    from zlscan.engine.digital_run import run_digital
+
+    p = argparse.ArgumentParser(prog="zlscan run")
+    p.add_argument("--mode", choices=["digital"], required=True)
+    p.add_argument("--out", type=Path, default=Path("run_out"))
+    args = p.parse_args(list(argv))
+    run = run_digital(args.out)
+    print(f"数字模式完成：重建 {run['recon_status']}，完整性 {run['integrity']}，写入 {args.out}")
+    return 0 if run["recon_status"] == "complete" else CHECK_FAIL_EXIT_CODE
+
+
 HANDLERS = {"check": _run_check}
-ARG_HANDLERS = {"budget": _run_budget}
+ARG_HANDLERS = {"budget": _run_budget, "run": _run_run}
 
 
 def build_parser() -> argparse.ArgumentParser:
