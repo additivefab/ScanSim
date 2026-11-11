@@ -23,6 +23,10 @@ dev = [
     "hypothesis>=6",
     "ruff>=0.5",
 ]
+# Needed only to run the frozen legacy package A (its run_demo.py plots with matplotlib).
+legacy = [
+    "matplotlib>=3.8",
+]
 
 [project.scripts]
 zlscan = "zlscan.cli:main"

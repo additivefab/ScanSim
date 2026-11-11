@@ -59,7 +59,11 @@ tests/
 
 ## 4. 遗留基准值
 
-以下数值是在本机重跑得到的（Python 3.14.7、NumPy 2.4.2、SciPy 1.18.1，种子 20261110）。换环境后随机序列或浮点末位可能不同；首次建立回归时先重跑确认，再把实际得到的值连同环境写入 `evidence_runs/`。数值不一致时不要改断言去凑，先查原因并报告。
+以下数值是两套包作者交付的指标，也是回归的期望值。**回归测试不手写这些常数**：期望值直接读自冻结目录里作者交付的指标文件（路径列在 `src/zlscan/evidence/legacy_runner.py`），这张表只是给人看的摘要。
+
+状态（S0-T03，2026-11-11）：这些值已在三个 NumPy 版本下复现——作者交付时的 2.3.5（Python 3.13.5）、此前系统 Python 的 2.4.2、工程环境的 2.5.4（Python 3.14.7）。三者对整数指标、RMSE 等逐位一致；仅包 A 的 `density_mae_valid_interior` 在最后一位差 7e-18（浮点求和顺序）。所以断言规则是：整数严格相等，浮点相对容差 `1e-12`。完整证据记录在 `evidence_runs/`。
+
+以后换环境后若数值不一致，不要改断言去凑，先查原因（NumPy 的随机数算法、求和顺序、库版本）并报告。
 
 **包 A**（`run_demo.py` 默认配置 `config/demo.json`，128 行 × 256 列）
 
@@ -79,7 +83,7 @@ tests/
 | `ad9268_50m_5x.json` | `density_rmse_spatially_blurred` | 0.5723035591070622 |
 | `ad9268_50m_5x.json` | `density_rmse_unblurred` | 0.7060929172054737 |
 | `demo_log.json` | `density_rmse_spatially_blurred` | 0.42798057003939965 |
-| `ideal_regression.json` | `density_rmse_unblurred` | 交付文档记为 2.0255272e-05；我没有单独重跑这一项，只由其自带测试的 `< 3e-5` 断言间接确认 |
+| `ideal_regression.json` | `density_rmse_unblurred` | 2.0255271769153482e-05（交付的 `examples/ideal_regression_stdout.json`；S0-T03 独立重跑得到同一个值）；其自带测试断言 `< 3e-5` |
 | 自带测试 | | 14 项通过（unittest） |
 
 **预算对照**（都是假设场景下的算术，不是设备规格）

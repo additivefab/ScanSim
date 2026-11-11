@@ -67,7 +67,7 @@
 阶段 0 的任务 S0-T01 建好骨架后，以下命令应可用：
 
 ```bash
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,legacy]"
 ruff check .
 ruff format --check .
 pytest -q
