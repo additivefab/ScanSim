@@ -7,11 +7,11 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 0（进行中） |
-| 进行中的任务 | 无（S0-T01、T02、T03、T05 已完成；T04 被 Q012 挡住） |
-| 下一个任务 | S0-T06 硬件画像（S0-T04 被 Q012 挡住，不影响 T06 及之后） |
-| 代码 | 仓库骨架：33 个包目录、`cli.py`（13 个子命令，均未实现）、`io/manifest.py`、`contracts/param.py`、`evidence/{records,legacy_runner,sim_tools}.py`、`evidence/parameters.json`（95 条参数）、`evidence/forbidden_defaults.json`（17 条）、244 项测试（其中 40 项遗留回归，约 39 秒）；`legacy/` 已冻结（230 个文件，72.5 MB） |
+| 进行中的任务 | 无（S0-T01、T02、T03、T05、T06 已完成；T04 被 Q012 挡住） |
+| 下一个任务 | S0-T07 两套旧包的交叉比对（S0-T04 被 Q012 挡住，不影响 T07 及之后） |
+| 代码 | 仓库骨架：33 个包目录、`cli.py`（13 个子命令，均未实现）、`io/manifest.py`、`contracts/param.py`、`evidence/{records,legacy_runner,sim_tools}.py`、`evidence/parameters.json`（95 条参数）、`evidence/forbidden_defaults.json`（17 条）、337 项测试（其中 40 项遗留回归，约 38 秒）；`hardware/`（引脚表、接线规则、画像门槛、原理图解析）；`zlscan check` 已实现；`legacy/` 已冻结（230 个文件，72.5 MB） |
 | git | 已初始化（分支 main），仅本地，无远端；作者身份是临时的，见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-11 `pytest -q`：244 通过，39 秒 |
+| 最近一次全量测试 | 2026-11-11 `pytest -q`：337 通过，38 秒 |
 
 ## 阶段总览
 
@@ -35,7 +35,7 @@
 | S0-T03 遗留回归 | 完成 | 两套包在临时副本里重跑，与作者交付的指标逐项比较：包 A 7 项判据、包 B 21 项判据全部通过，两套自带测试各 14/14 通过。数值与交付时（NumPy 2.3.5）逐位一致，只有包 A 的 MAE 差 7e-18（求和顺序）；断言规则：整数严格相等，浮点相对容差 1e-12。证据记录见 `evidence_runs/2026-11-11_legacy_package_{a,b}/`（提交号 5f22a3d，树干净）。补得 `ideal_regression` 的值 2.0255271769153482e-05，已写入 `06_testing.md`。`legacy/` 在整个过程中保持与清单一致 |
 | S0-T04 外部仿真器 | **未执行（被 Q012 挡住）** | 用户同意了安装并允许升级已装软件（D020、D022），但 Homebrew 报 `Your Command Line Tools are too outdated` 后拒绝安装，修复需要 sudo 和用户密码。没有任何副作用：12 个已装软件版本不变、新软件一个未装。详见 `docs/reports/simulator_install_attempt.md`。已为 7 个用例（2 个 RTL 测试台、3 个可由 ngspice 运行的网表、LTspice 网表、Vivado 脚本）各写一条 `not_executed` 证据记录（`evidence_runs/2026-11-11_sim_*`，提交号 ded24b9，树干净）。工具装好后：先在 `sim_tools.py` 里写并验证运行路径（`tools/record_simulators.py` 在工具齐全时会拒绝运行），再重新记录 |
 | S0-T05 统一参数证据表 | 完成 | `tools/build_parameter_table.py` 生成 `parameters.json`：95 条参数，来源是包 A 19 行、包 B 16 行、审查需求 8 项、硬件草案 57 个字段（5 个非参数字段已逐个说明去向）。其中仅 19 条带值——照片丝印或原理图标称，另 4 条是标明 ASSUMED 的性能测试目标——其余 76 条为空。旧包的示例值只放 `legacy_examples`，不进 `value`；文字取自来源行，不手抄。`forbidden_defaults.json` 17 条（12 条有匹配规则，5 条纯文字），草案里 5 条 `explicit_non_facts` 全部覆盖。测试 47 项（覆盖性、白名单、未知为空、禁止默认项）。变异验证过：把已撤回的 0.7 ms 塞进参数表，5 项测试同时失败，重新生成后恢复通过 |
-| S0-T06 硬件画像 | 未开始 | |
+| S0-T06 硬件画像 | 完成 | 审查包 20 项规则测试全部移植（`tests/unit/test_review_rules.py`，保留原编号）：规则分别落在 `budget/datapath`（01–14，仅连续模式的平均速率门槛，其余两种采集模式属 S1-T04）、`observation/gate`（15–16）、`contracts/event_gate`（17–18，按 V4.1 三个正交字段重写）、`hardware/profile`（19）、`hardware/pins`（20）。画像门槛的"齐全"状态叫 `READY_FOR_FURTHER_VALIDATION`，不叫 PASS。`zlscan check` 列出 15 项缺失、退出码 4。接线规则：错版本表、电源或 GND 脚接信号、封装脚不符、重复分配、J6 的 VADJ 未测即未决；没发现问题不等于通过。引脚表复核（`docs/reports/pin_registry_review.md`）：120 行全部核对，0 不一致——102 个 GPIO 行由第 10 页词坐标配对与第 12 页约束参考两路独立确认；12 个电源脚和 6 个 GND 脚位置无法判定，**由我看渲染图确认**（非自动）。过程中纠正了我自己解析器的两处错误（见报告）。只核对了原理图，没核对实物；J6 在 V1.0/V1.1 的情形与 V1.2 的表原理图没有给出 |
 | S0-T07 交叉比对 | 未开始 | |
 | S0-T08 数据合同代码 | 未开始 | |
 | S0-T09 原始码流读写 | 未开始 | |
