@@ -1,0 +1,895 @@
+{
+  "schema": "zlscan.budget/1",
+  "mode": "research",
+  "scenario": {
+    "name": "legacy_b_10mhz",
+    "assumed": true,
+    "note": "包 B 教学示例：所有数值是假设，不是设备数据"
+  },
+  "conclusions": [
+    {
+      "id": "geometry.pixel_rate_hz",
+      "title": "像素率",
+      "status": "INFO",
+      "value": 9999982.631690647,
+      "unit": "Hz",
+      "assumed_inputs": 3,
+      "depends_on": [
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "geometry.fs_hz",
+      "title": "ADC 采样率",
+      "status": "INFO",
+      "value": 9999982.631690647,
+      "unit": "Hz",
+      "assumed_inputs": 4,
+      "depends_on": [
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.spp",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "geometry.f_line_hz",
+      "title": "行频",
+      "status": "INFO",
+      "value": 1000.0,
+      "unit": "Hz",
+      "assumed_inputs": 2,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "geometry.width_m",
+      "title": "扫描宽度",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "m",
+      "assumed_inputs": 6,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.line_rate_hz, budget.pitch_y_um, adc.actual_conversion_rate_hz, budget.nx, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.duty",
+      "title": "有效占空比",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "",
+      "assumed_inputs": 6,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.line_rate_hz, budget.pitch_y_um, adc.actual_conversion_rate_hz, budget.nx, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.frame_time_s",
+      "title": "帧时间",
+      "status": "INFO",
+      "value": 8.6,
+      "unit": "s",
+      "assumed_inputs": 3,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.ny",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "photons.electrons.D0",
+      "title": "D=0 每像素光电子数",
+      "status": "INFO",
+      "value": 23974.980152922162,
+      "unit": "e-",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "photons.anode.D0",
+      "title": "D=0 阳极电流",
+      "status": "PASS",
+      "value": 3.841215300162563e-05,
+      "unit": "A",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "photons.sigma.D0",
+      "title": "D=0 散粒噪声密度",
+      "status": "INFO",
+      "value": 0.0031979882172864017,
+      "unit": "OD",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "photons.electrons.D3",
+      "title": "D=3 每像素光电子数",
+      "status": "INFO",
+      "value": 23.974980152922164,
+      "unit": "e-",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "photons.anode.D3",
+      "title": "D=3 阳极电流",
+      "status": "PASS",
+      "value": 3.841215300162563e-08,
+      "unit": "A",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "photons.sigma.D3",
+      "title": "D=3 散粒噪声密度",
+      "status": "INFO",
+      "value": 0.10112926697006488,
+      "unit": "OD",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": "低计数，高计数近似不适用"
+    },
+    {
+      "id": "signals.adc_v.D0",
+      "title": "D=0 ADC 输入电压",
+      "status": "PASS",
+      "value": 0.20879001762151733,
+      "unit": "V",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "budget.log_offset_v",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.log_slope_v_per_decade",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.log_reference_current_a",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.polarity",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.driver_gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.driver_offset_v",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.adc_vmin",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.adc_vmax",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "pmt.dark_current_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "signals.adc_v.D3",
+      "title": "D=3 ADC 输入电压",
+      "status": "PASS",
+      "value": 1.7032149156178131,
+      "unit": "V",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "budget.log_offset_v",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.log_slope_v_per_decade",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.log_reference_current_a",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.polarity",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.driver_gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.driver_offset_v",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.adc_vmin",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.adc_vmax",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "pmt.dark_current_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": ""
+    },
+    {
+      "id": "signals.density_step",
+      "title": "每 ADC 码对应的密度步长",
+      "status": "INFO",
+      "value": 7.62939453125e-05,
+      "unit": "OD",
+      "assumed_inputs": 9,
+      "depends_on": [
+        {
+          "key": "budget.log_offset_v",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.log_slope_v_per_decade",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.log_reference_current_a",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.polarity",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.driver_gain",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.driver_offset_v",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.adc_vmin",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.adc_vmax",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "pmt.dark_current_a",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": "二级主放与模块输入网络未决，见各测点说明"
+    },
+    {
+      "id": "datapath.mode",
+      "title": "数据通路（finite_frame）",
+      "status": "PASS",
+      "value": 39999930.52676259,
+      "unit": "B/s",
+      "assumed_inputs": 6,
+      "depends_on": [
+        {
+          "key": "budget.channels",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "transport.measured_payload_bytes_per_second",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "board.ddr_reserved_bytes",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.spp",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": "buffers hold and the backlog drains；峰值积压 {'gigabit': 0.0}"
+    },
+    {
+      "id": "memory.board",
+      "title": "板端内存",
+      "status": "PASS",
+      "value": 481600000.0,
+      "unit": "B",
+      "assumed_inputs": 5,
+      "depends_on": [
+        {
+          "key": "benchmark.width_pixels",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "benchmark.height_pixels",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.channels",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "budget.buffers",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "board.ddr_physical_bytes",
+          "evidence": "schematic_nominal",
+          "known": true
+        },
+        {
+          "key": "board.ddr_reserved_bytes",
+          "evidence": "assumed",
+          "known": true
+        }
+      ],
+      "text": "55270912 bytes free"
+    }
+  ],
+  "assumed_inputs": [
+    "benchmark.height_pixels",
+    "benchmark.width_pixels",
+    "board.ddr_reserved_bytes",
+    "budget.adc_vmax",
+    "budget.adc_vmin",
+    "budget.buffers",
+    "budget.channels",
+    "budget.driver_gain",
+    "budget.driver_offset_v",
+    "budget.excess_noise_factor",
+    "budget.log_offset_v",
+    "budget.log_reference_current_a",
+    "budget.log_slope_v_per_decade",
+    "budget.ny",
+    "budget.pixel_time_s",
+    "budget.polarity",
+    "budget.pre_film_efficiency",
+    "budget.spp",
+    "collect.efficiency",
+    "laser.power_w",
+    "laser.wavelength_nm",
+    "pmt.dark_current_a",
+    "pmt.gain",
+    "pmt.linear_anode_current_max_a",
+    "pmt.qe",
+    "product.pixel_pitch_um",
+    "scan.f_theta_focal_mm",
+    "scan.facet_count",
+    "scan.rpm"
+  ],
+  "flagged_assumed_scenario": true
+}

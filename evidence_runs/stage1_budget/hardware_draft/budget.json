@@ -1,0 +1,607 @@
+{
+  "schema": "zlscan.budget/1",
+  "mode": "research",
+  "scenario": null,
+  "conclusions": [
+    {
+      "id": "geometry.pixel_rate_hz",
+      "title": "像素率",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "Hz",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.facet_count, scan.rpm, scan.line_rate_hz, scan.f_theta_focal_mm, product.pixel_pitch_um, budget.pitch_y_um, budget.spp, adc.actual_conversion_rate_hz, budget.nx, budget.ny, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.fs_hz",
+      "title": "ADC 采样率",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "Hz",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.facet_count, scan.rpm, scan.line_rate_hz, scan.f_theta_focal_mm, product.pixel_pitch_um, budget.pitch_y_um, budget.spp, adc.actual_conversion_rate_hz, budget.nx, budget.ny, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.f_line_hz",
+      "title": "行频",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "Hz",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.facet_count, scan.rpm, scan.line_rate_hz, scan.f_theta_focal_mm, product.pixel_pitch_um, budget.pitch_y_um, budget.spp, adc.actual_conversion_rate_hz, budget.nx, budget.ny, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.width_m",
+      "title": "扫描宽度",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "m",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.facet_count, scan.rpm, scan.line_rate_hz, scan.f_theta_focal_mm, product.pixel_pitch_um, budget.pitch_y_um, budget.spp, adc.actual_conversion_rate_hz, budget.nx, budget.ny, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.duty",
+      "title": "有效占空比",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.facet_count, scan.rpm, scan.line_rate_hz, scan.f_theta_focal_mm, product.pixel_pitch_um, budget.pitch_y_um, budget.spp, adc.actual_conversion_rate_hz, budget.nx, budget.ny, budget.theta_max_rad）"
+    },
+    {
+      "id": "geometry.frame_time_s",
+      "title": "帧时间",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "s",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "scan.facet_count",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.rpm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.line_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "scan.f_theta_focal_mm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "product.pixel_pitch_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pitch_y_um",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.spp",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.nx",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.ny",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.theta_max_rad",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 scan.facet_count, scan.rpm, scan.line_rate_hz, scan.f_theta_focal_mm, product.pixel_pitch_um, budget.pitch_y_um, budget.spp, adc.actual_conversion_rate_hz, budget.nx, budget.ny, budget.theta_max_rad）"
+    },
+    {
+      "id": "photons.electrons",
+      "title": "每像素光电子数",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "laser.power_w",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pre_film_efficiency",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "collect.efficiency",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "pmt.qe",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "pmt.gain",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "laser.wavelength_nm",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.pixel_time_s",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.excess_noise_factor",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "pmt.linear_anode_current_max_a",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少 laser_w, pre_film_efficiency, collection_efficiency, qe, gain, wavelength_nm, pixel_time_s"
+    },
+    {
+      "id": "signals.levels",
+      "title": "前端电平与 ADC 量程",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "budget.log_offset_v",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.log_slope_v_per_decade",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.log_reference_current_a",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.polarity",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.driver_gain",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.driver_offset_v",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.adc_vmin",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.adc_vmax",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "pmt.dark_current_a",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少 log_offset_v, log_slope_v_per_decade, log_reference_current_a, polarity, driver_gain, driver_offset_v, adc_vmin, adc_vmax, clear_current_a, dark_current_a"
+    },
+    {
+      "id": "datapath.mode",
+      "title": "数据通路（finite_frame）",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "",
+      "assumed_inputs": 0,
+      "depends_on": [
+        {
+          "key": "adc.actual_conversion_rate_hz",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "budget.channels",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "transport.measured_payload_bytes_per_second",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "board.ddr_reserved_bytes",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 adc.actual_conversion_rate_hz, budget.channels, transport.measured_payload_bytes_per_second, board.ddr_reserved_bytes）"
+    },
+    {
+      "id": "memory.board",
+      "title": "板端内存",
+      "status": "UNRESOLVED",
+      "value": null,
+      "unit": "",
+      "assumed_inputs": 2,
+      "depends_on": [
+        {
+          "key": "benchmark.width_pixels",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "benchmark.height_pixels",
+          "evidence": "assumed",
+          "known": true
+        },
+        {
+          "key": "budget.channels",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "adc.module_silkscreen_bits",
+          "evidence": "photo_observation",
+          "known": true
+        },
+        {
+          "key": "budget.buffers",
+          "evidence": null,
+          "known": false
+        },
+        {
+          "key": "board.ddr_physical_bytes",
+          "evidence": "schematic_nominal",
+          "known": true
+        },
+        {
+          "key": "board.ddr_reserved_bytes",
+          "evidence": null,
+          "known": false
+        }
+      ],
+      "text": "无法计算：缺少所需输入（未知的有 budget.channels, budget.buffers, board.ddr_reserved_bytes）"
+    }
+  ],
+  "assumed_inputs": [
+    "benchmark.height_pixels",
+    "benchmark.width_pixels"
+  ],
+  "flagged_assumed_scenario": true
+}
