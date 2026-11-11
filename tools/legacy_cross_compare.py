@@ -105,6 +105,7 @@ def run_json(runner: str, args: list[str], cwd: Path) -> dict:
 
 
 def main() -> int:
+    code = _clean_code_state() if "--record" in sys.argv else None
     rows = []
     with tempfile.TemporaryDirectory(prefix="zlscan_cross_") as tmp:
         scratch = Path(tmp)
@@ -148,21 +149,31 @@ def main() -> int:
             "legacy_cross_compare_steady_state", criteria, [OUT],
             "Package B compared with package A at identical constant-density conditions; floats "
             "within relative 1e-6, ADC codes exactly equal. Expectation = package A's value.",
+            code,
         ))  # fmt: skip
     return 0
 
 
-def record_evidence(name: str, criteria: list[dict], outputs: list[Path], notes: str) -> str:
-    """Write an evidence record for this run; needs a clean working tree."""
-    import time
-    from datetime import UTC, datetime
-
-    from zlscan.evidence.records import environment_info, git_state, write_record
-    from zlscan.io.manifest import sha256_file
+def _clean_code_state() -> dict:
+    """Code state BEFORE the run: refuse if the tree is dirty (outputs are written later)."""
+    from zlscan.evidence.records import git_state
 
     code = git_state(ROOT)
     if code["dirty"] is not False:
-        return "not recorded: the working tree is not clean (commit first)"
+        raise SystemExit("--record needs a clean working tree; commit first")
+    return code
+
+
+def record_evidence(
+    name: str, criteria: list[dict], outputs: list[Path], notes: str, code: dict
+) -> str:
+    """Write an evidence record for this run; ``code`` is the state taken before it."""
+    import time
+    from datetime import UTC, datetime
+
+    from zlscan.evidence.records import environment_info, write_record
+    from zlscan.io.manifest import sha256_file
+
     now = datetime.now(UTC)
     inputs = {
         str(p.relative_to(ROOT)): sha256_file(p)

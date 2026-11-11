@@ -188,6 +188,7 @@ def ablation(scratch: Path, pb: Path) -> dict:
 
 
 def main() -> int:
+    code = _clean_code_state() if "--record" in sys.argv else None
     with tempfile.TemporaryDirectory(prefix="zlscan_exp_") as tmp:
         scratch = Path(tmp)
         pa = lr.stage_package("package_a", scratch)
@@ -217,21 +218,31 @@ def main() -> int:
             "Step response, cost per fine step and registration ablation. The 1 % threshold is a "
             "descriptive choice, not a requirement; the ablation's best shift uses the truth "
             "(oracle upper bound). Timings are best of three on one machine, not a benchmark.",
+            code,
         ))  # fmt: skip
     return 0
 
 
-def record_evidence(name: str, criteria: list[dict], outputs: list[Path], notes: str) -> str:
-    """Write an evidence record for this run; needs a clean working tree."""
-    import time
-    from datetime import UTC, datetime
-
-    from zlscan.evidence.records import environment_info, git_state, write_record
-    from zlscan.io.manifest import sha256_file
+def _clean_code_state() -> dict:
+    """Code state BEFORE the run: refuse if the tree is dirty (outputs are written later)."""
+    from zlscan.evidence.records import git_state
 
     code = git_state(ROOT)
     if code["dirty"] is not False:
-        return "not recorded: the working tree is not clean (commit first)"
+        raise SystemExit("--record needs a clean working tree; commit first")
+    return code
+
+
+def record_evidence(
+    name: str, criteria: list[dict], outputs: list[Path], notes: str, code: dict
+) -> str:
+    """Write an evidence record for this run; ``code`` is the state taken before it."""
+    import time
+    from datetime import UTC, datetime
+
+    from zlscan.evidence.records import environment_info, write_record
+    from zlscan.io.manifest import sha256_file
+
     now = datetime.now(UTC)
     inputs = {
         str(p.relative_to(ROOT)): sha256_file(p)
