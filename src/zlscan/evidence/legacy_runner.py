@@ -87,12 +87,13 @@ def stage_package(name: str, destination: Path, legacy_root: Path | None = None)
     return target
 
 
-def run_python(args: list[str], cwd: Path, timeout: float = 1800) -> CommandResult:
-    """Run this interpreter in ``cwd`` with no bytecode writing and a private matplotlib cache."""
-    env = dict(os.environ)
-    env["PYTHONDONTWRITEBYTECODE"] = "1"
-    env["MPLCONFIGDIR"] = str(Path(cwd) / ".mplconfig")
-    argv = [sys.executable, *args]
+def run_command(
+    argv: list[str],
+    cwd: Path,
+    timeout: float = 1800,
+    env: dict[str, str] | None = None,
+) -> CommandResult:
+    """Run a command in ``cwd`` and capture stdout and stderr together. Never raises on failure."""
     start = time.monotonic()
     done = subprocess.run(
         argv,
@@ -110,6 +111,14 @@ def run_python(args: list[str], cwd: Path, timeout: float = 1800) -> CommandResu
         output=done.stdout + done.stderr,
         seconds=time.monotonic() - start,
     )
+
+
+def run_python(args: list[str], cwd: Path, timeout: float = 1800) -> CommandResult:
+    """Run this interpreter in ``cwd`` with no bytecode writing and a private matplotlib cache."""
+    env = dict(os.environ)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env["MPLCONFIGDIR"] = str(Path(cwd) / ".mplconfig")
+    return run_command([sys.executable, *args], cwd, timeout, env)
 
 
 def read_json(path: Path) -> dict[str, Any]:

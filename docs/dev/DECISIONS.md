@@ -29,6 +29,7 @@
 | D019 | 原始资料与两套旧包的全部内容（含生成结果目录）都纳入 git | 任何机器克隆后都能直接对照旧结果（原 Q001） | 用户已定，2026-11-11 |
 | D020 | 允许用 Homebrew 在本机安装 Icarus Verilog 与 ngspice | RTL 与 SPICE 才能实际执行（原 Q002）。许可仅限这两个软件；安装其他系统软件仍需先问 | 用户已定，2026-11-11 |
 | D021 | `matplotlib` 作为可选依赖组 `legacy` 加入（`pip install -e ".[dev,legacy]"`），仅用于运行冻结的包 A | 包 A 的 `run_demo.py` 无条件 `import matplotlib`，不装就无法重跑旧基准（S0-T03 首次重跑时因此失败）。属 `05_coding_standards.md` 第 2 节"可选依赖，加前记一条"，核心依赖不变 | 默认，2026-11-11 |
+| D022 | 允许 Homebrew 在安装 `icarus-verilog`、`ngspice` 时升级下列已装软件：m4、autoconf、cmake、libomp、brotli、libpng、pkgconf、freetype、xorgproto、libx11、libunistring、readline；并新装它们的依赖（bison、fftw、libngspice 等）。不执行 `brew cleanup`，不升级其他软件 | Homebrew 的依赖升级无法用环境变量关闭（`HOMEBREW_NO_INSTALL_UPGRADE` 无效），而 D020 只授权装这两个软件，所以由用户明确放行。这是 Intel 版 Homebrew（`/usr/local`，macOS 15.7.6），Homebrew 已不再为该配置提供预编译包，Icarus 从源码编译。升级前版本：autoconf 2.72、brotli 1.2.0、cmake 4.0.0、freetype 2.14.2、libomp 21.1.8、libpng 1.6.55、libunistring 1.4.2、libx11 1.8.13、m4 1.4.19、pkgconf 2.5.1、readline 8.3.3、xorgproto 2025.1（freetype、libpng、readline 另有更旧的版本并存） | 用户已定，2026-11-11。**状态：已尝试，未生效**——Homebrew 因 Command Line Tools 过旧拒绝安装，未改动任何已装软件，见 Q012 与 `docs/reports/simulator_install_attempt.md` |
 
 ## 二、待用户决定
 
@@ -45,6 +46,7 @@
 | Q009 | 交互指标是否作为验收（已缓存定位 150 毫秒、每秒 30 帧） | S3-T17 实测之后 | 实测后再定 |
 | Q010 | 用途优先级是否仍为 U0 → U2 → U1 → U3 | 现在 | 维持 |
 | Q011 | 本机 git 没有配置提交身份（`user.name`、`user.email` 为空）。提交用什么作者身份？ | 已在用临时身份提交（见下） | 你给出姓名与邮箱后，用 `git config user.name/user.email` 设在本仓库；已有提交的作者要改，需要改写历史，须你明确同意 |
+| Q012 | **挡住 S0-T04**：Homebrew 拒绝安装 Icarus Verilog / ngspice，报 `Your Command Line Tools are too outdated`（本机有 Xcode 26.3，但没有 Command Line Tools 的安装记录）。怎么办？ | 现在；RTL 与 SPICE 在解决前一直是"未执行" | (a) 你按 Homebrew 提示更新 Command Line Tools（需要 sudo 和你的密码：`sudo rm -rf /Library/Developer/CommandLineTools && sudo xcode-select --install`，或在系统设置里软件更新），然后让代理重试，D022 仍有效；(b) 改用别的安装渠道，须你明确同意并给出渠道、文件名与大小；(c) 不装，RTL 与 SPICE 一直记为未执行（阶段 2 的 RTL 逐位比对门槛须你另行认可跳过） |
 
 ## 三、待取得的资料
 
@@ -77,6 +79,7 @@ SP2 开发板原理图已有（`../originals/`），不在缺失之列。
 YYYY-MM-DD  编号  变更内容  原因  由谁决定
 ```
 
+2026-11-11  D022  允许 Homebrew 升级 12 个已装软件以安装两个仿真器  用户决定（Q002 的补充）
 2026-11-11  Q001 → D019  全部入库（用户没有采用"结果只记校验值"的建议）  用户决定
 2026-11-11  Q002 → D020  两个仿真器都装  用户决定
 2026-11-11  D001–D018、Q001–Q010、R001–R007  初始建立  随开发说明文档一起写入  文档编写者提出，待用户过目
