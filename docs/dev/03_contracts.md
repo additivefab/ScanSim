@@ -7,7 +7,7 @@
 ## 1. 带证据的参数
 
 ```python
-class Evidence(str, Enum):
+class Evidence(StrEnum):
     PROJECT_TEXT = "project_text"      # 项目文本
     PHOTO = "photo_observation"        # 图片观察
     SCHEMATIC = "schematic_nominal"    # 原理图标称
@@ -19,7 +19,7 @@ class Evidence(str, Enum):
 class Param(BaseModel, Generic[T]):
     value: T | None            # 未知为 None，绝不用 0 代替
     unit: str
-    evidence: Evidence
+    evidence: Evidence | None  # 值未知（None）时为 None；二者必须同时有或同时无
     source_id: str | None      # 资料编号，如 "S05"
     locator: str | None        # 页码、行号、图号
     uncertainty: float | None
@@ -29,6 +29,7 @@ class Param(BaseModel, Generic[T]):
     status: Literal["confirmed", "pending", "withdrawn"]
 ```
 
+- 校验规则（`contracts/param.py`）：`value is None` 当且仅当 `evidence is None`（未知的值没有证据）；证据为项目文本、图片观察、原理图标称、外部手册时必须有 `source_id`；证据为实测时必须有 `measured_at` 与 `method`。
 - `hardware_constrained` 模式下，`value is None` 或 `evidence == ASSUMED` 的必需参数导致校验失败。
 - 派生量自动带 `DERIVED`，并记录它依赖哪些参数；依赖里有 `ASSUMED`，报告要显示出来。
 

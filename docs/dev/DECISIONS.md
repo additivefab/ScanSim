@@ -30,6 +30,7 @@
 | D020 | 允许用 Homebrew 在本机安装 Icarus Verilog 与 ngspice | RTL 与 SPICE 才能实际执行（原 Q002）。许可仅限这两个软件；安装其他系统软件仍需先问 | 用户已定，2026-11-11 |
 | D021 | `matplotlib` 作为可选依赖组 `legacy` 加入（`pip install -e ".[dev,legacy]"`），仅用于运行冻结的包 A | 包 A 的 `run_demo.py` 无条件 `import matplotlib`，不装就无法重跑旧基准（S0-T03 首次重跑时因此失败）。属 `05_coding_standards.md` 第 2 节"可选依赖，加前记一条"，核心依赖不变 | 默认，2026-11-11 |
 | D022 | 允许 Homebrew 在安装 `icarus-verilog`、`ngspice` 时升级下列已装软件：m4、autoconf、cmake、libomp、brotli、libpng、pkgconf、freetype、xorgproto、libx11、libunistring、readline；并新装它们的依赖（bison、fftw、libngspice 等）。不执行 `brew cleanup`，不升级其他软件 | Homebrew 的依赖升级无法用环境变量关闭（`HOMEBREW_NO_INSTALL_UPGRADE` 无效），而 D020 只授权装这两个软件，所以由用户明确放行。这是 Intel 版 Homebrew（`/usr/local`，macOS 15.7.6），Homebrew 已不再为该配置提供预编译包，Icarus 从源码编译。升级前版本：autoconf 2.72、brotli 1.2.0、cmake 4.0.0、freetype 2.14.2、libomp 21.1.8、libpng 1.6.55、libunistring 1.4.2、libx11 1.8.13、m4 1.4.19、pkgconf 2.5.1、readline 8.3.3、xorgproto 2025.1（freetype、libpng、readline 另有更旧的版本并存） | 用户已定，2026-11-11。**状态：已尝试，未生效**——Homebrew 因 Command Line Tools 过旧拒绝安装，未改动任何已装软件，见 Q012 与 `docs/reports/simulator_install_attempt.md` |
+| D023 | `Param.evidence` 改为可空：`value is None` 当且仅当 `evidence is None`；`Evidence` 用 `StrEnum` | 原规格 `evidence` 必填，与"未知值为 None"矛盾——未知的值没有证据可言，硬塞一个等级（例如 ASSUMED）会把未知伪装成假设。`StrEnum` 是 Python ≥3.11 下 `(str, Enum)` 的推荐写法（ruff UP042） | 实现时发现规格有误，按 AGENTS.md 同一提交改规格并记录，2026-11-11 |
 
 ## 二、待用户决定
 
@@ -79,6 +80,7 @@ SP2 开发板原理图已有（`../originals/`），不在缺失之列。
 YYYY-MM-DD  编号  变更内容  原因  由谁决定
 ```
 
+2026-11-11  D023  Param.evidence 可空，与 value 同有同无  实现 S0-T05 时发现规格自相矛盾  代理提出并已改规格
 2026-11-11  D022  允许 Homebrew 升级 12 个已装软件以安装两个仿真器  用户决定（Q002 的补充）
 2026-11-11  Q001 → D019  全部入库（用户没有采用"结果只记校验值"的建议）  用户决定
 2026-11-11  Q002 → D020  两个仿真器都装  用户决定
