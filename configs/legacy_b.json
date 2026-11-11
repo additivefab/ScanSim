@@ -1,0 +1,40 @@
+{
+  "mode": "research",
+  "scenario": {"name": "legacy_b", "assumed": true,
+               "note": "包 B 教学示例：所有数值是假设，不是设备数据"},
+  "densities": [0.0, 3.0],
+  "inputs": {
+    "scan.facet_count": {"value": 6, "evidence": "assumed"},
+    "scan.rpm": {"value": 10000, "evidence": "assumed"},
+    "scan.f_theta_focal_mm": {"value": 200, "evidence": "assumed"},
+    "product.pixel_pitch_um": {"value": 50, "evidence": "assumed"},
+    "budget.spp": {"value": 1, "evidence": "assumed"},
+    "budget.ny": {"value": 8600, "evidence": "assumed"},
+    "budget.pixel_time_s": {"value": 1e-7, "evidence": "assumed"},
+    "laser.power_w": {"value": 0.001, "evidence": "assumed"},
+    "laser.wavelength_nm": {"value": 635, "evidence": "assumed"},
+    "budget.pre_film_efficiency": {"value": 0.4, "evidence": "assumed"},
+    "collect.efficiency": {"value": 0.00125, "evidence": "assumed"},
+    "pmt.qe": {"value": 0.15, "evidence": "assumed"},
+    "pmt.gain": {"value": 1000, "evidence": "assumed"},
+    "budget.excess_noise_factor": {"value": 1.3, "evidence": "assumed"},
+    "pmt.linear_anode_current_max_a": {"value": 1e-4, "evidence": "assumed"},
+    "pmt.dark_current_a": {"value": 1e-9, "evidence": "assumed"},
+    "budget.log_offset_v": {"value": 0.2, "evidence": "assumed"},
+    "budget.log_slope_v_per_decade": {"value": 0.5, "evidence": "assumed"},
+    "budget.log_reference_current_a": {"value": 4e-5, "evidence": "assumed"},
+    "budget.polarity": {"value": -1, "evidence": "assumed"},
+    "budget.driver_gain": {"value": 1.0, "evidence": "assumed"},
+    "budget.driver_offset_v": {"value": 0.0, "evidence": "assumed"},
+    "budget.adc_vmin": {"value": 0.0, "evidence": "assumed"},
+    "budget.adc_vmax": {"value": 2.5, "evidence": "assumed"},
+    "budget.channels": {"value": 2, "evidence": "assumed"},
+    "budget.buffers": {"value": 2, "evidence": "assumed"},
+    "board.ddr_reserved_bytes": {"value": 0, "evidence": "assumed"}
+  },
+  "datapath": {
+    "mode": "finite_frame",
+    "drain_limit_s": 60,
+    "stages": [{"name": "gigabit", "capacity_bytes": 400000000, "service_Bps": 125000000}]
+  }
+}

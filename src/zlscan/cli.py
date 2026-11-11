@@ -73,6 +73,16 @@ def _run_check() -> int:
         "这是板端连接器对照，不是接线批准。"
     )
     print(gate.note)
+    from zlscan.budget.runner import run_budget
+
+    budget = run_budget()
+    conflicts = [c for c in budget["conclusions"] if c["status"] == "FAIL"]
+    unresolved = sum(1 for c in budget["conclusions"] if c["status"] == "UNRESOLVED")
+    print(f"预算约束：{unresolved} 项无法计算，{len(conflicts)} 项矛盾。")
+    for c in conflicts:
+        print(f"  - {c['title']}: {c['text']}")
+    if conflicts:
+        return CHECK_FAIL_EXIT_CODE
     return (
         0
         if gate.status is ProfileStatus.READY_FOR_FURTHER_VALIDATION
@@ -80,7 +90,43 @@ def _run_check() -> int:
     )
 
 
+def _run_budget(argv: Sequence[str]) -> int:
+    import json
+    from pathlib import Path
+
+    from zlscan.budget.runner import BudgetRefused, run_budget, write_outputs
+
+    p = argparse.ArgumentParser(prog="zlscan budget")
+    p.add_argument("--config", type=Path, help="JSON config; omitted = hardware draft")
+    p.add_argument("--mode", choices=["research", "hardware_constrained"])
+    p.add_argument("--out", type=Path, default=Path("budget_out"))
+    args = p.parse_args(list(argv))
+    config = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
+    if args.mode:
+        config["mode"] = args.mode
+    try:
+        result = run_budget(config)
+    except BudgetRefused as exc:
+        print("hardware_constrained 拒绝运行：", file=sys.stderr)
+        for line in exc.problems:
+            print(f"  - {line}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    j, h = write_outputs(result, args.out)
+    states = [c["status"] for c in result["conclusions"]]
+    print(
+        f"预算结论 {len(states)} 项："
+        + "，".join(f"{s} {states.count(s)}" for s in sorted(set(states)))
+    )
+    print(f"已写入 {j} 与 {h}")
+    if result["flagged_assumed_scenario"]:
+        print("注意：这是假设场景，数字不是硬件事实。")
+    if "FAIL" in states:
+        return CHECK_FAIL_EXIT_CODE
+    return CHECK_UNRESOLVED_EXIT_CODE if "UNRESOLVED" in states else 0
+
+
 HANDLERS = {"check": _run_check}
+ARG_HANDLERS = {"budget": _run_budget}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -98,7 +144,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
-    args, _ = parser.parse_known_args(argv)
+    args, rest = parser.parse_known_args(argv)
+    if args.command in ARG_HANDLERS:
+        return ARG_HANDLERS[args.command](rest)
     if args.command is None:
         parser.print_help(sys.stderr)
         return USAGE_EXIT_CODE
