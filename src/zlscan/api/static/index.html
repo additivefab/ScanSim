@@ -79,8 +79,8 @@ function paint(cv,b){var g=cv.getContext('2d'),w=cv.width,h=cv.height,v=b.values
   g.stroke()}
 function moveCursor(){var s=parseInt(document.getElementById('cursor').value,10);
   document.getElementById('readout').textContent='细步 '+s+(manifest?' · 采样时刻 '+(s*manifest.fine_step_ps)+' ps':'');
-  api('/state?step='+s+'&probes=power_w').then(function(b){if(stale(b))return;
-    document.getElementById('info').innerHTML=badge(b.status||'')+' '+JSON.stringify(b.values||{})})}
+  api('/state?step='+s+'&probes=power_w&view='+view).then(function(b){if(stale(b))return;
+    document.getElementById('info').innerHTML=badge(b.status||'')+' '+(b.values?JSON.stringify(b.values):(b.reason||''))})}
 document.getElementById('cursor').addEventListener('input',moveCursor);
 document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventListener('change',function(){view=i.value;listSignals()})});
 function zoom(f){var c=(win.start+win.end)/2,half=(win.end-win.start)/2*f;win={start:Math.max(0,Math.round(c-half)),end:Math.round(c+half)};draw()}

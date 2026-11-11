@@ -31,6 +31,9 @@
 | D021 | `matplotlib` 作为可选依赖组 `legacy` 加入（`pip install -e ".[dev,legacy]"`），仅用于运行冻结的包 A | 包 A 的 `run_demo.py` 无条件 `import matplotlib`，不装就无法重跑旧基准（S0-T03 首次重跑时因此失败）。属 `05_coding_standards.md` 第 2 节"可选依赖，加前记一条"，核心依赖不变 | 默认，2026-11-11 |
 | D022 | 允许 Homebrew 在安装 `icarus-verilog`、`ngspice` 时升级下列已装软件：m4、autoconf、cmake、libomp、brotli、libpng、pkgconf、freetype、xorgproto、libx11、libunistring、readline；并新装它们的依赖（bison、fftw、libngspice 等）。不执行 `brew cleanup`，不升级其他软件 | Homebrew 的依赖升级无法用环境变量关闭（`HOMEBREW_NO_INSTALL_UPGRADE` 无效），而 D020 只授权装这两个软件，所以由用户明确放行。这是 Intel 版 Homebrew（`/usr/local`，macOS 15.7.6），Homebrew 已不再为该配置提供预编译包，Icarus 从源码编译。升级前版本：autoconf 2.72、brotli 1.2.0、cmake 4.0.0、freetype 2.14.2、libomp 21.1.8、libpng 1.6.55、libunistring 1.4.2、libx11 1.8.13、m4 1.4.19、pkgconf 2.5.1、readline 8.3.3、xorgproto 2025.1（freetype、libpng、readline 另有更旧的版本并存） | 用户已定，2026-11-11。**状态：已尝试，未生效**——Homebrew 因 Command Line Tools 过旧拒绝安装，未改动任何已装软件，见 Q012 与 `docs/reports/simulator_install_attempt.md` |
 | D023 | `Param.evidence` 改为可空：`value is None` 当且仅当 `evidence is None`；`Evidence` 用 `StrEnum` | 原规格 `evidence` 必填，与"未知值为 None"矛盾——未知的值没有证据可言，硬塞一个等级（例如 ASSUMED）会把未知伪装成假设。`StrEnum` 是 Python ≥3.11 下 `(str, Enum)` 的推荐写法（ruff UP042） | 实现时发现规格有误，按 AGENTS.md 同一提交改规格并记录，2026-11-11 |
+| D024 | 阶段 3 的查询服务只用标准库 `http.server`，**没有加 `fastapi`**，也没有实现 WebSocket 与图像瓦片端点（返回 501 与 `not_computed`） | AGENTS.md 规则 14 要求加依赖前先问；当前需求用标准库就够。前端是一页自带脚本的静态页，没有框架 | 已实现；如需 WebSocket 或框架再问 |
+| D025 | 随机数是"计数器型"：均匀数按（种子、物理源、时钟域、绝对块号）取，泊松与伽马用逆变换，所以结果与分块无关、检查点不存随机数状态。代价：用 `scipy.stats` 的 `ppf`，比 `Generator.poisson` 慢，也与旧包的随机数序列不同 | 满足"随机数与分块无关"；换来的是不能与旧包逐位一致 | 已实现 |
+| D026 | 阶段 3 的检查点只覆盖模拟链（前端滤波器状态、最近一个细步电压、步号、模型版本、配置哈希）；数字链（链路、采集、队列）是批处理，不在检查点里 | 数字链目前对已生成的码流整体运行，重放时从码流重算；真正的流式数字链状态留给后续阶段 | 已实现，是限制 |
 
 ## 二、待用户决定
 
@@ -48,6 +51,8 @@
 | Q010 | 用途优先级是否仍为 U0 → U2 → U1 → U3 | 现在 | 维持 |
 | Q011 | 本机 git 没有配置提交身份（`user.name`、`user.email` 为空）。提交用什么作者身份？ | 已在用临时身份提交（见下） | 你给出姓名与邮箱后，用 `git config user.name/user.email` 设在本仓库；已有提交的作者要改，需要改写历史，须你明确同意 |
 | Q012 | **挡住 S0-T04**：Homebrew 拒绝安装 Icarus Verilog / ngspice，报 `Your Command Line Tools are too outdated`（本机有 Xcode 26.3，但没有 Command Line Tools 的安装记录）。怎么办？ | 现在；RTL 与 SPICE 在解决前一直是"未执行" | (a) 你按 Homebrew 提示更新 Command Line Tools（需要 sudo 和你的密码：`sudo rm -rf /Library/Developer/CommandLineTools && sudo xcode-select --install`，或在系统设置里软件更新），然后让代理重试，D022 仍有效；(b) 改用别的安装渠道，须你明确同意并给出渠道、文件名与大小；(c) 不装，RTL 与 SPICE 一直记为未执行（阶段 2 的 RTL 逐位比对门槛须你另行认可跳过） |
+| Q013 | 旧预设复现旧结果：本阶段只做到 3 个密度档的稳态 ADC 码与两套旧包**逐位一致**（16 位码 64793/56601/48410）。包 A/B 的 RMSE 等指标依赖"用真参数重建"，要到阶段 4 才有重建；随机数序列也已改变（D025），逐位复现做不到。可接受的容差是多少，或是否把旧 RMSE 复现推迟到阶段 4？ | 阶段 3 门槛"旧行为"项 | 待定 |
+| Q014 | 性能目标 4000×5000 与 7000×8600：按实测速率外推要 3–5 小时（目标 900 秒，是假设值），**没有实际运行**。是否接受阶段 7 再做编译加速，还是现在降低细步数/改用其他内核？ | 阶段 3 门槛"性能场景" | 待定 |
 
 ## 三、待取得的资料
 

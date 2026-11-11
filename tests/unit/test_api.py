@@ -106,6 +106,12 @@ def test_w06_the_instrument_view_hides_oracle_signals(server):
     )
 
 
+def test_w06_the_instrument_view_cannot_read_truth_state(server):
+    port, _ = server
+    _, b = get(port, "/runs/demo/state?step=20000&probes=power_w&view=instrument")
+    assert b["status"] == "not_recorded" and "values" not in b
+
+
 def test_w09_a_coarse_view_still_shows_the_injected_pulse(server):
     port, svc = server
     steps = svc.runs["demo"].steps

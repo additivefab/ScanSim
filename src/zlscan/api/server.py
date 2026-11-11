@@ -109,7 +109,10 @@ class Service:
                 "columns": ["min", "max", "first", "last"],
                 "values": pyr.levels[level][lo:hi].tolist()}  # fmt: skip
 
-    def state(self, r: Run, tick_step: int, probes: set[str]) -> dict:
+    def state(self, r: Run, tick_step: int, probes: set[str], view: str = "research") -> dict:
+        if view == "instrument":
+            return {"status": QueryStatus.NOT_RECORDED, "step": tick_step, "run_id": r.run_id,
+                    "reason": "the instrument view has no access to simulation truth"}  # fmt: skip
         res = replay_window(r.cfg, r.store, tick_step, 1, probes or set(PROBE_TO_SIGNAL))
         return {"status": QueryStatus.REPLAYED, "step": tick_step, "run_id": r.run_id,
                 "epoch": r.epoch, "checkpoint_step": res.checkpoint_step,
@@ -190,7 +193,7 @@ def _handler(service: Service):
                     body = service.signals(run, q.get("view", "research"))
                 elif what == "state":
                     probes = set(filter(None, q.get("probes", "").split(",")))
-                    body = service.state(run, int(q["step"]), probes)
+                    body = service.state(run, int(q["step"]), probes, q.get("view", "research"))
                 elif what == "traces":
                     body = service.traces(run, q["signal"], int(q["start"]), int(q["end"]),
                                           int(q.get("pixel_width", 800)))  # fmt: skip

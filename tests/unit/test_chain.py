@@ -159,3 +159,24 @@ def test_poisson_counts_are_not_gaussian_at_low_mean():
     cur, _ = anode_current(cfg, p, dt, CounterRng(2), 1, 0)
     zeros = np.mean(cur == 0)
     assert zeros == pytest.approx(np.exp(-0.3), abs=0.01)
+
+
+def test_the_whole_chain_converges_as_the_fine_step_shrinks():
+    """Noise off, same ADC sample instants: the code difference to a fine reference shrinks."""
+
+    def codes(os_):
+        cfg = demo_config()
+        cfg.os = os_
+        cfg.psf = type(cfg.psf)(
+            8e-3, 8e-3, nodes_x=17
+        )  # smooth input; a sharp edge converges slower
+        cfg.detector = type(cfg.detector)(**{**cfg.detector.__dict__, "shot_noise": False})
+        # ungated: a hard on/off gate edge is a discontinuity whose position depends on the grid
+        cfg.source = type(cfg.source)(power_w=1e-3, gated=False)
+        n_samples = 2400  # stay inside the first line: the flyback is a true discontinuity
+        return Chain(cfg).run_steps(n_samples * os_, 4000).codes.astype(float)
+
+    ref = codes(32)
+    err = {os_: np.abs(codes(os_)[50:] - ref[50:]).max() for os_ in (2, 4, 8, 16)}
+    assert err[16] <= err[8] <= err[4] <= err[2]
+    assert err[16] < err[2] / 4  # roughly first order here: a kink in the beam path limits it
