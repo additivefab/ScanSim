@@ -1,0 +1,3822 @@
+{
+ "format": "zlscan-parameters/1",
+ "note": "legacy_examples are the packages' assumed example values, NOT parameter values; param.value is None wherever no document or observation states the value.",
+ "draft_leaves_not_parameters": {
+  "schema_version": "version tag of the draft file",
+  "mode": "mode tag of the draft file",
+  "experiment.timeline": "runtime object (an empty list), not a parameter",
+  "benchmark.source": "provenance text, folded into the benchmark parameters' source_id",
+  "explicit_non_facts": "moved to forbidden_defaults.json"
+ },
+ "parameters": [
+  {
+   "id": "P001",
+   "key": "laser.wavelength_nm",
+   "name": "激光波长",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "nm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "635 nm / 1 mW / 门控连续光"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率",
+     "text": "635nm/1mW仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "波长计/功率计/厂家规格；确认连续光或脉冲"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率",
+     "text": "型号与功率计"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "影响QE、光子预算、光斑"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率",
+     "text": "QE/光子预算"
+    }
+   ]
+  },
+  {
+   "id": "P002",
+   "key": "laser.power_w",
+   "name": "激光功率",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "W",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "635 nm / 1 mW / 门控连续光"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率",
+     "text": "635nm/1mW仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "波长计/功率计/厂家规格；确认连续光或脉冲"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率",
+     "text": "型号与功率计"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "影响QE、光子预算、光斑"
+    },
+    {
+     "table": "B",
+     "row": "激光波长/功率",
+     "text": "QE/光子预算"
+    }
+   ]
+  },
+  {
+   "id": "P003",
+   "key": "laser.emission_mode",
+   "name": "激光发光方式（连续、门控、脉冲）",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "635 nm / 1 mW / 门控连续光"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "波长计/功率计/厂家规格；确认连续光或脉冲"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "激光波长/功率/模式",
+     "text": "影响QE、光子预算、光斑"
+    }
+   ]
+  },
+  {
+   "id": "P004",
+   "key": "laser.beam_diameter_m2_polarization",
+   "name": "入射光束直径、M²、偏振",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "入射光束直径/M²/偏振"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "入射光束直径/M²/偏振",
+     "text": "未显式建模"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "入射光束直径/M²/偏振",
+     "text": "光束分析仪/刀口法；避免直视"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "入射光束直径/M²/偏振",
+     "text": "确定焦斑和透镜需求"
+    }
+   ]
+  },
+  {
+   "id": "P005",
+   "key": "scan.mirror_type",
+   "name": "扫描镜类型",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数",
+     "text": "照片标注棱镜，疑似多面转镜"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数",
+     "text": "铭牌/转速与SOS关系"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数",
+     "text": "行周期与面间差异"
+    }
+   ]
+  },
+  {
+   "id": "P006",
+   "key": "scan.facet_count",
+   "name": "转镜反射面数",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速"
+    },
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速",
+     "text": "6面 / 10000 rpm"
+    },
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数",
+     "text": "照片标注棱镜，疑似多面转镜"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速",
+     "text": "型号资料；FG/SOS/转速独立比对"
+    },
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数",
+     "text": "铭牌/转速与SOS关系"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速",
+     "text": "确定行频，不能从照片直接给出"
+    },
+    {
+     "table": "B",
+     "row": "扫描镜类型/反射面数",
+     "text": "行周期与面间差异"
+    }
+   ]
+  },
+  {
+   "id": "P007",
+   "key": "scan.rpm",
+   "name": "转镜转速",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "rpm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速",
+     "text": "6面 / 10000 rpm"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速",
+     "text": "型号资料；FG/SOS/转速独立比对"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "转镜面数/转速",
+     "text": "确定行频，不能从照片直接给出"
+    }
+   ]
+  },
+  {
+   "id": "P008",
+   "key": "scan.line_rate_hz",
+   "name": "行频",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "Hz",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P009",
+   "key": "scan.line_period_s",
+   "name": "行周期",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "s",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P010",
+   "key": "scan.f_theta_focal_mm",
+   "name": "f-theta 等效焦距",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "mm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射"
+    },
+    {
+     "table": "B",
+     "row": "f-theta焦距"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射",
+     "text": "238.732 mm / 轻微三次畸变"
+    },
+    {
+     "table": "B",
+     "row": "f-theta焦距",
+     "text": "未知；几何脚本200仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射",
+     "text": "厂家处方或x-时间标定板"
+    },
+    {
+     "table": "B",
+     "row": "f-theta焦距",
+     "text": "镜头型号/厂家处方/位置标定"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射",
+     "text": "只是由示例时空预算反推"
+    },
+    {
+     "table": "B",
+     "row": "f-theta焦距",
+     "text": "扫描速度与畸变"
+    }
+   ]
+  },
+  {
+   "id": "P011",
+   "key": "scan.mapping",
+   "name": "扫描映射 x(θ, 面)",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射",
+     "text": "238.732 mm / 轻微三次畸变"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射",
+     "text": "厂家处方或x-时间标定板"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "等效焦距/扫描映射",
+     "text": "只是由示例时空预算反推"
+    }
+   ]
+  },
+  {
+   "id": "P012",
+   "key": "scan.facet_errors",
+   "name": "镜面角误差与面间增益",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "镜面角误差/面间增益"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "镜面角误差/面间增益",
+     "text": "按6面给出合成小偏差"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "镜面角误差/面间增益",
+     "text": "逐面重复扫标定板，拟合周期性误差"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "镜面角误差/面间增益",
+     "text": "形成facet LUT"
+    }
+   ]
+  },
+  {
+   "id": "P013",
+   "key": "scan.optics_unit_origin",
+   "name": "扫描光学单元的来源机型",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P014",
+   "key": "optics.spot_psf",
+   "name": "光斑强度分布 PSF",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "µm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深"
+    },
+    {
+     "table": "B",
+     "row": "光斑强度PSF"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深",
+     "text": "35 um FWHM Gaussian"
+    },
+    {
+     "table": "B",
+     "row": "光斑强度PSF",
+     "text": "sigma=0.45像素仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深",
+     "text": "多位置刀口/狭缝扫描及离焦曲线"
+    },
+    {
+     "table": "B",
+     "row": "光斑强度PSF",
+     "text": "刀口/狭缝、多场点测量"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深",
+     "text": "必须对透射率卷积，不对OD卷积"
+    },
+    {
+     "table": "B",
+     "row": "光斑强度PSF",
+     "text": "MTF与细节"
+    }
+   ]
+  },
+  {
+   "id": "P015",
+   "key": "optics.depth_of_field",
+   "name": "景深",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "µm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深",
+     "text": "35 um FWHM Gaussian"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深",
+     "text": "多位置刀口/狭缝扫描及离焦曲线"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "光斑PSF/景深",
+     "text": "必须对透射率卷积，不对OD卷积"
+    }
+   ]
+  },
+  {
+   "id": "P016",
+   "key": "collect.efficiency",
+   "name": "接收集光效率",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光",
+     "text": "总衰减链可配置 / 杂散2e-5"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光",
+     "text": "透明片、遮光片、ND阶梯与位置扫描"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光",
+     "text": "决定有效密度范围"
+    }
+   ]
+  },
+  {
+   "id": "P017",
+   "key": "collect.stray_light",
+   "name": "杂散光",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光",
+     "text": "总衰减链可配置 / 杂散2e-5"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光",
+     "text": "透明片、遮光片、ND阶梯与位置扫描"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "接收集光效率/杂散光",
+     "text": "决定有效密度范围"
+    }
+   ]
+  },
+  {
+   "id": "P018",
+   "key": "collect.structure",
+   "name": "片后集光结构",
+   "category": "optics",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P019",
+   "key": "product.film_size_mm",
+   "name": "底片宽、高",
+   "category": "product",
+   "param": {
+    "value": null,
+    "unit": "mm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距"
+    },
+    {
+     "table": "R",
+     "row": "R01"
+    },
+    {
+     "table": "D",
+     "row": "experiment.product_width_mm"
+    },
+    {
+     "table": "D",
+     "row": "experiment.product_height_mm"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距",
+     "text": "演示12.8x6.4mm / 50um；预算350x430mm"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距",
+     "text": "实际任务规格"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距",
+     "text": "区分采样间距和真实分辨率"
+    },
+    {
+     "table": "R",
+     "row": "R01",
+     "text": "决定完整光学扫描幅面与送片距离"
+    }
+   ]
+  },
+  {
+   "id": "P020",
+   "key": "product.pixel_pitch_um",
+   "name": "输出像素间距",
+   "category": "product",
+   "param": {
+    "value": null,
+    "unit": "µm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距"
+    },
+    {
+     "table": "R",
+     "row": "R02"
+    },
+    {
+     "table": "D",
+     "row": "experiment.pixel_pitch_um"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距",
+     "text": "演示12.8x6.4mm / 50um；预算350x430mm"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距",
+     "text": "实际任务规格"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "底片尺寸/目标像素间距",
+     "text": "区分采样间距和真实分辨率"
+    },
+    {
+     "table": "R",
+     "row": "R02",
+     "text": "决定采样/重采样目标，不能从算例猜测"
+    }
+   ]
+  },
+  {
+   "id": "P021",
+   "key": "product.density_range_and_tolerance",
+   "name": "有效密度范围与允许偏差",
+   "category": "product",
+   "param": {
+    "value": null,
+    "unit": "OD",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "R",
+     "row": "R03"
+    },
+    {
+     "table": "D",
+     "row": "experiment.density_target"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": [
+    {
+     "table": "R",
+     "row": "R03",
+     "text": "决定量程、噪声和标定验收"
+    }
+   ]
+  },
+  {
+   "id": "P022",
+   "key": "product.scan_and_transfer_time_s",
+   "name": "单幅扫描与传输时长",
+   "category": "product",
+   "param": {
+    "value": null,
+    "unit": "s",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "R",
+     "row": "R04"
+    },
+    {
+     "table": "D",
+     "row": "experiment.scan_time_target_s"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": [
+    {
+     "table": "R",
+     "row": "R04",
+     "text": "决定运动与通路负载"
+    }
+   ]
+  },
+  {
+   "id": "P023",
+   "key": "product.host_output_policy",
+   "name": "上位机输出与数据保留策略",
+   "category": "product",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "R",
+     "row": "R08"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": [
+    {
+     "table": "R",
+     "row": "R08",
+     "text": "决定raw、图像、无效掩膜与传输格式"
+    }
+   ]
+  },
+  {
+   "id": "P024",
+   "key": "feed.speed_mm_s",
+   "name": "送片速度",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "mm/s",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器",
+     "text": "连续送片50mm/s"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器",
+     "text": "编码器与SOS同步记录；测打滑/回差"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例",
+     "text": "编码器/标尺"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器",
+     "text": "持续运动产生行内倾斜"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例",
+     "text": "纵向尺寸与行倾斜"
+    }
+   ]
+  },
+  {
+   "id": "P025",
+   "key": "feed.encoder_counts_per_mm",
+   "name": "编码器比例",
+   "category": "scan",
+   "param": {
+    "value": null,
+    "unit": "count/mm",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器",
+     "text": "连续送片50mm/s"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器",
+     "text": "编码器与SOS同步记录；测打滑/回差"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例",
+     "text": "编码器/标尺"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "送片运动/编码器",
+     "text": "持续运动产生行内倾斜"
+    },
+    {
+     "table": "B",
+     "row": "送片速度/编码器比例",
+     "text": "纵向尺寸与行倾斜"
+    }
+   ]
+  },
+  {
+   "id": "P026",
+   "key": "calibration.reference_films",
+   "name": "可追溯的几何与密度校准片",
+   "category": "calibration",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "几何/密度校准片"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "几何/密度校准片",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "几何/密度校准片",
+     "text": "可追溯阶梯密度片、网格片"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "几何/密度校准片",
+     "text": "真实精度验收"
+    }
+   ]
+  },
+  {
+   "id": "P027",
+   "key": "pmt.model",
+   "name": "PMT 型号",
+   "category": "detector",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链"
+    },
+    {
+     "table": "B",
+     "row": "PMT型号/增益"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链",
+     "text": "G=1000，QE=.2，暗流50pA"
+    },
+    {
+     "table": "B",
+     "row": "PMT型号/增益",
+     "text": "1000仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链",
+     "text": "铭牌、厂家手册；在封闭光路下受训人员测量"
+    },
+    {
+     "table": "B",
+     "row": "PMT型号/增益",
+     "text": "铭牌+官方手册+标定"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链",
+     "text": "示例不构成高压设置建议"
+    },
+    {
+     "table": "B",
+     "row": "PMT型号/增益",
+     "text": "灵敏度和饱和"
+    }
+   ]
+  },
+  {
+   "id": "P028",
+   "key": "pmt.gain",
+   "name": "PMT 增益",
+   "category": "detector",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "PMT型号/增益"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "PMT型号/增益",
+     "text": "1000仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "PMT型号/增益",
+     "text": "铭牌+官方手册+标定"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "PMT型号/增益",
+     "text": "灵敏度和饱和"
+    }
+   ]
+  },
+  {
+   "id": "P029",
+   "key": "pmt.qe",
+   "name": "PMT 量子效率",
+   "category": "detector",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P030",
+   "key": "pmt.hv_and_divider",
+   "name": "PMT 高压模块与分压链",
+   "category": "detector",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链",
+     "text": "G=1000，QE=.2，暗流50pA"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链",
+     "text": "铭牌、厂家手册；在封闭光路下受训人员测量"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "PMT具体型号/高压/分压链",
+     "text": "示例不构成高压设置建议"
+    }
+   ]
+  },
+  {
+   "id": "P031",
+   "key": "pmt.linear_anode_current_max_a",
+   "name": "PMT 线性阳极电流上限",
+   "category": "detector",
+   "param": {
+    "value": null,
+    "unit": "A",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "PMT线性阳极电流"
+    },
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "PMT线性阳极电流",
+     "text": "行为限幅100uA"
+    },
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制",
+     "text": "1nA/100uA仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "PMT线性阳极电流",
+     "text": "厂家额定值/分压链能力/线性测试"
+    },
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制",
+     "text": "遮光测量/手册"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "PMT线性阳极电流",
+     "text": "不能把示例阈值当安全额定值"
+    },
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制",
+     "text": "高密度下限和安全"
+    }
+   ]
+  },
+  {
+   "id": "P032",
+   "key": "pmt.dark_current_a",
+   "name": "PMT 暗电流",
+   "category": "detector",
+   "param": {
+    "value": null,
+    "unit": "A",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制",
+     "text": "1nA/100uA仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制",
+     "text": "遮光测量/手册"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "PMT暗电流/阳极电流限制",
+     "text": "高密度下限和安全"
+    }
+   ]
+  },
+  {
+   "id": "P033",
+   "key": "afe.log_amp_device",
+   "name": "对数放大器型号",
+   "category": "afe",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "一级对数放大器"
+    },
+    {
+     "table": "B",
+     "row": "对数电路型号/极性"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "一级对数放大器",
+     "text": "0.25V/dec；3MHz固定带宽"
+    },
+    {
+     "table": "B",
+     "row": "对数电路型号/极性",
+     "text": "照片仅标对数放大器"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "一级对数放大器",
+     "text": "板原理图/芯片丝印；多电流点DC和阶跃测试"
+    },
+    {
+     "table": "B",
+     "row": "对数电路型号/极性",
+     "text": "电路图与器件丝印"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "一级对数放大器",
+     "text": "低电流带宽下降需实测"
+    },
+    {
+     "table": "B",
+     "row": "对数电路型号/极性",
+     "text": "转换与逆变换"
+    }
+   ]
+  },
+  {
+   "id": "P034",
+   "key": "afe.log_polarity",
+   "name": "对数输出极性",
+   "category": "afe",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "对数电路型号/极性"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "对数电路型号/极性",
+     "text": "照片仅标对数放大器"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "对数电路型号/极性",
+     "text": "电路图与器件丝印"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "对数电路型号/极性",
+     "text": "转换与逆变换"
+    }
+   ]
+  },
+  {
+   "id": "P035",
+   "key": "afe.log_slope_and_reference_current",
+   "name": "对数斜率与基准电流",
+   "category": "afe",
+   "param": {
+    "value": null,
+    "unit": "V/dec, A",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "对数斜率/基准电流"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "对数斜率/基准电流",
+     "text": "0.5V/dec,40uA仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "对数斜率/基准电流",
+     "text": "注入已知电流"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "对数斜率/基准电流",
+     "text": "OD标定"
+    }
+   ]
+  },
+  {
+   "id": "P036",
+   "key": "afe.weak_light_dynamic_response",
+   "name": "最弱光下的动态响应",
+   "category": "afe",
+   "param": {
+    "value": null,
+    "unit": "Hz",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "最弱光动态响应"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "最弱光动态响应",
+     "text": "3MHz常数仅为示例"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "最弱光动态响应",
+     "text": "多档亮暗跳变与扫频"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "最弱光动态响应",
+     "text": "拖尾与限速"
+    }
+   ]
+  },
+  {
+   "id": "P037",
+   "key": "afe.second_stage_gain_offset",
+   "name": "二级增益、偏置与 ADC 驱动",
+   "category": "afe",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "二级增益/偏置/ADC驱动"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "二级增益/偏置/ADC驱动",
+     "text": "并入等效差分传递函数"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "二级增益/偏置/ADC驱动",
+     "text": "实测一级到ADC的DC、增益、极性、共模"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "二级增益/偏置/ADC驱动",
+     "text": "可能有AC耦合，必须确认"
+    }
+   ]
+  },
+  {
+   "id": "P038",
+   "key": "afe.output_swing_v",
+   "name": "前端输出摆幅",
+   "category": "afe",
+   "param": {
+    "value": null,
+    "unit": "V",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P039",
+   "key": "adc.module_silkscreen_name",
+   "name": "ADC 模块丝印名称",
+   "category": "adc",
+   "param": {
+    "value": "ADC_AD9268_V4.2",
+    "unit": "",
+    "evidence": "photo_observation",
+    "source_id": "S02",
+    "locator": "图4",
+    "uncertainty": null,
+    "valid_for": "模块丝印；芯片等级未核对",
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC模块"
+    },
+    {
+     "table": "B",
+     "row": "ADC模块"
+    },
+    {
+     "table": "D",
+     "row": "hardware.adc_module.silkscreen_name"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC模块",
+     "text": "以AD9268 CMOS 20MSPS为示例"
+    },
+    {
+     "table": "B",
+     "row": "ADC模块",
+     "text": "ADC_AD9268_V4.2 / 双通道16bit125MSPS丝印"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC模块",
+     "text": "模块原理图/芯片等级/SPI寄存器读回"
+    },
+    {
+     "table": "B",
+     "row": "ADC模块",
+     "text": "核对芯片与模块原理图"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC模块",
+     "text": "模块丝印不是实际采样频率"
+    },
+    {
+     "table": "B",
+     "row": "ADC模块",
+     "text": "ADC配置与驱动"
+    }
+   ]
+  },
+  {
+   "id": "P040",
+   "key": "adc.module_silkscreen_bits",
+   "name": "ADC 模块丝印位数",
+   "category": "adc",
+   "param": {
+    "value": 16,
+    "unit": "bit",
+    "evidence": "photo_observation",
+    "source_id": "S02",
+    "locator": "图4",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.silkscreen_bits"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P041",
+   "key": "adc.module_silkscreen_channels",
+   "name": "ADC 模块丝印通道数",
+   "category": "adc",
+   "param": {
+    "value": 2,
+    "unit": "",
+    "evidence": "photo_observation",
+    "source_id": "S02",
+    "locator": "图4",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.silkscreen_channels"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P042",
+   "key": "adc.module_silkscreen_max_msps",
+   "name": "ADC 模块丝印标称采样率",
+   "category": "adc",
+   "param": {
+    "value": 125,
+    "unit": "MSPS",
+    "evidence": "photo_observation",
+    "source_id": "S02",
+    "locator": "图4",
+    "uncertainty": null,
+    "valid_for": "丝印上的标称能力，不是实测工作点",
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.silkscreen_max_msps"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P043",
+   "key": "adc.chip_speed_grade",
+   "name": "ADC 芯片速度等级",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "MSPS",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P044",
+   "key": "adc.actual_conversion_rate_hz",
+   "name": "ADC 实际转换速率",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "Hz",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟"
+    },
+    {
+     "table": "R",
+     "row": "R05"
+    },
+    {
+     "table": "D",
+     "row": "hardware.adc_module.actual_conversion_rate_hz"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "CMOS 12周期；tpd示例3.5ns"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "芯片CMOS 12周期；工作时钟未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "ADC测试码+源同步时序测量"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "DCO和测试码"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "LVDS A/B存在半周期区别"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "数据/位置对齐"
+    },
+    {
+     "table": "R",
+     "row": "R05",
+     "text": "决定时钟、捕获与带宽"
+    }
+   ]
+  },
+  {
+   "id": "P045",
+   "key": "adc.clock_source",
+   "name": "ADC 时钟来源",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟"
+    },
+    {
+     "table": "D",
+     "row": "hardware.adc_module.clock_source"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "芯片CMOS 12周期；工作时钟未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "DCO和测试码"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "数据/位置对齐"
+    }
+   ]
+  },
+  {
+   "id": "P046",
+   "key": "adc.pipeline_latency_cycles",
+   "name": "ADC 流水线延迟",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "cycle",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "CMOS 12周期；tpd示例3.5ns"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "芯片CMOS 12周期；工作时钟未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "ADC测试码+源同步时序测量"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "DCO和测试码"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "LVDS A/B存在半周期区别"
+    },
+    {
+     "table": "B",
+     "row": "ADC时钟/延迟",
+     "text": "数据/位置对齐"
+    }
+   ]
+  },
+  {
+   "id": "P047",
+   "key": "adc.dco_relation",
+   "name": "数据时钟与采样时钟的关系",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "CMOS 12周期；tpd示例3.5ns"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "ADC测试码+源同步时序测量"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC流水线/DCO",
+     "text": "LVDS A/B存在半周期区别"
+    }
+   ]
+  },
+  {
+   "id": "P048",
+   "key": "adc.full_scale_v",
+   "name": "ADC 满量程",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "V",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "差分-1..+1V，offset binary"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "手册+模块输入测试+SPI配置"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "SMA输入电压不一定等于裸芯片差分输入"
+    }
+   ]
+  },
+  {
+   "id": "P049",
+   "key": "adc.coding",
+   "name": "ADC 输出码制",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "差分-1..+1V，offset binary"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "手册+模块输入测试+SPI配置"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "SMA输入电压不一定等于裸芯片差分输入"
+    }
+   ]
+  },
+  {
+   "id": "P050",
+   "key": "adc.clock_mode",
+   "name": "ADC 时钟模式",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "差分-1..+1V，offset binary"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "手册+模块输入测试+SPI配置"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "ADC满量程/码制/时钟模式",
+     "text": "SMA输入电压不一定等于裸芯片差分输入"
+    }
+   ]
+  },
+  {
+   "id": "P051",
+   "key": "adc.input_coupling",
+   "name": "模块输入的耦合方式",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程",
+     "text": "跟踪到芯片输入，DC阶跃试验"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程",
+     "text": "绝对光密度能否保留"
+    }
+   ]
+  },
+  {
+   "id": "P052",
+   "key": "adc.module_input_gain_range",
+   "name": "模块输入的增益与量程",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程",
+     "text": "跟踪到芯片输入，DC阶跃试验"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "模块SMA输入耦合/增益/量程",
+     "text": "绝对光密度能否保留"
+    }
+   ]
+  },
+  {
+   "id": "P053",
+   "key": "adc.input_vpp_v",
+   "name": "ADC 输入峰峰值",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "V",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P054",
+   "key": "adc.digital_interface_mode",
+   "name": "数字输出模式（CMOS、LVDS）",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式"
+    },
+    {
+     "table": "R",
+     "row": "R05"
+    },
+    {
+     "table": "D",
+     "row": "hardware.adc_module.digital_interface_mode"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式",
+     "text": "芯片1.8V CMOS/LVDS；模块未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式",
+     "text": "原理图/测量/SPI读回"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式",
+     "text": "禁止盲接3.3V"
+    },
+    {
+     "table": "R",
+     "row": "R05",
+     "text": "决定时钟、捕获与带宽"
+    }
+   ]
+  },
+  {
+   "id": "P055",
+   "key": "adc.digital_output_level_v",
+   "name": "模块连接器的数字电平",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "V",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式"
+    },
+    {
+     "table": "D",
+     "row": "hardware.adc_module.connector_logic_voltage_v"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式",
+     "text": "芯片1.8V CMOS/LVDS；模块未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式",
+     "text": "原理图/测量/SPI读回"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "ADC数字输出电平/格式",
+     "text": "禁止盲接3.3V"
+    }
+   ]
+  },
+  {
+   "id": "P056",
+   "key": "adc.level_shifter",
+   "name": "模块的电平转换",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.level_shifter_details"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P057",
+   "key": "adc.register_dump",
+   "name": "ADC 寄存器读回",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.register_dump"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P058",
+   "key": "adc.channel_role_a",
+   "name": "ADC 通道 A 的用途",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.channel_roles.A"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P059",
+   "key": "adc.channel_role_b",
+   "name": "ADC 通道 B 的用途",
+   "category": "adc",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.adc_module.channel_roles.B"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P060",
+   "key": "board.family",
+   "name": "开发板系列",
+   "category": "hardware",
+   "param": {
+    "value": "Smart ZYNQ SP2",
+    "unit": "",
+    "evidence": "photo_observation",
+    "source_id": "S03",
+    "locator": "正面丝印",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.family"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P061",
+   "key": "board.revision",
+   "name": "开发板版本",
+   "category": "hardware",
+   "param": {
+    "value": "V1.3B",
+    "unit": "",
+    "evidence": "photo_observation",
+    "source_id": "S03",
+    "locator": "正面丝印",
+    "uncertainty": null,
+    "valid_for": "独立开发板照片；是否属于目标装配实例待确认",
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.revision"
+    },
+    {
+     "table": "D",
+     "row": "hardware.board.revision_evidence"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P062",
+   "key": "board.assembly_id",
+   "name": "装配实例编号",
+   "category": "hardware",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.assembly_id"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P063",
+   "key": "board.fpga_schematic_part",
+   "name": "原理图中的 FPGA 型号",
+   "category": "hardware",
+   "param": {
+    "value": "XC7Z020_CLG484",
+    "unit": "",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第1页",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.fpga_schematic_part"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P064",
+   "key": "board.fpga_speed_grade",
+   "name": "FPGA 速度等级",
+   "category": "hardware",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.fpga_speed_grade"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P065",
+   "key": "board.vccio_bank35_v",
+   "name": "J5（BANK35）的 VCCIO",
+   "category": "hardware",
+   "param": {
+    "value": 3.3,
+    "unit": "V",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第10页",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "GPIO电平/Bank VCCO"
+    },
+    {
+     "table": "D",
+     "row": "hardware.board.vccio_bank35_v"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "GPIO电平/Bank VCCO",
+     "text": "不自动接线"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "GPIO电平/Bank VCCO",
+     "text": "测电压/查模块电平转换；核对V1.3B丝印"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "GPIO电平/Bank VCCO",
+     "text": "AD9268裸片CMOS是1.8V体系"
+    }
+   ]
+  },
+  {
+   "id": "P066",
+   "key": "board.vccio_bank33_measured_v",
+   "name": "J6（BANK33，VADJ）的实测电压",
+   "category": "hardware",
+   "param": {
+    "value": null,
+    "unit": "V",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.vccio_bank33_measured_v"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P067",
+   "key": "board.pl_oscillator_nominal_hz",
+   "name": "PL 晶振标称频率",
+   "category": "hardware",
+   "param": {
+    "value": 50000000,
+    "unit": "Hz",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第7页",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.pl_oscillator_nominal_hz"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P068",
+   "key": "board.ps_oscillator_nominal_hz",
+   "name": "PS 晶振标称频率",
+   "category": "hardware",
+   "param": {
+    "value": 33333000,
+    "unit": "Hz",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第7页",
+    "uncertainty": null,
+    "valid_for": "原理图标称 33.333 MHz",
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.ps_oscillator_nominal_hz"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P069",
+   "key": "board.ddr_physical_bytes",
+   "name": "DDR 物理容量",
+   "category": "hardware",
+   "param": {
+    "value": 536870912,
+    "unit": "B",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第1、3页",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "存储/传输"
+    },
+    {
+     "table": "D",
+     "row": "hardware.board.ddr_physical_bytes"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "存储/传输",
+     "text": "文件保存；DMA仅设计说明"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "存储/传输",
+     "text": "测DMA持续/峰值和最长停顿"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "存储/传输",
+     "text": "网口PHY接PL，不能默认PS现成可用"
+    }
+   ]
+  },
+  {
+   "id": "P070",
+   "key": "board.ddr_reserved_bytes",
+   "name": "DDR 中系统与 DMA 的保留量",
+   "category": "hardware",
+   "param": {
+    "value": null,
+    "unit": "B",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.board.ddr_reserved_bytes"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P071",
+   "key": "transport.phy",
+   "name": "网口 PHY",
+   "category": "transport",
+   "param": {
+    "value": "RTL8211E",
+    "unit": "",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第5页",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "存储/传输"
+    },
+    {
+     "table": "D",
+     "row": "hardware.transport.phy"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "存储/传输",
+     "text": "文件保存；DMA仅设计说明"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "存储/传输",
+     "text": "测DMA持续/峰值和最长停顿"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "存储/传输",
+     "text": "网口PHY接PL，不能默认PS现成可用"
+    }
+   ]
+  },
+  {
+   "id": "P072",
+   "key": "transport.phy_connection",
+   "name": "网口 PHY 的接入位置",
+   "category": "transport",
+   "param": {
+    "value": "PL BANK35",
+    "unit": "",
+    "evidence": "schematic_nominal",
+    "source_id": "S05",
+    "locator": "第2、5、11、12页",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.transport.phy_connection"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P073",
+   "key": "transport.mac_route",
+   "name": "MAC 路线（PS 经 EMIO 或 PL MAC）",
+   "category": "transport",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.transport.mac_route"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P074",
+   "key": "transport.measured_payload_bytes_per_second",
+   "name": "实测有效载荷速率",
+   "category": "transport",
+   "param": {
+    "value": null,
+    "unit": "B/s",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.transport.measured_payload_bytes_per_second"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P075",
+   "key": "transport.service_trace",
+   "name": "DMA、DDR、出口的服务记录",
+   "category": "transport",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.transport.service_trace"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P076",
+   "key": "control.sos_source",
+   "name": "行同步信号的真实来源",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟"
+    },
+    {
+     "table": "R",
+     "row": "R07"
+    },
+    {
+     "table": "D",
+     "row": "hardware.control.sos_source_verified"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性",
+     "text": "每行一次理想事件"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性",
+     "text": "至少同时记录SOS/模拟量/ADC时钟/编码器"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "同步采集SOS和模拟波形"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性",
+     "text": "照片示波器波形不能独自证实SOS"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "横向位置"
+    },
+    {
+     "table": "R",
+     "row": "R07",
+     "text": "决定几何标定与真值隔离"
+    }
+   ]
+  },
+  {
+   "id": "P077",
+   "key": "control.sos_polarity",
+   "name": "行同步极性",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性",
+     "text": "每行一次理想事件"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性",
+     "text": "至少同时记录SOS/模拟量/ADC时钟/编码器"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "同步采集SOS和模拟波形"
+    }
+   ],
+   "affects": [
+    {
+     "table": "A",
+     "row": "SOS具体来源和极性",
+     "text": "照片示波器波形不能独自证实SOS"
+    },
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "横向位置"
+    }
+   ]
+  },
+  {
+   "id": "P078",
+   "key": "control.sos_to_active_delay_s",
+   "name": "行同步到有效区的延迟",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "s",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟"
+    }
+   ],
+   "legacy_examples": [
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "未知"
+    }
+   ],
+   "how_to_obtain": [
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "同步采集SOS和模拟波形"
+    }
+   ],
+   "affects": [
+    {
+     "table": "B",
+     "row": "SOS极性/到有效区延迟",
+     "text": "横向位置"
+    }
+   ]
+  },
+  {
+   "id": "P079",
+   "key": "control.dac_route",
+   "name": "载板 DAC 控制的去向",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.control.dac_route"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P080",
+   "key": "control.encoder_present",
+   "name": "是否有编码器",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "R",
+     "row": "R07"
+    },
+    {
+     "table": "D",
+     "row": "hardware.control.encoder_present"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": [
+    {
+     "table": "R",
+     "row": "R07",
+     "text": "决定几何标定与真值隔离"
+    }
+   ]
+  },
+  {
+   "id": "P081",
+   "key": "control.facet_index_sensor_present",
+   "name": "是否有镜面或每转参考传感器",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "R",
+     "row": "R07"
+    },
+    {
+     "table": "D",
+     "row": "hardware.control.facet_index_sensor_present"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": [
+    {
+     "table": "R",
+     "row": "R07",
+     "text": "决定几何标定与真值隔离"
+    }
+   ]
+  },
+  {
+   "id": "P082",
+   "key": "control.reference_photodetector_present",
+   "name": "是否装有激光参考探测器",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.control.reference_photodetector_present"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P083",
+   "key": "control.firmware_hash",
+   "name": "固件校验值",
+   "category": "control",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "hardware.control.firmware_hash"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P084",
+   "key": "hardware.wiring_carrier_module_to_board",
+   "name": "载板与模块到开发板的接线",
+   "category": "hardware",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "R",
+     "row": "R06"
+    },
+    {
+     "table": "D",
+     "row": "hardware.adc_module.pin_mapping_verified"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": [
+    {
+     "table": "R",
+     "row": "R06",
+     "text": "决定电气与引脚合同"
+    }
+   ]
+  },
+  {
+   "id": "P085",
+   "key": "observation.scope_model",
+   "name": "照片中的示波器型号",
+   "category": "observation",
+   "param": {
+    "value": "Hantek DSO5102P",
+    "unit": "",
+    "evidence": "photo_observation",
+    "source_id": "S02",
+    "locator": "图3",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.scope_observed_model"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P086",
+   "key": "observation.scope_analog_channels",
+   "name": "该示波器的模拟通道数",
+   "category": "observation",
+   "param": {
+    "value": 2,
+    "unit": "",
+    "evidence": "photo_observation",
+    "source_id": "S02",
+    "locator": "图3",
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "confirmed"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.analog_channels_observed"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P087",
+   "key": "observation.measurement_node",
+   "name": "测点",
+   "category": "observation",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.measurement_node"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P088",
+   "key": "observation.probe_ratio",
+   "name": "探头倍率",
+   "category": "observation",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.probe_ratio"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P089",
+   "key": "observation.coupling",
+   "name": "示波器耦合方式",
+   "category": "observation",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.coupling"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P090",
+   "key": "observation.sample_interval_s",
+   "name": "采样间隔",
+   "category": "observation",
+   "param": {
+    "value": null,
+    "unit": "s",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.sample_interval_s"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P091",
+   "key": "observation.simultaneous_capture",
+   "name": "多路是否同次同步采集",
+   "category": "observation",
+   "param": {
+    "value": null,
+    "unit": "",
+    "evidence": null,
+    "source_id": null,
+    "locator": null,
+    "uncertainty": null,
+    "valid_for": null,
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "observation.simultaneous_capture"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P092",
+   "key": "benchmark.width_pixels",
+   "name": "性能测试算例的宽度",
+   "category": "benchmark",
+   "param": {
+    "value": 7000,
+    "unit": "px",
+    "evidence": "assumed",
+    "source_id": "S01",
+    "locator": "§2.3",
+    "uncertainty": null,
+    "valid_for": "软件性能目标，不是产品规格",
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "benchmark.width_pixels"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P093",
+   "key": "benchmark.height_pixels",
+   "name": "性能测试算例的高度",
+   "category": "benchmark",
+   "param": {
+    "value": 8600,
+    "unit": "px",
+    "evidence": "assumed",
+    "source_id": "S01",
+    "locator": "§2.3",
+    "uncertainty": null,
+    "valid_for": "软件性能目标，不是产品规格",
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "benchmark.height_pixels"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P094",
+   "key": "benchmark.wall_time_goal_s",
+   "name": "性能测试算例的耗时目标",
+   "category": "benchmark",
+   "param": {
+    "value": 900,
+    "unit": "s",
+    "evidence": "assumed",
+    "source_id": "S01",
+    "locator": "§2.3",
+    "uncertainty": null,
+    "valid_for": "待验证目标，不是承诺",
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "benchmark.wall_time_goal_s"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  },
+  {
+   "id": "P095",
+   "key": "benchmark.host_peak_memory_goal_bytes",
+   "name": "性能测试算例的内存目标",
+   "category": "benchmark",
+   "param": {
+    "value": 8000000000,
+    "unit": "B",
+    "evidence": "assumed",
+    "source_id": "S01",
+    "locator": "§2.3",
+    "uncertainty": null,
+    "valid_for": "待验证目标，不是承诺",
+    "measured_at": null,
+    "method": null,
+    "status": "pending"
+   },
+   "sources": [
+    {
+     "table": "D",
+     "row": "benchmark.host_peak_memory_goal_bytes"
+    }
+   ],
+   "legacy_examples": [],
+   "how_to_obtain": [],
+   "affects": []
+  }
+ ]
+}

@@ -1,0 +1,148 @@
+{
+ "format": "zlscan-forbidden-defaults/1",
+ "note": "Claims that were once used as facts and later found unsupported (docs/dev/07_evidence_rules.md, section 2). A matching value may appear in the parameter table only with evidence 'measured'. They may still appear in research presets labelled 'assumed', which are not part of this table. 'rules' match parameter keys (value '*' means any value; numbers match within rel_tol); entries with no rules are text-only claims for reviewers and report checks.",
+ "claims": [
+  {
+   "id": "F01",
+   "claim": "行周期 0.7 ms / 行频 1.4 kHz",
+   "why": "从示波器截图估读，已撤回。屏幕上可读的 80.0us 是窗口时基，主时基被遮挡；波形里有多种形态的低谷，重复周期不唯一",
+   "draft_non_fact": "0.7ms不是已测行周期",
+   "rules": [
+    {"key": "scan.line_period_s", "value": 0.0007, "rel_tol": 0.05},
+    {"key": "scan.line_rate_hz", "value": 1400, "rel_tol": 0.05}
+   ]
+  },
+  {
+   "id": "F02",
+   "claim": "模拟输出摆幅 4.28 V 或 4.3 V",
+   "why": "只是屏幕游标差。测点、探头倍率、单端或差分关系都未知",
+   "draft_non_fact": "4.28V不是已确认ADC输入Vpp",
+   "rules": [
+    {"key": "afe.output_swing_v", "value": 4.28, "rel_tol": 0.02},
+    {"key": "adc.input_vpp_v", "value": 4.28, "rel_tol": 0.02}
+   ]
+  },
+  {
+   "id": "F03",
+   "claim": "ADC 采样率 125 MSPS",
+   "why": "模块丝印上的标称能力，不是实测工作点",
+   "draft_non_fact": "125MSPS不是已测工作点",
+   "rules": [
+    {"key": "adc.actual_conversion_rate_hz", "value": 125000000, "rel_tol": 0.0}
+   ]
+  },
+  {
+   "id": "F04",
+   "claim": "ADC 采样率 20 或 50 MSPS",
+   "why": "两套旧包的教学示例",
+   "rules": [
+    {"key": "adc.actual_conversion_rate_hz", "value": 20000000, "rel_tol": 0.0},
+    {"key": "adc.actual_conversion_rate_hz", "value": 50000000, "rel_tol": 0.0}
+   ]
+  },
+  {
+   "id": "F05",
+   "claim": "载板 DAC 控制 PMT 高压",
+   "why": "去向未知。可能是高压、前端增益或偏置、激光",
+   "draft_non_fact": "DAC去向不明",
+   "rules": [
+    {"key": "control.dac_route", "value": "pmt_hv"}
+   ]
+  },
+  {
+   "id": "F06",
+   "claim": "第二个 ADC 通道是激光参考光",
+   "why": "没有证据表明装了参考探测器",
+   "draft_non_fact": "第二通道不是已证实参考光",
+   "rules": [
+    {"key": "adc.channel_role_b", "value": "reference"},
+    {"key": "control.reference_photodetector_present", "value": true}
+   ]
+  },
+  {
+   "id": "F07",
+   "claim": "扫描光学单元来自某品牌设备",
+   "why": "只是丝印线索的猜测",
+   "rules": [
+    {"key": "scan.optics_unit_origin", "value": "*"}
+   ]
+  },
+  {
+   "id": "F08",
+   "claim": "某块小电路板是行同步探测器",
+   "why": "候选解释",
+   "rules": [
+    {"key": "control.sos_source", "value": "*"}
+   ]
+  },
+  {
+   "id": "F09",
+   "claim": "透明板状件是导光体",
+   "why": "候选解释",
+   "rules": [
+    {"key": "collect.structure", "value": "*"}
+   ]
+  },
+  {
+   "id": "F10",
+   "claim": "6 面转镜、10000 rpm",
+   "why": "旧包示例",
+   "rules": [
+    {"key": "scan.facet_count", "value": 6},
+    {"key": "scan.rpm", "value": 10000, "rel_tol": 0.0}
+   ]
+  },
+  {
+   "id": "F11",
+   "claim": "635 nm、1 mW、PMT 增益 1000、量子效率 0.15 或 0.2",
+   "why": "旧包示例",
+   "rules": [
+    {"key": "laser.wavelength_nm", "value": 635, "rel_tol": 0.0},
+    {"key": "laser.power_w", "value": 0.001, "rel_tol": 0.0},
+    {"key": "pmt.gain", "value": 1000, "rel_tol": 0.0},
+    {"key": "pmt.qe", "value": 0.15, "rel_tol": 0.0},
+    {"key": "pmt.qe", "value": 0.2, "rel_tol": 0.0}
+   ]
+  },
+  {
+   "id": "F12",
+   "claim": "7000×8600、4000×5000、50 µm 是产品规格",
+   "why": "性能测试算例，不是产品规格",
+   "rules": [
+    {"key": "product.pixel_pitch_um", "value": 50, "rel_tol": 0.0},
+    {"key": "product.film_size_mm", "value": [350, 430]},
+    {"key": "product.film_size_mm", "value": [200, 250]}
+   ]
+  },
+  {
+   "id": "F13",
+   "claim": "高密度读数平台主要由眩光造成",
+   "why": "待验证的候选机制之一，与杂散光、导光体串扰并列",
+   "rules": []
+  },
+  {
+   "id": "F14",
+   "claim": "示波器波形的 U 形底说明弱光时响应变慢",
+   "why": "待解释的现象，也可能是片边遮挡",
+   "rules": []
+  },
+  {
+   "id": "F15",
+   "claim": "延迟是包 B 误差的主因",
+   "why": "配准消融只提示对齐误差占重要部分，成因未分离",
+   "rules": []
+  },
+  {
+   "id": "F16",
+   "claim": "整幅仿真约 5.5 分钟",
+   "why": "由旧模型单步耗时乘以假设步数外推，整幅从未执行",
+   "rules": []
+  },
+  {
+   "id": "F17",
+   "claim": "重放一行约 38 到 220 毫秒",
+   "why": "同样是外推，新模型未实测",
+   "rules": []
+  }
+ ]
+}
