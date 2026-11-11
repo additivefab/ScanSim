@@ -1,0 +1,8 @@
+{
+ "note": "仅用于尺寸、时序、吞吐预算；不是已经验证的实机工作点",
+ "width_mm":350, "height_mm":430, "pitch_x_um":50, "pitch_y_um":50,
+ "facets":6, "rpm":10000, "active_fraction":0.7,
+ "adc_fs_hz":20000000, "samples_per_pixel":2,
+ "channels":1, "bits":16, "fifo_stall_ms":2,
+ "reserved_ddr_bytes":67108864
+}

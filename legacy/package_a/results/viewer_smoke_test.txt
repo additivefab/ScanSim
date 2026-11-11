@@ -1,0 +1,3 @@
+PASS: self-contained HTML rendered in system Chromium via Playwright set_content.
+PASS: 9 value rows rendered; next-step button updates time; slider selects step 300; embedded frame image loads; zero JavaScript errors.
+NOTE: direct file:// navigation was blocked by this environment browser administration policy; direct file opening itself was not verified here. No network resources are required by the HTML.

@@ -1,0 +1,10 @@
+* Demonstrates why an RF-oriented AC-coupled ADC module can lose film DC density.
+Vin source 0 PULSE(0 0.5 1m 1u 1u 30m 60m)
+Ccouple source adc 100n
+Rload adc 0 1k
+.control
+tran 1u 35m
+wrdata ac_coupling_waveform.txt v(source) v(adc)
+quit
+.endc
+.end

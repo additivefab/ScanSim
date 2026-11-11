@@ -1,0 +1,24 @@
+* Generic DC-coupled PMT/log/AA model, NOT the actual board or AD8304 macro-model.
+* Photocurrent is already anode-equivalent. HV multiplier is not simulated.
+Iphoto 0 pmt PWL(0 50p 1u 50p 1.001u 20u 3u 20u 3.001u 20n 5u 20n 5.001u 20u 8u 20u 8.001u 50p 10u 50p)
+Vsense pmt 0 0
+Bcurrent iprobe 0 V=I(Vsense)
+Rpmt iprobe ifilter 1k
+Cpmt ifilter 0 19.894p
+Blog target 0 V=-0.95+0.25*log10(max(V(ifilter),1p)/1p)
+Rlog target vlog 1k
+Clog vlog 0 53.052p
+Ebuffer logbuf 0 vlog 0 1
+Raa1 logbuf aa1 1k
+Caa1 aa1 0 31.831p
+Eaa1 aabuf 0 aa1 0 1
+Raa2 aabuf adc_diff 1k
+Caa2 adc_diff 0 31.831p
+* ADC input differential voltage nominal range -1..+1 V. Common mode omitted.
+.control
+set noaskquit
+tran 1n 10u
+wrdata log_frontend_waveform.txt v(ifilter) v(vlog) v(adc_diff)
+quit
+.endc
+.end

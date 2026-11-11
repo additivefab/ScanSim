@@ -1,0 +1,7 @@
+{'case': 'baseline', 'rmse': 0.14982787260217648, 'mae': 0.06669302708158917, 'invalid_fraction': 0.0006510416666666666, 'adc_clips': 0}
+{'case': 'no_shot_noise', 'rmse': 0.11477016014195661, 'mae': 0.04349509735890175, 'invalid_fraction': 0.0, 'adc_clips': 0}
+{'case': 'wide_log_bandwidth', 'rmse': 0.12345468901308643, 'mae': 0.05546346303925258, 'invalid_fraction': 0.0008138020833333334, 'adc_clips': 0}
+{'case': 'slow_log_bandwidth', 'rmse': 0.3058549756336625, 'mae': 0.15600970416945667, 'invalid_fraction': 0.0, 'adc_clips': 0}
+{'case': 'larger_spot', 'rmse': 0.07683448378930591, 'mae': 0.032826794749631676, 'invalid_fraction': 0.0003255208333333333, 'adc_clips': 0}
+{'case': 'more_stray_light', 'rmse': 0.1444216480674659, 'mae': 0.06928311518668243, 'invalid_fraction': 0.00732421875, 'adc_clips': 0}
+{'case': 'current_dependent_log_bw', 'rmse': 0.1204148705836528, 'mae': 0.058740336993318314, 'invalid_fraction': 0.0, 'adc_clips': 0}

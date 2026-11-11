@@ -1,0 +1,81 @@
+[
+  {
+    "id": "S01",
+    "name": "仿真软件开发方案_V2.md",
+    "size_bytes": 33501,
+    "sha256": "ac7615d571bf0fe7fb2febde3c59f9b9663ca1538a00a4ebf5030b29bfe2b101",
+    "reviewed": "方案全文；源文档行1—482",
+    "type": "项目原始资料"
+  },
+  {
+    "id": "S02",
+    "name": "激光扫描仪调研学习记录.docx",
+    "size_bytes": 16348243,
+    "sha256": "ffe7e5858e0b1953993718cfbd5d87049a36d4ba19359b51902865be1d786887",
+    "reviewed": "正文标题+4幅内嵌原图；源文档3页",
+    "type": "项目原始资料"
+  },
+  {
+    "id": "S03",
+    "name": "开发板正面图.jpg",
+    "size_bytes": 1239772,
+    "sha256": "28e166cb57ebd521666c893189b27ace046f9440774b661f65be5d5938242fb5",
+    "reviewed": "整图及丝印，1360×2806",
+    "type": "项目原始资料"
+  },
+  {
+    "id": "S04",
+    "name": "开发板背面图.jpg",
+    "size_bytes": 1218341,
+    "sha256": "37237b45a1596ffcf802ab5c87dc48dcfce7f44b63b4ad27fd0ed412ba2308c3",
+    "reviewed": "整图及芯片/电压标识，1389×2468",
+    "type": "项目原始资料"
+  },
+  {
+    "id": "S05",
+    "name": "SmartZynq_SP2_Schematic_V1d3B_20260413.pdf.pdf",
+    "size_bytes": 273223,
+    "sha256": "65ef502b17295f92a50d6266a28d26b19c71c580ca69324d65dd9a5a4f71937e",
+    "reviewed": "12个PDF物理页，全部文本与图形复核",
+    "type": "项目原始资料"
+  },
+  {
+    "id": "S06",
+    "name": "当前上下文可见的两段历史项目需求",
+    "reviewed": "2026-11-10底片扫描仿真全过程；BOM/国内外供应商请求；仅用户消息摘要",
+    "type": "可见对话上下文",
+    "boundary": "不等于完整历史聊天，不含之前生成的V1包和助手回复"
+  },
+  {
+    "id": "W01",
+    "name": "ADI AD9268 Rev.A 数据手册",
+    "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/AD9268.pdf",
+    "reviewed": "数字输出、电压、DCO、模式及寄存器；网页和第10/33/38/39页截图",
+    "type": "外部一手核验",
+    "access_date": "2026-11-11"
+  },
+  {
+    "id": "W02",
+    "name": "Microchip USB3320 产品页",
+    "url": "https://www.microchip.com/en-us/product/USB3320",
+    "reviewed": "USB2.0/ULPI能力，不代表项目固件已实现",
+    "type": "外部一手核验",
+    "access_date": "2026-11-11"
+  },
+  {
+    "id": "W03",
+    "name": "AMD UG585 I/O Peripheral Interface Routing",
+    "url": "https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/I/O-Peripheral-IOP-Interface-Routing",
+    "reviewed": "PS GEM经EMIO为GMII；PL可适配RGMII",
+    "type": "外部一手核验",
+    "access_date": "2026-11-11"
+  },
+  {
+    "id": "W04",
+    "name": "FTDI FT4232H产品能力",
+    "url": "https://ftdichip.com/products/ft4232h-56q/",
+    "reviewed": "FT4232H家族UART/MPSSE；并非项目安装封装或固件证明",
+    "type": "外部一手核验",
+    "access_date": "2026-11-11"
+  }
+]

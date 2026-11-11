@@ -1,0 +1,26 @@
+Behavioral PMT-current to log voltage and Butterworth low-pass -- NOT a real IC model
+* Current polarity is chosen for this behavioral example, not inferred from photos.
+* DC operating point starts at a clear-film signal. Current source crosses 3 decades.
+.param IREF=40u SLOPE=0.5 VOFF=0.2 BLOG=3Meg FAA=1.5Meg
+Iphoto 0 sense PWL(0 38.4u 2u 38.4u 2.002u 38.4n 7u 38.4n 7.002u 38.4u 12u 38.4u)
+Idark 0 sense DC 1n
+Vsense sense 0 0
+Bideal ideal 0 V={VOFF+SLOPE*log(IREF/max(i(Vsense),1p))/log(10)}
+Rlog ideal lp 1k
+Clog lp 0 {1/(2*3.141592653589793*BLOG*1000)}
+* Ideal buffer prevents the mathematical filter from loading the log pole.
+Ebuf drive 0 lp 0 1
+* Unity-DC-gain second-order Butterworth: LC=1/w0^2, RC=sqrt(2)/w0.
+* These RLC values are a transfer-function realization, NOT a proposed PCB filter.
+Raa drive mid {sqrt(2)}
+Laa mid out {1/(2*3.141592653589793*FAA)}
+Caa out 0 {1/(2*3.141592653589793*FAA)}
+.tran 2n 12u 0 2n
+.control
+run
+set wr_singlescale
+set wr_vecnames
+wrdata frontend_trace.txt v(ideal) v(lp) v(out)
+quit
+.endc
+.end

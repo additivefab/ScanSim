@@ -1,0 +1,9 @@
+{
+  "status": "IDEAL GEOMETRY ONLY; NOT PHOTO-DERIVED LENS PARAMETERS",
+  "line_rate_hz": 1000.0,
+  "scan_speed_m_s": 418.8790204786391,
+  "pixel_rate_for_requested_pitch_hz": 8377580.409572783,
+  "active_width_mm": 200.0,
+  "active_duty_ideal": 0.477464829275686,
+  "f_mm_needed_for_10MHz_pixels_at_requested_pitch": 238.73241463784296
+}

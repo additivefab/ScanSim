@@ -1,0 +1,19 @@
+test_adc_limits (test_model.ModelTests.test_adc_limits) ... ok
+test_adc_midbin_error (test_model.ModelTests.test_adc_midbin_error) ... ok
+test_adc_tag_alignment (test_model.ModelTests.test_adc_tag_alignment) ... ok
+test_budget (test_model.ModelTests.test_budget) ... ok
+test_density_transmission_roundtrip (test_model.ModelTests.test_density_transmission_roundtrip) ... ok
+test_differential_driver_inverse (test_model.ModelTests.test_differential_driver_inverse) ... ok
+test_ideal_end_to_end (test_model.ModelTests.test_ideal_end_to_end) ... ok
+test_ideal_linear (test_model.ModelTests.test_ideal_linear) ... ok
+test_invalid_roi (test_model.ModelTests.test_invalid_roi) ... ok
+test_linear_inverse (test_model.ModelTests.test_linear_inverse) ... ok
+test_log_inverse (test_model.ModelTests.test_log_inverse) ... ok
+test_multirate_constant_density (test_model.ModelTests.test_multirate_constant_density) ... ok
+test_phantom_shape_range (test_model.ModelTests.test_phantom_shape_range) ... ok
+test_poisson_gain_statistics (test_model.ModelTests.test_poisson_gain_statistics) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.119s
+
+OK

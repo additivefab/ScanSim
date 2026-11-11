@@ -1,0 +1,85 @@
+{
+  "schema_version": "3.0-draft",
+  "mode": "hardware_draft",
+  "truth": {},
+  "instrument": {},
+  "hardware": {
+    "board": {
+      "family": "Smart ZYNQ SP2",
+      "revision": "V1.3B",
+      "revision_evidence": "S03照片丝印；是否属于目标装配实例待确认",
+      "assembly_id": null,
+      "fpga_schematic_part": "XC7Z020_CLG484",
+      "fpga_speed_grade": null,
+      "vccio_bank35_v": 3.3,
+      "vccio_bank33_measured_v": null,
+      "pl_oscillator_nominal_hz": 50000000,
+      "ps_oscillator_nominal_hz": 33333000,
+      "ddr_physical_bytes": 536870912,
+      "ddr_reserved_bytes": null
+    },
+    "adc_module": {
+      "silkscreen_name": "ADC_AD9268_V4.2",
+      "silkscreen_bits": 16,
+      "silkscreen_channels": 2,
+      "silkscreen_max_msps": 125,
+      "actual_conversion_rate_hz": null,
+      "clock_source": null,
+      "digital_interface_mode": null,
+      "connector_logic_voltage_v": null,
+      "level_shifter_details": null,
+      "register_dump": null,
+      "pin_mapping_verified": false,
+      "channel_roles": {
+        "A": null,
+        "B": null
+      }
+    },
+    "transport": {
+      "phy": "RTL8211E",
+      "phy_connection": "PL BANK35",
+      "mac_route": null,
+      "measured_payload_bytes_per_second": null,
+      "service_trace": null
+    },
+    "control": {
+      "dac_route": "unknown",
+      "sos_source_verified": false,
+      "encoder_present": null,
+      "facet_index_sensor_present": null,
+      "reference_photodetector_present": false,
+      "firmware_hash": null
+    }
+  },
+  "experiment": {
+    "timeline": [],
+    "product_width_mm": null,
+    "product_height_mm": null,
+    "pixel_pitch_um": null,
+    "density_target": null,
+    "scan_time_target_s": null
+  },
+  "observation": {
+    "scope_observed_model": "Hantek DSO5102P",
+    "analog_channels_observed": 2,
+    "measurement_node": null,
+    "probe_ratio": null,
+    "coupling": null,
+    "sample_interval_s": null,
+    "simultaneous_capture": null
+  },
+  "benchmark": {
+    "width_pixels": 7000,
+    "height_pixels": 8600,
+    "wall_time_goal_s": 900,
+    "host_peak_memory_goal_bytes": 8000000000,
+    "source": "S01 §2.3，软件目标非实测/非产品规格"
+  },
+  "explicit_non_facts": [
+    "125MSPS不是已测工作点",
+    "第二通道不是已证实参考光",
+    "DAC去向不明",
+    "4.28V不是已确认ADC输入Vpp",
+    "0.7ms不是已测行周期"
+  ]
+}

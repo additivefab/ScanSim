@@ -1,0 +1,1155 @@
+{
+ "format": "zlscan-manifest/1",
+ "files": [
+  {
+   "path": "originals/SmartZynq_SP2_Schematic_V1d3B_20260413.pdf.pdf",
+   "size": 273223,
+   "sha256": "65ef502b17295f92a50d6266a28d26b19c71c580ca69324d65dd9a5a4f71937e"
+  },
+  {
+   "path": "originals/开发板正面图.jpg",
+   "size": 1239772,
+   "sha256": "28e166cb57ebd521666c893189b27ace046f9440774b661f65be5d5938242fb5"
+  },
+  {
+   "path": "originals/开发板背面图.jpg",
+   "size": 1218341,
+   "sha256": "37237b45a1596ffcf802ab5c87dc48dcfce7f44b63b4ad27fd0ed412ba2308c3"
+  },
+  {
+   "path": "originals/激光扫描仪调研学习记录.docx",
+   "size": 16348243,
+   "sha256": "ffe7e5858e0b1953993718cfbd5d87049a36d4ba19359b51902865be1d786887"
+  },
+  {
+   "path": "package_a/MANIFEST_SHA256.txt",
+   "size": 7282,
+   "sha256": "1c00a6196792e8b0d03b20bce59d806b0e058dc170715d187b20e95ec13f05d4"
+  },
+  {
+   "path": "package_a/README_先读.md",
+   "size": 6267,
+   "sha256": "05b4a6fbd77ad3fb1b74decada0d549b29f5443e2a21dd5799cf49504f9ab6b0"
+  },
+  {
+   "path": "package_a/config/demo.json",
+   "size": 1494,
+   "sha256": "70667d1af076069b27e85fb2b71ebce5c0808c8af6205b645e684c8170464eb0"
+  },
+  {
+   "path": "package_a/config/ideal.json",
+   "size": 1480,
+   "sha256": "76618ff8b7e6e26fda20cea6bc7547552c2511c67b35e6e31c46cefed97c3f2c"
+  },
+  {
+   "path": "package_a/config/lowlight_slow.json",
+   "size": 1492,
+   "sha256": "49aa06fcdb9be6b330556118a6342ec079a5d349c8f0a2269494b9843e20ac9a"
+  },
+  {
+   "path": "package_a/config/production_budget.json",
+   "size": 334,
+   "sha256": "4229ab91f79942b8a5839b4cf63a34f0d1586368fb8a6df1bd915759f128b3b9"
+  },
+  {
+   "path": "package_a/docs/参数证据与测量清单.csv",
+   "size": 2911,
+   "sha256": "64ffe3d2d4d10ca7f9c3acf77618ac445d3b73c3ee01de469adfd1a66f2211f8"
+  },
+  {
+   "path": "package_a/docs/底片扫描仪_全链路仿真设计与操作指南.docx",
+   "size": 4725186,
+   "sha256": "f7c902bf77dd0a184af13d3963928e4b32ba440da0a35e207a9b2ffcf215b859"
+  },
+  {
+   "path": "package_a/docs/底片扫描仪_全链路仿真设计与操作指南.md",
+   "size": 38124,
+   "sha256": "141924f36ce54dbfadeffd96f46354b03bb657210f83d60d94fb45aac0780f60"
+  },
+  {
+   "path": "package_a/docs/底片扫描仪_全链路仿真设计与操作指南.pdf",
+   "size": 1341357,
+   "sha256": "5566c3582dcc6b6be8531560b1e5c3e33d1e8eaffd104a891d8b6880441486be"
+  },
+  {
+   "path": "package_a/docs/逐时刻字段与接口说明.md",
+   "size": 3981,
+   "sha256": "b83518f35e0b39df46ff4540f6d84de97527dafc207044f39e347f761d1fadf8"
+  },
+  {
+   "path": "package_a/docs/验证状态.md",
+   "size": 3670,
+   "sha256": "02087d433556ca8f1382c91b78a5fffd17176a027c8f34e5de31abc26c012d02"
+  },
+  {
+   "path": "package_a/measurement_templates/README.md",
+   "size": 551,
+   "sha256": "43b07e8e6a48af41f4c0e296ee8e87c93fe2e1db664d976fb3df8f3ea2081ba9"
+  },
+  {
+   "path": "package_a/measurement_templates/afe_transfer.csv",
+   "size": 71,
+   "sha256": "81dff5b680072ce0b3942929f4a5f8aeb4d3d804a97b4186ca43f11bb2e51d3c"
+  },
+  {
+   "path": "package_a/measurement_templates/density_calibration.csv",
+   "size": 85,
+   "sha256": "6b5d327fda837aa1f7084d3ffb5a118abf004d6519f03adbd3fe8587eb74db6b"
+  },
+  {
+   "path": "package_a/measurement_templates/frame_integrity.csv",
+   "size": 83,
+   "sha256": "6c3b1f15971fe62bb2d9d902635382f297ed2bdf4e090675333f016948e1acfa"
+  },
+  {
+   "path": "package_a/measurement_templates/geometry_calibration.csv",
+   "size": 45,
+   "sha256": "3574e6fc79a744a1664fc24733f4323ea6af613e5a5392d7fe0373fecfc7e0d6"
+  },
+  {
+   "path": "package_a/measurement_templates/scope_capture.csv",
+   "size": 48,
+   "sha256": "637b5996e5226d011263f8c4ebf1231341dec416b7a2ada3f5322e4c52a431cc"
+  },
+  {
+   "path": "package_a/references/index.md",
+   "size": 3607,
+   "sha256": "df461e72dd35e48628cf98638ce4e5a3b96a138f23191bafa7eed5ef045fc44e"
+  },
+  {
+   "path": "package_a/references/sources.json",
+   "size": 4102,
+   "sha256": "ff4fcde4a43969809467643752e0e9d338c8b16f4bb25ee1975faece3b9dc5f4"
+  },
+  {
+   "path": "package_a/requirements-tested.txt",
+   "size": 228,
+   "sha256": "1915ac3572c90ac9bf47ec21daf987c811070a123962ccbad618ef607a40d5ce"
+  },
+  {
+   "path": "package_a/requirements.txt",
+   "size": 78,
+   "sha256": "856216959ae8ac843bf6c9d7d4f2bbc49bb84e61b828e01d2a6dd857bc328cf7"
+  },
+  {
+   "path": "package_a/results/ablation.csv",
+   "size": 552,
+   "sha256": "f01dceff6c447b0c4fd9f94948905c64063a6c7ca3b86b3d1471930886b66185"
+  },
+  {
+   "path": "package_a/results/ablation_run.txt",
+   "size": 948,
+   "sha256": "527d5cca8dda939ba785438c95f533b9e524d2f4f62983a02f83b3397bff3db1"
+  },
+  {
+   "path": "package_a/results/budget_run.txt",
+   "size": 870,
+   "sha256": "c91e6893495453d298f0c34035e583e4bf1e02c5a998f8dddf432e312e5c50e1"
+  },
+  {
+   "path": "package_a/results/convergence.csv",
+   "size": 249,
+   "sha256": "3e6ff99c10e3cad9387ff014e43a35dd5b3033b490463dcf85b9baa5307e8e38"
+  },
+  {
+   "path": "package_a/results/convergence_run.txt",
+   "size": 493,
+   "sha256": "bd0548ada749ff9507099fbc719d5ddbe739d2c10f5f09fe5e75b43f4e99f21f"
+  },
+  {
+   "path": "package_a/results/default/adc_active_u16le.raw",
+   "size": 131072,
+   "sha256": "22f31ff69da19e3bc34b2651e7f170047217c0d20c4fa4a98790306ff61a3a8e"
+  },
+  {
+   "path": "package_a/results/default/analogue_waveform.png",
+   "size": 68608,
+   "sha256": "40f6b0703c0b53e6911bf343fe5ec11efcb2a3019fcbf1f24e10ef9be45670d5"
+  },
+  {
+   "path": "package_a/results/default/config_used.json",
+   "size": 1494,
+   "sha256": "70667d1af076069b27e85fb2b71ebce5c0808c8af6205b645e684c8170464eb0"
+  },
+  {
+   "path": "package_a/results/default/density_float32.tiff",
+   "size": 131206,
+   "sha256": "1504fc04e932333e311fa0e8b016fe0ae100eb97f136ea7d616b5428f65c81eb"
+  },
+  {
+   "path": "package_a/results/default/density_patches.csv",
+   "size": 601,
+   "sha256": "454c126cf533b8d02ce44dab00c7cfda4b891645b1e1fe9f0c954794a5160382"
+  },
+  {
+   "path": "package_a/results/default/density_preview.png",
+   "size": 13926,
+   "sha256": "c8d7d3f38255d7963b4fda24788e497e4798a7fda685d7d299087636263ad9c8"
+  },
+  {
+   "path": "package_a/results/default/density_profile.png",
+   "size": 57357,
+   "sha256": "97b9411677c4d8305d92321d36fff02b46b4c0b454e9726bce542a48d990f414"
+  },
+  {
+   "path": "package_a/results/default/first_lines_trace.csv",
+   "size": 315075,
+   "sha256": "add0a9341ecb50461a37e45f3642da2ad4e9310dd03642388c612b154cbb721c"
+  },
+  {
+   "path": "package_a/results/default/frame_events.csv",
+   "size": 52771,
+   "sha256": "0b7ba32c6e1d50b94160745973454f26b5bec0d6f56961c71639e7e845170891"
+  },
+  {
+   "path": "package_a/results/default/invalid_mask.png",
+   "size": 129,
+   "sha256": "dde73629d3bb44fdd302d9378433a9abb7daec5a788511f0c5cd06455ede93cb"
+  },
+  {
+   "path": "package_a/results/default/metrics.json",
+   "size": 2886,
+   "sha256": "31f79565816ad5112f07dd3f399cd01c1f9ba1e7580806151ec5abfc0051ddfc"
+  },
+  {
+   "path": "package_a/results/default/optical_reference_preview.png",
+   "size": 2122,
+   "sha256": "faf1606ea50620b33e3d2051f2f736a59ac620381095a6df31d53f45fa2c61bb"
+  },
+  {
+   "path": "package_a/results/default/phantom_density.png",
+   "size": 3266,
+   "sha256": "c7abbf24b90f4c0566c4ec52466b995ed3d41259eac448ea7972a916b63347bc"
+  },
+  {
+   "path": "package_a/results/default/pipeline_waveform.png",
+   "size": 57563,
+   "sha256": "9bb047ff85741f271d00b51a0825391d44fcd714651a506e479117798a60a0df"
+  },
+  {
+   "path": "package_a/results/default/raw_format.json",
+   "size": 244,
+   "sha256": "04d87ce522a7d26d779bd6f98b208f5d950826bce2c61083a55fe4951d832ede"
+  },
+  {
+   "path": "package_a/results/default/rtl_vectors.hex",
+   "size": 1280,
+   "sha256": "038b41c9c4f49a9933fe94c76e2b783d2b05f3a08b6205d3c9b977846e9b546b"
+  },
+  {
+   "path": "package_a/results/default/run.log",
+   "size": 2887,
+   "sha256": "70344b89625a58fdf4165e0844621e35123b9883d73d5a8cdc21ca1f7d483b9b"
+  },
+  {
+   "path": "package_a/results/default/simulation_arrays.npz",
+   "size": 833734,
+   "sha256": "29c834050ace6d00e8d6654d71b6ca5e6fc1f804a026a66d13fceb3819bc786a"
+  },
+  {
+   "path": "package_a/results/default/viewer.html",
+   "size": 150565,
+   "sha256": "0c127d99cf8c6247ec9525d2bd4980c81449c2486b6e036e9f06ef74d0ef1f4d"
+  },
+  {
+   "path": "package_a/results/production_budget.json",
+   "size": 869,
+   "sha256": "591b7b3771f8016c9aa993cd4a737092271b4d85c14ea87e264dd02090d40294"
+  },
+  {
+   "path": "package_a/results/python_tests.txt",
+   "size": 99,
+   "sha256": "0dea6af25721e40218fd3168b39eae771ae036cec8dea2507f58ef58c398111c"
+  },
+  {
+   "path": "package_a/results/viewer_smoke_test.txt",
+   "size": 411,
+   "sha256": "94e14ac7972639c567aacdeeccf69d6a55ee4a90c1ad10bb4222296d173e6c39"
+  },
+  {
+   "path": "package_a/rtl/board_clock_reference.xdc",
+   "size": 580,
+   "sha256": "0a9d7d26b8183506262bcd961f7bdb1a222ff5e7b3af009e253be0b70dc32272"
+  },
+  {
+   "path": "package_a/rtl/run.tcl",
+   "size": 28,
+   "sha256": "f4601d867b0b15880910061412a38c225c6e3422ad1246b7a4bf0d9f0e1f7459"
+  },
+  {
+   "path": "package_a/rtl/run_iverilog.bat",
+   "size": 158,
+   "sha256": "ea01ca2835d061ceb147c53f1994be5c5867ae95ce29d8fa4fb2331e4e17a0dc"
+  },
+  {
+   "path": "package_a/rtl/run_iverilog.sh",
+   "size": 167,
+   "sha256": "6b4c4fa29ba41fe8efb630a5ab35133c52a441015888feb29f1deb618faf5ba9"
+  },
+  {
+   "path": "package_a/rtl/run_xsim.bat",
+   "size": 218,
+   "sha256": "48a5ea0587d92b933f27eda0326b98790beb0d794246ab5d1b993aa79342a7d1"
+  },
+  {
+   "path": "package_a/rtl/run_xsim.sh",
+   "size": 186,
+   "sha256": "1f2341a8e0cccf70073640be3d6c2db853850fd087f30489409626ad4fe8a0a7"
+  },
+  {
+   "path": "package_a/rtl/scanner_capture.sv",
+   "size": 2217,
+   "sha256": "bcbb9b2676e335f3dc649f09748ae5dc8decb295857c07a56e812cbc66cfc7c7"
+  },
+  {
+   "path": "package_a/rtl/tb_scanner_capture.sv",
+   "size": 2858,
+   "sha256": "1b83eafc8d39d3dc4f6aa657af1367885ee516c56b9b7a6f8957424404c3ed01"
+  },
+  {
+   "path": "package_a/rtl/vectors.hex",
+   "size": 1280,
+   "sha256": "038b41c9c4f49a9933fe94c76e2b783d2b05f3a08b6205d3c9b977846e9b546b"
+  },
+  {
+   "path": "package_a/run_demo.py",
+   "size": 6045,
+   "sha256": "2c807c9e7b247c1975c627bbac4f27f4897145427122fd62aa15b3d0754b01cf"
+  },
+  {
+   "path": "package_a/run_linux.sh",
+   "size": 225,
+   "sha256": "bad4952998b6bae30df56bf0b5ecba4d4e77c95685fa0624a82064259127a460"
+  },
+  {
+   "path": "package_a/run_windows.bat",
+   "size": 397,
+   "sha256": "35474c624a806062c3e988c0a9819ae12c9c891d95e95ede31573dedbe93949e"
+  },
+  {
+   "path": "package_a/scripts/budget.py",
+   "size": 1510,
+   "sha256": "73f3a28df3e53afbce1a39a4fd40a9258d2f0fa427ab238d96485dffbcf9ee23"
+  },
+  {
+   "path": "package_a/scripts/convergence.py",
+   "size": 963,
+   "sha256": "852dddfcdcd91fa277fd35332f8609ebfab548cfb20f35ac0bf45a275bae5831"
+  },
+  {
+   "path": "package_a/scripts/experiments.py",
+   "size": 1177,
+   "sha256": "200bd7c208505527186404e5c132a291ba12d47113fc3e947c5b1d8e63c6cc79"
+  },
+  {
+   "path": "package_a/scripts/fetch_references.py",
+   "size": 1237,
+   "sha256": "531c321e80dcbb43ee710e8575d1b691e4a22933be9b0f5578554ab6afd16bef"
+  },
+  {
+   "path": "package_a/scripts/make_viewer.py",
+   "size": 6113,
+   "sha256": "0b65ad06903c4e66cc1c4d56dae213a5f7119c75601724d98b489837c3f0f6ba"
+  },
+  {
+   "path": "package_a/spice/ac_coupling_risk_ngspice.cir",
+   "size": 250,
+   "sha256": "56aec78cbcbca9ad1d36fc028213f4cc96b5117bcb763c098d4e124216316cfb"
+  },
+  {
+   "path": "package_a/spice/log_frontend_ltspice.cir",
+   "size": 719,
+   "sha256": "cebafb75dd5ba46b7417cf47428209257a660d6b699382daa6a2fe3097f5376a"
+  },
+  {
+   "path": "package_a/spice/log_frontend_ngspice.cir",
+   "size": 775,
+   "sha256": "2684aaca08befdd0531ea2ab7fd4bcf4d2b385ca8de687d17ecaa1b05b5eeecc"
+  },
+  {
+   "path": "package_a/src/__init__.py",
+   "size": 45,
+   "sha256": "405d082b6e4abc6ddb22a87627436fa158d408aafd045455a63954acaf6f7297"
+  },
+  {
+   "path": "package_a/src/scanner_sim.py",
+   "size": 17406,
+   "sha256": "28f3c58b634fb2e858bf1700f4fd645b65015c1629d43db226806598c105d9d6"
+  },
+  {
+   "path": "package_a/tests/test_sim.py",
+   "size": 2997,
+   "sha256": "5c0d107018337fbd49a3f54e633ff760130459f1cf9745e16726894d87e2d347"
+  },
+  {
+   "path": "package_a/viewer/index.html",
+   "size": 150565,
+   "sha256": "0c127d99cf8c6247ec9525d2bd4980c81449c2486b6e036e9f06ef74d0ef1f4d"
+  },
+  {
+   "path": "package_b/MANIFEST_SHA256.txt",
+   "size": 14510,
+   "sha256": "d21ca361b6e681bcd55fa8958eb3aa48bae6381263aa22422d0567f8a92b043d"
+  },
+  {
+   "path": "package_b/README_先读我.md",
+   "size": 3792,
+   "sha256": "cd52228daaf38ad9d9a0a99c6669f897dc2829ee7e0b577fee7af81deffeee21"
+  },
+  {
+   "path": "package_b/configs/ad9268_50m_5x.json",
+   "size": 1668,
+   "sha256": "cd9b42f954e87a9a116b48e3a872f2dd65f3e3949934cd181d9d4397c4b0612f"
+  },
+  {
+   "path": "package_b/configs/demo_linear.json",
+   "size": 1570,
+   "sha256": "111ec9854b635143ee82015466f8a81156e5514ca2ca3795a2f570f9d478a3ea"
+  },
+  {
+   "path": "package_b/configs/demo_log.json",
+   "size": 1567,
+   "sha256": "b09fb096f4a05c57c8550a0201258b5358be929b8f14bd9eabc59e0cb58f245d"
+  },
+  {
+   "path": "package_b/configs/ideal_regression.json",
+   "size": 1523,
+   "sha256": "5c018a71a17f1c6e1339ec3d10a10c03ff80992d667d7281163c674a33e41dde"
+  },
+  {
+   "path": "package_b/configs/reference_budget.json",
+   "size": 1584,
+   "sha256": "13fc857ca2c50d4699516959adaa70a4d9f3618745013a5db4b3565b7ff3b495"
+  },
+  {
+   "path": "package_b/docs/assets/adc_photo.jpg",
+   "size": 485694,
+   "sha256": "fb5d4d78c7dbdb3e575fbf7d171ffbfee2bfb72e54cedf19997d2cc96f9fa097"
+  },
+  {
+   "path": "package_b/docs/assets/optical_photo.jpg",
+   "size": 276914,
+   "sha256": "6ab13b274bf3a0358b71daf701989d93e908abd308901663528bbf63fcdfb0bb"
+  },
+  {
+   "path": "package_b/docs/官方资料索引.md",
+   "size": 3853,
+   "sha256": "19876fd20258592cdffc65061d68f51fa1c32f551245708e5415110c9c4e9a0f"
+  },
+  {
+   "path": "package_b/docs/底片扫描仪仿真设计与实施指南.html",
+   "size": 49481,
+   "sha256": "500c00d6c343eec70aeb79938c8a6793dc43fb1c7ad486e9848b43d0d3d27b3c"
+  },
+  {
+   "path": "package_b/docs/底片扫描仪仿真设计与实施指南.md",
+   "size": 26752,
+   "sha256": "548e24e18b056fc1a09593e92c094ebf6d893b29c0ed470b19e5d75e53d3f06d"
+  },
+  {
+   "path": "package_b/docs/底片扫描仪仿真设计与实施指南.pdf",
+   "size": 1320656,
+   "sha256": "cf63d6e16f8c8d8f7c71b1b83219e122a0fa16b5758ff3cf3edd20b293c4bd76"
+  },
+  {
+   "path": "package_b/docs/模型边界与验收.md",
+   "size": 3224,
+   "sha256": "63dd929b7a334f062f093b5ebefe5ef6c4e1679d9d3f558af052dff293ae269e"
+  },
+  {
+   "path": "package_b/docs/验证状态.md",
+   "size": 2461,
+   "sha256": "f9c896ec402f249ce7dd53a6167a19c842439f01f667a230d56bfa19e9bb64d6"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/adc_line.hex",
+   "size": 250000,
+   "sha256": "aa1c0460a1265d0ed6c2aaa3f032cc77c8b9715db466f62f8b3011b862cad03e"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/calibration_model.json",
+   "size": 35512,
+   "sha256": "cf4a8e4299da890fa78777f512e2f59f84662af66ab88b4a166bc173b841b3cc"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/config_used.json",
+   "size": 1668,
+   "sha256": "cd9b42f954e87a9a116b48e3a872f2dd65f3e3949934cd181d9d4397c4b0612f"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/density_display_u16.tif",
+   "size": 16688,
+   "sha256": "3f123beee33568e8fad60a61f3134cc7e991b57294a96ede2a1c475941e9b023"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/density_geometry_corrected_f32.tif",
+   "size": 33072,
+   "sha256": "f30dae056b0abc63dc62c190b20d7bcfc10c517ba1a8fdde894aa8b364ad5a52"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/density_reconstructed_f32.tif",
+   "size": 33072,
+   "sha256": "120b865ae26926e0a78573d69473b7ef4c7445db32d550d9c1c92c20d83976e7"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/density_truth_f32.tif",
+   "size": 33072,
+   "sha256": "01d4273efffc849532d8575539a424a3059c9a4bd771ec47311a3961c7e4308d"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/environment.json",
+   "size": 44,
+   "sha256": "a708ef2e7bea42503d9aa679fedd92c0ad316476b498ea70b44fbbf7c99f3cc9"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/line_events.csv",
+   "size": 1851,
+   "sha256": "0865eeaa5cad0f986f97d96a2b015555d73caf7db11d6318dbd6e456917cc901"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/line_trace.csv",
+   "size": 5577825,
+   "sha256": "a5418dd51bd8c43ea97ccf830fb883757d08453029f03c9236c28b528270e07e"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/metrics.json",
+   "size": 1883,
+   "sha256": "1819afa961eb4d383b4b085805b7a830721c35af9a9868324840c62b1be103f1"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/micro_trace.csv",
+   "size": 20778,
+   "sha256": "ce0cf8a1a4f993d14fc920e147f009670886038ff880f788fe945a5773c16038"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/preview_density.png",
+   "size": 3321,
+   "sha256": "6408dadd1c686dc5fc46998d70e6b1b2478e080ed25094f097d5169ed11a1bdf"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/preview_transmission.png",
+   "size": 2065,
+   "sha256": "d9dcf7437f7ef084ce9dd9777629d37c431d0697118cb0f9430e830741eaa3e0"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/preview_truth.png",
+   "size": 297,
+   "sha256": "b292169bee7cacfdfa55877b497e0c26f4bc97bf7931227c5a5e26061d9b667e"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/raw_codes_u16.tif",
+   "size": 82224,
+   "sha256": "56d174942ef4bcca482f09831141074a817a9275362f29079d06bf036226ecde"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/raw_roi_u16le.bin",
+   "size": 81920,
+   "sha256": "161329314ec7992892ebdac33bf04f49b6c5b9cbb400d341b206945e41d4171f"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/simulation_arrays.npz",
+   "size": 204692,
+   "sha256": "6c7efa3906b235fd450fa7f0835b7eca2a905d5b47db87031045e21a829792d8"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/transmittance_f32.tif",
+   "size": 33072,
+   "sha256": "9875ada007022dfbcc51de686b2db41feb6911705f8d6f97a02103a31ceb7ecb"
+  },
+  {
+   "path": "package_b/examples/ad9268_50m_5x/viewer.html",
+   "size": 6694383,
+   "sha256": "92e475824d6a071abc21864f093d6ce5673507f2f8ad0b93774e312fb7c4f53a"
+  },
+  {
+   "path": "package_b/examples/ad9268_stdout.json",
+   "size": 1884,
+   "sha256": "72f6cb76ed6f2acecfcd2f7ee780d26ef324f3542491fb6da436fab9279832f2"
+  },
+  {
+   "path": "package_b/examples/browser_test_log.txt",
+   "size": 574,
+   "sha256": "602e3ecf03eebd7103ad471e7210fd033c66e6cdc5d1c9bb3f41531838b640a7"
+  },
+  {
+   "path": "package_b/examples/calibration_fit_log.txt",
+   "size": 400,
+   "sha256": "2559dfccdfba1fffd76d4cc8c42baec7852c8579b60ad32b06745884439cb7e2"
+  },
+  {
+   "path": "package_b/examples/convergence.csv",
+   "size": 195,
+   "sha256": "49da993383f62d3f41092df792a99f60fc9e113390106ad26ce89222570d499e"
+  },
+  {
+   "path": "package_b/examples/convergence_log.txt",
+   "size": 192,
+   "sha256": "078486de353a9fa31322538b8a3b68cd2a3ebd3fee8dd184bdbe910ab80b0753"
+  },
+  {
+   "path": "package_b/examples/demo_linear/adc_line.hex",
+   "size": 50000,
+   "sha256": "0630b72f83bcf5e438bdf306153c9bd5dafd8120af2822e75a5ad1d8d675adb7"
+  },
+  {
+   "path": "package_b/examples/demo_linear/calibration_model.json",
+   "size": 14541,
+   "sha256": "ccf4351b810599da4fdd1c1a30897adf055c4f82062754cbf29d3f481c65a06c"
+  },
+  {
+   "path": "package_b/examples/demo_linear/config_used.json",
+   "size": 1570,
+   "sha256": "111ec9854b635143ee82015466f8a81156e5514ca2ca3795a2f570f9d478a3ea"
+  },
+  {
+   "path": "package_b/examples/demo_linear/density_display_u16.tif",
+   "size": 131376,
+   "sha256": "bad17068dba6eb79409993bb4a54d4d0e694fee8f0c9fd8e6b453bcc2a1c90a7"
+  },
+  {
+   "path": "package_b/examples/demo_linear/density_geometry_corrected_f32.tif",
+   "size": 262448,
+   "sha256": "0608f025116bb6af6e6f01c24fb0ca4c03d46e53bd9655c29de0b415178034c7"
+  },
+  {
+   "path": "package_b/examples/demo_linear/density_reconstructed_f32.tif",
+   "size": 262448,
+   "sha256": "af4df629e791766a784ea0c02321b05b9037a737ef147f580c8dab8b20eaaf21"
+  },
+  {
+   "path": "package_b/examples/demo_linear/density_truth_f32.tif",
+   "size": 262448,
+   "sha256": "49f607b681366c0a8f377d8872ac9a288b596073824c57e3ab2ba6327df5dcbc"
+  },
+  {
+   "path": "package_b/examples/demo_linear/environment.json",
+   "size": 44,
+   "sha256": "a708ef2e7bea42503d9aa679fedd92c0ad316476b498ea70b44fbbf7c99f3cc9"
+  },
+  {
+   "path": "package_b/examples/demo_linear/line_events.csv",
+   "size": 7235,
+   "sha256": "d8971b6405ca211d5ea92ba17facff4dd019238454ddd952c1f7a0f4dc37168c"
+  },
+  {
+   "path": "package_b/examples/demo_linear/line_trace.csv",
+   "size": 1103436,
+   "sha256": "ddc45eabb44b37bb0171490633e5cde84b7b32506dc456ff4d8555c3e0f22002"
+  },
+  {
+   "path": "package_b/examples/demo_linear/metrics.json",
+   "size": 1876,
+   "sha256": "c143847c31daa230e875a7a3efdc0fa0d6f185d63de2b13a7cda0d0317e7c024"
+  },
+  {
+   "path": "package_b/examples/demo_linear/micro_trace.csv",
+   "size": 20246,
+   "sha256": "0b5f3a29c7adc8cd64fb10b8ed3c2144954f9250b8fe3ef5940eab1d69f24178"
+  },
+  {
+   "path": "package_b/examples/demo_linear/preview_density.png",
+   "size": 25769,
+   "sha256": "bf7cfbc324f58214c6b854733330a738e1d535b9330d5c8161a5122fc4613355"
+  },
+  {
+   "path": "package_b/examples/demo_linear/preview_transmission.png",
+   "size": 11573,
+   "sha256": "d2c18b9994765d3f7cb953fbbd4d7972a06485a445ef25d8c6e6eb7c4304d87d"
+  },
+  {
+   "path": "package_b/examples/demo_linear/preview_truth.png",
+   "size": 751,
+   "sha256": "a2becb5eb0ea7e507165a4a4a838dda0d5d5bd30a76db9fc2498ce37b11f5bf3"
+  },
+  {
+   "path": "package_b/examples/demo_linear/raw_codes_u16.tif",
+   "size": 131376,
+   "sha256": "57175320798df6abb7ab68ec3dac1b869dc1adf4a19ef31cea68df10c6219299"
+  },
+  {
+   "path": "package_b/examples/demo_linear/raw_roi_u16le.bin",
+   "size": 131072,
+   "sha256": "0a0396c12207f91407a29649c7abf593d5304bb3f87ffad7ad51f1168fc37e46"
+  },
+  {
+   "path": "package_b/examples/demo_linear/simulation_arrays.npz",
+   "size": 1034955,
+   "sha256": "4e16760ffb7b31dbbe1c06c908281aa165bf04a0322c47e11e849a7db00aead6"
+  },
+  {
+   "path": "package_b/examples/demo_linear/transmittance_f32.tif",
+   "size": 262448,
+   "sha256": "479e060f98fdc3f1acceeceba36b3832ee2e1d5809c2d040102e37fd47629943"
+  },
+  {
+   "path": "package_b/examples/demo_linear/viewer.html",
+   "size": 1402281,
+   "sha256": "ae00376f526fc17c08dcf0d6171c64d6f3d01f8c4c53e6df07b4a739b125c117"
+  },
+  {
+   "path": "package_b/examples/demo_linear_stdout.json",
+   "size": 1877,
+   "sha256": "f985c953d842d7385c21206efe3ebbde40aecb6f206961e934a8f88be387dc60"
+  },
+  {
+   "path": "package_b/examples/demo_log/adc_line.hex",
+   "size": 50000,
+   "sha256": "bcf32e9b9d616d695261804b2f7a852c0a2c145bd605a612d861dde1f4747c14"
+  },
+  {
+   "path": "package_b/examples/demo_log/calibration_model.json",
+   "size": 14538,
+   "sha256": "7dd0ed4d2f494ee64f250983f516034a25633478007c1caa081e910d3b3d0105"
+  },
+  {
+   "path": "package_b/examples/demo_log/config_used.json",
+   "size": 1567,
+   "sha256": "b09fb096f4a05c57c8550a0201258b5358be929b8f14bd9eabc59e0cb58f245d"
+  },
+  {
+   "path": "package_b/examples/demo_log/density_display_u16.tif",
+   "size": 131376,
+   "sha256": "9a0db021541b5b12f91f26b62d380ff1576954898042c9ed00712048230a0184"
+  },
+  {
+   "path": "package_b/examples/demo_log/density_geometry_corrected_f32.tif",
+   "size": 262448,
+   "sha256": "beda91d492dd3e80a6999119212ec3f0cbda9642b2f49aaa1c0c22db75234797"
+  },
+  {
+   "path": "package_b/examples/demo_log/density_reconstructed_f32.tif",
+   "size": 262448,
+   "sha256": "fe8511a9a33c3bdaadc1fb044e6780f265045775512779df2873c95536970abd"
+  },
+  {
+   "path": "package_b/examples/demo_log/density_truth_f32.tif",
+   "size": 262448,
+   "sha256": "49f607b681366c0a8f377d8872ac9a288b596073824c57e3ab2ba6327df5dcbc"
+  },
+  {
+   "path": "package_b/examples/demo_log/environment.json",
+   "size": 44,
+   "sha256": "a708ef2e7bea42503d9aa679fedd92c0ad316476b498ea70b44fbbf7c99f3cc9"
+  },
+  {
+   "path": "package_b/examples/demo_log/line_events.csv",
+   "size": 7235,
+   "sha256": "d8971b6405ca211d5ea92ba17facff4dd019238454ddd952c1f7a0f4dc37168c"
+  },
+  {
+   "path": "package_b/examples/demo_log/line_trace.csv",
+   "size": 1110428,
+   "sha256": "9e85c6fce5e2de8b5d301bc9b5c4ceac57e986dc1920933b3625bcc7f70223b5"
+  },
+  {
+   "path": "package_b/examples/demo_log/metrics.json",
+   "size": 1889,
+   "sha256": "65734e499d4f090a142203be831a60185ce251e1afdf206792fbf4a4272f43b6"
+  },
+  {
+   "path": "package_b/examples/demo_log/micro_trace.csv",
+   "size": 20772,
+   "sha256": "99b0357a11b4ade4cea6e59afd21e048713fcc83a9df69509f6ef0adc84c21d5"
+  },
+  {
+   "path": "package_b/examples/demo_log/preview_density.png",
+   "size": 23512,
+   "sha256": "9ebc895f21f9dd6bfffb133c819a5335eaabb1eea46fabac78caa0f74f31d5b3"
+  },
+  {
+   "path": "package_b/examples/demo_log/preview_transmission.png",
+   "size": 12181,
+   "sha256": "50d8ed4df7b6d15d729b9078f4ccb624f2de09cac8720798fafcdffbbde47ed7"
+  },
+  {
+   "path": "package_b/examples/demo_log/preview_truth.png",
+   "size": 751,
+   "sha256": "a2becb5eb0ea7e507165a4a4a838dda0d5d5bd30a76db9fc2498ce37b11f5bf3"
+  },
+  {
+   "path": "package_b/examples/demo_log/raw_codes_u16.tif",
+   "size": 131376,
+   "sha256": "3a3c504692b1274ab5d63759b14d7e34cf97fee2fd8f76ef60f4575cf4c8288c"
+  },
+  {
+   "path": "package_b/examples/demo_log/raw_roi_u16le.bin",
+   "size": 131072,
+   "sha256": "37778d54b99e2ee8a50ddeb934e134fad0eed6dc0bc9b7d91578a44139fb8859"
+  },
+  {
+   "path": "package_b/examples/demo_log/simulation_arrays.npz",
+   "size": 1091647,
+   "sha256": "86aaac1c6f7bb1bc543a761bdaa62f000feff8dcdac1ca16ec08675dbadd6873"
+  },
+  {
+   "path": "package_b/examples/demo_log/transmittance_f32.tif",
+   "size": 262448,
+   "sha256": "8cfbaa058d7e315b32d1b79c8b8906270cc5471eb8cc11f3bc98ea032ac01f84"
+  },
+  {
+   "path": "package_b/examples/demo_log/viewer.html",
+   "size": 1403267,
+   "sha256": "f9834270cf834391e3979ad01d76ca75bffa8baea9666bd56850de1ba8b92ccf"
+  },
+  {
+   "path": "package_b/examples/demo_log_stdout.json",
+   "size": 1890,
+   "sha256": "df9e2a0d49fbce05aa528fb1e97b54439416c8e995ed91e896865c2a48192c14"
+  },
+  {
+   "path": "package_b/examples/geometry_budget.json",
+   "size": 339,
+   "sha256": "af43124645b48b8c50a1c37bc820245297ce2f324460d297e83f547a68126f0f"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/adc_line.hex",
+   "size": 2560,
+   "sha256": "3b1e607e5fad9f9b8238e82bcd4dfc1b4f4e05d3b784ea1edac34a39bc947a37"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/calibration_model.json",
+   "size": 2316,
+   "sha256": "57d9cd212ddc05c84781f81b8183df9523d83f8847c8639216b27faa07889d1a"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/config_used.json",
+   "size": 1498,
+   "sha256": "ee27010a669e454b91582b0aed2ca753df5af1b0f376005eefec37e921ed4d18"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/density_display_u16.tif",
+   "size": 2352,
+   "sha256": "133bf37806509519018db95087c0ef9256e0b37b7f7c49c532ca5e40ae8dbf4f"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/density_geometry_corrected_f32.tif",
+   "size": 4400,
+   "sha256": "e9e1554262d2c50a6e43fbaa4d8d8615af4b646351c3aa0e93c05c8f01dcee25"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/density_reconstructed_f32.tif",
+   "size": 4400,
+   "sha256": "e9e1554262d2c50a6e43fbaa4d8d8615af4b646351c3aa0e93c05c8f01dcee25"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/density_truth_f32.tif",
+   "size": 4400,
+   "sha256": "56c4dd97e9423a566a8dbe37f9a715b0b4d5c458e00fec6829e7200dd7748960"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/environment.json",
+   "size": 44,
+   "sha256": "a708ef2e7bea42503d9aa679fedd92c0ad316476b498ea70b44fbbf7c99f3cc9"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/line_events.csv",
+   "size": 1100,
+   "sha256": "7192fba62957598523c59d7892c7f724109b6d172176360b024a483398ad4268"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/line_trace.csv",
+   "size": 48354,
+   "sha256": "fe70d83c05bf952d82700f862e76eff480402d2aee6f584bec00d1c78579a31a"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/metrics.json",
+   "size": 1922,
+   "sha256": "de854296cf89f1ba179d36adec5812a45fb244fa94540296b3bf83c417c7f39d"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/micro_trace.csv",
+   "size": 18302,
+   "sha256": "7ada2e872cacb12d87e3a32995f0e42c0d4fd466984b512d2df8e7a74f8195e8"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/preview_density.png",
+   "size": 161,
+   "sha256": "2a3d671877ea750ac6899e6d4d9e4eeb9818d0aea7e5178e76dfabfb7cebf43a"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/preview_transmission.png",
+   "size": 169,
+   "sha256": "324f98726f2f35aef076c7ecbbd86851bae147017a36622c037f1a6aaff59dbe"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/preview_truth.png",
+   "size": 161,
+   "sha256": "0aa121497eb6e3a4ec059b2284762c8bf44fb7b6c787dbdacc7c39e18c93d3a0"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/raw_codes_u16.tif",
+   "size": 2352,
+   "sha256": "f215834c88e24a4fa1222a55702657f2d77fb9d304a35a30169610f374517aa8"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/raw_roi_u16le.bin",
+   "size": 2048,
+   "sha256": "6a5e33a4b6c23dbc2bbd766cdf374d117af1fc41691c4accd84fe0368aa2190e"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/simulation_arrays.npz",
+   "size": 2552,
+   "sha256": "dd5af7e7dbeeaf220c90b4c5e1d19c65037bb6dda467f0fb7c18babcaad4a802"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/transmittance_f32.tif",
+   "size": 4400,
+   "sha256": "6fbd0b7095ac98a49f40ec93c122fc68a7627112db8f7af5a1390f19d69df353"
+  },
+  {
+   "path": "package_b/examples/ideal_regression/viewer.html",
+   "size": 71281,
+   "sha256": "3a28b081721b9c0322a7fe03a927a4996f7dd9a5108416183221100184b767ab"
+  },
+  {
+   "path": "package_b/examples/ideal_regression_stdout.json",
+   "size": 1923,
+   "sha256": "459e95ead848c8aaae31464e4c5d97a1a1918a9dfa5f63e4ecbe0a4c41bc05e4"
+  },
+  {
+   "path": "package_b/examples/python_test_log.txt",
+   "size": 1177,
+   "sha256": "4021dec8eaf1659c1a5bc34bbe269189dc0ee064aeccbcd663a9103aae49900c"
+  },
+  {
+   "path": "package_b/examples/reconstructed_from_binary/density_f32.tif",
+   "size": 33040,
+   "sha256": "6b6a639b1c3c90617f89e0d34091f78dbe130d10d5227d0fc4a7e6b516df5611"
+  },
+  {
+   "path": "package_b/examples/reconstructed_from_binary/quality.json",
+   "size": 250,
+   "sha256": "b38d27b32d21e498c4e935fa002654ea9e1157a1d4e19a395b18e0e4c1be2228"
+  },
+  {
+   "path": "package_b/examples/reconstructed_from_binary/transmittance_f32.tif",
+   "size": 33040,
+   "sha256": "983d6c103de6bf1cd6cd2fe782f3039850da7d22897a05942a162c05dde46791"
+  },
+  {
+   "path": "package_b/examples/reconstruction_cli_log.txt",
+   "size": 75,
+   "sha256": "381b6b49b081b488332b410dec7ae201ef9562967ed1785978b53cddc5786ee2"
+  },
+  {
+   "path": "package_b/examples/reference_budget.json",
+   "size": 1124,
+   "sha256": "1c71f3357a05ccfc7c25c3416f08e3cdc0bb16b12845ed56f08eb023b0d69107"
+  },
+  {
+   "path": "package_b/examples/synthetic_log_fit.json",
+   "size": 369,
+   "sha256": "b220c022049fc66aff3b17fd53f941b77221d05a590c4d77c087d7e78558fdae"
+  },
+  {
+   "path": "package_b/optics/geometry.csv",
+   "size": 40983,
+   "sha256": "b2ed25551d2ad501f78324947cc88df246749f5f3fcc27a9e62fcd6760bbdfb6"
+  },
+  {
+   "path": "package_b/optics/scan_geometry.py",
+   "size": 1422,
+   "sha256": "d7188a686a22be066214c447d54b1eddbb5861c6fe4d53131aa5ea1582ad59dc"
+  },
+  {
+   "path": "package_b/originals/SmartZynq_SP2_Schematic_V1d3B_20260413.pdf.pdf",
+   "size": 273223,
+   "sha256": "65ef502b17295f92a50d6266a28d26b19c71c580ca69324d65dd9a5a4f71937e"
+  },
+  {
+   "path": "package_b/originals/开发板正面图.jpg",
+   "size": 1239772,
+   "sha256": "28e166cb57ebd521666c893189b27ace046f9440774b661f65be5d5938242fb5"
+  },
+  {
+   "path": "package_b/originals/开发板背面图.jpg",
+   "size": 1218341,
+   "sha256": "37237b45a1596ffcf802ab5c87dc48dcfce7f44b63b4ad27fd0ed412ba2308c3"
+  },
+  {
+   "path": "package_b/originals/激光扫描仪调研学习记录.docx",
+   "size": 16348243,
+   "sha256": "ffe7e5858e0b1953993718cfbd5d87049a36d4ba19359b51902865be1d786887"
+  },
+  {
+   "path": "package_b/reconstruct_capture.py",
+   "size": 2658,
+   "sha256": "4830d74b124fef5eb39758a57f88d288143cf7ce1dc239fb63bb5794a19d6d2a"
+  },
+  {
+   "path": "package_b/requirements-tested.txt",
+   "size": 62,
+   "sha256": "d2fc1f7a50f49bad5fc8c0a0e951462bb2782e2baaacb5b781e5c482f8c1fda2"
+  },
+  {
+   "path": "package_b/requirements.txt",
+   "size": 62,
+   "sha256": "531078ab201f32f51d0e55231f9681f75631dc6c0554e0251e3a4c6b4881c145"
+  },
+  {
+   "path": "package_b/rtl/README.md",
+   "size": 2022,
+   "sha256": "675fe9d9a2f31d1c8f979fdcfeddee0fd31287027a27710128bf4c239e775496"
+  },
+  {
+   "path": "package_b/rtl/adc_stream_fifo.sv",
+   "size": 1888,
+   "sha256": "723fc10f413cf09c1d3d8b1ba3765395abc7686d6a408db81e2b5b8d94e9404a"
+  },
+  {
+   "path": "package_b/rtl/board_reference_only.xdc",
+   "size": 700,
+   "sha256": "6241183d4a85a0a5da5ed4c83e4133b309555dca6451cc5ef273d7d466edc920"
+  },
+  {
+   "path": "package_b/rtl/run_iverilog.sh",
+   "size": 267,
+   "sha256": "10cc8b9d8f9d1f4856492b25d298f8947862d7e11613106ed026bb540b4eab36"
+  },
+  {
+   "path": "package_b/rtl/run_xsim.tcl",
+   "size": 548,
+   "sha256": "f0ed8d1b906e22daa3ccecd9cf95e8dda4a24ed64eb8cc12b11220f875fc1bcd"
+  },
+  {
+   "path": "package_b/rtl/tag_delay.sv",
+   "size": 1055,
+   "sha256": "a5efa95bd9f6e14bc2b2ac6477a4e624b5a9ac4c1736b81fe41297460c70923f"
+  },
+  {
+   "path": "package_b/rtl/tb_scanner.sv",
+   "size": 3091,
+   "sha256": "ea87420f8373754923e08e1e8eec0a0aaad2235fe905ecf52e9cdea4e5146ed4"
+  },
+  {
+   "path": "package_b/run_linux.sh",
+   "size": 346,
+   "sha256": "c68629780615d45505e8babc7c922f416941fd33e573ce32c6cc22815d4917c0"
+  },
+  {
+   "path": "package_b/run_sim.py",
+   "size": 1122,
+   "sha256": "8c78e9088f272b439760cafa077f483bc8fea32ed88b809149482025e87f2870"
+  },
+  {
+   "path": "package_b/run_windows.bat",
+   "size": 579,
+   "sha256": "77ddee5a798da6c9c8db17b871077deefebed5d71be954d2491cd9194aacba2b"
+  },
+  {
+   "path": "package_b/spice/README.md",
+   "size": 1293,
+   "sha256": "a1485ee5d52472b9649a1ee3b823536a770b2754c0e037e37515b13c05152fbb"
+  },
+  {
+   "path": "package_b/spice/behavioral_log_frontend.cir",
+   "size": 1042,
+   "sha256": "d9de6e274ea592cbc539d1e5818f7f0402793d5473bd21e222ca0150f0c63b4c"
+  },
+  {
+   "path": "package_b/src/__init__.py",
+   "size": 44,
+   "sha256": "8a0ccb91f890f0564d962560dc54a290186515fab90f132cc6a347a14bf535d8"
+  },
+  {
+   "path": "package_b/src/scanner.py",
+   "size": 18660,
+   "sha256": "b8bbfc96b69e50a22a558d8a0d8a88a3714462b631e55351b0646f9d0800ba0f"
+  },
+  {
+   "path": "package_b/src/viewer.py",
+   "size": 8253,
+   "sha256": "07904ceb9dfb32b213d37c523ab04a1267a8896c10d0fa2aee8040a34fda984b"
+  },
+  {
+   "path": "package_b/templates/实测参数记录表.csv",
+   "size": 1938,
+   "sha256": "2f6d8f71e1b61f281287010dc873175095f3aa47065c28c4eda8421e3947f2a9"
+  },
+  {
+   "path": "package_b/templates/标定电流电压_合成示例.csv",
+   "size": 205,
+   "sha256": "fa61595b7e67e72cc2e39dc33b51fe36a45e994e8062de2ce76e691c101a0718"
+  },
+  {
+   "path": "package_b/tests/test_model.py",
+   "size": 4224,
+   "sha256": "714af7b04823b8de9e29d9064043e655ab066c65be2b3e408632d445d4d4bdc8"
+  },
+  {
+   "path": "package_b/tools/browser_test_environment_reference.py",
+   "size": 2329,
+   "sha256": "3bbb7e2b9921b534defa09bf392a95bb13525c6212d3700e3cb92d2c0d7627fb"
+  },
+  {
+   "path": "package_b/tools/convergence_check.py",
+   "size": 1181,
+   "sha256": "e5e849d3f9205a9b61bd98fde29cb3dd9b7659e103e1ee958d9eb52d15502ab1"
+  },
+  {
+   "path": "package_b/tools/fit_log_calibration.py",
+   "size": 1461,
+   "sha256": "3dbbec6c847ea79635479bcf9213c52726fdde2f24cf81e4c0a9f3c7859565d9"
+  },
+  {
+   "path": "package_b/开始阅读.html",
+   "size": 3257,
+   "sha256": "d91a83c88243431d1b425e3e1eb4583ecd11ad0f8ebaeb8783b4005aba3e1b5c"
+  },
+  {
+   "path": "package_b/文件清单.txt",
+   "size": 5121,
+   "sha256": "7f93099368b1fa31690199bbb3445150ef958b35f972d3392ef2fcaed0f6d8f1"
+  },
+  {
+   "path": "review/configs/硬件配置草案_未知项禁止自动补齐.json",
+   "size": 2401,
+   "sha256": "53c33de8af8c688599a19a6d097d97909b6db688a42ba467e357e62bb4146d4f"
+  },
+  {
+   "path": "review/docs/项目资料审查记录.md",
+   "size": 37416,
+   "sha256": "d8a2e96c1ec2d3965555c1da53c4c24066c6e0fc9ee3da864bfd10e161c8fcfe"
+  },
+  {
+   "path": "review/scripts/review_checks.py",
+   "size": 7806,
+   "sha256": "e5b217314ad278f73307e533ef06099527649ae90977f62c9cda61a9f928681c"
+  },
+  {
+   "path": "review/scripts/test_review_checks.py",
+   "size": 3665,
+   "sha256": "7ef5b0b05e3677b252b406b1dc4583c1ef44254aa649d6c39fa5e1bed68230a8"
+  },
+  {
+   "path": "review/tables/findings.json",
+   "size": 35062,
+   "sha256": "d333cf0c272533c0fff306fcd067c822c58468f92082cefb50b2c8802b672404"
+  },
+  {
+   "path": "review/tables/pin_registry.json",
+   "size": 41835,
+   "sha256": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f"
+  },
+  {
+   "path": "review/tables/requirements.json",
+   "size": 1813,
+   "sha256": "572992d626b11d117fceade875c81bc955547450bf67dbd883d02887a8590bd0"
+  },
+  {
+   "path": "review/tables/sources.json",
+   "size": 2889,
+   "sha256": "402c1cba79bb7fe731ce9c4296fb82e39d735e1fbe98adccb3e3a0a80c45a447"
+  },
+  {
+   "path": "review/tables/审查与落实矩阵.csv",
+   "size": 26031,
+   "sha256": "5b9963df43e2d828ad1ac93e1ea8364e54d85526dca680f93976e037063c9ef4"
+  },
+  {
+   "path": "review/tables/连接器对照_非ADC接线.csv",
+   "size": 17031,
+   "sha256": "92e6cf7032b945c0e2f6ab14fdee6444e149fcb802c394d6642901b92c030b31"
+  }
+ ]
+}

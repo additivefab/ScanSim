@@ -1,0 +1,4 @@
+{'oversample': 4, 'dt_ns': 12.5, 'density_rmse': 0.11510595531359628, 'difference_rmse_from_previous': None}
+{'oversample': 8, 'dt_ns': 6.25, 'density_rmse': 0.11355793494277924, 'difference_rmse_from_previous': 0.0017785087096708829}
+{'oversample': 16, 'dt_ns': 3.125, 'density_rmse': 0.1131843508511688, 'difference_rmse_from_previous': 0.00043172722801194875}
+{'oversample': 32, 'dt_ns': 1.5625, 'density_rmse': 0.11308499397615128, 'difference_rmse_from_previous': 0.00011665256099322387}

@@ -1,0 +1,10 @@
+{
+  "dtype": "uint16",
+  "byte_order": "little",
+  "layout": "row-major; line then ADC sample; one channel",
+  "shape": [
+    128,
+    512
+  ],
+  "notes": "ADC log-voltage codes, NOT density. Guard-window traces are in first_lines_trace.csv."
+}

@@ -1,0 +1,7 @@
+# Actual package versions used in this delivery's Linux Python 3.13.5 runtime.
+# This is a reproducibility record, not a claim about the latest release.
+numpy==2.3.5
+scipy==1.17.0
+matplotlib==3.10.8
+Pillow==12.3.0
+pytest==9.0.2

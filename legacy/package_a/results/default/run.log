@@ -1,0 +1,106 @@
+{
+  "configuration_label": "教学裁剪场景，全部数值为可替换假设，不代表实机测量",
+  "seed": 20261110,
+  "shape": [
+    128,
+    256
+  ],
+  "timing": {
+    "line_rate_hz": 1000.0,
+    "line_period_s": 0.001,
+    "active_s": 2.56e-05,
+    "pixel_period_s": 1e-07,
+    "adc_period_s": 5e-08,
+    "dt_s": 6.25e-09,
+    "vx_m_s": 499.99999999999994,
+    "vy_m_s": 0.049999999999999996,
+    "equivalent_f_m": 0.23873241463784298,
+    "pure_delay_s": 2.333564095198152e-08,
+    "nominal_analog_delay_s": 1.5994363377252503e-07,
+    "adc_pipeline_s": 6e-07,
+    "frame_scan_s": 0.128
+  },
+  "density_rmse_valid_interior": 0.10626591525924184,
+  "density_mae_valid_interior": 0.04963989786038341,
+  "invalid_fraction": 0.000213623046875,
+  "adc_clipped_samples": 0,
+  "pmt_clipped_substeps": 0,
+  "raw_active_sample_count": 65536,
+  "reference": "Optical PSF + finite sampling + first-order feed rectification; not unblurred OD truth",
+  "calibration": "Synthetic noiseless white/opaque scans; not measured calibration",
+  "implementation": "Behavioural optical/electronic chain. No optical prescription, SPI, I/O timing closure or DMA driver.",
+  "density_patches": [
+    {
+      "nominal_density": 0.0,
+      "mean": 0.00016710199565592304,
+      "std": 0.002842402571199702,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 0.35,
+      "mean": 0.35000148334250075,
+      "std": 0.0042369286603629345,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 0.7,
+      "mean": 0.700358209394683,
+      "std": 0.005946461420164785,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 1.05,
+      "mean": 1.049687043054942,
+      "std": 0.009721685633818084,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 1.4,
+      "mean": 1.399475221529367,
+      "std": 0.01368540265630476,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 1.75,
+      "mean": 1.755162296101351,
+      "std": 0.02217033067499075,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 2.1,
+      "mean": 2.1071531805493677,
+      "std": 0.03026286966567066,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 2.45,
+      "mean": 2.4688318064132777,
+      "std": 0.04786348253597842,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 2.8,
+      "mean": 2.8296333006983034,
+      "std": 0.06802184532174921,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 3.15,
+      "mean": 3.2080696851704613,
+      "std": 0.12377152767783778,
+      "invalid_fraction": 0.0
+    },
+    {
+      "nominal_density": 3.5,
+      "mean": 3.724659498432893,
+      "std": 0.28361206225078955,
+      "invalid_fraction": 0.004629629629629629
+    }
+  ],
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "matplotlib": "3.10.8"
+  }
+}

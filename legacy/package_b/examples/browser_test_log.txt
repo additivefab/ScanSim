@@ -1,0 +1,5 @@
+PASS ad9268_50m_5x: page load, 16-field sample table, next sample, ROI jump, last sample, frame accumulation
+PASS ideal_regression: page load, 16-field sample table, next sample, ROI jump, last sample, frame accumulation
+PASS demo_log: page load, 16-field sample table, next sample, ROI jump, last sample, frame accumulation
+PASS demo_linear: page load, 16-field sample table, next sample, ROI jump, last sample, frame accumulation
+No JavaScript runtime errors observed. Tested via Playwright set_content; local file URL navigation is restricted by the test browser policy.

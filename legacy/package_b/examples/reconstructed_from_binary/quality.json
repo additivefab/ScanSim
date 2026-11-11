@@ -1,0 +1,6 @@
+{
+  "nonpositive_transmission_pixels": 0,
+  "rail_code_samples": 0,
+  "calibration_status": "MODEL-KNOWN IDEAL STATIC CALIBRATION, not measured",
+  "note": "No analog deconvolution, geometric resampling, or color/film-tone inversion was performed."
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "R01",
+    "requirement": "实际底片宽/高",
+    "reason": "决定完整光学扫描幅面与送片距离",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S01 §9.1;S06"
+  },
+  {
+    "id": "R02",
+    "requirement": "输出像素间距",
+    "reason": "决定采样/重采样目标，不能从算例猜测",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S01 §9.1"
+  },
+  {
+    "id": "R03",
+    "requirement": "有效密度范围与允许偏差",
+    "reason": "决定量程、噪声和标定验收",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S01 §9.1"
+  },
+  {
+    "id": "R04",
+    "requirement": "单幅扫描/传输时长",
+    "reason": "决定运动与通路负载",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S01 §9.1"
+  },
+  {
+    "id": "R05",
+    "requirement": "实际ADC模式与采样率",
+    "reason": "决定时钟、捕获与带宽",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S02图4;W01"
+  },
+  {
+    "id": "R06",
+    "requirement": "板卡/载板/模块接线",
+    "reason": "决定电气与引脚合同",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S05第10页;S02图4"
+  },
+  {
+    "id": "R07",
+    "requirement": "SOS/编码器/镜面参考可观测性",
+    "reason": "决定几何标定与真值隔离",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S01 §3.1;S02图1/4"
+  },
+  {
+    "id": "R08",
+    "requirement": "上位机输出与数据保留策略",
+    "reason": "决定raw、图像、无效掩膜与传输格式",
+    "value": null,
+    "unit": null,
+    "status": "待确认",
+    "source": "S01 §3.5/4.9/4.11"
+  }
+]

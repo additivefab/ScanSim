@@ -1,0 +1,9 @@
+{
+  "input_file": "templates/标定电流电压_合成示例.csv",
+  "reference_current_A": 4e-05,
+  "log_slope_V_dec": 0.5,
+  "offset_V": 0.20000000000000037,
+  "rmse_V": 3.799575089812902e-16,
+  "max_abs_residual_V": 4.440892098500626e-16,
+  "note": "Static fit only. Input current includes dark/bias contributions as actually applied. Not a bandwidth calibration."
+}
