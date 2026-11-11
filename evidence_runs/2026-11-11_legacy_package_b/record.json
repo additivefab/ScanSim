@@ -1,0 +1,286 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "legacy_package_b",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-11T05:33:53.192476+00:00",
+ "finished_at": "2026-11-11T05:34:06.488272+00:00",
+ "code": {
+  "commit": "5f22a3d53911cd09870c558ed600b22bb1ad46b1",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "ad9268_50m_5x": 20261110,
+  "demo_log": 20261110,
+  "demo_linear": 20261110,
+  "ideal_regression": 20261110
+ },
+ "inputs": {
+  "legacy/MANIFEST.json": "65445f76052b16505eaef84b0d35add4a6beab54e9dce424e51e90fe5572dd24",
+  "legacy/package_b/run_sim.py": "8c78e9088f272b439760cafa077f483bc8fea32ed88b809149482025e87f2870",
+  "legacy/package_b/src/scanner.py": "b8bbfc96b69e50a22a558d8a0d8a88a3714462b631e55351b0646f9d0800ba0f",
+  "legacy/package_b/configs/ad9268_50m_5x.json": "cd9b42f954e87a9a116b48e3a872f2dd65f3e3949934cd181d9d4397c4b0612f",
+  "legacy/package_b/configs/demo_log.json": "b09fb096f4a05c57c8550a0201258b5358be929b8f14bd9eabc59e0cb58f245d",
+  "legacy/package_b/configs/demo_linear.json": "111ec9854b635143ee82015466f8a81156e5514ca2ca3795a2f570f9d478a3ea",
+  "legacy/package_b/configs/ideal_regression.json": "5c018a71a17f1c6e1339ec3d10a10c03ff80992d667d7281163c674a33e41dde",
+  "legacy/package_b/examples/ad9268_50m_5x/metrics.json": "1819afa961eb4d383b4b085805b7a830721c35af9a9868324840c62b1be103f1",
+  "legacy/package_b/examples/demo_log/metrics.json": "65734e499d4f090a142203be831a60185ce251e1afdf206792fbf4a4272f43b6",
+  "legacy/package_b/examples/demo_linear/metrics.json": "c143847c31daa230e875a7a3efdc0fa0d6f185d63de2b13a7cda0d0317e7c024",
+  "legacy/package_b/examples/ideal_regression_stdout.json": "459e95ead848c8aaae31464e4c5d97a1a1918a9dfa5f63e4ecbe0a4c41bc05e4"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "run_sim.py",
+    "--config",
+    "configs/ad9268_50m_5x.json",
+    "--output",
+    "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/out_b_ad9268_50m_5x"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_b",
+   "returncode": 0,
+   "seconds": 4.121
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "run_sim.py",
+    "--config",
+    "configs/demo_log.json",
+    "--output",
+    "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/out_b_demo_log"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_b",
+   "returncode": 0,
+   "seconds": 3.18
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "run_sim.py",
+    "--config",
+    "configs/demo_linear.json",
+    "--output",
+    "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/out_b_demo_linear"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_b",
+   "returncode": 0,
+   "seconds": 3.056
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "run_sim.py",
+    "--config",
+    "configs/ideal_regression.json",
+    "--output",
+    "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/out_b_ideal_regression"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_b",
+   "returncode": 0,
+   "seconds": 1.353
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_b",
+   "returncode": 0,
+   "seconds": 1.527
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "ad9268_50m_5x.density_rmse_unblurred",
+   "expected": 0.7060929172054737,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.7060929172054737,
+   "passed": true
+  },
+  {
+   "quantity": "ad9268_50m_5x.density_rmse_spatially_blurred",
+   "expected": 0.5723035591070622,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.5723035591070622,
+   "passed": true
+  },
+  {
+   "quantity": "ad9268_50m_5x.transmission_nonpositive",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "ad9268_50m_5x.adc_clip_active",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "ad9268_50m_5x.pmt_clip_internal",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "demo_log.density_rmse_unblurred",
+   "expected": 0.4799440043595646,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.4799440043595646,
+   "passed": true
+  },
+  {
+   "quantity": "demo_log.density_rmse_spatially_blurred",
+   "expected": 0.42798057003939965,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.42798057003939965,
+   "passed": true
+  },
+  {
+   "quantity": "demo_log.transmission_nonpositive",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "demo_log.adc_clip_active",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "demo_log.pmt_clip_internal",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "demo_linear.density_rmse_unblurred",
+   "expected": 1.1310645450675825,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 1.1310645450675825,
+   "passed": true
+  },
+  {
+   "quantity": "demo_linear.density_rmse_spatially_blurred",
+   "expected": 1.172110599569894,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 1.172110599569894,
+   "passed": true
+  },
+  {
+   "quantity": "demo_linear.transmission_nonpositive",
+   "expected": 2377,
+   "tolerance": null,
+   "actual": 2377,
+   "passed": true
+  },
+  {
+   "quantity": "demo_linear.adc_clip_active",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "demo_linear.pmt_clip_internal",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "ideal_regression.density_rmse_unblurred",
+   "expected": 2.0255271769153482e-05,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 2.0255271769153482e-05,
+   "passed": true
+  },
+  {
+   "quantity": "ideal_regression.density_rmse_spatially_blurred",
+   "expected": 2.0255271769147963e-05,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 2.0255271769147963e-05,
+   "passed": true
+  },
+  {
+   "quantity": "ideal_regression.transmission_nonpositive",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "ideal_regression.adc_clip_active",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "ideal_regression.pmt_clip_internal",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "own_tests.ran",
+   "expected": 14,
+   "tolerance": null,
+   "actual": 14,
+   "passed": true
+  }
+ ],
+ "notes": "Expected values are the metrics delivered by the package author inside legacy/ (author_reported). Floats are compared with relative tolerance 1e-12, integers exactly. Ran in a scratch copy; legacy/ untouched."
+}

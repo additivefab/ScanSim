@@ -1,0 +1,123 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "legacy_package_a",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-11T05:33:32.706866+00:00",
+ "finished_at": "2026-11-11T05:33:53.116048+00:00",
+ "code": {
+  "commit": "5f22a3d53911cd09870c558ed600b22bb1ad46b1",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261110,
+ "inputs": {
+  "legacy/MANIFEST.json": "65445f76052b16505eaef84b0d35add4a6beab54e9dce424e51e90fe5572dd24",
+  "legacy/package_a/run_demo.py": "2c807c9e7b247c1975c627bbac4f27f4897145427122fd62aa15b3d0754b01cf",
+  "legacy/package_a/config/demo.json": "70667d1af076069b27e85fb2b71ebce5c0808c8af6205b645e684c8170464eb0",
+  "legacy/package_a/src/scanner_sim.py": "28f3c58b634fb2e858bf1700f4fd645b65015c1629d43db226806598c105d9d6",
+  "legacy/package_a/results/default/metrics.json": "31f79565816ad5112f07dd3f399cd01c1f9ba1e7580806151ec5abfc0051ddfc"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "run_demo.py",
+    "--config",
+    "config/demo.json",
+    "--out",
+    "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/out_a"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_a",
+   "returncode": 0,
+   "seconds": 17.687
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": "/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/zlscan_legacy_2k4_plhj/package_a",
+   "returncode": 0,
+   "seconds": 2.685
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "demo.density_rmse_valid_interior",
+   "expected": 0.10626591525924184,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.10626591525924184,
+   "passed": true
+  },
+  {
+   "quantity": "demo.density_mae_valid_interior",
+   "expected": 0.04963989786038341,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.04963989786038342,
+   "passed": true
+  },
+  {
+   "quantity": "demo.invalid_fraction",
+   "expected": 0.000213623046875,
+   "tolerance": {
+    "abs": 0.0,
+    "rel": 1e-12
+   },
+   "actual": 0.000213623046875,
+   "passed": true
+  },
+  {
+   "quantity": "demo.raw_active_sample_count",
+   "expected": 65536,
+   "tolerance": null,
+   "actual": 65536,
+   "passed": true
+  },
+  {
+   "quantity": "demo.adc_clipped_samples",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "demo.pmt_clipped_substeps",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "own_tests.passed",
+   "expected": 14,
+   "tolerance": null,
+   "actual": 14,
+   "passed": true
+  }
+ ],
+ "notes": "Expected values are the metrics delivered by the package author inside legacy/ (author_reported; produced in {'python': '3.13.5', 'numpy': '2.3.5', 'scipy': '1.17.0', 'matplotlib': '3.10.8'}). Floats are compared with relative tolerance 1e-12, integers exactly. Ran in a scratch copy; legacy/ untouched."
+}
