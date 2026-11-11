@@ -1,0 +1,60 @@
+{
+ "machine": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+ "python": "3.14.7",
+ "kernel_noise_on": {
+  "lines": 12,
+  "steps": 120000,
+  "wall_s": 1.151686042008805,
+  "steps_per_s": 104195.0632575979
+ },
+ "kernel_noise_off": {
+  "steps_per_s": 381966.8169149118,
+  "wall_s": 0.31416341599833686
+ },
+ "end_to_end": {
+  "lines": 12,
+  "wall_s": 1.9019083750026766,
+  "python_peak_bytes": 10447582,
+  "steps_per_s": 63094.52210064069
+ },
+ "streaming_memory_by_lines": {
+  "4": {
+   "python_peak_bytes": 2771692,
+   "wall_s": 0.4961507910047658
+  },
+  "16": {
+   "python_peak_bytes": 4022500,
+   "wall_s": 1.6456436659937026
+  },
+  "64": {
+   "python_peak_bytes": 4022706,
+   "wall_s": 6.315796124996268
+  }
+ },
+ "checkpoints": {
+  "count": 9,
+  "bytes_each": 241,
+  "total_bytes": 2135,
+  "interval": "one per line"
+ },
+ "replay_one_quarter_line": {
+  "wall_s": 0.07776416699925903,
+  "warmup_steps": 5000
+ },
+ "targets": {
+  "4000x5000 (package B shape: 50 MSPS, 1 ms line)": {
+   "fine_steps": 1000000000,
+   "hours_at_measured_rate": 4.402565682876566,
+   "goal_s": 900,
+   "goal_met": false,
+   "status": "EXTRAPOLATED, NOT RUN"
+  },
+  "7000x8600 (package A shape: 20 MSPS, 1 ms line)": {
+   "fine_steps": 688000000,
+   "hours_at_measured_rate": 3.0289651898190777,
+   "goal_s": 900,
+   "goal_met": false,
+   "status": "EXTRAPOLATED, NOT RUN"
+  }
+ }
+}

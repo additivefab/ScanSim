@@ -1,0 +1,54 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "stage3_performance",
+ "status": "measured",
+ "conclusion": "fail",
+ "started_at": "2026-11-11T09:51:34.921882+00:00",
+ "finished_at": "2026-11-11T09:51:34.921882+00:00",
+ "code": {
+  "commit": "43ca34382dcf5c898a83ae7aae0332833f999bc2",
+  "dirty": true
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 1,
+ "inputs": {},
+ "commands": [
+  {
+   "cmd": "python tools/perf_scenarios.py",
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "name": "small-scale kernel/end-to-end/memory/checkpoint measurements taken",
+   "passed": true,
+   "returncode": 0
+  },
+  {
+   "name": "4000x5000 run to completion within the goal wall time",
+   "passed": false,
+   "returncode": 0,
+   "note": "not run; extrapolation says 4.4 h"
+  },
+  {
+   "name": "7000x8600 run to completion within the goal wall time",
+   "passed": false,
+   "returncode": 0,
+   "note": "not run; extrapolation says 3.0 h"
+  }
+ ],
+ "notes": "Targets were NOT run; the extrapolation is arithmetic from the demo-scale step rate."
+}
