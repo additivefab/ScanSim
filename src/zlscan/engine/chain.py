@@ -64,6 +64,8 @@ class ChainConfig:
     evidence: dict[str, str] = field(default_factory=dict)
     # Legacy behaviours, explicit and off by default (only the legacy presets turn them on).
     legacy_reset_per_line: bool = False
+    # Injected optical pulses (start_step, n_steps, extra_power_w), for causality and trace tests.
+    injections: list[tuple[int, int, float]] = field(default_factory=list)
 
     def hash(self) -> str:
         d = asdict(self)
@@ -149,6 +151,10 @@ class Chain:
         eta = collect_mod.efficiency(cfg.collect, u)
         lit = laser_on & (inside if cfg.source.gated else True)
         power = p0 * eta * t_eff + np.where(lit, cfg.collect.stray_w, 0.0)
+        for start, count, extra in cfg.injections:
+            lo, hi = max(start, s0), min(start + count, s0 + n)
+            if lo < hi:
+                power[lo - s0 : hi - s0] += extra
 
         current, over = det_mod.anode_current(cfg.detector, power, self.dt, self.rng,
                                               cfg.domain_id, s0)  # fmt: skip
