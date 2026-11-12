@@ -265,13 +265,18 @@ def _run_metrics(argv: Sequence[str]) -> int:
 
     import numpy as np
 
+    from zlscan.io.manifest import sha256_file
     from zlscan.metrics.quality import compare_density
+    from zlscan.metrics.targets import evaluate_targets
 
     p = argparse.ArgumentParser(prog="zlscan metrics")
     p.add_argument("--image", required=True, type=Path, help="density.npz from reconstruction")
     p.add_argument("--truth", required=True, type=Path, help="unblurred density reference (.npy)")
     p.add_argument("--optical", required=True, type=Path, help="optical density reference (.npy)")
     p.add_argument("--roi", type=Path, help="evaluation region mask (.npy); default is full frame")
+    p.add_argument(
+        "--targets", type=Path, help="quality target manifest (wedge, MTF, noise, geometry)"
+    )
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
     try:
@@ -285,15 +290,38 @@ def _run_metrics(argv: Sequence[str]) -> int:
             {"unblurred": np.load(args.truth), "optical": np.load(args.optical)},
             region,
         )
+        manifest = {
+            "mode": "metrics",
+            "algorithm": "density-common-mask-v1",
+            "contains_truth": True,
+            **result.metrics,
+        }
+        masks = {"region": region, "valid": result.evaluation_mask}
+        manifest["inputs"] = {
+            str(path.resolve()): sha256_file(path)
+            for path in (args.image, args.truth, args.optical, args.roi)
+            if path is not None
+        }
+        if args.targets is not None:
+            targets, target_masks, hashes = evaluate_targets(
+                args.targets, density, result.evaluation_mask
+            )
+            manifest.update(
+                target_metrics=targets, target_inputs=hashes, target_algorithm="quality-targets-v1"
+            )
+            masks.update(target_masks)
+        serialized = json.dumps(manifest, indent=2, allow_nan=False) + "\n"
         args.out.mkdir(parents=True)
-        np.savez(args.out / "mask.npz", region=region, valid=result.evaluation_mask)
-        manifest = {"mode": "metrics", "contains_truth": True, **result.metrics}
-        (args.out / "run.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        np.savez(args.out / "mask.npz", **masks)
+        (args.out / "run.json").write_text(serialized, encoding="utf-8")
     except (OSError, ValueError, KeyError) as exc:
         print(f"评价失败：{exc}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
     print(f"评价已写入 {args.out}，有效覆盖 {manifest['valid_fraction']:.1%}")
-    return 0 if manifest["valid_pixels"] else CHECK_FAIL_EXIT_CODE
+    complete = all(
+        value["status"] == "computed" for value in manifest.get("target_metrics", {}).values()
+    )
+    return 0 if manifest["valid_pixels"] and complete else CHECK_FAIL_EXIT_CODE
 
 
 def _run_sweep(argv: Sequence[str]) -> int:
