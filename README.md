@@ -27,6 +27,7 @@ python3 -m venv .venv
 .venv/bin/zlscan run --mode physical --lines 8 --out physical_out
 .venv/bin/zlscan replay --run physical_out --start-step 11000 --steps 100 --out replay_out
 .venv/bin/zlscan serve
+.venv/bin/zlscan run --mode physical --stream --lines 8 --out dual_out
 ```
 
 运行目录包含 `observable/raw.zlraw`、完整性报告和离线工作台 `viewer.html`。`run` 的最简重建输出为采集码值图与无效掩膜。以下命令从观测标定扫描生成密度图与独立成像工作台。

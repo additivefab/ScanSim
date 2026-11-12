@@ -14,11 +14,13 @@ trusted to say where the next block starts.
 
 from __future__ import annotations
 
+import os
 import struct
 import zlib
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, BinaryIO, Literal
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict
@@ -162,24 +164,44 @@ class RawWriter:
 
 
 def read_all(path: Path) -> ReadResult:
-    data = Path(path).read_bytes()
+    """Read the capture and retain contiguous sample segments for existing callers."""
+    with Path(path).open("rb") as stream:
+        return _read(stream, None)
+
+
+def scan_blocks(
+    path: Path, consume: Callable[[SessionHeader, BlockInfo, np.ndarray], None]
+) -> ReadResult:
+    """Validate a capture and deliver each intact block without retaining payloads."""
+    with Path(path).open("rb") as stream:
+        return _read(stream, consume)
+
+
+def _read(
+    stream: BinaryIO, consume: Callable[[SessionHeader, BlockInfo, np.ndarray], None] | None
+) -> ReadResult:
+    size = os.fstat(stream.fileno()).st_size
     result = ReadResult()
 
     def fail(code: str, message: str, offset: int, fatal: bool = False) -> None:
         result.errors.append(RawError(code, message, offset))
         result.fatal = result.fatal or fatal
 
-    if not data.startswith(PRELUDE):
+    if stream.read(len(PRELUDE)) != PRELUDE:
         fail("bad_file_magic", "not a ZLRAW 0.1 file", 0, fatal=True)
         return result
     pos = len(PRELUDE)
-    if len(data) < pos + 4:
+    length = stream.read(4)
+    if len(length) != 4:
         fail("truncated", "file ends inside the session header length", pos, fatal=True)
         return result
-    (json_len,) = struct.unpack_from("<I", data, pos)
+    (json_len,) = struct.unpack("<I", length)
     pos += 4
+    if json_len > size - pos:
+        fail("bad_session_header", "file ends inside the session header", pos, fatal=True)
+        return result
     try:
-        result.session = SessionHeader.model_validate_json(data[pos : pos + json_len])
+        result.session = SessionHeader.model_validate_json(stream.read(json_len))
     except ValueError as exc:
         fail("bad_session_header", str(exc).splitlines()[0], pos, fatal=True)
         return result
@@ -192,11 +214,11 @@ def read_all(path: Path) -> ReadResult:
     open_segment: dict[tuple[int, int], Segment] = {}
     bps = session.bytes_per_sample
 
-    while pos < len(data):
-        if len(data) - pos < BLOCK_HEADER_SIZE:
+    while pos < size:
+        raw = stream.read(BLOCK_HEADER_SIZE)
+        if len(raw) < BLOCK_HEADER_SIZE:
             fail("truncated", "file ends inside a block header", pos)
             break
-        raw = data[pos : pos + BLOCK_HEADER_SIZE]
         if raw[:4] != BLOCK_MAGIC:
             fail("bad_block_magic", "block magic is wrong", pos, fatal=True)
             break
@@ -215,8 +237,11 @@ def read_all(path: Path) -> ReadResult:
         if payload_bytes != count * len(channels) * bps:
             fail("payload_length_mismatch", "payload length disagrees with the header", pos, True)
             break
-        body = data[pos + BLOCK_HEADER_SIZE : pos + BLOCK_HEADER_SIZE + payload_bytes]
-        if len(body) < payload_bytes:
+        if payload_bytes > size - pos - BLOCK_HEADER_SIZE:
+            fail("truncated", "file ends inside a block payload", pos)
+            break
+        body = stream.read(payload_bytes)
+        if len(body) != payload_bytes:
             fail("truncated", "file ends inside a block payload", pos)
             break
         block_at = pos
@@ -267,9 +292,11 @@ def read_all(path: Path) -> ReadResult:
             open_segment.pop(key, None)
             continue
         rows = np.frombuffer(body, dtype="<u2").reshape(count, len(channels))
-        result.blocks.append(
-            BlockInfo(seq, epoch, domain, channels, first, count, flags, line_number)
-        )
+        block = BlockInfo(seq, epoch, domain, channels, first, count, flags, line_number)
+        result.blocks.append(block)
+        if consume is not None:
+            consume(session, block, rows)
+            continue
         segment = open_segment.get(key)
         if segment is None or segment.channels != channels:
             segment = Segment(epoch, domain, channels, first, rows.copy())

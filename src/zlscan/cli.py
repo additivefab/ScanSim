@@ -126,6 +126,7 @@ def _run_budget(argv: Sequence[str]) -> int:
 
 
 def _run_run(argv: Sequence[str]) -> int:
+    from dataclasses import replace
     from pathlib import Path
 
     from zlscan.config.presets import demo_config, nominal_config
@@ -136,7 +137,10 @@ def _run_run(argv: Sequence[str]) -> int:
     p.add_argument("--out", type=Path, default=Path("run_out"))
     p.add_argument("--lines", type=int, default=8)
     p.add_argument("--preset", choices=["demo", "nominal"], default="demo")
+    p.add_argument("--stream", action="store_true", help="stream two physical ADC channels")
     args = p.parse_args(list(argv))
+    if args.stream and args.mode != "physical":
+        p.error("--stream requires physical mode")
     preset = nominal_config if args.preset == "nominal" else demo_config
     if args.mode == "calibration":
         from zlscan.experiment.calibration_scan import run_calibration_scan
@@ -149,7 +153,14 @@ def _run_run(argv: Sequence[str]) -> int:
 
         if args.lines < 1:
             p.error("--lines must be positive")
-        run = run_physical(args.out, preset(), args.lines, save_checkpoints=True)
+        if args.stream:
+            from zlscan.engine.stream_physical import stream_physical
+
+            primary = preset()
+            secondary = replace(primary, seed=primary.seed + 1)
+            run = stream_physical(args.out, primary, secondary, args.lines)
+        else:
+            run = run_physical(args.out, preset(), args.lines, save_checkpoints=True)
     else:
         run = run_digital(args.out)
     print(

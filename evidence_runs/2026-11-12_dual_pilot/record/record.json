@@ -1,0 +1,72 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "dual_frame_4000x5000",
+ "status": "measured",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T08:17:01.538506+00:00",
+ "finished_at": "2026-11-12T08:17:06.598757+00:00",
+ "code": {
+  "commit": "0871e4fa140d53fe67b9666cd6ec545b26ce7b38",
+  "dirty": true
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": [
+  1,
+  2
+ ],
+ "inputs": {
+  "channel_0": "6f7e1e6a0da4f40abdfdca0bf430ee74d7e21e698e2e148020568cb62a96cbf4",
+  "channel_1": "6679bbd6c5eddba04ac1ddb66a609685a0f78bd25eab6cb90ce3bec6096b8db6",
+  "benchmark_script": "6a88e359f6298934c493fcb4b9fc279289f511a11cd6e693fde5b26be241d5d8"
+ },
+ "commands": [
+  {
+   "cmd": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python tools/perf_dual_frame.py 4000x5000 evidence_runs/2026-11-12_dual_pilot --sample-lines 12",
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "integrity",
+   "expected": "complete",
+   "tolerance": null,
+   "actual": "complete",
+   "passed": true
+  },
+  {
+   "quantity": "all rows retained",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "both channels retained",
+   "expected": 2,
+   "tolerance": null,
+   "actual": 2,
+   "passed": true
+  },
+  {
+   "quantity": "retained samples per channel",
+   "expected": 400000,
+   "tolerance": null,
+   "actual": 400000,
+   "passed": true
+  }
+ ],
+ "notes": "Deterministic research model. Peak RSS covers the entire command process."
+}
