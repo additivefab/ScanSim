@@ -1,0 +1,108 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "1D/2D sweep and file comparison CLI",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T10:54:03.357705+00:00",
+ "finished_at": "2026-11-12T10:54:08.904568+00:00",
+ "code": {
+  "commit": "ed0509af8c5d001302242396b386c076b8ccbdf9",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": [
+  1,
+  2
+ ],
+ "inputs": {
+  "configs/sweep_demo.json": "83455c10147d915c1452bc56b41087742b9ecf9143c5c409ec18d71504bb374e",
+  "one_dimensional.json": "3eefb6dd8df3e6efa40b02cac8a5a7c2f0a621b018de9f514149c5d9ebb05c33"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "sweep",
+    "--config",
+    "configs/sweep_demo.json",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/two_dimensional"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "sweep",
+    "--config",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/one_dimensional.json",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/one_dimensional"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "compare",
+    "--first",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/two_dimensional/point-0000",
+    "--second",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/two_dimensional/point-0001",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/comparison.json"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "2D points",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "1D points",
+   "expected": 2,
+   "tolerance": null,
+   "actual": 2,
+   "passed": true
+  },
+  {
+   "quantity": "all complete",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "raw comparison performed",
+   "expected": "compared",
+   "tolerance": null,
+   "actual": "compared",
+   "passed": true
+  }
+ ],
+ "notes": "Research assumptions only. No measured data and no physical alignment validation."
+}

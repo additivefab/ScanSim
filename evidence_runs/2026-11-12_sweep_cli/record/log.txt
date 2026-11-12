@@ -1,0 +1,3 @@
+扫描完成：4 个点，写入 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/two_dimensional
+扫描完成：2 个点，写入 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/one_dimensional
+比较结果已写入 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_sweep_cli/output/comparison.json
