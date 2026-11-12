@@ -41,3 +41,22 @@ def test_facet_geometry_recovers_injected_offsets_distortion_and_gain():
     uniform = fit_facet_geometry(facet, t, x, None, None, intensity)
     assert uniform[0].y_offset_m is None
     assert uniform[0].y_status == "unidentifiable"
+
+
+def test_white_reference_facet_gain_is_fitted_in_linear_light():
+    from zlscan.calib.facet_targets import fit_facet_gain
+
+    slope, intercept = 4000.0, 12000.0
+    optical = np.array([[1.0, 1.0], [1.0, 1.0], [1.3, 1.3], [1.3, 1.3]])
+    dark = np.full(2, 0.01)
+    result = fit_facet_gain(
+        intercept + slope * np.log10(optical + dark),
+        np.array([0, 0, 1, 1]),
+        intercept + slope * np.log10(dark),
+        {
+            "slope_codes_per_decade": slope,
+            "intercept_code": intercept,
+            "white_outlier_columns": [],
+        },
+    )
+    assert result["1"] / result["0"] == pytest.approx(1.3)

@@ -12,7 +12,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from zlscan.calib.delay import fit_synchronous_response
-from zlscan.calib.facet_targets import fit_observed_targets
+from zlscan.calib.facet_targets import fit_facet_gain, fit_observed_targets
 from zlscan.calib.radiometric import fit_log_transfer
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
 from zlscan.contracts.events import Event
@@ -186,13 +186,51 @@ def calibration_from_scan(
         slanted_lines = (
             range(slanted.first_line, slanted.first_line + slanted.lines) if slanted else range(0)
         )
+        model, phases = fit_observed_targets(
+            facet_path, raw, protocol.raw_sha256, channel_flags, grid_lines, slanted_lines
+        )
         items["facet_geometry"] = CalibItem(
-            value=fit_observed_targets(
-                facet_path, raw, protocol.raw_sha256, channel_flags, grid_lines, slanted_lines
-            ),
+            value=model,
             method="observed grid landmarks grouped by observable facet phase",
         )
         sources["facet_sha256"] = sha256_file(facet_path)
+        if fit_transfer:
+            white = by_name["white"]
+            white_rows = slice(white.first_line, white.first_line + white.lines)
+            by_channel = {}
+            for channel, codes in image.codes.items():
+                transfer = items["transfer_lut"].value["channels"][str(channel)]
+                dark_codes = items["dark_raw_code"].value[str(channel)]["median"]
+                measured_white = codes[white_rows]
+                locked_phases = phases[white_rows]
+                gains = fit_facet_gain(
+                    measured_white, locked_phases, np.asarray(dark_codes), transfer
+                )
+                if gains:
+                    by_channel[str(channel)] = gains
+                    # Keep the LUT bounded by observed references while covering the locked groups.
+                    columns = np.ones(measured_white.shape[1], dtype=bool)
+                    columns[list(transfer["white_outlier_columns"])] = False
+                    observed_codes = [
+                        np.median(measured_white[locked_phases == int(phase)][:, columns], axis=0)
+                        for phase in gains
+                    ]
+                    observed_codes = np.concatenate(observed_codes)
+                    prior = transfer["code_knots"]
+                    knots = np.linspace(
+                        min(prior[0], observed_codes.min()),
+                        max(prior[-1], observed_codes.max()),
+                        len(prior),
+                    )
+                    slope = transfer["slope_codes_per_decade"]
+                    intercept = transfer["intercept_code"]
+                    transfer["code_knots"] = knots.tolist()
+                    transfer["intensity_knots"] = (10 ** ((knots - intercept) / slope)).tolist()
+            items["facet_gain"] = CalibItem(
+                status="ok" if by_channel else "unidentifiable",
+                value={"channels": by_channel} if by_channel else None,
+                method="relative white-field amplitude grouped by observable facet phase",
+            )
     source_ids = ":".join(sources.values()) if len(sources) > 2 else protocol_sha256
     provenance = Provenance(protocol.origin)
     calibration = CalibrationHeader(

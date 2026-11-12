@@ -103,6 +103,8 @@ def reconstruct_capture(
     y = grid.origin_y_m + (np.arange(capture.lines) + 0.5) / capture.lines * height_m
     coordinate_source = "declared uniform capture coordinates"
     x, y = np.broadcast_to(x, codes.shape), np.broadcast_to(y[:, None], codes.shape)
+    row_gain = None
+    gains = {}
     if geometry is not None:
         timing = FacetTiming.model_validate_json(facet_path.read_bytes())
         model = GeometryModel.model_validate(geometry.value)
@@ -112,7 +114,16 @@ def reconstruct_capture(
         coordinate_source = "observable facet timing and calibrated target coordinates"
         x, y = x.copy(), y.copy()
         u = 2 * (np.arange(cols) + 0.5) / cols - 1
+        gain_item = calibration.items.get("facet_gain")
+        if gain_item is not None and gain_item.status == "ok":
+            gains = gain_item.value["channels"].get(str(channel), {})
+            row_gain = np.ones(capture.lines)
         for row, phase in enumerate(phases):
+            if row_gain is not None and phase >= 0:
+                if str(phase) in gains:
+                    row_gain[row] = gains[str(phase)]
+                else:
+                    flags[row] |= int(InvalidFlag.WHITE_REFERENCE_INVALID)
             fit = model.facets.get(str(phase))
             if fit is None:
                 flags[row] |= int(InvalidFlag.FACET_UNRESOLVED)
@@ -131,6 +142,7 @@ def reconstruct_capture(
         capture.binding,
         channel=channel,
         sample_flags=flags,
+        row_gain=row_gain,
     )
     output.mkdir(parents=True)
     np.savez(
@@ -149,6 +161,7 @@ def reconstruct_capture(
         "calibration_provenance": calibration.provenance.value,
         "coordinate_source": coordinate_source,
         "delay_offset_samples": offset_samples,
+        "facet_gain_applied": bool(row_gain is not None and gains),
         "support": "positive bilinear weight within one grid pitch per axis",
         "minimum_support_weight": 0.5,
         "valid_fraction": result.valid_fraction,

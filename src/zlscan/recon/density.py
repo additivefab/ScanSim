@@ -111,6 +111,7 @@ def reconstruct_density(
     channel: int,
     sample_flags: np.ndarray | None = None,
     min_support: float = 0.5,
+    row_gain: np.ndarray | None = None,
     allow_model_calibration: bool = False,
 ) -> DensityImage:
     """Splat calibrated samples onto pixels; propagate all supported invalid reasons."""
@@ -128,6 +129,11 @@ def reconstruct_density(
             raise ValueError("sample quality flags must match the ADC code shape")
         flags[...] = sample_flags
 
+    if row_gain is not None:
+        row_gain = np.asarray(row_gain, dtype=float)
+        if row_gain.shape != (len(codes),) or not np.all(np.isfinite(row_gain) & (row_gain > 0)):
+            raise ValueError("facet gain must be positive and defined for every row")
+
     transfer = _prepare_transfer(calibration, str(channel), codes.shape[1])
     output_shape = (grid.height, grid.width)
     total = np.zeros(output_shape)
@@ -136,6 +142,8 @@ def reconstruct_density(
     for row in range(len(codes)):
         row_flags = flags[row]
         transmittance = _sample_transmittance(codes[row], row_flags, transfer)
+        if row_gain is not None:
+            transmittance /= row_gain[row]
         u = (x[row] - grid.origin_x_m) / grid.pitch_x_m - 0.5
         v = (y[row] - grid.origin_y_m) / grid.pitch_y_m - 0.5
         inside = (u > -1) & (u < grid.width) & (v > -1) & (v < grid.height)

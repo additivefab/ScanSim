@@ -35,7 +35,7 @@ def fit_observed_targets(
     flags_by_channel: dict[int, np.ndarray],
     grid_lines: range,
     slanted_lines: range,
-) -> dict:
+) -> tuple[dict, np.ndarray]:
     targets = FacetTargets.model_validate_json(path.read_bytes())
     if targets.channel not in flags_by_channel:
         raise ValueError("facet targets reference an absent channel")
@@ -83,6 +83,32 @@ def fit_observed_targets(
         )
     if not result:
         raise ValueError("facet landmarks did not identify a scan-direction mapping")
-    return GeometryModel(
-        policy=targets.timing.policy, window=raw.session.windows, facets=result
-    ).model_dump(mode="json")
+    model = GeometryModel(policy=targets.timing.policy, window=raw.session.windows, facets=result)
+    return model.model_dump(mode="json"), phases
+
+
+def fit_facet_gain(
+    white_codes: np.ndarray,
+    phases: np.ndarray,
+    dark_codes: np.ndarray,
+    transfer: dict,
+) -> dict[str, float]:
+    """Estimate each locked phase's white amplitude relative to the global white reference."""
+    slope = transfer["slope_codes_per_decade"]
+    intercept = transfer["intercept_code"]
+    base = 10 ** ((np.median(white_codes, axis=0) - intercept) / slope)
+    dark = 10 ** ((dark_codes - intercept) / slope)
+    span = base - dark
+    valid = np.isfinite(span) & (span > 0)
+    valid[list(transfer["white_outlier_columns"])] = False
+    gains = {}
+    for phase in np.unique(phases[phases >= 0]):
+        if not np.any(valid):
+            break
+        group_white = np.median(white_codes[phases == phase], axis=0)
+        intensity = 10 ** ((group_white - intercept) / slope)
+        ratios = (intensity[valid] - dark[valid]) / span[valid]
+        gain = float(np.median(ratios))
+        if np.isfinite(gain) and gain > 0:
+            gains[str(phase)] = gain
+    return gains
