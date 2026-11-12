@@ -1,0 +1,34 @@
+{
+  "started_at": "2026-11-12T19:10:35.846801+00:00",
+  "code": "300227271303a11cb8e8be8ed3f846f214f91856",
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_saved_workbench.py",
+        "--out",
+        "evidence_runs/2026-11-13_saved_workbench/output/formal"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_saved_workbench.py",
+        "--verify",
+        "evidence_runs/2026-11-13_saved_workbench/output/formal"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_wheel_install.py",
+        "--out",
+        "evidence_runs/2026-11-13_saved_workbench/output/wheel_formal"
+      ],
+      "returncode": 0
+    }
+  ],
+  "finished_at": "2026-11-12T19:12:09.594256+00:00"
+}

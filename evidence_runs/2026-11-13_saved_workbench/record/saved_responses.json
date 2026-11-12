@@ -1,0 +1,895 @@
+{
+  "manifest": {
+    "status": "exact_record",
+    "run_id": "saved",
+    "parent": null,
+    "session_id": 1,
+    "epoch": 0,
+    "steps": 30000,
+    "fine_step_ps": 250000,
+    "fs_hz": 1000000,
+    "os": 4,
+    "fine_step_period_ps": {
+      "numerator": "1000000000000",
+      "denominator": "4000000"
+    },
+    "samples": 7500,
+    "config_hash": "bc4c3cc52a85b33e39362772d68140958be381ed7a8115d819687cbfe742fec4",
+    "origin": "SIMULATED",
+    "evidence": {
+      "all": "assumed"
+    },
+    "checkpoint_interval_steps": 10000,
+    "physical_applicability": {
+      "status": "limited_research_model",
+      "high_density_capability": "not_validated",
+      "stochastic_log_status": "grid_dependent_exploration_only",
+      "input_response_hz": null,
+      "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+      "input_response_evidence": null,
+      "dt_over_response_tau": null,
+      "finite_grid_to_continuous_current_variance_ratio": null,
+      "limitations": [
+        "charge-bin current enters the log without a fixed physical input response; statistics depend on the numerical grid",
+        "PMT anode limit is a warning only, not saturation or recovery physics",
+        "polygon scanner, not a closed-loop galvanometer",
+        "collection model does not establish local coating-defect response",
+        "assumed parameters do not establish hardware capability"
+      ]
+    },
+    "recorded_probes": [],
+    "loaded_from_saved": true,
+    "read_only": true,
+    "artifact_integrity": "fingerprinted",
+    "source_adc_visibility": "ORACLE_ONLY",
+    "saved_source": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_saved_workbench/output/formal/source",
+    "req": null
+  },
+  "observable": {
+    "status": "summary_only",
+    "level": "display_bins",
+    "start": 0,
+    "block_size": 188,
+    "source_count": 7500,
+    "support_start": 0,
+    "support_end": 7500,
+    "boundary_extra": false,
+    "values": [
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        8566,
+        8832,
+        null,
+        8832,
+        188
+      ],
+      [
+        8827,
+        13029,
+        8827,
+        13012,
+        188
+      ],
+      [
+        13004,
+        16448,
+        13018,
+        16419,
+        188
+      ],
+      [
+        16400,
+        18955,
+        16419,
+        18923,
+        188
+      ],
+      [
+        11249,
+        58739,
+        18903,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        8793,
+        9256,
+        null,
+        9248,
+        188
+      ],
+      [
+        9246,
+        16698,
+        9246,
+        16682,
+        188
+      ],
+      [
+        16788,
+        21069,
+        16788,
+        21025,
+        188
+      ],
+      [
+        11321,
+        49896,
+        21054,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        8794,
+        9255,
+        null,
+        9245,
+        188
+      ],
+      [
+        9243,
+        13196,
+        9254,
+        13175,
+        188
+      ],
+      [
+        13171,
+        17154,
+        13183,
+        17106,
+        188
+      ],
+      [
+        11322,
+        57716,
+        17118,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        188
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        168
+      ]
+    ],
+    "columns": [
+      "min",
+      "max",
+      "first",
+      "last",
+      "count"
+    ],
+    "recorded_counts": [
+      0,
+      0,
+      0,
+      0,
+      5,
+      188,
+      188,
+      188,
+      68,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      137,
+      188,
+      188,
+      124,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      81,
+      188,
+      188,
+      180,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "missing_count": 5589,
+    "visibility": "OBSERVABLE",
+    "source": "delivered ZLRAW only; gaps include unkept source positions",
+    "first_step": 0,
+    "block_steps": 752,
+    "requested_window": [
+      0,
+      30000
+    ],
+    "signal": "adc.code",
+    "display_interpolation": "hold",
+    "req": null
+  },
+  "research": {
+    "start": 0,
+    "block_size": 188,
+    "support_start": 0,
+    "support_end": 7500,
+    "source_count": 7500,
+    "boundary_extra": false,
+    "status": "summary_only",
+    "level": "display_bins",
+    "values": [
+      [
+        43012,
+        65460,
+        48113,
+        58656,
+        188
+      ],
+      [
+        43046,
+        65461,
+        45951,
+        45952,
+        188
+      ],
+      [
+        42945,
+        65463,
+        56036,
+        48394,
+        188
+      ],
+      [
+        43431,
+        65532,
+        46957,
+        55790,
+        188
+      ],
+      [
+        8566,
+        65532,
+        50251,
+        8832,
+        188
+      ],
+      [
+        8827,
+        13029,
+        8827,
+        13012,
+        188
+      ],
+      [
+        13004,
+        16448,
+        13018,
+        16419,
+        188
+      ],
+      [
+        16400,
+        18955,
+        16419,
+        18923,
+        188
+      ],
+      [
+        11249,
+        65474,
+        18903,
+        45986,
+        188
+      ],
+      [
+        43275,
+        65532,
+        45330,
+        46398,
+        188
+      ],
+      [
+        43488,
+        65532,
+        45803,
+        46403,
+        188
+      ],
+      [
+        43101,
+        65532,
+        53443,
+        44431,
+        188
+      ],
+      [
+        42233,
+        64279,
+        46368,
+        46850,
+        188
+      ],
+      [
+        42783,
+        65532,
+        46179,
+        57154,
+        188
+      ],
+      [
+        42950,
+        64209,
+        45363,
+        53432,
+        188
+      ],
+      [
+        43113,
+        65533,
+        49158,
+        57756,
+        188
+      ],
+      [
+        42493,
+        65451,
+        46445,
+        52206,
+        188
+      ],
+      [
+        43488,
+        65458,
+        52268,
+        56462,
+        188
+      ],
+      [
+        8793,
+        64048,
+        44917,
+        9248,
+        188
+      ],
+      [
+        9246,
+        16698,
+        9246,
+        16682,
+        188
+      ],
+      [
+        16788,
+        21069,
+        16788,
+        21025,
+        188
+      ],
+      [
+        11321,
+        64189,
+        21054,
+        56466,
+        188
+      ],
+      [
+        42030,
+        65532,
+        47021,
+        55540,
+        188
+      ],
+      [
+        42335,
+        65532,
+        45714,
+        46459,
+        188
+      ],
+      [
+        43321,
+        65535,
+        48607,
+        60964,
+        188
+      ],
+      [
+        43166,
+        65469,
+        63948,
+        45751,
+        188
+      ],
+      [
+        43841,
+        65476,
+        44315,
+        55761,
+        188
+      ],
+      [
+        43779,
+        64283,
+        55354,
+        45581,
+        188
+      ],
+      [
+        43199,
+        64300,
+        45592,
+        46935,
+        188
+      ],
+      [
+        42752,
+        65532,
+        45944,
+        57327,
+        188
+      ],
+      [
+        43011,
+        65532,
+        55370,
+        44825,
+        188
+      ],
+      [
+        8794,
+        64216,
+        47010,
+        9245,
+        188
+      ],
+      [
+        9243,
+        13196,
+        9254,
+        13175,
+        188
+      ],
+      [
+        13171,
+        17154,
+        13183,
+        17106,
+        188
+      ],
+      [
+        11322,
+        57716,
+        17118,
+        46437,
+        188
+      ],
+      [
+        43067,
+        65456,
+        48179,
+        57315,
+        188
+      ],
+      [
+        42912,
+        65457,
+        55002,
+        47073,
+        188
+      ],
+      [
+        42669,
+        65478,
+        46266,
+        58940,
+        188
+      ],
+      [
+        42740,
+        65533,
+        64507,
+        44719,
+        188
+      ],
+      [
+        43289,
+        65458,
+        44797,
+        48370,
+        168
+      ]
+    ],
+    "columns": [
+      "min",
+      "max",
+      "first",
+      "last",
+      "count"
+    ],
+    "visibility": "ORACLE_ONLY",
+    "source": "saved simulation ADC source; not delivery",
+    "signal": "adc.code",
+    "unit_step": "sample",
+    "requested_window": [
+      0,
+      30000
+    ],
+    "first_step": 0,
+    "block_steps": 752,
+    "display_interpolation": "hold",
+    "sample_time": {
+      "clock_domain": 1,
+      "first_sample_index": "0",
+      "first_tick_ps": "0",
+      "last_tick_ps": "7499000000",
+      "period_ps": {
+        "numerator": "1000000000000",
+        "denominator": "1000000"
+      }
+    },
+    "req": null
+  },
+  "state": {
+    "status": "replayed",
+    "step": 11000,
+    "run_id": "saved",
+    "epoch": 0,
+    "checkpoint_step": 10000,
+    "values": {
+      "pmt.power_w": 0.0
+    },
+    "req": null
+  },
+  "replay": {
+    "status": "replayed",
+    "checkpoint_step": 10000,
+    "start": 11000,
+    "n_steps": 100,
+    "first_sample": 2750,
+    "codes": [
+      51953,
+      55390,
+      59369,
+      56600,
+      45688,
+      44709,
+      58234,
+      46058,
+      55302,
+      52997,
+      46628,
+      45469,
+      57899,
+      57308,
+      56082,
+      48330,
+      48095,
+      45774,
+      57442,
+      45150,
+      48581,
+      56363,
+      46221,
+      43845,
+      55798
+    ],
+    "probes": {
+      "pmt.power_w": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "published": "separate; the run itself is not modified",
+    "req": null
+  },
+  "lineage": {
+    "status": "exact_record",
+    "visibility": "ORACLE_ONLY",
+    "origin": "SIMULATED",
+    "source": "saved partial modeled link timestamps",
+    "lineage": {
+      "sample_index": "935",
+      "channel": 0,
+      "sample_time": "935000000",
+      "adc_output_time": "947000000",
+      "pin_arrival_time": "947001500",
+      "capture_time": "948000000",
+      "queue_path": [
+        "rx",
+        "net"
+      ],
+      "host_arrival_time": null,
+      "host_arrival_status": "not_recorded"
+    },
+    "req": null
+  },
+  "source_file_count": 16
+}

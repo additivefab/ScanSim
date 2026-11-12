@@ -1,0 +1,213 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Saved physical CLI/HTTP read-only reload and same-host isolated wheel rerun",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T19:10:35.846801+00:00",
+ "finished_at": "2026-11-12T19:12:09.594256+00:00",
+ "code": {
+  "commit": "300227271303a11cb8e8be8ed3f846f214f91856",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tools/audit_saved_workbench.py": "f88b0d639cec6b0e46a7ba8cad49a3a6b9418fcfb327835e557204aa6c0da01a",
+  "tools/audit_wheel_install.py": "21f0bf93b9ea72462a904d2702e833ca58b336339b085fa54d6b70d3ba7bdebd",
+  "tools/wheel_smoke.py": "520d6a2ee9e7f4661e7b10d361b1946ff5bf6bb075811ac5a90be55d48bdf052",
+  "tests/unit/test_saved_workbench.py": "68bbd12e45a08eb4010277451d9f4cc1a902f0e94dc3e618d473c4cd173fe518",
+  "src/zlscan/engine/config_bundle.py": "c1e8485158622df5a0be7e8e908848383b8ab8d8db727ec9f9ab38334ee23282",
+  "src/zlscan/engine/saved_service.py": "6ce092e2ec2020959f6d6c6a493f8802a383fe41cc63c70f181f8eee407e64f6",
+  "src/zlscan/io/saved_adc.py": "7c95a4d3ca21da2d0e59386f141a0b0a5dbc25aa5f1fb34f73409c1581c05d2d",
+  "evidence_runs/2026-11-13_saved_workbench/output/formal/source_manifest.json": "9b588c423a8c4bc0e3325a46d15d2d1d838464303ed5de7c2b02aae05751ce30",
+  "evidence_runs/2026-11-13_saved_workbench/output/formal/audit.json": "dd5aa072d2c1249053ab6f954251a47528a1c03ad0d23be4e932e41f99575625",
+  "evidence_runs/2026-11-13_saved_workbench/output/wheel_formal/source_manifest.json": "b1bd054289bf7ac728bd7bcfc598d8959e35f6de668736ab7b5665b52e42954f",
+  "evidence_runs/2026-11-13_saved_workbench/output/wheel_formal/requirements.lock": "07d8c8d32e31bf3efa9486b6644b009136bf9bc29d8d0bd6c04fed49c6446e4b",
+  "evidence_runs/2026-11-13_saved_workbench/output/wheel_formal/wheelhouse_manifest.json": "6cc9d2eaf7ef46dbbf871c53cb034120a41c10cd65c1ff573d05720a7097baa7"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_saved_workbench.py",
+    "--out",
+    "evidence_runs/2026-11-13_saved_workbench/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_saved_workbench.py",
+    "--verify",
+    "evidence_runs/2026-11-13_saved_workbench/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_saved_workbench/output/wheel_formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation source",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "saved loading is read only",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "observable ADC uses delivered records",
+   "expected": "OBSERVABLE",
+   "tolerance": null,
+   "actual": "OBSERVABLE",
+   "passed": true
+  },
+  {
+   "quantity": "source ADC is oracle only",
+   "expected": "ORACLE_ONLY",
+   "tolerance": null,
+   "actual": "ORACLE_ONLY",
+   "passed": true
+  },
+  {
+   "quantity": "observable bin limit",
+   "expected": 40,
+   "tolerance": null,
+   "actual": 40,
+   "passed": true
+  },
+  {
+   "quantity": "explicit unsupported source positions",
+   "expected": 5589,
+   "tolerance": null,
+   "actual": 5589,
+   "passed": true
+  },
+  {
+   "quantity": "state uses checkpoint replay",
+   "expected": "replayed",
+   "tolerance": null,
+   "actual": "replayed",
+   "passed": true
+  },
+  {
+   "quantity": "recorded input files",
+   "expected": 16,
+   "tolerance": null,
+   "actual": 16,
+   "passed": true
+  },
+  {
+   "quantity": "wheel runtime distributions",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "wheel assets",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "wheel hardware remains unresolved",
+   "expected": "unresolved",
+   "tolerance": null,
+   "actual": "unresolved",
+   "passed": true
+  },
+  {
+   "quantity": "wheel command build",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command download",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command venv",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command install",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command pip_check",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command pip_list",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command smoke",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command static_cases",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel command static_verify",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "CLI/HTTP audit assertions include exact fresh-process response equality, checkpoint codes matching source, no instrument replay, preserved partial modeled timestamps, null host arrival and unchanged source hashes. Wheel smoke includes delivered-only saved-service loading; five resources and all short CLI/HTTP/static identification cases pass. Same host macOS/Python isolation only; no browser, other-machine, hardware, complete stage acceptance or new-dependency full-suite claim. Missing positions include unkept samples; are not all packet loss. Full developer pytest log is separately archived and predates this clean formal run."
+}
