@@ -99,3 +99,10 @@ ADC 文件、32 个参考拟合和 256 个独立验证实例。新进程只重�
 
 - `evidence_runs/2026-11-12_low_light_calibration/record_integrity/`：执行、CRC/哈希及新进程重分析通过。
 - `evidence_runs/2026-11-12_low_light_calibration/record_statistical/`：等价目标未达标；未决区间不等于物理差异已证实。
+
+
+## 后续匹配控制
+
+匹配控制已完成，见 `calibration_matched_controls.md`（提交 `2056f67`）。
+无噪声零暗/下限也出现拟合失配；当前新增协议容差下的逐点诊断与失败标定重建拒绝。
+这不能回溯地把上文实验改成通过，也没有将随机误差按 RMSE 相减分配占比。

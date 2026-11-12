@@ -1,0 +1,198 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Matched floor/additive-dark controls and explicit reference-fit refusal",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T16:03:02.779753+00:00",
+ "finished_at": "2026-11-12T16:03:38.733249+00:00",
+ "code": {
+  "commit": "2056f67f36f5d02e841d1c12f02d677931836799",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": [
+  20000,
+  30000,
+  21000,
+  31000,
+  22000,
+  32000,
+  22001,
+  32001,
+  22002,
+  32002,
+  22003,
+  32003,
+  22004,
+  32004,
+  22005,
+  32005,
+  22006,
+  32006,
+  22007,
+  32007,
+  23000,
+  33000,
+  23001,
+  33001,
+  23002,
+  33002,
+  23003,
+  33003,
+  23004,
+  33004,
+  23005,
+  33005,
+  23006,
+  33006,
+  23007,
+  33007
+ ],
+ "inputs": {
+  "tools/audit_calibration_controls.py": "7f04ee273dc705a3898e734f06ace8aae7df1112d831d8bbd67abb1b5be6e1d8",
+  "src/zlscan/calib/radiometric.py": "857d6c16717503b6641022c1211fb8416ca3ee10b8c7dd0b357832c5065dde88",
+  "src/zlscan/calib/observations.py": "c95ca02f6f2ddb9712a8483848902c6dc8252e35c4ae940ed1f4c7b0dada3fc8",
+  "src/zlscan/contracts/calibration.py": "01c822781acbb8540e54d41af82fe3afed08da741447783aaa4a9e6fd715d9b7",
+  "src/zlscan/recon/density.py": "6cf8e50e3d59091d784961ba23d2ecb5c6432d384c6aa5ee488f6fc67ae8162e",
+  "src/zlscan/cli.py": "92ea789d7724fbc0ad94dfd1657d1229d5091f825cfa83b9f593de3e839c2f18",
+  "src/zlscan/experiment/low_light.py": "b81f514a5c0f3bb1b7ebb1c5a25b97ef03371b609b6af1d8ed3b7bd9566d316c",
+  "src/zlscan/engine/chain.py": "71fdd8c37c431e6dbad56bb712f5cb7d773b786acbe05fadd1cff401d132fb15",
+  "src/zlscan/truth/afe/__init__.py": "a3a289d5a0c147d4399b15136670f54e0aa93b6770396d6798e2a987ec38927a",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/specification.json": "d964682a4b46744424f4075a5e7bdd8f3c11347b6665a26f05330ddfc2d7f074",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noiseless_floor_dark_r0_reference.zlraw": "44e68635d44bd0ebdae5cc6e1a78051a7146786ef95cf943353f9ebc4639b41d",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noiseless_floor_dark_r0_validation.zlraw": "713631dfc977dd9844dd1edd5e31b12ed739a13a05f44083ff71ab8e88264b95",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noiseless_additive_dark_r0_reference.zlraw": "05be2740680aa792957c0b207fc48d0228fa65ca2d826d3834e4a4f06895d539",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noiseless_additive_dark_r0_validation.zlraw": "3a00caaa1bcd706845db96a5581facc3555ab1ab6288368fe6dbf7b771b2c547",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r0_reference.zlraw": "9b09878b65afc16931a8d1e9e12c5fa35c46a4199d6f50d154bd7f8602fddd82",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r0_validation.zlraw": "4d6ace3b1488448b06a251cfba73105fb19dca254496e4f08a84fef1dcf22cf8",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r1_reference.zlraw": "83c86ba7362493c94b377ab4de346420a5c6cf9feb3069b1bbb0dbc24d2eee1d",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r1_validation.zlraw": "37af7df01caf3cb416bfe0631a9e889038c779841c8a9ed7e0b085ac51537688",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r2_reference.zlraw": "4f57946bb009769f0a1d9c4d342c3dd54775c03bea7bb0926e9b3c7a99c030e6",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r2_validation.zlraw": "962639e6efba3856f970c63e54ab44ccdfb0a6b789a9ba12958fe0296f8393e4",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r3_reference.zlraw": "fe3f85e0846eef01e7d6334f9b93b771bb51d1d328cd33b9377894e9be756705",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r3_validation.zlraw": "2f6ca40337d73c124ccb5f8e1ac27f586593732aa4c73c1de2555139880f6625",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r4_reference.zlraw": "b9b192d01873fec77dc3a4a05c43e90aeab9e360638dd4dcaaeb351012c25182",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r4_validation.zlraw": "bb3ecd04340995af811b5c76ddc2d846bed07a377164e8c6a8c12f9ba531ba9f",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r5_reference.zlraw": "8eb6628f36d73f33e34c2ced1178df7508b30b8f5eff3969bd6855af9297acb1",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r5_validation.zlraw": "98756e7ed48b67b1c9ac93ad39e0ae1afa4ea40e6b9959c7a0c32c156f5f60ba",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r6_reference.zlraw": "ce466a9fdc4db0515c4ecf3de884bd7397d8b83051da9a6771126e9419e6e338",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r6_validation.zlraw": "53d7a1ed990298db385096fed0ce56e256d70c52f4a058a9f7777d6816df9c58",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r7_reference.zlraw": "5328314837712cbd9101a69c9de78f450a351e436fe9d85315c2febfa33abbd9",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_floor_dark_r7_validation.zlraw": "7d50dfc01d66c88e753a56577d50157948cd5ca33cdf01cf262d2199ca965967",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r0_reference.zlraw": "d5595341490574c645108294aa14bab9fd5f3a1474af1459451dbe358d0e1abd",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r0_validation.zlraw": "ebaebaafd77e2843225c4e8cf850492cfa3b1dcace426a5c2d1976024bef3eb2",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r1_reference.zlraw": "bde26d88f6a4b9948c924f4f9bf17f78882283e10586dcf300a1e4d81422e727",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r1_validation.zlraw": "1b84f5245db0e2848272a2e212becd6deff24f1f7022433f3a5f1c7e68307894",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r2_reference.zlraw": "51bb9c07821cf2420a46934276cc48b146235d1b1b9ba7b4e39074c3cf79cf26",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r2_validation.zlraw": "88e3b54d3faf20deec8926e3e0d62264b7a0ba8fe29fd82c0bdc9a8631373235",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r3_reference.zlraw": "6d47c08ea34bb7134103717bf4fb2f025696803d93ddc54b394a0d99697645d7",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r3_validation.zlraw": "275a4eaa7120abb939dbf1a53662706fbed1c0ace696d22e109862d9dd1b52fd",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r4_reference.zlraw": "7d56fa7d2c8d7258d7203ebacaf2e31031fc78388d30ac93e30e89438ea615da",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r4_validation.zlraw": "8f323e1cd1a569669c0671651a20b2c7a6c56cd52f0314dcf4fefdcad1c30915",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r5_reference.zlraw": "8f75c2fe8b2d1a65e729cf12beb1ac08467c2829b502544a02a23e4d5157aa94",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r5_validation.zlraw": "6ccb459be7e105b63e72869671a2361de320a35a9afba6614e11db08b1c9c63a",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r6_reference.zlraw": "52f35c59dae740a52897d2848b934c4fcfd42e81a42db7174acc9e1775f86570",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r6_validation.zlraw": "2cacc4ef611bc5c9bdb40e3fd22a5e6d81b2abc8bbedd1e8810d672e0f2182cf",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r7_reference.zlraw": "9f402676e21e3c23df8128572b6cbbcd73ef1c629eebc6b4f59c131424c81b8b",
+  "evidence_runs/2026-11-13_calibration_controls/output/run/noisy_additive_dark_r7_validation.zlraw": "09e544ddf0bde72f927c31ce4d2241417f807566fc3eb228a7a627e156a2cb3b"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_calibration_controls.py",
+    "--out",
+    "evidence_runs/2026-11-13_calibration_controls/output/run"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_calibration_controls.py",
+    "--verify",
+    "evidence_runs/2026-11-13_calibration_controls/output/run"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "raw_files",
+   "expected": 36,
+   "tolerance": null,
+   "actual": 36,
+   "passed": true
+  },
+  {
+   "quantity": "unique_seeds",
+   "expected": 36,
+   "tolerance": null,
+   "actual": 36,
+   "passed": true
+  },
+  {
+   "quantity": "candidate_refits",
+   "expected": 18,
+   "tolerance": null,
+   "actual": 18,
+   "passed": true
+  },
+  {
+   "quantity": "independent_density_cases",
+   "expected": 72,
+   "tolerance": null,
+   "actual": 72,
+   "passed": true
+  },
+  {
+   "quantity": "raw_unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "noiseless_floor_reference_status",
+   "expected": "mismatch",
+   "tolerance": null,
+   "actual": "mismatch",
+   "passed": true
+  },
+  {
+   "quantity": "noiseless_additive_reference_status",
+   "expected": "compatible",
+   "tolerance": null,
+   "actual": "compatible",
+   "passed": true
+  },
+  {
+   "quantity": "failed_assessments_rejected",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "noisy_reference_not_assessed",
+   "expected": 16,
+   "tolerance": null,
+   "actual": 16,
+   "passed": true
+  }
+ ],
+ "notes": "ASSUMED controls only; pass concerns reproducibility and the explicit refusal contract, not density accuracy. Diagnostic independent errors precede reference acceptance; failed assessed artifacts are not used for reconstruction. Noiseless tolerance=1 code is declared; noisy uncertainty is not supplied, hence not assessed. No hardware capability or variance-share claim."
+}
