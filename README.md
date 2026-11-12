@@ -112,3 +112,8 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 录制目录工作台：`zlscan serve --run recording_run`。每通道独立只读打开冻结提交；
 仪器视图保留实际交付的缺样/时期与捕获记录，研究视图按原控制历史重放。
 来源、查询限额与未验收项见 [冻结录制工作台](docs/reports/recording_workbench.md)。
+
+
+录制配置可增加 `"trace": {"probes": ["power_w", "v_adc"], "base": 64, "factor": 8, "keep_raw": false}`
+持久保存研究探针摘要；显式 keep_raw 才存原始波形。与统一根配对恢复，工作台优先读取已存探针。
+格式、故障分支和未验收范围见 [探针记录说明](docs/reports/probe_recording.md)。

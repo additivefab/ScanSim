@@ -21,11 +21,13 @@ from zlscan.engine.digital_pipeline import DigitalPipeline
 from zlscan.engine.digital_recording import DigitalRecorder, _serialized
 from zlscan.engine.validity import physical_applicability
 from zlscan.io.committed import publish_checkpoint, publish_document
+from zlscan.io.probe_store import MAX_CHUNK, TracePolicy, TraceWriter, validate_checkpoint
 from zlscan.transport.queues import StageSpec
 
 
 class PhysicalRecorder:
     FORMAT = "zlscan-physical-recording-checkpoint/1"
+    TRACE_FORMAT = "zlscan-physical-recording-checkpoint/2"
     PARAMETERS = {"source.power_w", "detector.gain"}
     _hash = staticmethod(DigitalRecorder._hash)
 
@@ -58,6 +60,7 @@ class PhysicalRecorder:
         session_id: int,
         run_id: str,
         branch_id: str,
+        trace_policy: TracePolicy | None = None,
     ) -> None:
         self.base = self._configs(configs, link)
         if not isinstance(run_id, str) or not isinstance(branch_id, str):
@@ -76,6 +79,15 @@ class PhysicalRecorder:
         pipeline = DigitalPipeline(self.domain, link, acquisition, stages, self.channels)
         self.recording = DigitalRecorder(directory, pipeline, session_id)
         self.directory = self.recording.directory
+        self.trace = None
+        try:
+            if trace_policy is not None:
+                self.trace = TraceWriter(self.directory / "probes", trace_policy, self.channels)
+                for chain in self.chains.values():
+                    chain.probe_names = set(trace_policy.probes)
+        except BaseException:
+            self.recording.__exit__()
+            raise
         self.start()
 
     @property
@@ -203,11 +215,17 @@ class PhysicalRecorder:
         try:
             while self.step < end:
                 self._apply_due()
-                stop = end
+                stop = min(end, self.step + MAX_CHUNK) if self.trace is not None else end
                 if self.applied_commands < len(self.commands):
                     stop = min(stop, int(self.commands[self.applied_commands]["effective_step"]))
                 count = stop - self.step
+                start = self.step
                 outputs = [self.chains[c].advance(count) for c in self.channels]
+                if self.trace is not None:
+                    self.trace.append(
+                        start,
+                        {c: out.probes for c, out in zip(self.channels, outputs, strict=True)},
+                    )
                 first = outputs[0]
                 if any(
                     o.first_sample != first.first_sample or len(o.codes) != len(first.codes)
@@ -291,6 +309,8 @@ class PhysicalRecorder:
     def _consistent(self) -> None:
         self._physical_consistent()
         self._pipeline_consistent(self.recording.pipeline, self.recording.next_source_index)
+        if self.trace is not None and self.trace.step != self.step:
+            raise ValueError("physical and probe committed boundaries disagree")
 
     def _pipeline_consistent(
         self, pipeline: DigitalPipeline, next_source_index: int | None
@@ -314,7 +334,7 @@ class PhysicalRecorder:
         try:
             self._consistent()
             value = {
-                "format": self.FORMAT,
+                "format": self.TRACE_FORMAT if self.trace is not None else self.FORMAT,
                 "origin": "SIMULATED",
                 "visibility": "ORACLE_ONLY",
                 "base_hashes": self.base_hashes,
@@ -328,6 +348,8 @@ class PhysicalRecorder:
                 "applied_commands": str(self.applied_commands),
                 "recording": json.loads(self.recording.checkpoint()),
             }
+            if self.trace is not None:
+                value["trace"] = self.trace.checkpoint()
             value["checksum"] = self._hash(value)
             return json.dumps(value, sort_keys=True, allow_nan=False).encode()
         except Exception:
@@ -392,6 +414,18 @@ class PhysicalRecorder:
         )
         result.directory = result.recording.directory
         try:
+            if "trace" in value:
+                result.trace = TraceWriter.restore(
+                    directory / "probes",
+                    value["trace"],
+                    branch_directory=result.directory / "probes"
+                    if branch_directory is not None
+                    else None,
+                )
+                if result.trace.channels != result.channels:
+                    raise ValueError("physical and probe channels differ")
+                for chain in result.chains.values():
+                    chain.probe_names = set(result.trace.policy.probes)
             result._consistent()
         except Exception:
             result.__exit__()
@@ -404,8 +438,10 @@ class PhysicalRecorder:
     ) -> PhysicalRecorder:
         """Validate/rebuild only model state; do not open or resume any output writer."""
         value = json.loads(blob)
-        if not isinstance(value, dict) or value.get("format") != cls.FORMAT:
+        if not isinstance(value, dict) or value.get("format") not in {cls.FORMAT, cls.TRACE_FORMAT}:
             raise ValueError("physical recording checkpoint version is unsupported")
+        if ("trace" in value) != (value["format"] == cls.TRACE_FORMAT):
+            raise ValueError("probe checkpoint requires the version 2 recovery contract")
         if value.pop("checksum", None) != cls._hash(value):
             raise ValueError("physical recording checkpoint checksum differs")
         if value.get("origin") != "SIMULATED" or value.get("visibility") != "ORACLE_ONLY":
@@ -429,6 +465,11 @@ class PhysicalRecorder:
         first = next(iter(result.chains.values()))
         result.domain, result.fine_clock = first.adc_clock, first.fine_clock
         result._mutex, result.failed = threading.RLock(), False
+        result.trace = None
+        if "trace" in value:
+            trace, _, channels = validate_checkpoint(value["trace"])
+            if channels != result.channels or int(trace["step"]) != result.step:
+                raise ValueError("physical and probe checkpoint identities differ")
         result._physical_consistent()
         return result
 
@@ -450,4 +491,6 @@ class PhysicalRecorder:
 
     @_serialized
     def __exit__(self, *args) -> None:
+        if self.trace is not None:
+            self.trace.__exit__()
         self.recording.__exit__()

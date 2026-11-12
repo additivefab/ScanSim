@@ -25,6 +25,7 @@ from zlscan.engine.physical_run import line_steps
 from zlscan.engine.research_config import PhysicsInput, _pairs, resolve_physics
 from zlscan.io.committed import publish_document
 from zlscan.io.manifest import sha256_file
+from zlscan.io.probe_store import TracePolicy
 from zlscan.transport.queues import StageSpec
 from zlscan.truth.scan import line_start_s
 
@@ -42,6 +43,7 @@ class RecordingInput(PhysicsInput):
     chunk_steps: int = Field(gt=0, le=1_000_000)
     max_pending_syncs: int = Field(default=128, gt=0, le=4096)
     max_control_events: int = Field(default=1024, ge=16, le=4096)
+    trace: TracePolicy | None = None
 
 
 def _json(data):
@@ -87,6 +89,7 @@ def _create(directory, path):
         session_id=spec.session_id,
         run_id=spec.run_id,
         branch_id=spec.branch_id,
+        trace_policy=spec.trace,
     )
     try:
         inputs = directory / "inputs"
@@ -178,6 +181,8 @@ def _restore(source, target, stack):
         branch_directory=target if target != source else None,
     )
     try:
+        if (recorder.trace.policy if recorder.trace is not None else None) != spec.trace:
+            raise ValueError("probe recording policy differs from saved input")
         if recorder.identity != dict(
             session_id=spec.session_id, run_id=spec.run_id, branch_id=spec.branch_id
         ):

@@ -64,6 +64,7 @@ def verify(root: Path) -> dict:
 
             assert set(query("/runs")["runs"]) == {"recording-c0", "recording-c1"}
             raw = read_all(source / "raw.zlraw")
+            trace_policy = json.loads((root / "config.json").read_text()).get("trace")
             with RecordingReplay(source) as model:
                 expected = model.replay(10200, 800, {"power_w"})
             for channel in [0, 1]:
@@ -96,6 +97,18 @@ def verify(root: Path) -> dict:
                 )
                 assert research["values"] == expected["power_w"][:, channel].tolist()
                 assert research["visibility"] == "ORACLE_ONLY"
+                if trace_policy:
+                    assert set(manifest["recorded_probes"]) == set(trace_policy["probes"])
+                    assert research["derivation"] == (
+                        "recorded" if trace_policy["keep_raw"] else "replayed"
+                    )
+                    overview = query(
+                        prefix + "/traces?signal=pmt.power_w&start=0&end=11000"
+                        "&pixel_width=20&view=research"
+                    )
+                    assert overview["derivation"] == "recorded"
+                    assert len(overview["values"]) <= 20
+
                 replay = query(
                     prefix + "/replay-window?view=research",
                     dict(start=10200, n_steps=800, probes=["power_w"]),
@@ -148,6 +161,7 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--out", type=Path)
     group.add_argument("--verify", type=Path)
+    parser.add_argument("--probe-policy", choices=["raw", "summary"])
     args = parser.parse_args()
     if args.out:
         root = args.out.resolve()
@@ -171,6 +185,10 @@ def main():
             branch_id="main",
             chunk_steps=97,
         )
+        if args.probe_policy:
+            config["trace"] = dict(
+                probes=["power_w", "v_adc"], base=8, factor=4, keep_raw=args.probe_policy == "raw"
+            )
         (root / "config.json").write_text(json.dumps(config))
         commands = [
             {"op": "lines", "count": 1},

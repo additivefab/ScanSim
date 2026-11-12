@@ -22,6 +22,7 @@ class RecordingService(Service):
     def __init__(self, snapshot: RecordingReplay, delivered: CommittedADC):
         super().__init__()
         self.snapshot, self.delivered = snapshot, delivered
+        self.probes = snapshot.trace_reader
         for channel, cfg in snapshot.configs.items():
             self.add(
                 Run(
@@ -66,7 +67,7 @@ class RecordingService(Service):
             evidence=cfg.evidence,
             config_hash=cfg.hash(),
             checkpoint_interval_steps=None,
-            recorded_probes=[],
+            recorded_probes=list(self.probes.policy.probes) if self.probes is not None else [],
             physical_applicability=physical_applicability(
                 self.snapshot.current.chains[channel].cfg
             ),
@@ -102,7 +103,15 @@ class RecordingService(Service):
             )
             if view == "research":
                 row["visibility"] = "ORACLE_ONLY"
-                row["recording_policy"] = "on_demand"
+                persisted = self.probes is not None and row["signal_id"] in {
+                    PROBE_TO_SIGNAL[p] for p in self.probes.policy.probes
+                }
+                row["recorded"] = persisted
+                row["recording_policy"] = (
+                    ("full" if self.probes.policy.keep_raw else "summary")
+                    if persisted
+                    else "on_demand"
+                )
             output.append(row)
         return dict(status="exact_record", signals=output, view=view)
 
@@ -140,6 +149,18 @@ class RecordingService(Service):
             if signal != "adc.code" and signal not in inverse:
                 raise ValueError("unknown signal")
             probes = {inverse[signal]} if signal != "adc.code" else set()
+            if (
+                self.probes is not None
+                and signal != "adc.code"
+                and inverse[signal] in self.probes.policy.probes
+            ):
+                persisted = self.probes.query(
+                    r.meta["channel"], inverse[signal], start, end, pixel_width
+                )
+                if persisted["status"] != "not_recorded":
+                    persisted.update(signal=signal, requested_window=requested)
+                    self._check()
+                    return persisted
             result = self._model(start, end - start, probes)
             if "metadata" not in result:
                 return result

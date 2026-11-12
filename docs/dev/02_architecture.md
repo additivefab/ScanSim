@@ -150,3 +150,8 @@ class Module(Protocol):
 `zlscan budget | check | run | sweep | calibrate | reconstruct | metrics | ident | compare | report | cosim | replay | serve`
 
 每个子命令随对应阶段实现；未实现的子命令给出明确的"尚未实现"提示并返回非零状态，不得静默成功。
+
+
+2026-11-13：持久研究探针文件格式由 `io/probe_store.py` 管理，engine 在同一生产边界
+连接 Chain 输出及统一根；trace 仍只负责摘要/显示计算，不为文件提交扩宽导入白名单。
+研究探针文件全部 ORACLE_ONLY，calib/recon 不读取它们；工作台从 engine 只读组合。

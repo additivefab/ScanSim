@@ -17,6 +17,7 @@ from zlscan.engine.physical_recording import PhysicalRecorder
 from zlscan.engine.recording_cli import read_definition
 from zlscan.io.committed import verify_committed_prefix as _prefix
 from zlscan.io.manifest import sha256_file
+from zlscan.io.probe_store import TraceReader
 from zlscan.io.rawstream import RawWriter, verify_raw_prefix
 
 MAX_WINDOW_STEPS = 1_000_000
@@ -50,6 +51,15 @@ class RecordingReplay:
             self.current = self._decode(self.root_blob)
             self.step = self.current.step
             self.record = self.root["recording"]
+            self.trace_reader = None
+            if "trace" in self.root:
+                self.trace_reader = self.stack.enter_context(
+                    TraceReader(self.directory / "probes", self.root["trace"])
+                )
+            if (
+                self.trace_reader.policy if self.trace_reader is not None else None
+            ) != self.spec.trace:
+                raise ValueError("saved probe policy differs from original recording input")
             self.raw_cursor = self.record["writer"]["file"]
             self.journal_cursor = self.record["journal"]
             digest = hashlib.sha256(definition_bytes).hexdigest()
@@ -105,7 +115,8 @@ class RecordingReplay:
             raise ValueError("immutable recording input changed after registration")
         raw_tail = _prefix(self.directory / "raw.zlraw", self.raw_cursor)
         journal_tail = _prefix(self.directory / "events.jsonl", self.journal_cursor)
-        return raw_tail or journal_tail
+        trace_tail = self.trace_reader.unchanged() if self.trace_reader is not None else False
+        return raw_tail or journal_tail or trace_tail
 
     def _file_headers(self, record=None):
         record = self.record if record is None else record
