@@ -1,0 +1,45 @@
+{
+  "format": "zlscan.physical-recording/1",
+  "model_version": "chain-0.3",
+  "preset": "nominal",
+  "chain": {
+    "seed": 3,
+    "source": {
+      "power_w": 7.3e-05,
+      "gated": false
+    },
+    "detector": {
+      "shot_noise": true,
+      "pole_hz": 70000.0
+    },
+    "psf": {
+      "nodes_x": 1,
+      "nodes_y": 1
+    }
+  },
+  "secondary": {
+    "seed": 31
+  },
+  "link": {
+    "latency_half_cycles": 25,
+    "propagation_ps": 1500,
+    "capture_edge": "falling"
+  },
+  "acquisition": {
+    "window_start": 90,
+    "window_length": 100
+  },
+  "stages": [
+    {
+      "name": "model_disk",
+      "capacity_bytes": 65536,
+      "rate_Bps": 10000000.0
+    }
+  ],
+  "session_id": 19,
+  "run_id": "physical",
+  "branch_id": "main",
+  "chunk_steps": 97,
+  "max_pending_syncs": 128,
+  "max_control_events": 1024
+}

@@ -1,0 +1,166 @@
+[
+  {
+    "label": "producer",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--config",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/config.json",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/commands.jsonl",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/source"
+    ],
+    "expected": 0,
+    "returncode": 0
+  },
+  {
+    "label": "replay",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "replay",
+      "--run",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/source",
+      "--start-step",
+      "10200",
+      "--steps",
+      "800",
+      "--probes",
+      "power_w,current_a,v_adc,line",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/replay"
+    ],
+    "expected": 0,
+    "returncode": 0
+  },
+  {
+    "label": "repeat",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "replay",
+      "--run",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/source",
+      "--start-step",
+      "10200",
+      "--steps",
+      "800",
+      "--probes",
+      "power_w,current_a,v_adc,line",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/repeat"
+    ],
+    "expected": 0,
+    "returncode": 0
+  },
+  {
+    "label": "tail",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "replay",
+      "--run",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/tail",
+      "--start-step",
+      "10200",
+      "--steps",
+      "800",
+      "--probes",
+      "power_w,current_a,v_adc,line",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/tail_replay"
+    ],
+    "expected": 0,
+    "returncode": 0
+  },
+  {
+    "label": "legacy",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "replay",
+      "--run",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/legacy",
+      "--start-step",
+      "10200",
+      "--steps",
+      "800",
+      "--probes",
+      "power_w,current_a,v_adc,line",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/legacy_refused"
+    ],
+    "expected": 1,
+    "returncode": 1
+  },
+  {
+    "label": "alternate_producer",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--config",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/config.json",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/alternate_commands.jsonl",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/alternate"
+    ],
+    "expected": 0,
+    "returncode": 0
+  },
+  {
+    "label": "fork",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "replay",
+      "--run",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/forked_history",
+      "--start-step",
+      "10200",
+      "--steps",
+      "800",
+      "--probes",
+      "power_w,current_a,v_adc,line",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/fork_refused"
+    ],
+    "expected": 1,
+    "returncode": 1
+  },
+  {
+    "label": "truncated",
+    "argv": [
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+      "-m",
+      "zlscan",
+      "replay",
+      "--run",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/truncated_cursor",
+      "--start-step",
+      "10200",
+      "--steps",
+      "800",
+      "--probes",
+      "power_w,current_a,v_adc,line",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/truncated_refused"
+    ],
+    "expected": 1,
+    "returncode": 1
+  }
+]

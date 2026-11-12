@@ -1,0 +1,322 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Archived recording roots and controlled multi-channel read-only replay",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T20:29:49.531828+00:00",
+ "finished_at": "2026-11-12T20:33:18.370970+00:00",
+ "code": {
+  "commit": "d08e4b7db07b320ea25463ed3bd3fbbd26a5bdd7",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "primary": 3,
+  "secondary": 31
+ },
+ "inputs": {
+  "src/zlscan/engine/recording_replay.py": "2340047ac01017d3086e0b493ea2d0203563fe96e5c022807043a0122de8896b",
+  "src/zlscan/engine/physical_recording.py": "5eb57ddba76c3054a10f1ff22a9bfa360e81acdef691062e6722a0f1e6d13ca8",
+  "src/zlscan/engine/recording_cli.py": "3fa2f997785de5a25e695a7742f5ac70fe046ebb3cd8aa4d12000c87a0a3ae42",
+  "src/zlscan/io/rawstream.py": "37f06a2b0fec144d0f041dbb5bd091fcb5226eb4e6112c9069abd849f1a1b600",
+  "src/zlscan/cli.py": "805636bda66586073bab1b92ed3d4054a9fe2cad2db8d84b634e6349a7d15c53",
+  "tools/audit_recording_replay.py": "d8db5535ac0e92c2de064689d86df54323ccb6cbf5b0e799a905010d0846d479",
+  "tools/wheel_smoke.py": "1c28dc4596ac447ff069dc5c5ba9d28c4895a3ed85c5995e9bde6723f7474517",
+  "tests/unit/test_recording_replay.py": "da3641b4257efca73d98b0807e80733175cc5ee42fb486dde60d7ae209b80052",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/config.json": "ac390546f9c6195fb86dcc50d7930315050eeccb074f3856314be4c1a0f35cb0",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/commands.jsonl": "e886b5458c93cc9f3eecbadf530d24417e1cbb3f77046d2dd4eea75e907b8ed7",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/audit.json": "d1acccb7159c498715b17497e4549b3462d901279041781ebfc7fedd50aa01bd",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/source_manifest.json": "b446c5dd612bd80e281a1b8c1ec3a6a3f6ed81eefd6ad72b50d843618febe926",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/commands.json": "28b4d68ee544cdb6c708c0743ec2bbb840ecfe1a13642e525d7ae2e46e789da8",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/replay/run.json": "ddf4d820aa7a5dc485a6041b11543745b17224fcd06beeb7d438e4652ec8cac0",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/replay/samples.npz": "509db56fa1e1d4761fe301f3afaa3d6bbaf6f52eea403c4267b45f66a24b096a",
+  "evidence_runs/2026-11-13_recording_replay/output/formal/replay/final_states.json": "e2b8d0ef984325ddd017aa60aac934267ee2e7cbab10b9fd14afbbbf0a5df081",
+  "evidence_runs/2026-11-13_recording_replay/output/wheel_formal/source_manifest.json": "3fea6eb139c7ed50e0e56bf6a2580af569cd021677bc8e95f2fbbded4670fa20",
+  "evidence_runs/2026-11-13_recording_replay/output/wheel_formal/requirements.lock": "0451232b28ccaa90e8643548ea6eb85f75da8d4ce1106371d7fb971b0974b41b",
+  "evidence_runs/2026-11-13_recording_replay/output/wheel_formal/wheelhouse_manifest.json": "48f061c85624c24ec5688bea0ea65d8fd57c32e9327f5d49ea8715f378863777",
+  "evidence_runs/2026-11-13_recording_replay/output/wheel_formal/smoke.json": "b5eca0591b9213903859d8810c02be8840312b64a40907bc7e394081f8e288b9"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_replay.py",
+    "--out",
+    "evidence_runs/2026-11-13_recording_replay/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_replay.py",
+    "--verify",
+    "evidence_runs/2026-11-13_recording_replay/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_recording_replay/output/wheel_formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "independent controlled model equal",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "recorded final physical states equal",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "delivered overlapping rows equal",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "overlapping delivered rows",
+   "expected": 100,
+   "tolerance": null,
+   "actual": 100,
+   "passed": true
+  },
+  {
+   "quantity": "source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "unknown tail preserved",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "incompatible actual history refused",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "rehashed truncated prefix refused",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "model visibility",
+   "expected": "ORACLE_ONLY",
+   "tolerance": null,
+   "actual": "ORACLE_ONLY",
+   "passed": true
+  },
+  {
+   "quantity": "checkpoint point",
+   "expected": 10000,
+   "tolerance": null,
+   "actual": 10000,
+   "passed": true
+  },
+  {
+   "quantity": "history points",
+   "expected": 10,
+   "tolerance": null,
+   "actual": 10,
+   "passed": true
+  },
+  {
+   "quantity": "channels",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "epochs",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "wheel distributions",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "wheel static assets",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "hardware remains unresolved",
+   "expected": "unresolved",
+   "tolerance": null,
+   "actual": "unresolved",
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit producer",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit replay",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit repeat",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit tail",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit legacy",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit alternate_producer",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit fork",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit truncated",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit build",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit download",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit venv",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit install",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit pip_check",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit pip_list",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit smoke",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit static_cases",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit static_verify",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Public CLI generation and replay, independent segmented Chain with original effective-step commands, original committed final states, 100 actually delivered overlapping sample rows and source epoch equality. Fresh process verifies every array hash/state; original and tail/fork/truncated artifacts unchanged. Missing-history, actual incompatible-history and rehashed-truncated-cursor children intentionally exit 1; wrappers exit 0 because refusal was expected. Model outputs ORACLE_ONLY, not observable gap repair or hardware/statistical validation. Ten archived roots 4234..13389 B; replay wall_s excludes registration/process startup and cache state is uncontrolled, not a UI/whole-frame benchmark. Developer full suite log is separate. Same-host isolated wheel runtime+ident smoke includes installed recording replay; no new-dependency full-suite, other OS/machine/browser/hardware or complete-stage claim."
+}

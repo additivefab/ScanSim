@@ -1,0 +1,22 @@
+{
+  "mode": "recording_replay",
+  "status": "replayed",
+  "visibility": "ORACLE_ONLY",
+  "origin": "SIMULATED",
+  "source": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_replay/output/formal/source",
+  "start_step": 10200,
+  "steps": 800,
+  "checkpoint_step": 10000,
+  "checkpoint_file": "00000000000000010000-e7d9d59311949d64ae32631b6585cb777cd9dc8d9cba5624dd11c35b57f3ea67.json",
+  "first_sample_index": 2550,
+  "channels": [
+    0,
+    1
+  ],
+  "discarded_steps": 200,
+  "committed_fine_step": "11000",
+  "uncommitted_tail_present": false,
+  "source_root_sha256": "d49848a6fec407015365cb20059ea17b773bdabf1b5cac776ed59f86c93e845c",
+  "wall_s": 0.06028270800015889,
+  "semantics": "recomputed physical model; not delivered raw or measured codes"
+}

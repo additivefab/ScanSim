@@ -1,0 +1,9 @@
+{"op": "lines", "count": 1}
+{"op": "request", "channel": 0, "parameter": "source.power_w", "value": 0.0002, "effective_step": 10321}
+{"op": "request", "channel": 1, "parameter": "detector.gain", "value": 2400.0, "effective_step": 10407}
+{"op": "sync", "ticks": ["2500007000"]}
+{"op": "advance", "steps": 450}
+{"op": "reset"}
+{"op": "start"}
+{"op": "advance", "steps": 550}
+{"op": "finish"}
