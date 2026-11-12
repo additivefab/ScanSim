@@ -1,0 +1,14 @@
+{
+  "raw_sha256": "0a2c9bf4f3a0ca44328e94fc705372e9a184067977ead5d348fb5ac3bda67b4f",
+  "checkpoint_sha256": "0d5873e3ca8942678cb73342b5fe4714df9078ffff3feb526f633ef66de67813",
+  "delivered_blocks": 2,
+  "fine_step": "20000",
+  "resumed_equals_continuous": true,
+  "branch_equals_continuous": true,
+  "fault_source_unchanged": true,
+  "unknown_tail_preserved": true,
+  "process_kill_exit": -9,
+  "origin": "SIMULATED",
+  "scope": "same-host public CLI and process kill; not power failure, browser or hardware",
+  "quality_sha256": "b5dd38ef62c068a83fbb6a361bcae93839fec1975b8ad8f2a6c9adef0a0f46b1"
+}

@@ -1,0 +1,10 @@
+{
+  "pytest_integration_red.log": {
+    "archive": "pytest_integration_red.log.gz",
+    "original_sha256": "0aa0a8f9b785f9d2bb5923c490e124ef4b3707aa2ce8b3cba72b1ccadf2e77c2"
+  },
+  "pytest_integration_first.log": {
+    "archive": "pytest_integration_first.log.gz",
+    "original_sha256": "54acd098353227382976ed365843cff5264190c2988b56a80b83748055fc20dc"
+  }
+}

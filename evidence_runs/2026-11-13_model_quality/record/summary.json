@@ -1,0 +1,50 @@
+{
+  "commit": "2fcc891c698894d0ca8a72c5c4e8d0ad7d6b2085",
+  "wheel_sha256": "fa73e61f2059d2962b203250db45b91b7a4ba60594826ce46d2eb0b4ae358f0d",
+  "HTTP_responses": 39,
+  "HTTP_source_files": 138,
+  "native_quality_rows": 116,
+  "native_quality_bytes": 33329,
+  "native_quality_header": {
+    "adc_clock": {
+      "freq_den": 1,
+      "freq_num": 1000000,
+      "id": 1,
+      "phase_ticks": 0
+    },
+    "base_hashes": {
+      "0": "885d8995b791b0f2f6dee8ecaccb590964667b827ec4a703303aa5ee6aea1207",
+      "1": "5bbaddd38b8309331798a751bfa1f33156bbac09bbb827babbdd376860092a68"
+    },
+    "channels": [
+      0,
+      1
+    ],
+    "fine_clock": {
+      "freq_den": 1,
+      "freq_num": 4000000,
+      "id": 1,
+      "phase_ticks": 0
+    },
+    "format": "zlscan-model-quality/1",
+    "grids": {
+      "adc_saturated": "adc",
+      "front_end_clipped": "fine",
+      "pmt_over_limit": "fine"
+    },
+    "identity": {
+      "branch_id": "main",
+      "run_id": "physical",
+      "session_id": 19
+    },
+    "model_version": "chain-0.3",
+    "origin": "SIMULATED",
+    "os": 4,
+    "visibility": "ORACLE_ONLY"
+  },
+  "process_kill": -9,
+  "unknown_quality_tail_bytes": 2556,
+  "unknown_raw_tail_bytes": 2612,
+  "http_source_archive_sha256": "01276d95ef9e412c690239f5657f6dd16b636472e88ca7ed40433779da70f13c",
+  "cli_sources_archive_sha256": "e4a6aee2b590a59b86c12c5d1a0797a69a58e15f3be9911c434b4efe12705a61"
+}

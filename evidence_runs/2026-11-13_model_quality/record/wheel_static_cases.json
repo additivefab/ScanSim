@@ -1,0 +1,161 @@
+{
+  "compatible": {
+    "returncode": 0,
+    "status": "identified",
+    "validation": {
+      "status": "compatible",
+      "rows": [
+        {
+          "output_id": "validation0_1",
+          "observed": 4.01,
+          "prediction": 4.010000000000001,
+          "residual": -8.881784197001252e-16,
+          "conditional_mean_interval": [
+            3.912001800772998,
+            4.107998199227003
+          ],
+          "invalid_reason": null,
+          "outside_fit_feature_ranges": []
+        }
+      ],
+      "max_abs_residual_tolerance_si": 0.1,
+      "scope": "nominal holdout residuals under declared model; independence unproven"
+    },
+    "parameters": {
+      "intercept": {
+        "value": 1.0339999999999998,
+        "standard_uncertainty": 0.08366600265340757,
+        "conditional_interval": [
+          0.8700176480688884,
+          1.1979823519311112
+        ],
+        "unit": "V"
+      },
+      "x0": {
+        "value": 1.9840000000000007,
+        "standard_uncertainty": 0.044721359549995794,
+        "conditional_interval": [
+          1.8963477459423426,
+          2.0716522540576587
+        ],
+        "unit": "V/V"
+      }
+    },
+    "input_sha256": {
+      "inputs/fit2.json": "6b7b1d6d6a1a1fe501783413a675881ebf81c4114706771213a011011eb6312e",
+      "inputs/static.json": "681aec64c1cf619f670abb840b4f83aadb08978a4715fd25b55bb2173a63159b",
+      "inputs/fit3.json": "a52e07db697de171ff3d2f006949946a4b215b1a97a6ab48498c494438a3a58d",
+      "inputs/metadata.json": "5d5685d9c5714ff1ccf2361a539754092cd074219d057e87d52a1767b2db7349",
+      "inputs/measurements.csv": "cf7648b245aa3563c1959007563f9f61f3686c98a06d292888889aa3fe8d4a11",
+      "inputs/validation0.json": "ceefaf43945a2566bdbfa3afbc77b33457212a2a62b35b7378efc193543bbd47",
+      "inputs/fit0.json": "ebc668db7a2b4c828b44559204abff8b5fe46961509f8267846fc3b0e09c2611",
+      "inputs/fit1.json": "3cf39f9d745c31ed6e9582e189403c21503921b3bd39855412ee0e7c3db9742b"
+    }
+  },
+  "mismatch": {
+    "returncode": 1,
+    "status": "identified",
+    "validation": {
+      "status": "mismatch",
+      "rows": [
+        {
+          "output_id": "validation0_1",
+          "observed": 4.5,
+          "prediction": 4.010000000000001,
+          "residual": 0.4899999999999993,
+          "conditional_mean_interval": [
+            3.912001800772998,
+            4.107998199227003
+          ],
+          "invalid_reason": null,
+          "outside_fit_feature_ranges": []
+        }
+      ],
+      "max_abs_residual_tolerance_si": 0.1,
+      "scope": "nominal holdout residuals under declared model; independence unproven"
+    },
+    "parameters": {
+      "intercept": {
+        "value": 1.0339999999999998,
+        "standard_uncertainty": 0.08366600265340757,
+        "conditional_interval": [
+          0.8700176480688884,
+          1.1979823519311112
+        ],
+        "unit": "V"
+      },
+      "x0": {
+        "value": 1.9840000000000007,
+        "standard_uncertainty": 0.044721359549995794,
+        "conditional_interval": [
+          1.8963477459423426,
+          2.0716522540576587
+        ],
+        "unit": "V/V"
+      }
+    },
+    "input_sha256": {
+      "inputs/fit2.json": "6b7b1d6d6a1a1fe501783413a675881ebf81c4114706771213a011011eb6312e",
+      "inputs/static.json": "681aec64c1cf619f670abb840b4f83aadb08978a4715fd25b55bb2173a63159b",
+      "inputs/fit3.json": "a52e07db697de171ff3d2f006949946a4b215b1a97a6ab48498c494438a3a58d",
+      "inputs/metadata.json": "09f95c86712c88b806c39cac7533fee91f63dcb410f095c7759e3ddadc45fe82",
+      "inputs/measurements.csv": "da3647d9946d00509a92639343ed82e73b95ab0e9209ed731a24f62bd96dc989",
+      "inputs/validation0.json": "e37a8ce8fe2c0ae5a7b1b20288f73c0c5b999ed05849d2b5e1dbcc14f2134b80",
+      "inputs/fit0.json": "ebc668db7a2b4c828b44559204abff8b5fe46961509f8267846fc3b0e09c2611",
+      "inputs/fit1.json": "3cf39f9d745c31ed6e9582e189403c21503921b3bd39855412ee0e7c3db9742b"
+    }
+  },
+  "collinear": {
+    "returncode": 1,
+    "status": "partially_identifiable",
+    "validation": {
+      "status": "unidentifiable",
+      "rows": [
+        {
+          "output_id": "validation0_2",
+          "observed": 4.01,
+          "prediction": null,
+          "residual": null,
+          "conditional_mean_interval": null,
+          "invalid_reason": "prediction_not_identifiable",
+          "outside_fit_feature_ranges": []
+        }
+      ],
+      "max_abs_residual_tolerance_si": 0.1,
+      "scope": "nominal holdout residuals under declared model; independence unproven"
+    },
+    "parameters": {
+      "intercept": {
+        "value": 1.0339999999999996,
+        "standard_uncertainty": 0.08366600265340755,
+        "conditional_interval": [
+          0.8700176480688881,
+          1.197982351931111
+        ],
+        "unit": "V"
+      },
+      "x0": {
+        "value": null,
+        "standard_uncertainty": null,
+        "conditional_interval": null,
+        "unit": "V/V"
+      },
+      "x1": {
+        "value": null,
+        "standard_uncertainty": null,
+        "conditional_interval": null,
+        "unit": "V/V"
+      }
+    },
+    "input_sha256": {
+      "inputs/fit2.json": "cbd8060fc08b182e8403128f0784a4b2eedfbccf6a3884d1295a01aac75318f5",
+      "inputs/static.json": "febe14b25dab37f992cfc4a3a89b9bb75ba573b61135996cb5911cd4102d5ec6",
+      "inputs/fit3.json": "73f9f2dfbe70b663cb44af3d3b0211ea134b5b9415a1485634972aa22d724812",
+      "inputs/metadata.json": "881649e6f17c04c46b2fc42b3e05f38c4094ebf92e5b9d218f5cfc5643fabf93",
+      "inputs/measurements.csv": "ba8390af830fd1875f0315eae24e6d3addf8880b6d1b8b9dc576080e23a03ac3",
+      "inputs/validation0.json": "b4087d258e2ee72a18b984a9b3ff33b02774e34ded232bcf3a67a1dcf42026c9",
+      "inputs/fit0.json": "cd4e9d76b5386d8ea1ad5cde6f9fb283f9722446ea60396b9a9bcde30f589b42",
+      "inputs/fit1.json": "3d429b9bb723a7a7e38e28f67f9573b4b956aa6c543aadb05cac42f23f97bf16"
+    }
+  }
+}

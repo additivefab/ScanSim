@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-11-12T22:42:31.471959+00:00",
+  "code": {
+    "commit": "2fcc891c698894d0ca8a72c5c4e8d0ad7d6b2085",
+    "dirty": false
+  },
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_workbench.py",
+        "--record-quality",
+        "--probe-policy",
+        "raw",
+        "--out",
+        "evidence_runs/2026-11-13_model_quality/output/formal_http"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_workbench.py",
+        "--verify",
+        "evidence_runs/2026-11-13_model_quality/output/formal_http"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_cli.py",
+        "--record-quality",
+        "--out",
+        "evidence_runs/2026-11-13_model_quality/output/formal_cli"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_cli.py",
+        "--verify",
+        "evidence_runs/2026-11-13_model_quality/output/formal_cli"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_wheel_install.py",
+        "--out",
+        "evidence_runs/2026-11-13_model_quality/output/wheel_formal"
+      ],
+      "returncode": 0
+    }
+  ],
+  "finished_at": "2026-11-12T22:44:47.887572+00:00"
+}

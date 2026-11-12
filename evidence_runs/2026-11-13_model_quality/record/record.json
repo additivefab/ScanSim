@@ -1,0 +1,191 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Native-grid model quality flags with unified recovery and research queries",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T22:42:31.471959+00:00",
+ "finished_at": "2026-11-12T22:44:47.887572+00:00",
+ "code": {
+  "commit": "2fcc891c698894d0ca8a72c5c4e8d0ad7d6b2085",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "HTTP primary": 3,
+  "HTTP secondary": 31
+ },
+ "inputs": {
+  "src/zlscan/io/model_quality.py": "dfbc79c3effde4d04405e65c68fe5ff2bd96781c3e2a996e25bfe1f037f56e8a",
+  "src/zlscan/engine/chain.py": "06489576cd1a9d48c76372669b0e91693445ddf5686155e54f4cd61447056bda",
+  "src/zlscan/engine/physical_recording.py": "06fb6bca02161c597c4c429002fb4884480cbfa9c3395ee9097422db5baca0fd",
+  "src/zlscan/engine/recording_cli.py": "5b6f62743779abc5eb6ee24b38e8f20b95fe6e0bac4463c1376c9e15a5db25a5",
+  "src/zlscan/engine/recording_replay.py": "703d1963a271831d5b65a6f610a7031f068be636cd6cf8dff1e6da3e14c94887",
+  "src/zlscan/engine/recording_service.py": "5171bc5db2bc7cddd2fd4f2097172f4ce0609bac4bb4469be57d1a087133a590",
+  "src/zlscan/api/static/index.html": "9d53c5c3ff799e532dbde7d286fc0fe57ece3c69e3d9b1ab3f3ab0bdb201dc6b",
+  "tests/unit/test_model_quality.py": "013c6c5c5085907cfd2f0a613e4af670ac79c2fb6f751ce936ab6128ebf7306a",
+  "tests/unit/test_quality_recording.py": "ab27405b81d9e53d1de138b688fce8a7b7e9fc8ee11707f6b569c2a71c463c12",
+  "tools/audit_recording_workbench.py": "478b908c318ddf544b5ff1e8cb3b811550fc0a86e40c29f39e238085af4b4932",
+  "tools/audit_recording_cli.py": "abdceeb0ec26bc63137ccdb073b4f4b4b0f4cbb5920e2c7b90652f5582f03889",
+  "tools/wheel_smoke.py": "7d02ff4b863d733dfdbd5c9905a2bef5df1d11a7e24593a5f651e7dddd08a27a",
+  "evidence_runs/2026-11-13_model_quality/output/formal_http/audit.json": "a251a8482b3c0a789e724ccc6ec7ca03fb347e593c7d97a5ebe9d25ad597caa5",
+  "evidence_runs/2026-11-13_model_quality/output/formal_http/config.json": "3fc440aef3298b53d67e5524b0770a76f394b4f9ecc18d169eac74b008efa95b",
+  "evidence_runs/2026-11-13_model_quality/output/formal_http/commands.jsonl": "9857b6bb65b8f9e9c5225dc4acb11e23a46a59f6bce3fe1524667d6b979c9361",
+  "evidence_runs/2026-11-13_model_quality/output/formal_http/source_manifest.json": "09b5c9f5d26a6ba7aa77eb6b671a9b99d5acb26844f87d13e9723e6545b36cbc",
+  "evidence_runs/2026-11-13_model_quality/output/formal_http/source/checkpoint.json": "66fa61af4e923820162a572ff03f1174e08df8a195b5c2d7f62f655e0a5e775a",
+  "evidence_runs/2026-11-13_model_quality/output/formal_http/source/quality_model.jsonl": "6d1daaa3a53a538138118e5f27acdaafeca43743a59ec0d5afbaea6ed3bdbfc2",
+  "evidence_runs/2026-11-13_model_quality/output/formal_cli/recording.json": "2b51ae577a94e151a9e4d1169e61562d92d25a08350b47d6c46da6990f668a74",
+  "evidence_runs/2026-11-13_model_quality/output/formal_cli/audit.json": "159fb44b5416cb739acafaee35cb6b84eb742512db15ddb0372510e71824f526",
+  "evidence_runs/2026-11-13_model_quality/output/formal_cli/kill_receipt.json": "46c3357120376c47faa4f75c02819f1866c0e2fd818d41bfbe7f296c793d4e02",
+  "evidence_runs/2026-11-13_model_quality/output/formal_cli/commands.json": "8263055409ec528caae56bfa635445566e7f7f7fd4a17877e544639900f76323",
+  "evidence_runs/2026-11-13_model_quality/output/formal_cli/fault_manifest.json": "ae0e8a7a4868ad7903dec44ea8f8b0dac404a9caceb16de76b9e002369acb1b2",
+  "evidence_runs/2026-11-13_model_quality/output/wheel_formal/audit.json": "5a17b9bc80bbebf94b36bbb5113cbbe04063ac51d6a7024c2de666252ccbb190",
+  "evidence_runs/2026-11-13_model_quality/output/wheel_formal/smoke.json": "ce480e9e25e91b3440a0e495bc2a41a59e689893b7f04aad4aceb57d8e833355",
+  "evidence_runs/2026-11-13_model_quality/output/wheel_formal/requirements.lock": "98a9178ee8468684c76dd0d5be7c665c5eea317066827a8d220f0b4201de0acc",
+  "evidence_runs/2026-11-13_model_quality/output/wheel_formal/source_manifest.json": "3b99782c1f3cfd69d4b7bfff21ad09e6564e1c8e5469ad496102a3c236524844",
+  "evidence_runs/2026-11-13_model_quality/output/wheel_formal/wheelhouse_manifest.json": "91c4a38071c18ec142a5f48d3b984e464d361efb0b3e8113de29bb5a79a620df"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--record-quality",
+    "--probe-policy",
+    "raw",
+    "--out",
+    "evidence_runs/2026-11-13_model_quality/output/formal_http"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--verify",
+    "evidence_runs/2026-11-13_model_quality/output/formal_http"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_cli.py",
+    "--record-quality",
+    "--out",
+    "evidence_runs/2026-11-13_model_quality/output/formal_cli"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_cli.py",
+    "--verify",
+    "evidence_runs/2026-11-13_model_quality/output/formal_cli"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_model_quality/output/wheel_formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "HTTP original native model flags/epochs and fresh process exact responses",
+   "expected": 39,
+   "tolerance": null,
+   "actual": 39,
+   "passed": true
+  },
+  {
+   "quantity": "HTTP source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "process killed",
+   "expected": -9,
+   "tolerance": null,
+   "actual": -9,
+   "passed": true
+  },
+  {
+   "quantity": "quality unknown tail exists",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "resume equals continuous",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "branch equals continuous",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "fault source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "wheel same commit",
+   "expected": "2fcc891c698894d0ca8a72c5c4e8d0ad7d6b2085",
+   "tolerance": null,
+   "actual": "2fcc891c698894d0ca8a72c5c4e8d0ad7d6b2085",
+   "passed": true
+  },
+  {
+   "quantity": "wheel source clean",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "locked distributions installed",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED/ORACLE_ONLY only. Front-end clipping and PMT limit at original fine steps; ADC saturation at source sample edges. HTTP flags compare with independent segmented Chain and control epochs; model events denied to instrument. Public CLI actual kill, refusal and committed-prefix branch preserve fault original; raw/journal/quality/root equal continuous run. Not physical power failure, hardware, measured thresholds, P0 high-density or full stage3-7 acceptance. Developer full suite 1395 passed/2 Icarus skips (155.73 s), separate from same-host installed wheel short flows; no installed full-suite/cross-platform/browser claim."
+}

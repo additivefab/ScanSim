@@ -1,0 +1,16 @@
+{
+  "quality_model.jsonl": "aacf1c03d6873582e1416c830e5b02518736277ddf4c4c634a5d7bcfa37146e3",
+  "checkpoint.json": "4ad0cbed51fa3ccf262a846d1bf0ea34651cc123d9c2245dc792f15dd118ea34",
+  "raw.zlraw": "0a2c9bf4f3a0ca44328e94fc705372e9a184067977ead5d348fb5ac3bda67b4f",
+  "events.jsonl": "35046f486896662d3a3593310c94f0dcf631a1c78aae95238fac7629c8e4c8ac",
+  "definition.sha256": "9efa61a0a86ad58ff415d0868382742708b341dd0caf8e7a3684a504dc49bdcf",
+  "run.json": "001cacc805047a27c8be92f233c5b9a7d23fa2a6db8eb8f1117e1a8fe751a195",
+  "definition.json": "c6299405518832fca48cbb37385f925f9a4740f00465bbda29444529d31f473e",
+  "history/00000000000000000000-3bf333e4963dbd309554fde23e3798e3064e553db922aa45dcc71efabb7fe58b.json": "3bf333e4963dbd309554fde23e3798e3064e553db922aa45dcc71efabb7fe58b",
+  "history/00000000000000010000-4ad0cbed51fa3ccf262a846d1bf0ea34651cc123d9c2245dc792f15dd118ea34.json": "4ad0cbed51fa3ccf262a846d1bf0ea34651cc123d9c2245dc792f15dd118ea34",
+  "inputs/recording.json": "2b51ae577a94e151a9e4d1169e61562d92d25a08350b47d6c46da6990f668a74",
+  "inputs/channel_0/config.json": "91692623ba4bf002acb724bd70195d20a4f8a00f373740cd7f6723aaf72c7a46",
+  "inputs/channel_0/scene_0.npy": "b350ecd4a96e9e18267fd5e7e42dba665ecd98ccf95d9f6964d9b07cfff888de",
+  "inputs/channel_1/config.json": "87b280782d06c3cf8ffb8ab1896bb5e0b5dc0abc0338cce5178e6954dd4abc05",
+  "inputs/channel_1/scene_0.npy": "b350ecd4a96e9e18267fd5e7e42dba665ecd98ccf95d9f6964d9b07cfff888de"
+}

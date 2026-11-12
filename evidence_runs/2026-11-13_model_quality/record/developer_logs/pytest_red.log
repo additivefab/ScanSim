@@ -1,0 +1,44 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+________ test_native_grids_keep_between_adc_single_step_and_exact_epoch ________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-161/test_native_grids_keep_between0')
+
+    def test_native_grids_keep_between_adc_single_step_and_exact_epoch(tmp_path):
+>       from zlscan.io.model_quality import QualityReader, QualityWriter
+E       ModuleNotFoundError: No module named 'zlscan.io.model_quality'
+
+tests/unit/test_model_quality.py:38: ModuleNotFoundError
+_________ test_quality_resume_branch_and_unknown_tail_preserve_source __________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-161/test_quality_resume_branch_and0')
+
+    def test_quality_resume_branch_and_unknown_tail_preserve_source(tmp_path):
+>       from zlscan.io.model_quality import QualityReader, QualityWriter
+E       ModuleNotFoundError: No module named 'zlscan.io.model_quality'
+
+tests/unit/test_model_quality.py:60: ModuleNotFoundError
+_______ test_event_budget_is_reported_and_committed_mutation_is_refused ________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-161/test_event_budget_is_reported_0')
+
+    def test_event_budget_is_reported_and_committed_mutation_is_refused(tmp_path):
+>       from zlscan.io.model_quality import QualityReader, QualityWriter
+E       ModuleNotFoundError: No module named 'zlscan.io.model_quality'
+
+tests/unit/test_model_quality.py:84: ModuleNotFoundError
+__________ test_malformed_counts_cannot_commit_a_new_quality_boundary __________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-161/test_malformed_counts_cannot_c0')
+
+    def test_malformed_counts_cannot_commit_a_new_quality_boundary(tmp_path):
+>       from zlscan.io.model_quality import QualityWriter
+E       ModuleNotFoundError: No module named 'zlscan.io.model_quality'
+
+tests/unit/test_model_quality.py:103: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/unit/test_model_quality.py::test_native_grids_keep_between_adc_single_step_and_exact_epoch
+FAILED tests/unit/test_model_quality.py::test_quality_resume_branch_and_unknown_tail_preserve_source
+FAILED tests/unit/test_model_quality.py::test_event_budget_is_reported_and_committed_mutation_is_refused
+FAILED tests/unit/test_model_quality.py::test_malformed_counts_cannot_commit_a_new_quality_boundary
+4 failed in 0.32s

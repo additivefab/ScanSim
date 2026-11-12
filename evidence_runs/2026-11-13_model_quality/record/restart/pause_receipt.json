@@ -1,0 +1,54 @@
+{
+  "format": "zlscan.recording-run/1",
+  "mode": "physical_recording",
+  "origin": "SIMULATED",
+  "visibility": "ORACLE_ONLY",
+  "status": "paused",
+  "op": "eof",
+  "summary": {
+    "written_blocks": 1,
+    "lost_blocks": 0,
+    "retained_samples_per_channel": 637,
+    "closed": false,
+    "failed": false,
+    "fine_step": "10000",
+    "control_state": "scanning",
+    "applied_commands": 0,
+    "physical_applicability": [
+      {
+        "status": "limited_research_model",
+        "high_density_capability": "not_validated",
+        "stochastic_log_status": "not_applicable",
+        "input_response_hz": null,
+        "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+        "input_response_evidence": null,
+        "dt_over_response_tau": null,
+        "finite_grid_to_continuous_current_variance_ratio": null,
+        "limitations": [
+          "PMT anode limit is a warning only, not saturation or recovery physics",
+          "polygon scanner, not a closed-loop galvanometer",
+          "collection model does not establish local coating-defect response",
+          "assumed parameters do not establish hardware capability"
+        ]
+      },
+      {
+        "status": "limited_research_model",
+        "high_density_capability": "not_validated",
+        "stochastic_log_status": "not_applicable",
+        "input_response_hz": null,
+        "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+        "input_response_evidence": null,
+        "dt_over_response_tau": null,
+        "finite_grid_to_continuous_current_variance_ratio": null,
+        "limitations": [
+          "PMT anode limit is a warning only, not saturation or recovery physics",
+          "polygon scanner, not a closed-loop galvanometer",
+          "collection model does not establish local coating-defect response",
+          "assumed parameters do not establish hardware capability"
+        ]
+      }
+    ]
+  },
+  "checkpoint_sha256": "4ad0cbed51fa3ccf262a846d1bf0ea34651cc123d9c2245dc792f15dd118ea34",
+  "definition_sha256": "c6299405518832fca48cbb37385f925f9a4740f00465bbda29444529d31f473e"
+}
