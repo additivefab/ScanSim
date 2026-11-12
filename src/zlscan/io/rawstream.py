@@ -200,70 +200,7 @@ class RawWriter:
         return result
 
     def _verify_prefix(self) -> None:
-        stream = self._file
-        stream.seek(0)
-        if stream.read(len(PRELUDE)) != PRELUDE:
-            raise ValueError("committed raw prelude differs")
-        size = stream.read(4)
-        if len(size) != 4:
-            raise ValueError("committed session is truncated")
-        length = struct.unpack("<I", size)[0]
-        if length > self.offset - stream.tell():
-            raise ValueError("committed session length exceeds file")
-        if (
-            self._hash_session(SessionHeader.model_validate_json(stream.read(length)))
-            != self._session_hash
-        ):
-            raise ValueError("committed raw session differs")
-        sequence = 0
-        while stream.tell() < self.offset:
-            header = stream.read(BLOCK_HEADER_SIZE)
-            if (
-                len(header) != BLOCK_HEADER_SIZE
-                or zlib.crc32(header[:60]) != struct.unpack_from("<I", header, 60)[0]
-            ):
-                raise ValueError("committed block header is incomplete or has bad CRC")
-            (
-                magic,
-                version,
-                head_len,
-                sid,
-                _epoch,
-                seq,
-                mask,
-                _domain,
-                _flags,
-                _reserved,
-                _first,
-                count,
-                size,
-                _line,
-                crc,
-                _reserved2,
-            ) = _HEAD.unpack(header[:60])
-            if (
-                magic != BLOCK_MAGIC
-                or version != BLOCK_VERSION
-                or head_len != BLOCK_HEADER_SIZE
-                or sid != self.session.session_id
-                or seq != sequence
-                or not mask
-                or size != count * len(_channels(mask)) * 2
-                or size > self.offset - stream.tell()
-            ):
-                raise ValueError("committed block layout or sequence differs")
-            remaining, actual = size, 0
-            while remaining:
-                data = stream.read(min(1 << 20, remaining))
-                if not data:
-                    raise ValueError("committed payload is truncated")
-                actual = zlib.crc32(data, actual)
-                remaining -= len(data)
-            if actual != crc:
-                raise ValueError("committed payload CRC differs")
-            sequence += 1
-        if stream.tell() != self.offset or sequence != self._seq:
-            raise ValueError("committed block boundary or next sequence differs")
+        verify_raw_prefix(self._file, self.offset, self._session_hash, self._seq)
 
     def __enter__(self) -> RawWriter:
         return self
@@ -306,6 +243,80 @@ class RawWriter:
         )  # fmt: skip
         self._output.append(head + struct.pack("<I", zlib.crc32(head)) + payload)
         self._seq += 1
+
+
+def verify_raw_prefix(
+    stream: BinaryIO, offset: int, session_hash: str, next_sequence: int
+) -> SessionHeader:
+    """Validate exactly a committed prefix; never consume uncommitted tail bytes."""
+    if type(offset) is not int or offset < len(PRELUDE) + 4:
+        raise ValueError("committed raw prefix is shorter than the session prelude")
+    if type(next_sequence) is not int or not 0 <= next_sequence <= 2**32:
+        raise ValueError("committed next sequence exceeds the container range")
+    stream.seek(0)
+    if stream.read(len(PRELUDE)) != PRELUDE:
+        raise ValueError("committed raw prelude differs")
+    size = stream.read(4)
+    if len(size) != 4:
+        raise ValueError("committed session is truncated")
+    length = struct.unpack("<I", size)[0]
+    if length > offset - stream.tell():
+        raise ValueError("committed session length exceeds file prefix")
+    session = SessionHeader.model_validate_json(stream.read(length))
+    if RawWriter._hash_session(session) != session_hash:
+        raise ValueError("committed raw session differs")
+    sequence = 0
+    while stream.tell() < offset:
+        if offset - stream.tell() < BLOCK_HEADER_SIZE:
+            raise ValueError("committed block header exceeds prefix")
+        header = stream.read(BLOCK_HEADER_SIZE)
+        if (
+            len(header) != BLOCK_HEADER_SIZE
+            or zlib.crc32(header[:60]) != struct.unpack_from("<I", header, 60)[0]
+        ):
+            raise ValueError("committed block header is incomplete or has bad CRC")
+        (
+            magic,
+            version,
+            head_len,
+            sid,
+            _epoch,
+            seq,
+            mask,
+            _domain,
+            _flags,
+            _reserved,
+            _first,
+            count,
+            size,
+            _line,
+            crc,
+            _reserved2,
+        ) = _HEAD.unpack(header[:60])
+        if (
+            magic != BLOCK_MAGIC
+            or version != BLOCK_VERSION
+            or head_len != BLOCK_HEADER_SIZE
+            or sid != session.session_id
+            or seq != sequence
+            or not mask
+            or size != count * len(_channels(mask)) * 2
+            or size > offset - stream.tell()
+        ):
+            raise ValueError("committed block layout or sequence differs")
+        remaining, actual = size, 0
+        while remaining:
+            data = stream.read(min(1 << 20, remaining))
+            if not data:
+                raise ValueError("committed payload is truncated")
+            actual = zlib.crc32(data, actual)
+            remaining -= len(data)
+        if actual != crc:
+            raise ValueError("committed payload CRC differs")
+        sequence += 1
+    if stream.tell() != offset or sequence != next_sequence:
+        raise ValueError("committed block boundary or next sequence differs")
+    return session
 
 
 def read_all(path: Path) -> ReadResult:

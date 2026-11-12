@@ -177,6 +177,25 @@ def main() -> None:
     command_file.write_text('{"op":"lines","count":1}\n{"op":"finish"}\n')
     run(["run", "--mode", "recording", "--resume", str(recording), "--commands", str(command_file)])
     assert json.loads((recording / "run.json").read_text())["status"] == "complete"
+    recording_replay = args.out / "recording_replay"
+    run(
+        [
+            "replay",
+            "--run",
+            str(recording),
+            "--start-step",
+            "10200",
+            "--steps",
+            "100",
+            "--probes",
+            "power_w,v_adc",
+            "--out",
+            str(recording_replay),
+        ]
+    )
+    replay_metadata = json.loads((recording_replay / "run.json").read_text())
+    assert replay_metadata["visibility"] == "ORACLE_ONLY"
+    assert replay_metadata["checkpoint_step"] == 10000
     from zlscan.engine.saved_service import saved_service
 
     with saved_service(args.out / "sample") as saved:

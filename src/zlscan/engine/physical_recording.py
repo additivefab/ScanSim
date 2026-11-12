@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import threading
 from copy import deepcopy
 from dataclasses import asdict, replace
@@ -19,7 +20,7 @@ from zlscan.engine.chain import Chain, ChainConfig
 from zlscan.engine.digital_pipeline import DigitalPipeline
 from zlscan.engine.digital_recording import DigitalRecorder, _serialized
 from zlscan.engine.validity import physical_applicability
-from zlscan.io.committed import publish_checkpoint
+from zlscan.io.committed import publish_checkpoint, publish_document
 from zlscan.transport.queues import StageSpec
 
 
@@ -250,7 +251,7 @@ class PhysicalRecorder:
             self.failed = True
             raise
 
-    def _consistent(self) -> None:
+    def _physical_consistent(self) -> None:
         if {str(c): cfg.hash() for c, cfg in self.base.items()} != self.base_hashes:
             raise ValueError("base physical configuration changed")
         if any(chain.step != self.step for chain in self.chains.values()):
@@ -286,17 +287,25 @@ class PhysicalRecorder:
             raise ValueError("physical command plan differs from the control history")
         if any(chain.cfg.hash() != expected[c].hash() for c, chain in self.chains.items()):
             raise ValueError("effective physical configuration differs from applied commands")
+
+    def _consistent(self) -> None:
+        self._physical_consistent()
+        self._pipeline_consistent(self.recording.pipeline, self.recording.next_source_index)
+
+    def _pipeline_consistent(
+        self, pipeline: DigitalPipeline, next_source_index: int | None
+    ) -> None:
         next_source = -(-self.step // next(iter(self.base.values())).os)
-        if self.recording.next_source_index != (next_source if self.step else None):
+        if next_source_index != (next_source if self.step else None):
             raise ValueError("physical and digital source sample boundaries disagree")
-        identity = self.recording.pipeline.link.identity
+        identity = pipeline.link.identity
         if identity is not None and identity != (
             self.identity["run_id"],
             self.identity["branch_id"],
             self.identity["session_id"],
         ):
             raise ValueError("physical and digital sample identity differs")
-        if self.recording.pipeline.closed != (self.controller.state is State.DONE):
+        if pipeline.closed != (self.controller.state is State.DONE):
             raise ValueError("physical controller and digital completion state differ")
 
     @_serialized
@@ -329,10 +338,33 @@ class PhysicalRecorder:
     def save_checkpoint(self) -> Path:
         data = self.checkpoint()
         try:
-            return publish_checkpoint(self.directory, data)
+            root = publish_checkpoint(self.directory, data)
+            history = self.directory / "history"
+            new_directory = not history.exists()
+            history.mkdir(exist_ok=True)
+            name = f"{self.step:020d}-{self._hash_bytes(data)}.json"
+            archived = history / name
+            if archived.exists():
+                if archived.read_bytes() != data:
+                    raise ValueError("immutable physical history checkpoint differs")
+            else:
+                publish_document(history, name, data)
+            if new_directory and os.name != "nt":
+                fd = os.open(self.directory, os.O_RDONLY)
+                try:
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+            return root
         except Exception:
             self.failed = True
             raise
+
+    @staticmethod
+    def _hash_bytes(data: bytes) -> str:
+        import hashlib
+
+        return hashlib.sha256(data).hexdigest()
 
     @classmethod
     def restore(
@@ -346,6 +378,31 @@ class PhysicalRecorder:
         *,
         branch_directory: Path | None = None,
     ) -> PhysicalRecorder:
+        result = cls._restore_physics(configs, link, blob)
+        value = json.loads(blob)
+        result.recording = DigitalRecorder.restore(
+            directory,
+            result.domain,
+            link,
+            acquisition,
+            stages,
+            result.channels,
+            json.dumps(value["recording"]).encode(),
+            branch_directory=branch_directory,
+        )
+        result.directory = result.recording.directory
+        try:
+            result._consistent()
+        except Exception:
+            result.__exit__()
+            raise
+        return result
+
+    @classmethod
+    def _restore_physics(
+        cls, configs: dict[int, ChainConfig], link: LinkConfig, blob: bytes
+    ) -> PhysicalRecorder:
+        """Validate/rebuild only model state; do not open or resume any output writer."""
         value = json.loads(blob)
         if not isinstance(value, dict) or value.get("format") != cls.FORMAT:
             raise ValueError("physical recording checkpoint version is unsupported")
@@ -372,22 +429,7 @@ class PhysicalRecorder:
         first = next(iter(result.chains.values()))
         result.domain, result.fine_clock = first.adc_clock, first.fine_clock
         result._mutex, result.failed = threading.RLock(), False
-        result.recording = DigitalRecorder.restore(
-            directory,
-            result.domain,
-            link,
-            acquisition,
-            stages,
-            result.channels,
-            json.dumps(value["recording"]).encode(),
-            branch_directory=branch_directory,
-        )
-        result.directory = result.recording.directory
-        try:
-            result._consistent()
-        except Exception:
-            result.__exit__()
-            raise
+        result._physical_consistent()
         return result
 
     @_serialized

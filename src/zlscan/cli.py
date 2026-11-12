@@ -523,6 +523,7 @@ def _run_report(argv: Sequence[str]) -> int:
 
 
 def _run_replay(argv: Sequence[str]) -> int:
+    import json
     from pathlib import Path
 
     from zlscan.config.presets import demo_config, nominal_config
@@ -536,8 +537,30 @@ def _run_replay(argv: Sequence[str]) -> int:
     p.add_argument("--steps", required=True, type=int)
     p.add_argument("--out", required=True, type=Path)
     p.add_argument("--preset", choices=["demo", "nominal"], default=None)
+    p.add_argument("--probes", default="", help="recording replay probe names, comma separated")
     args = p.parse_args(list(argv))
     try:
+        mode = (
+            "physical_recording"
+            if (args.run / "definition.json").is_file() and (args.run / "checkpoint.json").is_file()
+            else json.loads((args.run / "run.json").read_text()).get("mode")
+        )
+        if mode == "physical_recording":
+            if args.preset:
+                raise ValueError("recording replay uses its saved configuration; omit --preset")
+            from zlscan.engine.recording_replay import replay_recording
+
+            replay_recording(
+                args.run,
+                args.out,
+                args.start_step,
+                args.steps,
+                set(filter(None, args.probes.split(","))),
+            )
+            print(f"回放结果已写入 {args.out}")
+            return 0
+        if args.probes:
+            raise ValueError("--probes currently requires a recording source")
         preset = nominal_config if args.preset == "nominal" else demo_config
         replay_saved_window(
             args.run, args.out, preset() if args.preset else None, args.start_step, args.steps

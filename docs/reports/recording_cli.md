@@ -120,3 +120,8 @@ wheel SHA256 `ac15d16371d49d4d971cfac4ffc80273899d30471a82ffc45a303e715ae8e90b`�
 `evidence_runs/2026-11-13_recording_cli/record/`。旧 wheel 与其配套锁保留。
 这是 macOS 15.7.6 / Python 3.14.7 / x86_64 同机隔离短流程，
 不称跨平台、另一机器、浏览器或硬件验收，未对新依赖集合声称全量通过。
+
+
+2026-11-13 后续：统一根现另存不可变 history，命令确认前完成归档；分支复制历史。
+新增 recording 的控制感知只读 `replay`，见 `recording_replay.md`。
+本报告上述 wheel 记录仍绑定 `05dea2e`，不自动覆盖新增重放代码。

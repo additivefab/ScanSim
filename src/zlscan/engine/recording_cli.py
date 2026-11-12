@@ -124,7 +124,8 @@ def _create(directory, path):
         raise
 
 
-def _restore(source, target, stack):
+def read_definition(source, stack):
+    """Load immutable model/runtime inputs without opening an append writer."""
     data = (source / "definition.json").read_bytes()
     if hashlib.sha256(data).hexdigest() != (source / "definition.sha256").read_text():
         raise ValueError("recording definition SHA mismatch")
@@ -135,7 +136,8 @@ def _restore(source, target, stack):
         or definition.get("visibility") != "ORACLE_ONLY"
     ):
         raise ValueError("unsupported recording definition")
-    if sha256_file(source / "inputs/recording.json") != definition["input_sha256"]:
+    original = (source / "inputs/recording.json").read_bytes()
+    if hashlib.sha256(original).hexdigest() != definition["input_sha256"]:
         raise ValueError("original recording input SHA mismatch")
     configs = {}
     for row in definition["channels"]:
@@ -147,9 +149,9 @@ def _restore(source, target, stack):
             raise ValueError("recording configuration hash mismatch")
         configs[channel] = cfg
     # Revalidate software limits and full runtime fields from the immutable input snapshot.
-    spec = RecordingInput.model_validate_json(
-        json.dumps(_json((source / "inputs/recording.json").read_bytes())), strict=True
-    )
+    spec = RecordingInput.model_validate_json(json.dumps(_json(original)), strict=True)
+    if set(configs) != ({0, 1} if spec.secondary is not None else {0}):
+        raise ValueError("recording channels differ from original input")
     link, acq, stages = _runtime(spec)
     for name, expected in [
         ("link", asdict(link)),
@@ -161,6 +163,11 @@ def _restore(source, target, stack):
     ]:
         if json.dumps(definition[name], sort_keys=True) != json.dumps(expected, sort_keys=True):
             raise ValueError("recording runtime definition differs from input snapshot")
+    return definition, configs, link, acq, stages, spec, data
+
+
+def _restore(source, target, stack):
+    definition, configs, link, acq, stages, spec, data = read_definition(source, stack)
     recorder = PhysicalRecorder.restore(
         source,
         configs,
@@ -177,6 +184,8 @@ def _restore(source, target, stack):
             raise ValueError("recording source identity differs")
         if target != source:
             shutil.copytree(source / "inputs", target / "inputs")
+            if (source / "history").is_dir():
+                shutil.copytree(source / "history", target / "history")
             publish_document(target, "definition.json", data)
             publish_document(target, "definition.sha256", hashlib.sha256(data).hexdigest().encode())
         return recorder, definition

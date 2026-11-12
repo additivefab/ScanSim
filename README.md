@@ -97,3 +97,13 @@ zlscan run --mode recording --resume recording_run --commands next.jsonl
 命令文件逐行写 JSON，如 `{"op":"lines","count":2}`；EOF 只暂停，
 `{"op":"finish"}` 才排空结束。未知尾部原位拒绝，可加 `--out recovered_run`
 从提交前缀分支并保留原件。协议、安全停止和资源范围见 `docs/reports/recording_cli.md`。
+
+
+录制历史研究窗口重放：
+
+```sh
+zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_w,v_adc --out recording_replay
+```
+
+需要窗口起点之前真实保存的 history 检查点；输出 ORACLE_ONLY，不补缺样或冒充交付码。
+控制感知、多通道/时期及提交前缀范围见 `docs/reports/recording_replay.md`。

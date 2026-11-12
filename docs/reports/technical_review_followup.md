@@ -12,7 +12,7 @@
 | 3 窗外轨迹 | 当前 chain-0.3 物理 f-theta 轨迹不夹紧，旧夹紧仅显式遗留开关；片外透射及前端历史已回归。光学门、数字窗和裁剪保持独立。见 `unclamped_trajectory_p0.md` |
 | 4 ZL80 运动与收光 | 未完成。当前多面镜不是闭环振镜，收光效率不是积分筒局部位置/角度响应。应新增可替换运动、编码器观测和带单位/不确定度/测量条件的响应表；不得用制造条纹的同一精确曲线倒数证明实机可校正 |
 | 5 实测与独立标定 | 三类声明格式导入、同步/来源门禁、观测候选及条件静态辨识/分区检查已实现，见 `measurement_table_import.md`、`scope_observation_model.md`、`static_identification.md`。观测单调表已要求显式区间与来源；真实协议、测量支持、共享误差及独立实测闭环仍未完成，不能把插值节点当独立实测点数 |
-| 6 未知长度/交付 | 数字事件引擎、真实在途载荷及文件续写/故障分支已逐步落地，见 `recording_checkpoints.md`。统一物理运行器的组合根已独立实跑，见 `physical_recording_checkpoints.md`，新增公共未知终点 JSONL recording 入口、保存定义/根、原位与保留原件分支恢复，见 `recording_cli.md`；迹线/工作台/跨时期密度链尚未完整接入。保留磁盘满、断网、中止、重复/缺失段、干净安装验收 |
+| 6 未知长度/交付 | 数字事件引擎、真实在途载荷及文件续写/故障分支已逐步落地，见 `recording_checkpoints.md`。统一物理运行器的组合根已独立实跑，见 `physical_recording_checkpoints.md`，新增公共未知终点 JSONL recording 入口、保存定义/根、原位与保留原件分支恢复，见 `recording_cli.md`；历史根与控制感知多通道只读重放已有后续实现，见 `recording_replay.md`；迹线/工作台/跨时期密度链尚未完整接入。保留磁盘满、断网、中止、重复/缺失段、干净安装验收 |
 | 公共/独立随机源 | 未完成。现有通道仍以配置 seed 区分探测噪声；共享行抖动与独立探测噪声尚未统一。相同 seed/配置会相关，不能据参考通道的理想抵消宣称降噪能力 |
 | 自定义配置与加载 | 新增自包含配置的单通道 `serve --run` 只读物理目录，ADC 源码/交付分流并从原检查点重放；`replay` 可自动使用保存配置，见 `saved_workbench.md`。版本化 ASSUMED 研究 --config 已接预算、有限单/双通道运行及单通道参考标定，见 `research_scenario.md`；硬件画像配置、其它保存格式/流式跨时期及完整时间轴验收仍未完成；--images 继续注册独立重建工件 |
 | 图像联动/查询 | 有界 ADC/模拟摘要及 HTTP 图像瓦片/像素谱系已有后续实现和独立实跑，见 `http_imaging.md`、`workbench_review_crosswalk.md`；浏览器禁用时未绕过，完整视觉验收继续保留。WebSocket 不因 HTTP 实现而算完成 |
