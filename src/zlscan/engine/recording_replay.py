@@ -19,6 +19,7 @@ from zlscan.io.committed import verify_committed_prefix as _prefix
 from zlscan.io.manifest import sha256_file
 from zlscan.io.model_quality import QualityReader
 from zlscan.io.probe_store import TraceReader
+from zlscan.io.producer_history import HistoryReader
 from zlscan.io.rawstream import RawWriter, verify_raw_prefix
 
 MAX_WINDOW_STEPS = 1_000_000
@@ -52,6 +53,15 @@ class RecordingReplay:
             self.current = self._decode(self.root_blob)
             self.step = self.current.step
             self.record = self.root["recording"]
+            self.history_reader = None
+            if "digital_history" in self.root:
+                self.history_reader = self.stack.enter_context(
+                    HistoryReader(
+                        self.directory / "producer_history.jsonl", self.root["digital_history"]
+                    )
+                )
+            if (self.history_reader is not None) != self.spec.record_digital_history:
+                raise ValueError("producer history policy differs from saved input")
             self.quality_reader = None
             if "quality" in self.root:
                 self.quality_reader = self.stack.enter_context(
@@ -59,9 +69,9 @@ class RecordingReplay:
                 )
             if self.quality_reader is not None:
                 self.quality_reader.check_epochs(
-                    lambda step: self.current.controller.epoch_at(
-                        self.current.fine_clock.tick_of(step)
-                    ).id
+                    lambda step: (
+                        self.current.controller.epoch_at(self.current.fine_clock.tick_of(step)).id
+                    )
                 )
             if (self.quality_reader is not None) != self.spec.record_quality:
                 raise ValueError("saved model quality policy differs from recording input")
@@ -119,6 +129,14 @@ class RecordingReplay:
             json.dumps(record["pipeline"]).encode(),
         )
         result._pipeline_consistent(pipeline, pipeline.link.next_index)
+        if "digital_history" in state:
+            history = state["digital_history"]
+            if (
+                history["header"] != result.digital_history_header(pipeline)
+                or history["after"] != result._hash_bytes(pipeline.checkpoint())
+                or history["closed"] != pipeline.closed
+            ):
+                raise ValueError("producer history runtime state differs")
         header = pipeline.session_header(record["session_id"])
         if RawWriter._hash_session(header) != record["writer"]["session_hash"]:
             raise ValueError("recording session hash differs from runtime")
@@ -131,7 +149,8 @@ class RecordingReplay:
         journal_tail = _prefix(self.directory / "events.jsonl", self.journal_cursor)
         trace_tail = self.trace_reader.unchanged() if self.trace_reader is not None else False
         quality_tail = self.quality_reader.unchanged() if self.quality_reader is not None else False
-        return raw_tail or journal_tail or trace_tail or quality_tail
+        history_tail = self.history_reader.unchanged() if self.history_reader is not None else False
+        return raw_tail or journal_tail or trace_tail or quality_tail or history_tail
 
     def _file_headers(self, record=None):
         record = self.record if record is None else record
@@ -207,6 +226,12 @@ class RecordingReplay:
             raise ValueError("historical cursor exceeds current committed prefix")
         _prefix(self.directory / "raw.zlraw", record["writer"]["file"])
         _prefix(self.directory / "events.jsonl", record["journal"])
+        state = json.loads(best[1])
+        if "digital_history" in state:
+            if self.history_reader is None:
+                raise ValueError("historical producer cursor lacks a current history")
+            # Validate an actual committed prefix, including operation count and boundary.
+            HistoryReader(self.directory / "producer_history.jsonl", state["digital_history"])
         self._file_headers(record)
         return restored, best[2]
 

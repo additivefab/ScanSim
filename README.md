@@ -120,5 +120,10 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 
 
 录制配置可选 `"record_quality": true` 持久保存原生网格的模型质量事件，并与统一根恢复。
+
+录制配置可选 `"record_digital_history": true` 保存原始数字操作历史，默认关闭。
+同步输入、原源批次码摘要和数字链状态摘要进入统一恢复根 v4；旧记录继续可读。
+这提供可复核的重放输入，指定时刻数字状态 API 和统一游标仍待接入。
+见 [原始数字操作历史](docs/reports/producer_history.md)。
 前端削顶/PMT 超限在细步网格，ADC 饱和在源 ADC 网格；仅研究视图可见。
 见 [事件来源与恢复规则](docs/reports/model_quality_events.md)。

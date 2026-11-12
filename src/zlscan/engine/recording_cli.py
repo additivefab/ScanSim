@@ -45,6 +45,7 @@ class RecordingInput(PhysicsInput):
     max_control_events: int = Field(default=1024, ge=16, le=4096)
     trace: TracePolicy | None = None
     record_quality: bool = False
+    record_digital_history: bool = False
 
 
 def _json(data):
@@ -92,8 +93,11 @@ def _create(directory, path):
         branch_id=spec.branch_id,
         trace_policy=spec.trace,
         record_quality=spec.record_quality,
+        record_digital_history=spec.record_digital_history,
     )
     try:
+        if (recorder.digital_history is not None) != spec.record_digital_history:
+            raise ValueError("producer history policy differs from saved input")
         if (recorder.quality is not None) != spec.record_quality:
             raise ValueError("model quality policy differs from saved input")
         inputs = directory / "inputs"
@@ -185,6 +189,8 @@ def _restore(source, target, stack):
         branch_directory=target if target != source else None,
     )
     try:
+        if (recorder.digital_history is not None) != spec.record_digital_history:
+            raise ValueError("producer history policy differs from saved input")
         if (recorder.quality is not None) != spec.record_quality:
             raise ValueError("model quality policy differs from saved input")
         if (recorder.trace.policy if recorder.trace is not None else None) != spec.trace:
