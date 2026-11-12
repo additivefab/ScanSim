@@ -12,6 +12,7 @@ from zlscan.api.server import Run, Service, make_server
 from zlscan.config.presets import demo_config
 from zlscan.contracts.time import ClockDomain
 from zlscan.engine.chain import ChainConfig
+from zlscan.engine.validity import physical_applicability
 from zlscan.replay.replay import run_with_checkpoints
 from zlscan.trace.recorder import record
 
@@ -29,7 +30,7 @@ def build_run(run_id: str, cfg: ChainConfig, steps: int, record_probes: set[str]
     src = ConvertedSamples(full.codes.reshape(-1, 1), (0,), full.first_sample, 0, dom, cfg.adc.bits)
     link = transmit(src, LinkConfig(latency_half_cycles=24, propagation_ps=1500))
     return Run(run_id, cfg, steps, full.codes, store, rec.get("pyramids", {}), set(record_probes),
-               events, parent, link)  # fmt: skip
+               events, parent, link, meta={"physical_applicability": physical_applicability(cfg)})  # fmt: skip
 
 
 def brancher(parent: Run, overrides: dict) -> Run | None:

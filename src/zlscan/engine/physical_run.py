@@ -26,8 +26,9 @@ from zlscan.digital.acquisition import (
     channel_mask,
     session_header,
 )
-from zlscan.engine.chain import Chain, ChainConfig
+from zlscan.engine.chain import MODEL_VERSION, Chain, ChainConfig
 from zlscan.engine.digital_run import run_from_source
+from zlscan.engine.validity import physical_applicability
 from zlscan.io.manifest import sha256_file
 from zlscan.io.rawstream import FLAG_EPOCH_START, FLAG_LINE_END, FLAG_LINE_START, RawWriter
 from zlscan.replay.replay import run_with_checkpoints
@@ -81,7 +82,8 @@ def run_physical(
         "saturated_samples": int(res.saturated.sum()),
         "front_end_clipped_samples": int(res.front_end_clipped.sum()),
         "pmt_over_limit_samples": int(res.over_limit.sum()),
-        "model_version": "chain-0.1",
+        "model_version": MODEL_VERSION,
+        "physical_applicability": physical_applicability(cfg),
         "config_hash": cfg.hash(),
     }
     extra["fine_steps"] = total

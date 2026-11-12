@@ -167,6 +167,12 @@ def _run_run(argv: Sequence[str]) -> int:
         f"{run['mode']} 模式完成：重建 {run['recon_status']}，"
         f"完整性 {run['integrity']}，写入 {args.out}"
     )
+    if "physical_applicability" in run:
+        print("物理适用性：受限研究模型；不作为高密度测量能力或实机精度验证。")
+        applicability = run["physical_applicability"]
+        rows = applicability if isinstance(applicability, list) else [applicability]
+        if any(row["stochastic_log_status"] == "grid_dependent_exploration_only" for row in rows):
+            print("注意：带噪对数输入缺少固定物理响应，统计量依赖数值时间格。")
     return 0 if run["recon_status"] == "complete" else CHECK_FAIL_EXIT_CODE
 
 

@@ -62,10 +62,13 @@ def test_legacy_reset_per_line_changes_the_result_and_default_does_not_reset():
     assert not make(False).legacy_reset_per_line
 
 
-def test_a_declared_but_unimplemented_pmt_pole_is_refused():
+def test_a_declared_response_reports_its_grid_error_and_does_not_validate_hardware():
     from zlscan.config.presets import demo_config
+    from zlscan.engine.validity import physical_applicability
 
     cfg = demo_config()
     cfg.detector = type(cfg.detector)(**{**cfg.detector.__dict__, "pole_hz": 8e6})
-    with pytest.raises(NotImplementedError):
-        Chain(cfg)
+    assert Chain(cfg).detector_response is not None
+    applicability = physical_applicability(cfg)
+    assert applicability["finite_grid_to_continuous_current_variance_ratio"] < 0.16
+    assert applicability["high_density_capability"] == "not_validated"

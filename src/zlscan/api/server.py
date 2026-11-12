@@ -69,6 +69,7 @@ class Service:
                 "fine_step_ps": round(1e12 / (c.fs_hz * c.os)), "fs_hz": c.fs_hz, "os": c.os,
                 "samples": int(len(r.codes)), "config_hash": c.hash(), "origin": "SIMULATED",
                 "evidence": c.evidence, "checkpoint_interval_steps": r.store.interval_steps,
+                "physical_applicability": r.meta.get("physical_applicability"),
                 "recorded_probes": sorted(r.recorded)}  # fmt: skip
 
     def signals(self, r: Run, view: str) -> dict:

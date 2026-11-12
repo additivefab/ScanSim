@@ -44,6 +44,8 @@ function load(){
   api('/manifest').then(function(m){manifest=m;win={start:0,end:m.steps};
     document.getElementById('m-run').textContent='运行：'+m.run_id;
     document.getElementById('m-epoch').textContent='时期：'+m.session_id+'/'+m.epoch;
+    document.getElementById('m-status').textContent=m.physical_applicability?
+      '受限研究模型；高密度能力未验证；带噪对数需固定输入响应及统计收敛验证':'';
     var c=document.getElementById('cursor');c.max=m.steps-1;c.value=0;listSignals()})}
 function listSignals(){
   api('/signals').then(function(b){

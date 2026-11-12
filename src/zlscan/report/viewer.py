@@ -215,6 +215,11 @@ def build_viewer(
         f"<span>会话/时期：{html.escape(str(meta.get('session_id', '—')))}/{html.escape(str(meta.get('epoch', '—')))}</span>"
         f"<span>参数证据：{_summary(params)}</span>"
     )
+    if meta.get("physical_applicability"):
+        top += (
+            '<span class="warning">物理适用性：受限研究模型；高密度能力未验证。'
+            "带噪对数输入须有固定物理响应及统计收敛证据。</span>"
+        )
     return (
         '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'

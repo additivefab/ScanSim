@@ -23,6 +23,7 @@ from zlscan.digital.acquisition import (
 )
 from zlscan.engine.chain import Chain, ChainConfig
 from zlscan.engine.physical_run import line_steps, simulation_binding
+from zlscan.engine.validity import physical_applicability
 from zlscan.io.manifest import sha256_file
 from zlscan.io.rawstream import FLAG_EPOCH_START, FLAG_LINE_END, FLAG_LINE_START, RawWriter
 from zlscan.io.stream_image import stream_code_image
@@ -212,6 +213,10 @@ def stream_physical(
         "written_blocks": written,
         "queue_peak_bytes": {stat.name: stat.peak_bytes for stat in transport.stats},
         "config_hashes": [primary.hash(), secondary.hash()],
+        "physical_applicability": [
+            physical_applicability(primary),
+            physical_applicability(secondary),
+        ],
         "kernel_s": kernel.seconds,
         "wall_s": time.perf_counter() - start_wall,
     }

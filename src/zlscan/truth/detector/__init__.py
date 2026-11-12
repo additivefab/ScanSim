@@ -12,9 +12,11 @@ space-charge model. The optional bandwidth pole is a first-order filter and is `
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.signal import lfilter
 from scipy.stats import gamma as gamma_dist
 from scipy.stats import poisson
 
@@ -27,11 +29,14 @@ E = 1.602176634e-19
 
 SPEC = ModuleSpec(
     name="truth.detector", interface={"P": "W", "I": "A"}, state={"pole": "A"},
-    equation="n~Poisson(mu), q~Gamma, I = q e / dt; E[q] = mu G, Var[q] = F mu G^2",
+    equation="n~Poisson(mu), q~Gamma, I_bin = q e / dt; "
+             "optional dy/dt=(I_bin-y)/tau BEFORE log; E[q] = mu G, Var[q] = F mu G^2",
     parameters={"qe": "1", "gain": "1", "excess_noise_factor": "1", "dark_current_a": "A",
                 "wavelength_nm": "nm", "anode_limit_a": "A", "pole_hz": "Hz"},
-    applicability="no gain droop, no saturation physics, no transit-time spread",
-    fidelity="L1", validation=["test_pmt_statistics", "test_pmt_chunk_independent"],
+    applicability="no gain droop, no saturation physics, no transit-time spread; "
+                  "unfiltered noisy log is grid-dependent exploration only",
+    fidelity="L1", validation=["test_pmt_statistics", "test_pmt_chunk_independent",
+                              "test_response_current_variance_matches_compound_poisson_theory"],
 )  # fmt: skip
 
 
@@ -45,6 +50,41 @@ class DetectorConfig:
     anode_limit_a: float | None = None
     pole_hz: float | None = None  # optional fast-response pole, ASSUMED when used
     shot_noise: bool = True
+
+    def __post_init__(self) -> None:
+        if self.pole_hz is not None and (not np.isfinite(self.pole_hz) or self.pole_hz <= 0):
+            raise ValueError("detector input-response pole must be positive and finite")
+
+
+class DetectorResponse:
+    """Explicit assumed pre-log node response to piecewise-constant charge-bin current.
+
+    dy/dt = (I_bin - y)/tau, tau=1/(2*pi*fc). Starts at zero; prewarming is an
+    experimental stage, never an implicit steady state of the first random bin.
+    """
+
+    def __init__(self, pole_hz: float, dt_s: float) -> None:
+        if not np.all(np.isfinite([pole_hz, dt_s])) or min(pole_hz, dt_s) <= 0:
+            raise ValueError("response frequency and time step must be positive and finite")
+        rate = 2 * math.pi * pole_hz * dt_s
+        self.b = [-math.expm1(-rate)]
+        self.a = [1.0, -math.exp(-rate)]
+        self.zi = np.zeros(1)
+
+    def process(self, current: np.ndarray) -> np.ndarray:
+        if not len(current):
+            return np.array(current, dtype=float)
+        result, self.zi = lfilter(self.b, self.a, current, zi=self.zi)
+        return result
+
+    def state(self) -> list[float]:
+        return self.zi.tolist()
+
+    def set_state(self, state: list[float]) -> None:
+        value = np.asarray(state, dtype=float)
+        if value.shape != (1,) or not np.all(np.isfinite(value)):
+            raise ValueError("invalid input-response checkpoint state")
+        self.zi = value.copy()
 
 
 def mean_counts(cfg: DetectorConfig, power_w: np.ndarray, dt_s: float) -> np.ndarray:

@@ -31,7 +31,7 @@ from zlscan.truth import scan as scan_mod
 from zlscan.truth import source as src_mod
 from zlscan.truth.scene import Scene
 
-MODEL_VERSION = "chain-0.1"
+MODEL_VERSION = "chain-0.2"
 PROBE_NAMES = ("power_w", "t_eff", "current_a", "v_adc", "x_m", "line")
 
 
@@ -92,10 +92,13 @@ class Chain:
     def __init__(self, cfg: ChainConfig) -> None:
         if cfg.os < 2 or cfg.os % 2:
             raise ValueError("os must be an even integer >= 2")
-        if cfg.detector.pole_hz is not None:
-            raise NotImplementedError("the PMT bandwidth pole is declared but not implemented")
         self.cfg = cfg
         self.dt = 1.0 / (cfg.fs_hz * cfg.os)
+        self.detector_response = (
+            det_mod.DetectorResponse(cfg.detector.pole_hz, self.dt)
+            if cfg.detector.pole_hz is not None
+            else None
+        )
         self.rng = CounterRng(cfg.seed)
         self.afe = afe_mod.Afe(cfg.afe, self.dt)
         self.fine_clock = ClockDomain(cfg.domain_id, cfg.fs_hz * cfg.os)
@@ -158,6 +161,10 @@ class Chain:
 
         current, over = det_mod.anode_current(cfg.detector, power, self.dt, self.rng,
                                               cfg.domain_id, s0)  # fmt: skip
+        if self.detector_response is not None:
+            current = self.detector_response.process(current)
+            if cfg.detector.anode_limit_a is not None:
+                over = current > cfg.detector.anode_limit_a
         v, clipped = self.afe.process(current)
 
         # ADC samples sit on the fine steps that are multiples of os
@@ -201,6 +208,9 @@ class Chain:
                 "step": self.step,
                 "last_v": self.last_v,
                 "afe": self.afe.state(),
+                "detector_response": (
+                    self.detector_response.state() if self.detector_response is not None else None
+                ),
             }
         ).encode()
 
@@ -212,6 +222,8 @@ class Chain:
             raise ValueError("checkpoint was written under a different configuration")
         self.step, self.last_v = d["step"], d["last_v"]
         self.afe.set_state(d["afe"])
+        if self.detector_response is not None:
+            self.detector_response.set_state(d["detector_response"])
 
 
 def merge(parts: list[ChunkOut]) -> ChunkOut:
