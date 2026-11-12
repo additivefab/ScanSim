@@ -1,0 +1,51 @@
+{
+  "origin": "SIMULATED",
+  "visibility": "ORACLE_ONLY",
+  "source_samples": 75,
+  "verified_operations": [
+    {
+      "op": "sync",
+      "step": "0",
+      "pipeline_sha256": "d6750086cd3f82fc972d02b219dc27b65f6a15fc422e1021ba8b07d6be21e72c"
+    },
+    {
+      "op": "advance",
+      "step": "0",
+      "pipeline_sha256": "d66f24e4b77b78144f168b85a9abdf1bbe2c6406a94e34fa2c39aa42567d5377"
+    },
+    {
+      "op": "advance",
+      "step": "57",
+      "pipeline_sha256": "7f56d87f037c367e7c25340ce5544e5fca6e601d4deae6abc30e24c2aa24afb5"
+    },
+    {
+      "op": "advance",
+      "step": "113",
+      "pipeline_sha256": "992d2e06a05cf49345e3decbad9b3620d448eb47b36f0ed46d873eef22876e95"
+    },
+    {
+      "op": "advance",
+      "step": "137",
+      "pipeline_sha256": "ce2a583b669eeaddb2832927ebef4a7de58f046aacf3e8723068e5f49c905651"
+    },
+    {
+      "op": "advance",
+      "step": "234",
+      "pipeline_sha256": "5b0895fe04305f73ff6d6853fc9b72f7e065c83d92719e507ad548ba94b327a3"
+    },
+    {
+      "op": "finish",
+      "step": "297",
+      "pipeline_sha256": "dc9a9620f2eeec833acd3d7011c7a0a7496fa46b87b35f3cb71955fcc2ab9314"
+    }
+  ],
+  "source_files_unchanged": 19,
+  "restart_and_branch_bytes_equal": true,
+  "scope": "Software replay and process restart; no browser, power-loss or hardware proof",
+  "code": {
+    "commit": "886af03944747be47bbe37395869334aa2958249",
+    "dirty": false
+  },
+  "wheel_sha256": "021bd5510ec23af35ab9ddb8eb00dc57408d192340bc276416284d5e4147e644",
+  "locked_distributions": 20
+}

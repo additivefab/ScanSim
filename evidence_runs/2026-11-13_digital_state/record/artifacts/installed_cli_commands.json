@@ -1,0 +1,92 @@
+[
+  {
+    "argv": [
+      "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--config",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/config.json",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/source",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/continuous_commands.jsonl"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "argv": [
+      "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--config",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/config.json",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/resumed",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/paused_commands.jsonl"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "argv": [
+      "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--resume",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/resumed",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/resumed",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/resumed_commands.jsonl"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "argv": [
+      "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--resume",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/tail",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/tail",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/tail_refused_commands.jsonl"
+    ],
+    "returncode": 1,
+    "expected_returncode": 1
+  },
+  {
+    "argv": [
+      "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+      "-m",
+      "zlscan",
+      "run",
+      "--mode",
+      "recording",
+      "--resume",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/tail",
+      "--out",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/branched",
+      "--commands",
+      "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli/branched_commands.jsonl"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  }
+]

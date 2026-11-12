@@ -1,0 +1,120 @@
+{
+  "formal_cli.tar.gz": {
+    "sha256": "f09a65708f0fd90caf41d4c7d800ce05a2151fa8afcadf9e78ba7bdea65084b8",
+    "verified_files": 96
+  },
+  "installed_cli.tar.gz": {
+    "sha256": "743fca10ade674dd149dc29a6e70a012622dd6564a78a95a43939b85027f3105",
+    "verified_files": 96
+  },
+  "development_logs/pytest_baseline.log.gz": {
+    "source_sha256": "36c29dac206f018c891efddc1bafec6df1db3f563416d30f09d200277b45e0c0",
+    "sha256": "52e4b865c23fa260e12f2fe35fb97f2e6cd0875c46ff2b95eb3e0a91b788ef72"
+  },
+  "development_logs/format_final.log.gz": {
+    "source_sha256": "b2aa15f8c4de19cfaf0ad6a0e20d90d995c83a3c8eb7f30ea43edc22cbd7436c",
+    "sha256": "506741966c9ebfd97b137b7452c7f9d748e1e9c44def29b084feaf21c3c35b1b"
+  },
+  "development_logs/format.log.gz": {
+    "source_sha256": "e3ef58579eb566e7de49eea46e9563c2e14da7a5f45a42fd33f95010938b335b",
+    "sha256": "ad3a46382865ad77249bf7129288f6ca74b148ebf1dad22d75353913e475565e"
+  },
+  "development_logs/pytest_history_red.log.gz": {
+    "source_sha256": "16de82fb62cf81a050bd73375614ff052e7fffde638e458f10455220b479eca1",
+    "sha256": "ed5d83a31b54b4b9c2ff61164c4906d52a570a42bc36beac9bba0c3a0629abbe"
+  },
+  "development_logs/pytest_recording_red_module.log.gz": {
+    "source_sha256": "a8fafec51c6b583db5ff7a058d41a8f7ae3cf1976884bc278f735f4133555739",
+    "sha256": "a0942fcfafaa343086ebbf3c76fc8f242270276216d86148652b338cfee6edb3"
+  },
+  "development_logs/pytest_recording_red_actual.log.gz": {
+    "source_sha256": "1a7801a57b1345c78cde56d4be7d7147d6388fc2557e2dc7941f82903378fc3d",
+    "sha256": "643be476346b8eddef3c98af04ad96afe806c5c428c2b1e045ec250d97aa9df4"
+  },
+  "development_logs/pytest_final.log.gz": {
+    "source_sha256": "fe3de62a2c30e1affe74b971b7fe6611e7db13348263658f2f0f652218ab56cb",
+    "sha256": "86576c823fdc56612e0aaeb44e39e738a553e5a5169c66cc17b48f2f8e9aa93d"
+  },
+  "development_logs/dev_cli.log.gz": {
+    "source_sha256": "9f0739daef161bfbff94a609be6b29469d6e69681b757c3ec66ab28b5cb20559",
+    "sha256": "29789c732a249cdc9e34e7290ae872d5e1732ea5624976dad1d9968d4f5bae0b"
+  },
+  "development_logs/pytest_history_first.log.gz": {
+    "source_sha256": "bab81e885dddeb6695765997dfbca91fa96f00bde5c5de0cc6a315c0a1572617",
+    "sha256": "14f082e4e9eb0b11b663194b4c5213ebcb94fc769a093607bddf328bb20adaa0"
+  },
+  "development_logs/ruff_final.log.gz": {
+    "source_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "sha256": "f3af4d142827f5aad2eb0c72d556d325488a57fb6219aac10afeb51085667d53"
+  },
+  "development_logs/ruff.log.gz": {
+    "source_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "sha256": "f3af4d142827f5aad2eb0c72d556d325488a57fb6219aac10afeb51085667d53"
+  },
+  "development_logs/pytest_history_extended.log.gz": {
+    "source_sha256": "b740af5d5f4b3c1ac95f04451616c3b42dfb9b3a4b8676865ef95b36472207fa",
+    "sha256": "08a7b225c0ffb62ab4a12d53d1e3027053984e434ebe6016ede99ec0089151ce"
+  },
+  "development_logs/pytest_history_integration.log.gz": {
+    "source_sha256": "327e8b8b0c129ec55b1015055b16be30a98cdf5a879ac4a002402c8fc9d7ca44",
+    "sha256": "049f96bd4d08c2147906c2aec291ae0d306b2268295054eb329bc9226145663c"
+  },
+  "development_logs/pytest_recording_red.log.gz": {
+    "source_sha256": "c6da66510d64d30bb94386d7ed170611ea6aa71a7fef632c4851480b7f247c3c",
+    "sha256": "bfecc08eb8865fccf6ee0949257a27062b27d159cdf92f480857f51ba10ed039"
+  },
+  "wheel/static_verify.log.gz": {
+    "sha256": "4d8a8957b03d9766281f8b8f6e4cbf736ecf9e0720fd5bc60cadad999df72d54"
+  },
+  "wheel/smoke.log.gz": {
+    "sha256": "ccaa43904be74e44e0e6e66c381226a87290c26c6fce3f07781515c4dde01668"
+  },
+  "wheel/audit.json": {
+    "sha256": "8c1be54f9778d5fea3f35eb25a7249f804d2be0bda0c8f74bddc71fffaf27d84"
+  },
+  "wheel/static_cases.json": {
+    "sha256": "f8faf1ddcb890a28ffcbd8ff9fa88848ca4e81ed0040f4ef55e68581321b47e1"
+  },
+  "wheel/pip_check.log.gz": {
+    "sha256": "cac4f0717e5b68b63c7376bcc07dfc607a5589b09374b45251bdcf31a6bece75"
+  },
+  "wheel/build.log.gz": {
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  "wheel/venv.log.gz": {
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  "wheel/expected.json": {
+    "sha256": "2f724c93c3fa3a7c9899ce62e7cb9c12969661f1021ec954a0b308d8fa4b1a44"
+  },
+  "wheel/wheelhouse_manifest.json": {
+    "sha256": "d21523812b4764613d4f98c6d38536a5d6d029e6c853039f89846d71491447e4"
+  },
+  "wheel/source_manifest.json": {
+    "sha256": "203bc5fed01b0ff5ab0b0a930d7a6c0e43ff2020c9b3a1c456d2f1cc0e9fef5e"
+  },
+  "wheel/static_cases.log.gz": {
+    "sha256": "0fbdd0243b618ad206d1d65b43270bf72329ca37def2e8cb1ee6dee80d1afd19"
+  },
+  "wheel/pip_list.log.gz": {
+    "sha256": "d9aa735651e422f585be1ba57d51a960b183130b2d87705228c383f5371bb0b8"
+  },
+  "wheel/install.log.gz": {
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  "wheel/outer.log.gz": {
+    "sha256": "2db31bf5d43c5770aee6ee36e57c3467558096fe7e5b0ffe885ad707235ae7e4"
+  },
+  "wheel/progress.json": {
+    "sha256": "626a4bcf014059ab63880617685a4bbdf857e806fd6a869c01d4a594c49ce647"
+  },
+  "wheel/smoke.json": {
+    "sha256": "54f475fe10e720e4b81ed2aac95fd3d346551ba0a15472073988bb5e4d554b1d"
+  },
+  "wheel/download.log.gz": {
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  "wheel/requirements.lock": {
+    "sha256": "87e1c156395861f814e2d4aa601ccb61d252dd04a1d8f5163109aacda07958ed"
+  }
+}

@@ -1,0 +1,87 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Original digital producer operations and process restart",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T23:25:13.335363+00:00",
+ "finished_at": "2026-11-12T23:25:24.937026+00:00",
+ "code": {
+  "commit": "886af03944747be47bbe37395869334aa2958249",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "0": 3,
+  "1": 31
+ },
+ "inputs": {
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/configs/physical_recording.json": "794d2175e487ae9dfb5c96c55ac52753e8fca2ce0c65fa5c7a89e151094d427f",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/formal_cli/config.json": "ff8178503b4c9b9199f3407e2bdd32c010cbff8fd9d7fb261685be8282ed042e",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/formal_cli/continuous_commands.jsonl": "8fa22661a32209dc73c2a811dbc371e617087890282e3fd2636b5cebdcf006eb"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_producer_history.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/formal_cli"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_producer_history.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/formal_cli",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "source_samples",
+   "expected": 75,
+   "tolerance": null,
+   "actual": 75,
+   "passed": true
+  },
+  {
+   "quantity": "verified_operations",
+   "expected": 7,
+   "tolerance": null,
+   "actual": 7,
+   "passed": true
+  },
+  {
+   "quantity": "source_files_unchanged",
+   "expected": 19,
+   "tolerance": null,
+   "actual": 19,
+   "passed": true
+  },
+  {
+   "quantity": "restart_and_branch_bytes_equal",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED/ORACLE_ONLY. Inner expected refusal exit 1 is preserved in commands.json. No browser, arbitrary-tick API, hardware or power-loss acceptance."
+}

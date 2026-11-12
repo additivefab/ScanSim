@@ -1,0 +1,89 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Installed wheel original producer operations",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T23:26:39.825980+00:00",
+ "finished_at": "2026-11-12T23:27:00.368775+00:00",
+ "code": {
+  "commit": "886af03944747be47bbe37395869334aa2958249",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "0": 3,
+  "1": 31
+ },
+ "inputs": {
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_producer_history.py": "cfd693c480a7bfe691405a0daa81c32581a64785f05b1fe8aa995883e64c6949",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/wheel/source_manifest.json": "203bc5fed01b0ff5ab0b0a930d7a6c0e43ff2020c9b3a1c456d2f1cc0e9fef5e",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/wheel/requirements.lock": "87e1c156395861f814e2d4aa601ccb61d252dd04a1d8f5163109aacda07958ed"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+    "-I",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_producer_history.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-5nlqasu1/runtime/bin/python",
+    "-I",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_producer_history.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_state/output/installed_cli",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "installed_module_outside_checkout",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "source_samples",
+   "expected": 75,
+   "tolerance": null,
+   "actual": 75,
+   "passed": true
+  },
+  {
+   "quantity": "verified_operations",
+   "expected": 7,
+   "tolerance": null,
+   "actual": 7,
+   "passed": true
+  },
+  {
+   "quantity": "restart_and_branch_bytes_equal",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Same-host isolated hash-locked runtime. Package probe used -I; audit script and synthetic fixture deliberately provided from source. No installed full pytest, browser, other OS or hardware claim."
+}
