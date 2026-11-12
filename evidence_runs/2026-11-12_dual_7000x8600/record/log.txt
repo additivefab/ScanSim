@@ -1,0 +1,40 @@
+{
+  "mode": "physical_stream",
+  "lines": 8608,
+  "channels": [
+    0,
+    1
+  ],
+  "fine_steps_per_channel": 688640000,
+  "retained_samples_per_channel": 120512000,
+  "integrity": "complete",
+  "recon_status": "complete",
+  "lost_blocks": 0,
+  "planned_blocks": 8608,
+  "written_blocks": 8608,
+  "queue_peak_bytes": {
+    "rx": 56064,
+    "net": 56064,
+    "disk": 56064
+  },
+  "config_hashes": [
+    "f29d5aa98b2c83f7d5addaa4995a58be31ad444859a69cbcb52aa511673132f2",
+    "f21fae3d62eb7fd891211a9c997f7dd4fcfa210543026831c3524ab028c207ea"
+  ],
+  "kernel_s": 894.2607595250884,
+  "wall_s": 1108.2058263750223,
+  "case": "7000x8600",
+  "width_pixels": 7000,
+  "height_pixels": 8600,
+  "reference_rows": 8,
+  "sampling_hz": 20000000,
+  "samples_per_pixel": 2,
+  "off_film_illumination": true,
+  "shot_noise": false,
+  "spot_quadrature_nodes": [
+    3,
+    3
+  ],
+  "peak_rss_bytes": 247115776,
+  "assumed_parameters": true
+}
