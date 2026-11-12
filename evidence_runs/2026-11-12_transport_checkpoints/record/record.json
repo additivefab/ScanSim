@@ -1,0 +1,81 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Persisted busy transport queues restored in fresh processes",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T12:49:08.521782+00:00",
+ "finished_at": "2026-11-12T12:49:09.694544+00:00",
+ "code": {
+  "commit": "1f2f7d537d1995ea51b264c8aaf8228caefad938",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tools/audit_transport_checkpoints.py": "e18dd9f929d0b511a23c2508da1cac42bf3bee5c5b6bb1c7c7f11aa01b5642f0",
+  "src/zlscan/transport/queues.py": "c1deb0c91d4ce9552b09adb9c7ea566f79e48ff6cde2ed42639536b2d5cd798f",
+  "tests/unit/fixtures/transport_before_checkpoint.json": "b83b6baab31c63470e5d0eae0d43224a82ed8e9257da14ed2f33a4257f21e3b7"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_transport_checkpoints.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_transport_checkpoints/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "fresh process checkpoints compared",
+   "expected": 6,
+   "tolerance": null,
+   "actual": 6,
+   "passed": true
+  },
+  {
+   "quantity": "all complete results match continuous",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all child processes exit zero",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "actually resumes blocked transport state",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "actual watermark exceeds JS exact integer range",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Transport component only; assumed synthetic rates/stalls/failures. Exact comparison includes delivery/loss sequence and stage statistics. Timing excludes child startup; disk cache uncontrolled. No fsync durability or ADC/acquisition/control/write-cursor/full-chain recovery claim."
+}

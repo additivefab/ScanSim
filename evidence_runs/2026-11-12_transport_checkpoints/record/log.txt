@@ -1,0 +1,1 @@
+6 persisted transport checkpoints matched in fresh processes
