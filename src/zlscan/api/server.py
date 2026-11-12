@@ -4,8 +4,8 @@ Endpoints follow docs/dev/08_workbench_spec.md section 11. Every response carrie
 (``exact_record`` / ``replayed`` / ``summary_only`` / ``not_recorded`` / ``not_computed``) and,
 where it applies, the summary level used. Query results echo the caller's ``req`` number so a
 front end can drop late answers. The server reads run data and never writes it; a replay is
-returned to the caller, not stored in the run. The WebSocket updates endpoint and the image tile
-endpoint are not implemented: they answer ``not_computed`` with HTTP 501.
+returned to the caller, not stored in the run. Image tiles use registered reconstruction artifacts.
+The WebSocket updates endpoint answers ``not_computed`` with HTTP 501.
 
 fastapi was not added: AGENTS.md rule 14 asks first, and nothing here needs more than
 ``http.server``.
@@ -28,6 +28,7 @@ from zlscan.causality.lineage import sample_lineage
 from zlscan.contracts.events import Visibility
 from zlscan.contracts.query import QueryStatus
 from zlscan.contracts.time import ClockDomain
+from zlscan.io.image_artifact import ImageArtifact
 from zlscan.replay.replay import replay_window
 from zlscan.telemetry.registry import PROBE_TO_SIGNAL, chain_signals
 from zlscan.trace.window import raw_window, summary_window, validate_window
@@ -53,18 +54,45 @@ class Run:
     meta: dict[str, Any] = field(default_factory=dict)
 
 
+@dataclass
+class ImageRun:
+    run_id: str
+    image: ImageArtifact
+
+
 class Service:
     def __init__(self, brancher: Callable[[Run, dict], Run | None] | None = None) -> None:
         self.brancher = brancher
-        self.runs: dict[str, Run] = {}
+        self.runs: dict[str, Run | ImageRun] = {}
         self.lock = threading.Lock()
 
-    def add(self, run: Run) -> None:
+    def add(self, run: Run | ImageRun) -> None:
         with self.lock:
             self.runs[run.run_id] = run
 
     # ---- handlers return (http status, body) --------------------------------------------
     def manifest(self, r: Run) -> dict:
+        if isinstance(r, ImageRun):
+            image = r.image
+            return {
+                "status": "exact_record",
+                "run_id": r.run_id,
+                "parent": None,
+                "session_id": image.plan["session_id"] if image.plan else None,
+                "epoch": image.epoch,
+                "steps": image.span,
+                "samples": sum(row["source"]["sample_count"] for row in image.delivered),
+                "cursor_unit": "sample",
+                "sample_origin": str(image.first_sample),
+                "steps_count": str(image.span),
+                "cursor_clock": {k: str(v) for k, v in image.clocks[image.domain].__dict__.items()}
+                if image.timeline_available
+                else None,
+                "origin": image.plan["origin"] if image.plan else "not_recorded",
+                "evidence": {"source": "observable reconstruction artifact"},
+                "image": image.manifest(),
+                "timeline_available": image.timeline_available,
+            }
         c = r.cfg
         return {"status": QueryStatus.EXACT_RECORD, "run_id": r.run_id, "parent": r.parent,
                 "session_id": r.session_id, "epoch": r.epoch, "steps": r.steps,
@@ -76,6 +104,20 @@ class Service:
                 "recorded_probes": sorted(r.recorded)}  # fmt: skip
 
     def signals(self, r: Run, view: str) -> dict:
+        if isinstance(r, ImageRun):
+            return {
+                "status": "exact_record",
+                "view": view,
+                "signals": [
+                    {
+                        "signal_id": "adc.code",
+                        "visibility": "OBSERVABLE",
+                        "recorded": bool(r.image.raw_path and r.image.plan),
+                        "unit": "code",
+                        "display_interpolation": "hold",
+                    }
+                ],
+            }
         out = []
         for s in chain_signals(r.cfg):
             if view == "instrument" and s.visibility is Visibility.ORACLE_ONLY:
@@ -90,6 +132,15 @@ class Service:
     def traces(
         self, r: Run, signal: str, start: int, end: int, pixel_width: int, view: str = "research"
     ) -> dict:
+        if isinstance(r, ImageRun):
+            return (
+                r.image.traces(start, end, pixel_width)
+                if signal == "adc.code"
+                else {
+                    "status": "not_recorded",
+                    "reason": "physical trace not registered for this capture",
+                }
+            )
         validate_window(start, end, pixel_width)
         requested = [start, end]
         start, end = max(0, start), min(end, r.steps)
@@ -147,6 +198,8 @@ class Service:
         return result
 
     def state(self, r: Run, tick_step: int, probes: set[str], view: str = "research") -> dict:
+        if isinstance(r, ImageRun):
+            return {**r.image.state(tick_step), "run_id": r.run_id}
         if view == "instrument":
             return {"status": QueryStatus.NOT_RECORDED, "step": tick_step, "run_id": r.run_id,
                     "reason": "the instrument view has no access to simulation truth"}  # fmt: skip
@@ -158,6 +211,12 @@ class Service:
     def events(
         self, r: Run, start: int, end: int, kinds: set[str] | None, view: str = "research"
     ) -> dict:
+        if isinstance(r, ImageRun):
+            return {
+                "status": "not_recorded",
+                "events": [],
+                "reason": "event records not registered for this capture",
+            }
         os_ = r.cfg.os
         out = []
         for kind, idx in r.events.items() if view == "research" else ():
@@ -174,6 +233,11 @@ class Service:
         return {"status": QueryStatus.EXACT_RECORD, "events": sorted(out, key=lambda e: e["step"])}
 
     def lineage(self, r: Run, index: int) -> dict:
+        if isinstance(r, ImageRun):
+            return {
+                "status": "not_recorded",
+                "reason": "output and arrival timestamps not registered",
+            }
         i = index - r.link.first_index
         if not 0 <= i < len(r.codes):
             return {"status": QueryStatus.NOT_RECORDED, "reason": "sample outside the run"}
@@ -202,6 +266,11 @@ class Service:
         return {"status": QueryStatus.EXACT_RECORD, "lineage": lineage}
 
     def replay(self, r: Run, start: int, n: int, probes: list[str], view: str = "research") -> dict:
+        if isinstance(r, ImageRun):
+            return {
+                "status": "not_computed",
+                "reason": "this capture has no registered simulation checkpoints",
+            }
         res = replay_window(r.cfg, r.store, start, n, set(probes) if view == "research" else set())
         return {"status": res.status, "checkpoint_step": res.checkpoint_step, "start": start,
                 "n_steps": n, "first_sample": res.out.first_sample,
@@ -210,6 +279,8 @@ class Service:
                 "published": "separate; the run itself is not modified"}  # fmt: skip
 
     def branch(self, r: Run, overrides: dict) -> dict:
+        if isinstance(r, ImageRun):
+            return {"status": "not_computed", "reason": "recorded capture is read-only"}
         if self.brancher is None or not overrides:
             return {"status": QueryStatus.NOT_COMPUTED, "reason": "no supported override given"}
         run = self.brancher(r, overrides)
@@ -217,6 +288,21 @@ class Service:
             return {"status": QueryStatus.NOT_COMPUTED, "reason": "override not supported"}
         self.add(run)
         return {"status": QueryStatus.EXACT_RECORD, "run_id": run.run_id, "parent": r.run_id}
+
+    def image_query(self, run: Run | ImageRun, parts: list[str]) -> dict:
+        if not isinstance(run, ImageRun):
+            return {"status": "not_computed", "reason": "no reconstructed image registered"}
+        if len(parts) == 3:
+            return {"status": "exact_record", "images": [run.image.manifest()]}
+        if parts[3] != "density":
+            raise LookupError("unknown image")
+        if parts[4:] == ["manifest"]:
+            return run.image.manifest()
+        if len(parts) == 8 and parts[4:6] == ["tiles", "0"]:
+            return run.image.tile(int(parts[6]), int(parts[7]))
+        if len(parts) == 8 and parts[4] == "pixels" and parts[7] == "lineage":
+            return run.image.pixel_lineage(int(parts[5]), int(parts[6]))
+        raise LookupError("unknown image query")
 
 
 def _handler(service: Service):
@@ -270,7 +356,9 @@ def _handler(service: Service):
                     body = service.events(run, int(q["start"]), int(q["end"]), kinds, view)
                 elif what == "samples" and len(parts) > 4 and parts[4] == "lineage":
                     body = service.lineage(run, int(parts[3]))
-                elif what == "images" or what == "updates":
+                elif what == "images":
+                    body = service.image_query(run, parts)
+                elif what == "updates":
                     body = {
                         "status": QueryStatus.NOT_COMPUTED,
                         "reason": f"{what} is not implemented",

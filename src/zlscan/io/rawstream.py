@@ -102,6 +102,8 @@ class BlockInfo:
     sample_count: int
     flags: int
     line_number: int
+    payload_offset: int | None = None
+    payload_crc32: int | None = None
 
 
 @dataclass
@@ -292,7 +294,18 @@ def _read(
             open_segment.pop(key, None)
             continue
         rows = np.frombuffer(body, dtype="<u2").reshape(count, len(channels))
-        block = BlockInfo(seq, epoch, domain, channels, first, count, flags, line_number)
+        block = BlockInfo(
+            seq,
+            epoch,
+            domain,
+            channels,
+            first,
+            count,
+            flags,
+            line_number,
+            block_at + BLOCK_HEADER_SIZE,
+            payload_crc,
+        )
         result.blocks.append(block)
         if consume is not None:
             consume(session, block, rows)

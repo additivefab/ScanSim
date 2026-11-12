@@ -18,6 +18,7 @@ button{font:inherit;padding:2px 10px}label{display:block}
 <header><h1>仿真工作台（第二级）</h1>
 <div class="meta"><span id="m-run">运行：—</span><span id="m-epoch">时期：—</span>
 <span id="m-origin">来源：SIMULATED</span><span id="m-status"></span></div>
+<div class="row"><label>运行 <select id="run-select"></select></label><label>并排对比 <select id="compare-select"><option value="">无</option></select></label></div>
 <div class="row"><label><input type="radio" name="view" value="research" checked> 研究视图（含仿真真值）</label>
 <label><input type="radio" name="view" value="instrument"> 实机可观测视图</label>
 <span class="note">界面上的光路是功能示意，不是光线追迹；未记录和未计算的内容会如实标出。</span></div></header>
@@ -30,26 +31,37 @@ button{font:inherit;padding:2px 10px}label{display:block}
 <section><div class="row"><label for="cursor">游标（细步）</label>
 <input type="range" id="cursor" min="0" max="0" value="0" style="flex:1 1 200px;min-width:0">
 <span id="readout"></span></div><div id="plots"></div>
+<section id="imaging" hidden><h2>密度与质量掩膜</h2>
+<div class="row"><label><input type="checkbox" id="mask-view"> 显示无效原因掩膜</label>
+<label>瓦片列 <input id="tile-x" type="number" min="0" value="0" style="width:5em"></label>
+<label>瓦片行 <input id="tile-y" type="number" min="0" value="0" style="width:5em"></label>
+<button id="show-tile">查看瓦片</button><span>原分辨率 256×256；灰度显示范围 0–4 OD（不改变原始密度）；并排同坐标，不代表时间同步或几何配准。</span></div>
+<div id="image-panels" class="row"></div><pre id="pixel-info" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre></section>
 <h2>事件</h2><div id="events" class="nodata">无</div></section></main>
 <script>
 (function(){
 var base=location.pathname.replace(/\/$/,''),runId='demo',manifest=null,view='research',
-    win={start:0,end:1},reqSeq=0,sel={},lastApplied={},latestIssued={},viewGeneration=0;
-function api(path,opts){var n=++reqSeq,requestedView=view,generation=viewGeneration,
+    win={start:0,end:1},reqSeq=0,sel={},lastApplied={},latestIssued={},viewGeneration=0,imageGeneration=0,imageMeta=null,selectedPixel=null;
+function api(path,opts,targetRun){var n=++reqSeq,requestedView=view,generation=viewGeneration,requestRun=targetRun||runId,
     route=path.split('?')[0],query=new URLSearchParams(path.split('?')[1]||''),
-    slot=route+(route==='/traces'?':'+query.get('signal'):''),sep=path.indexOf('?')<0?'?':'&';
+    slot=requestRun+':'+route.replace(/(\/tiles\/0|\/pixels)\/\d+\/\d+(\/lineage)?$/, '$1')+(route==='/traces'?':'+query.get('signal'):''),sep=path.indexOf('?')<0?'?':'&';
   latestIssued[slot]=n;
-  return fetch('/runs/'+runId+path+sep+'req='+n+'&view='+requestedView,opts).then(function(r){return r.json()})
+  return fetch('/runs/'+requestRun+path+sep+'req='+n+'&view='+requestedView,opts).then(function(r){return r.json()})
     .then(function(b){b._n=n;b._view=requestedView;b._generation=generation;b._slot=slot;return b})}
 function stale(b){if(b._view!==view||b._generation!==viewGeneration||b._n!==latestIssued[b._slot])return true;lastApplied[b._slot]=b._n;return false}
 function badge(s){return '<span class="badge">'+s+'</span>'}
 function load(){
-  api('/manifest').then(function(m){manifest=m;win={start:0,end:m.steps};
+  api('/manifest').then(function(m){if(stale(m))return;manifest=m;win={start:0,end:Math.min(m.steps,Number.MAX_SAFE_INTEGER)};
+    imageMeta=m.image||null;if(imageMeta)sel['adc.code']=true;selectedPixel=null;document.getElementById('imaging').hidden=!imageMeta;
+    document.getElementById('m-origin').textContent='来源：'+m.origin;
+    document.getElementById('branch').disabled=!!imageMeta||view==='instrument';
+    document.getElementById('replay').disabled=!!imageMeta;
+    document.querySelector('label[for=cursor]').textContent=m.cursor_unit==='sample'?'游标（相对源样本）':'游标（模型细步）';
     document.getElementById('m-run').textContent='运行：'+m.run_id;
     document.getElementById('m-epoch').textContent='时期：'+m.session_id+'/'+m.epoch;
     document.getElementById('m-status').textContent=m.physical_applicability?
-      '受限研究模型；高密度能力未验证；带噪对数需固定输入响应及统计收敛验证':'';
-    var c=document.getElementById('cursor');c.max=m.steps-1;c.value=0;listSignals()})}
+      '受限研究模型；高密度能力未验证；带噪对数需固定输入响应及统计收敛验证':imageMeta?'观测重建工件；物理模型适用性未记录，不构成硬件能力验证':'';
+    var c=document.getElementById('cursor');c.max=Math.max(0,win.end-1);c.value=0;listSignals();showImages()})}
 function listSignals(){
   api('/signals').then(function(b){
     if(stale(b))return;
@@ -73,7 +85,7 @@ function draw(){
       .then(function(b){if(stale(b))return;
         st.textContent=b.status+(b.reason?' · '+b.reason:'')+
           (b.values?(b.level==='raw'?' · 原始采样点 / 保持阶梯':' · 摘要 min/max/first/last/count'):'')+
-          (b.boundary_extra?' · 边缘摘要包含窗口外的记录':'')+
+          (b.boundary_extra?' · 边缘摘要包含窗口外的记录':'')+(b.missing_count?' · 缺失 '+b.missing_count+' 样本位置；橙色桶含缺口':'')+
           (b.sample_time?' · 原始采样周期 '+b.sample_time.period_ps.numerator+'/'+b.sample_time.period_ps.denominator+' ps · 采样时间 '+b.sample_time.first_tick_ps+'–'+b.sample_time.last_tick_ps+' ps':'');
         if(!b.values||!b.values.length)return;paint(cv,b)})});
   api('/events?start='+win.start+'&end='+win.end).then(function(b){if(stale(b))return;
@@ -81,28 +93,94 @@ function draw(){
       b.events.map(function(e){return e.kind==='transport_loss'?('丢样 层级 '+e.layer+' 样本 '+e.first+'–'+e.last+'（'+e.reason+'）'):(e.kind+'@'+e.step)}).join('；'):'窗口内无事件'});
   moveCursor()}
 function paint(cv,b){var g=cv.getContext('2d'),w=cv.width,h=cv.height,v=b.values,
-  flat=typeof v[0]==='number',lo=Infinity,hi=-Infinity;g.clearRect(0,0,w,h);
-  v.forEach(function(p){(flat?[p]:[p[0],p[1]]).forEach(function(x){lo=Math.min(lo,x);hi=Math.max(hi,x)})});
-  var r=(hi-lo)||1;g.strokeStyle='#2a6fb0';g.beginPath();var previousY=null;
+  flat=b.level==='raw',lo=Infinity,hi=-Infinity;g.clearRect(0,0,w,h);
+  v.forEach(function(p){(flat?[p]:[p[0],p[1]]).forEach(function(x){if(x!==null){lo=Math.min(lo,x);hi=Math.max(hi,x)}})});
+  if(!Number.isFinite(lo))return;var r=(hi-lo)||1;g.strokeStyle='#2a6fb0';g.beginPath();var previousY=null;
   v.forEach(function(p,i){var step=b.first_step+i*b.block_steps,
     x=(step-win.start)/(win.end-win.start)*w;
-    if(flat){var y=h-4-(p-lo)/r*(h-8);
+    if(flat){if(p===null){if(previousY!==null)g.lineTo(x,previousY);previousY=null;return}var y=h-4-(p-lo)/r*(h-8);
       if(previousY===null)g.moveTo(x,y);else{g.lineTo(x,previousY);g.lineTo(x,y)}
       g.fillStyle='#2a6fb0';g.fillRect(x-1,y-1,2,2);previousY=y}
-    else{var endStep=step+p[4]*b.block_steps/b.block_size,
+    else{if(p[0]===null||p[1]===null)return;var endStep=step+p[4]*b.block_steps/b.block_size,
       x0=Math.max(0,x),x1=Math.min(w,(endStep-win.start)/(win.end-win.start)*w),
       y0=h-4-(p[1]-lo)/r*(h-8),y1=h-4-(p[0]-lo)/r*(h-8);
-      g.fillStyle='rgba(42,111,176,0.28)';g.fillRect(x0,y0,Math.max(1,x1-x0),Math.max(1,y1-y0));
+      g.fillStyle=b.recorded_counts&&b.recorded_counts[i]<p[4]?'rgba(180,110,30,0.35)':'rgba(42,111,176,0.28)';g.fillRect(x0,y0,Math.max(1,x1-x0),Math.max(1,y1-y0));
       g.moveTo((x0+x1)/2,y0);g.lineTo((x0+x1)/2,y1)}});
   if(flat&&previousY!==null){var holdEnd=b.first_step+v.length*b.block_steps;
     g.lineTo(Math.min(w,(holdEnd-win.start)/(win.end-win.start)*w),previousY)}
   g.stroke()}
 function moveCursor(){var s=parseInt(document.getElementById('cursor').value,10);
   var period=manifest&&manifest.fine_step_period_ps;
-  document.getElementById('readout').textContent='细步 '+s+(period?
+  document.getElementById('readout').textContent=(manifest.cursor_unit==='sample'?'相对样本 ':'细步 ')+s+(period?
     ' · 模型时刻 '+(BigInt(s)*BigInt(period.numerator)/BigInt(period.denominator))+' ps · 模型步长 '+period.numerator+'/'+period.denominator+' ps':' · 模型时间未取得');
   api('/state?step='+s+'&probes=power_w').then(function(b){if(stale(b))return;
-    document.getElementById('info').innerHTML=badge(b.status||'')+' '+(b.values?JSON.stringify(b.values):(b.reason||''))})}
+    document.getElementById('info').textContent=b.status+' · '+(b.sample_index?'源样本 '+b.sample_index+' · 采样时间 '+b.sample_time_ticks+' ps · 当前源行 '+(b.current_line===null?'缺样':b.current_line):b.values?JSON.stringify(b.values):(b.reason||''))})}
+function showImages(){
+  var generation=++imageGeneration,panels=document.getElementById('image-panels');panels.textContent='';
+  document.getElementById('pixel-info').textContent='';if(!imageMeta)return;
+  var tx=Number(document.getElementById('tile-x').value),ty=Number(document.getElementById('tile-y').value);
+  if(!Number.isInteger(tx)||!Number.isInteger(ty)||tx<0||ty<0){panels.textContent='瓦片坐标必须是非负整数';return}
+  var ids=[runId],comparison=document.getElementById('compare-select').value;
+  if(comparison&&comparison!==runId)ids.push(comparison);
+  ids.forEach(function(id){
+    var box=document.createElement('div');box.style.flex='1 1 256px';box.style.minWidth='0';
+    var title=document.createElement('div');title.textContent=id;box.appendChild(title);
+    var cv=document.createElement('canvas');cv.style.height='auto';cv.style.imageRendering='pixelated';cv.style.cursor='crosshair';box.appendChild(cv);
+    var status=document.createElement('div');status.className='nodata';box.appendChild(status);panels.appendChild(box);
+    api('/images/density/manifest',null,id).then(function(m){
+      if(stale(m)||generation!==imageGeneration)return;
+      if(m.error||!m.width){status.textContent=m.error||m.reason||'没有成像记录';cv.hidden=true;return}
+      title.textContent=id+' · '+m.calibration_provenance+' · 标定 '+m.calibration_id+' · '+m.calibration_status;
+      return api('/images/density/tiles/0/'+tx+'/'+ty,null,id).then(function(tile){
+        if(stale(tile)||generation!==imageGeneration)return;
+        if(tile.error||!tile.density){status.textContent=tile.error||tile.reason;cv.hidden=true;return}
+        paintImage(cv,tile,m);status.textContent='像素 '+tile.x+','+tile.y+' 起 · '+tile.width+'×'+tile.height+' · '+tile.calibration_status;
+        cv.onclick=function(event){
+          var rect=cv.getBoundingClientRect(),col=tile.x+Math.min(tile.width-1,Math.floor((event.clientX-rect.left)/rect.width*tile.width)),
+            row=tile.y+Math.min(tile.height-1,Math.floor((event.clientY-rect.top)/rect.height*tile.height));
+          selectPixel(id,row,col,m,tile,cv,generation);
+        };
+      });
+    }).catch(function(error){if(generation===imageGeneration)status.textContent=String(error)});
+  });
+}
+function paintImage(cv,tile,meta){
+  cv.width=tile.width;cv.height=tile.height;var g=cv.getContext('2d'),pixels=g.createImageData(tile.width,tile.height),
+    masked=document.getElementById('mask-view').checked;
+  tile.density.forEach(function(row,y){row.forEach(function(d,x){
+    var flag=tile.flags[y][x],v=d===null?0:Math.round(255*(1-Math.max(0,Math.min(4,d))/4)),at=4*(y*tile.width+x),
+      rgb=flag?(masked?[210,65,65]:[180,110,180]):masked?[225,235,225]:[v,v,v];
+    pixels.data.set([rgb[0],rgb[1],rgb[2],255],at);
+  })});g.putImageData(pixels,0,0);
+  if(selectedPixel&&selectedPixel.row>=tile.y&&selectedPixel.row<tile.y+tile.height&&selectedPixel.col>=tile.x&&selectedPixel.col<tile.x+tile.width){
+    g.strokeStyle='#00bfff';g.strokeRect(selectedPixel.col-tile.x-.5,selectedPixel.row-tile.y-.5,2,2)}
+}
+function selectPixel(id,row,col,meta,tile,cv,generation){
+  selectedPixel={row:row,col:col};paintImage(cv,tile,meta);
+  api('/images/density/pixels/'+row+'/'+col+'/lineage',null,id).then(function(b){
+    if(stale(b)||generation!==imageGeneration)return;
+    var flag=tile.flags[row-tile.y][col-tile.x],reasons=Object.keys(meta.reasons).filter(function(bit){return (flag&Number(bit))!==0}).map(function(bit){return meta.reasons[bit]});
+    document.getElementById('pixel-info').textContent=id+' 像素 '+row+','+col+' · 密度 '+tile.density[row-tile.y][col-tile.x]+' OD · '+(reasons.join(', ')||'有效')+'\n'+JSON.stringify(b,null,2);
+    if(id===runId&&b.samples&&b.samples.length&&manifest.timeline_available){
+      var offset=BigInt(b.samples[0].sample_index)-BigInt(manifest.sample_origin);
+      if(offset>=0n&&offset<=BigInt(Number.MAX_SAFE_INTEGER)){
+        var s=Number(offset);document.getElementById('cursor').value=s;
+        win={start:Math.max(0,s-16),end:Math.min(manifest.steps,s+64)};draw();
+      }
+    }
+  });
+}
+function loadRunChoices(){
+  fetch('/runs').then(function(r){return r.json()}).then(function(b){
+    var primary=document.getElementById('run-select'),comparison=document.getElementById('compare-select');
+    b.runs.forEach(function(id){var option=document.createElement('option');option.value=id;option.textContent=id;primary.appendChild(option);comparison.appendChild(option.cloneNode(true))});
+    if(!b.runs.length)return;runId=b.runs.includes('demo')?'demo':b.runs[0];primary.value=runId;load();
+  });
+}
+document.getElementById('run-select').onchange=function(){runId=this.value;viewGeneration++;imageGeneration++;sel={};load()};
+document.getElementById('compare-select').onchange=showImages;
+document.getElementById('mask-view').onchange=showImages;
+document.getElementById('show-tile').onclick=showImages;
 document.getElementById('cursor').addEventListener('input',moveCursor);
 document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventListener('change',function(){
   view=i.value;viewGeneration++;
@@ -111,7 +189,7 @@ document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventList
   document.getElementById('events').textContent='';
   document.getElementById('info').textContent='';
   document.getElementById('branch').disabled=view==='instrument';
-  listSignals()})});
+  listSignals();showImages()})});
 function zoom(f){var c=(win.start+win.end)/2,half=Math.max(1,(win.end-win.start)/2*f);win={start:Math.max(0,Math.round(c-half)),end:Math.min(manifest.steps,Math.round(c+half))};draw()}
 function pan(d){var s=win.end-win.start,first=Math.max(0,Math.min(manifest.steps-s,Math.round(win.start+d*s/4)));win={start:first,end:Math.min(manifest.steps,first+s)};draw()}
 document.getElementById('zoom-in').onclick=function(){zoom(0.5)};
@@ -125,5 +203,5 @@ document.getElementById('branch').onclick=function(){
   api('/branches',{method:'POST',body:JSON.stringify({gain:1100})}).then(function(b){
     if(stale(b))return;
     document.getElementById('info').innerHTML=badge(b.status)+' 分支 '+(b.run_id||'')+'；原运行不变'})};
-load()})();
+loadRunChoices()})();
 </script></body></html>

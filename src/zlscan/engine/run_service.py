@@ -2,17 +2,22 @@
 
 from __future__ import annotations
 
+import json
+import re
+from contextlib import ExitStack, contextmanager
 from copy import deepcopy
+from pathlib import Path
 
 import numpy as np
 
 from zlscan.adc.patterns import ConvertedSamples
 from zlscan.adc_link.link import LinkConfig, transmit
-from zlscan.api.server import Run, Service, make_server
+from zlscan.api.server import ImageRun, Run, Service, make_server
 from zlscan.config.presets import demo_config
 from zlscan.contracts.time import ClockDomain
 from zlscan.engine.chain import ChainConfig
 from zlscan.engine.validity import physical_applicability
+from zlscan.io.image_artifact import ImageArtifact
 from zlscan.replay.replay import run_with_checkpoints
 from zlscan.trace.recorder import record
 
@@ -77,10 +82,45 @@ def demo_service(lines: int = 6) -> Service:
     return svc
 
 
-def serve(port: int = 8765, lines: int = 6) -> None:
-    server = make_server(demo_service(lines), "127.0.0.1", port)
-    print(f"工作台服务：http://127.0.0.1:{server.server_address[1]}/  （Ctrl+C 结束）")
-    try:
-        server.serve_forever()
-    finally:
-        server.server_close()
+@contextmanager
+def image_service(registry_path: Path):
+    document = json.loads(registry_path.read_text(encoding="utf-8"))
+    if (
+        not isinstance(document, dict)
+        or not isinstance(document.get("runs"), list)
+        or not document["runs"]
+    ):
+        raise ValueError("image registry requires a non-empty runs list")
+    service = Service()
+    with ExitStack() as stack:
+        for entry in document["runs"]:
+            run_id = entry["id"]
+            if not isinstance(run_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", run_id):
+                raise ValueError("image run id must contain 1..64 ASCII letters, digits, _ or -")
+            if run_id in service.runs:
+                raise ValueError("image run ids must be unique")
+            directory = (registry_path.parent / entry["reconstruction"]).resolve()
+            raw = (registry_path.parent / entry["raw"]).resolve() if entry.get("raw") else None
+            image = stack.enter_context(
+                ImageArtifact(
+                    directory,
+                    raw_path=raw,
+                    expected_calibration_id=entry.get("expected_calibration_id"),
+                    expected_binding=entry.get("expected_binding"),
+                )
+            )
+            service.add(ImageRun(run_id, image))
+        yield service
+
+
+def serve(port: int = 8765, lines: int = 6, registry: Path | None = None) -> None:
+    with ExitStack() as stack:
+        service = stack.enter_context(image_service(registry)) if registry else demo_service(lines)
+        server = make_server(service, "127.0.0.1", port)
+        print(
+            f"工作台服务：http://127.0.0.1:{server.server_address[1]}/  （Ctrl+C 结束）", flush=True
+        )
+        try:
+            server.serve_forever()
+        finally:
+            server.server_close()

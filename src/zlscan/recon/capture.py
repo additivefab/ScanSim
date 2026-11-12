@@ -143,6 +143,18 @@ def reconstruct_capture(
             lo, hi = fit.support_u
             x_by_phase[phase] = np.where((u >= lo) & (u <= hi), a + b * u + c * u**3, np.nan)
 
+    # Save the actual coordinates used below, never an independently inferred display map.
+    lineage_rows = []
+    delivered = (
+        {
+            b.line_number: b
+            for b in raw.blocks
+            if channel in b.channels and b.flags & FLAG_LINE_START
+        }
+        if raw
+        else {}
+    )
+
     with tempfile.TemporaryDirectory(prefix="zlscan_density_") as directory:
         scratch_dir = Path(directory)
         with (scratch_dir / "rows.bin").open("w+b") as scratch:
@@ -151,6 +163,7 @@ def reconstruct_capture(
             def add_row(line: int, codes: np.ndarray, flags: np.ndarray) -> None:
                 y = grid.origin_y_m + (line + 0.5) / capture.lines * height_m
                 x, gain = nominal_x, 1.0
+                mapping = "uniform"
                 if model is not None:
                     phase = str(phases[line])
                     fit = model.facets.get(phase)
@@ -158,12 +171,33 @@ def reconstruct_capture(
                         flags |= int(InvalidFlag.FACET_UNRESOLVED)
                     else:
                         x = x_by_phase[phase]
+                        mapping = f"phase_{phase}"
                         y += fit.y_offset_m or 0
                         if gains is not None:
                             if phase in gains:
                                 gain = gains[phase]
                             else:
                                 flags |= int(InvalidFlag.WHITE_REFERENCE_INVALID)
+                block = delivered.get(line)
+                lineage_rows.append(
+                    {
+                        "line": line,
+                        "mapping": mapping,
+                        "y_m": y,
+                        "source": None
+                        if block is None
+                        else {
+                            "epoch": block.epoch,
+                            "clock_domain": block.clock_domain,
+                            "first_sample_index": str(block.first_sample_index),
+                            "sample_count": block.sample_count,
+                            "seq": block.seq,
+                            "channels": block.channels,
+                            "payload_offset": block.payload_offset,
+                            "payload_crc32": block.payload_crc32,
+                        },
+                    }
+                )
                 accumulator.add(codes, flags, x, y, gain)
 
             if raw is None:
@@ -246,7 +280,32 @@ def reconstruct_capture(
         "valid_fraction": valid_fraction,
         "grid": asdict(grid),
         "raw_sha256": capture.raw_sha256,
+        "channel": channel,
+        "capture_binding": capture.binding.model_dump(mode="json"),
+        "calibration_binding_status": "compatible_at_reconstruction",
     }
+    if raw is not None:
+        mappings = {"uniform": nominal_x, **{f"phase_{k}": v for k, v in x_by_phase.items()}}
+        lineage = {
+            "format": "zlscan-image-lineage/1",
+            "raw_sha256": capture.raw_sha256,
+            "calibration_id": calibration.calibration_id,
+            "channel": channel,
+            "session_id": raw.session.session_id,
+            "origin": raw.session.origin,
+            "clock_domains": raw.session.clock_domains,
+            "grid": asdict(grid),
+            "mappings": {
+                key: [float(v) if np.isfinite(v) else None for v in values]
+                for key, values in mappings.items()
+            },
+            "lines": lineage_rows,
+        }
+        (output / "lineage.json").write_text(
+            json.dumps(lineage, allow_nan=False) + "\n", encoding="utf-8"
+        )
+        manifest["lineage_sha256"] = sha256_file(output / "lineage.json")
+    manifest["density_sha256"] = sha256_file(output / "density.npz")
     if facet_path is not None:
         manifest["facet_timing_sha256"] = sha256_file(facet_path)
     if quality_path is not None:

@@ -462,13 +462,20 @@ def _run_replay(argv: Sequence[str]) -> int:
 
 
 def _run_serve(argv: Sequence[str]) -> int:
+    from pathlib import Path
+
     from zlscan.engine.run_service import serve
 
     p = argparse.ArgumentParser(prog="zlscan serve")
     p.add_argument("--port", type=int, default=8765)
     p.add_argument("--lines", type=int, default=6)
+    p.add_argument("--images", type=Path, help="read-only reconstruction registry JSON")
     args = p.parse_args(list(argv))
-    serve(args.port, args.lines)
+    try:
+        serve(args.port, args.lines, args.images)
+    except (OSError, KeyError, ValueError) as exc:
+        print(f"工作台启动失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
     return 0
 
 

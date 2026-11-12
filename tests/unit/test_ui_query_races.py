@@ -35,12 +35,96 @@ vm.runInContext(HELPERS,context);
   context.view='instrument';context.viewGeneration++;
   context.view='research';context.viewGeneration++;
   pending[4]();assert.equal(context.stale(await oldResearch),true,'old view epoch');
+  const oldTile=context.api('/images/density/tiles/0/0/0');
+  const newTile=context.api('/images/density/tiles/0/1/0');
+  pending[5]();assert.equal(context.stale(await oldTile),true,'new tile replaces previous tile');
+  pending[6]();assert.equal(context.stale(await newTile),false);
+  const primary=context.api('/images/density/manifest');
+  const compare=context.api('/images/density/manifest',null,'other');
+  pending[8]();assert.equal(context.stale(await compare),false);
+  pending[7]();assert.equal(context.stale(await primary),false,'comparison has a separate slot');
+  const oldRun=context.api('/state?step=4');
+  context.runId='other';context.viewGeneration++;
+  pending[9]();assert.equal(context.stale(await oldRun),true,'run selection rejects old replies');
 })().catch(error=>{console.error(error);process.exitCode=1});
 """
     import json
 
     result = subprocess.run(
         [shutil.which("node"), "-e", "const HELPERS=" + json.dumps(helpers) + ";\n" + script],
+        capture_output=True,
+        text=True,
+        timeout=20,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node.js needed for page helper checks")
+def test_image_pixel_jumps_to_source_sample_with_exact_large_origin():
+    import json
+
+    html = (STATIC / "index.html").read_text()
+    helper = re.search(
+        r"function selectPixel\(.*?(?=function loadRunChoices\()", html, re.S
+    ).group()
+    script = r"""
+const vm=require('node:vm'),assert=require('node:assert/strict');
+const elements={cursor:{value:0},'pixel-info':{textContent:''}};
+const origin=2n**53n+17n;
+const reply={samples:[{sample_index:String(origin+21n),normalized_weight:1}]};
+let drawCount=0,request='';
+const context=vm.createContext({document:{getElementById:id=>elements[id]},
+  runId:'capture',imageGeneration:2,selectedPixel:null,
+  manifest:{timeline_available:true,sample_origin:String(origin),steps:100},
+  api:path=>{request=path;return Promise.resolve(reply)},stale:()=>false,
+  paintImage:()=>{},draw:()=>drawCount++,win:{start:0,end:100},BigInt,Number,JSON});
+vm.runInContext(HELPER,context);
+(async()=>{
+  const tile={x:0,y:0,flags:[[0,0],[0,0]],density:[[1,1],[1,1]]};
+  context.selectPixel('capture',1,1,{reasons:{}},tile,{},2);
+  await new Promise(setImmediate);
+  assert.equal(request,'/images/density/pixels/1/1/lineage');
+  assert.equal(elements.cursor.value,21);assert.equal(drawCount,1);
+  assert.equal(context.win.start,5);assert.equal(context.win.end,85);
+  context.selectPixel('comparison',1,1,{reasons:{}},tile,{},2);
+  await new Promise(setImmediate);
+  assert.equal(drawCount,1,'comparison must not move primary cursor using its own clock');
+  context.selectPixel('capture',1,1,{reasons:{}},tile,{},1);
+  await new Promise(setImmediate);
+  assert.equal(drawCount,1,'old image generation must not move cursor');
+})().catch(error=>{console.error(error);process.exitCode=1});
+"""
+    result = subprocess.run(
+        [shutil.which("node"), "-e", "const HELPER=" + json.dumps(helper) + ";\n" + script],
+        capture_output=True,
+        text=True,
+        timeout=20,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node.js needed for page helper checks")
+def test_raw_trace_painter_breaks_at_missing_samples():
+    import json
+
+    html = (STATIC / "index.html").read_text()
+    helper = re.search(r"function paint\(.*?(?=function moveCursor\()", html, re.S).group()
+    script = r"""
+const vm=require('node:vm'),assert=require('node:assert/strict');
+const moves=[],lines=[];
+const graphics={clearRect:()=>{},beginPath:()=>{},stroke:()=>{},fillRect:()=>{},
+  moveTo:(x,y)=>moves.push([x,y]),lineTo:(x,y)=>lines.push([x,y])};
+const context=vm.createContext({win:{start:0,end:3},Math,Number});
+vm.runInContext(HELPER,context);
+context.paint({width:30,height:90,getContext:()=>graphics},
+  {level:'raw',values:[1,null,3],first_step:0,block_steps:1});
+assert.equal(moves.length,2,'gap must break the held path');
+assert.equal(moves[1][0],20);
+assert.equal(lines[0][0],10,'previous value is held only up to start of missing sample');
+assert(moves.concat(lines).flat().every(Number.isFinite));
+"""
+    result = subprocess.run(
+        [shutil.which("node"), "-e", "const HELPER=" + json.dumps(helper) + ";\n" + script],
         capture_output=True,
         text=True,
         timeout=20,
