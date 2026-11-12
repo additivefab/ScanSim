@@ -9,6 +9,7 @@ import numpy as np
 from zlscan.contracts.calibration import CalibrationHeader, CaptureDescription
 from zlscan.io.line_image import reconstruct
 from zlscan.io.manifest import sha256_file
+from zlscan.io.quality import apply_quality_log
 from zlscan.io.rawstream import read_all, read_headerless_u16
 from zlscan.recon.density import Grid, reconstruct_density
 
@@ -23,6 +24,7 @@ def reconstruct_capture(
     channel: int = 0,
     headerless_spp: int | None = None,
     coding: str = "offset_binary",
+    quality_path: Path | None = None,
 ) -> dict:
     """Reconstruct using declared uniform coordinates and preserve missing line positions."""
     if sha256_file(raw_path) != capture.raw_sha256:
@@ -35,6 +37,8 @@ def reconstruct_capture(
     else:
         delay = None
     if headerless_spp is not None:
+        if quality_path is not None:
+            raise ValueError("quality event projection requires ZLRAW sample identities")
         if delay is not None:
             raise ValueError("headerless capture requires a clock declaration for calibrated delay")
 
@@ -72,6 +76,8 @@ def reconstruct_capture(
         if channel not in image.codes:
             raise ValueError(f"capture lacks channel {channel}")
         codes, flags = image.codes[channel], image.invalid
+        if quality_path is not None:
+            apply_quality_log(quality_path, capture.raw_sha256, raw, channel, flags)
         if delay is not None:
             domains = {block.clock_domain for block in raw.blocks if channel in block.channels}
             clocks = [clock for clock in session.clock_domains if clock["id"] in domains]
@@ -120,5 +126,7 @@ def reconstruct_capture(
         "grid": asdict(grid),
         "raw_sha256": capture.raw_sha256,
     }
+    if quality_path is not None:
+        manifest["quality_sha256"] = sha256_file(quality_path)
     (output / "run.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return manifest

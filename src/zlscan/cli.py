@@ -170,11 +170,16 @@ def _run_calibrate(argv: Sequence[str]) -> int:
     p.add_argument("--raw", required=True, type=Path)
     p.add_argument("--protocol", required=True, type=Path)
     p.add_argument("--timing", type=Path, help="synchronized injection observation JSON")
+    p.add_argument("--quality", type=Path, help="observable quality event JSON")
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
     try:
         cal = calibration_from_scan(
-            args.raw, args.protocol, fit_transfer=True, timing_path=args.timing
+            args.raw,
+            args.protocol,
+            fit_transfer=True,
+            timing_path=args.timing,
+            quality_path=args.quality,
         )
         args.out.mkdir(parents=True)
         save_calibration(args.out / "calibration.json", cal)
@@ -210,6 +215,7 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
     p.add_argument("--pitch-y-m", required=True, type=float)
     p.add_argument("--channel", type=int, default=0)
     p.add_argument("--headerless-spp", type=int)
+    p.add_argument("--quality", type=Path, help="observable quality event JSON")
     p.add_argument(
         "--coding", choices=["offset_binary", "twos_complement"], default="offset_binary"
     )
@@ -227,6 +233,7 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
             channel=args.channel,
             headerless_spp=args.headerless_spp,
             coding=args.coding,
+            quality_path=args.quality,
         )
     except (OSError, ValueError) as exc:
         print(f"重建失败：{exc}", file=sys.stderr)

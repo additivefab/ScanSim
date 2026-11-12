@@ -8,12 +8,14 @@ import pytest
 
 from zlscan.cli import main
 from zlscan.config.presets import demo_config
+from zlscan.contracts.flags import InvalidFlag
 from zlscan.engine.physical_run import run_physical
 from zlscan.experiment.calibration_scan import run_calibration_scan
+from zlscan.io.rawstream import read_all
 from zlscan.truth.scene import uniform
 
 
-def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path):
+def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path, capsys):
     cfg = demo_config()
     cfg.detector = replace(cfg.detector, shot_noise=False)
     reference = tmp_path / "reference"
@@ -35,7 +37,7 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
         == 0
     )
 
-    def reconstruct(observable, output, calibration_dir=cal):
+    def reconstruct(observable, output, calibration_dir=cal, extra=()):
         assert (
             main(
                 [
@@ -54,6 +56,7 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
                     "0.002",
                     "--pitch-y-m",
                     "0.002",
+                    *extra,
                 ]
             )
             == 0
@@ -152,3 +155,87 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
     timed = tmp_path / "timed-reconstruction"
     reconstruct(bright, timed, timed_cal)
     assert json.loads((timed / "run.json").read_text())["delay_offset_samples"] == 1.0
+
+    raw_path = bright / "raw.zlraw"
+    block = read_all(raw_path).blocks[1]
+    sample = block.first_sample_index + block.sample_count // 2
+    capture = json.loads((bright / "capture.json").read_text())
+    event = {
+        "kind": "adc_saturated",
+        "origin": "SIMULATED",
+        "visibility": "OBSERVABLE",
+        "derivation": "SENSOR",
+        "capability_ref": "fixture/adc_otr",
+        "clock_domain": 1,
+        "count": sample,
+        "tick": sample * 1_000_000,
+        "session_id": 1,
+        "epoch": 0,
+        "related_sample": ["sample", "main", 1, 0, 1, 0, sample],
+    }
+    quality = tmp_path / "quality.json"
+    quality.write_text(
+        json.dumps(
+            {
+                "raw_sha256": capture["raw_sha256"],
+                "ranges": [
+                    {"event": event},
+                    {"event": {**event, "kind": "front_end_clipped"}},
+                ],
+            }
+        )
+    )
+    masked = tmp_path / "quality-result"
+    reconstruct(bright, masked, extra=("--quality", str(quality)))
+    with np.load(masked / "density.npz") as result:
+        flags = result["flags"]
+        flagged = (flags & int(InvalidFlag.ADC_SATURATED)) != 0
+        assert np.any(flagged[1]) and not np.any(flagged[[0, 2, 3]])
+        assert np.all(flags[flagged] & int(InvalidFlag.FRONT_END_CLIPPED))
+        assert np.all(np.isnan(result["density"][flagged]))
+
+    reference_raw = reference_obs / "raw.zlraw"
+    dark_block = read_all(reference_raw).blocks[0]
+    first = dark_block.first_sample_index
+    dark_event = {
+        **event,
+        "count": first,
+        "tick": first * 1_000_000,
+        "related_sample": ["reference", "main", 1, 0, 1, 0, first],
+    }
+    calibrate_args = [
+        "calibrate",
+        "--raw",
+        str(reference_raw),
+        "--protocol",
+        str(reference_obs / "scan_protocol.json"),
+        "--quality",
+        str(quality),
+        "--out",
+        str(tmp_path / "invalid-reference"),
+    ]
+    quality.write_text(
+        json.dumps(
+            {
+                "raw_sha256": protocol["raw_sha256"],
+                "ranges": [
+                    {"event": dark_event},
+                ],
+            }
+        )
+    )
+    assert main(calibrate_args) == 1
+    assert not (tmp_path / "invalid-reference").exists()
+    assert "invalidate the dark reference" in capsys.readouterr().err
+    quality.write_text(
+        json.dumps(
+            {
+                "raw_sha256": protocol["raw_sha256"],
+                "ranges": [
+                    {"event": {**dark_event, "visibility": "ORACLE_ONLY"}},
+                ],
+            }
+        )
+    )
+    assert main(calibrate_args) == 1
+    assert "invalid or unobservable quality event" in capsys.readouterr().err
