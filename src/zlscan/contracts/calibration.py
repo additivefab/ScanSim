@@ -23,6 +23,7 @@ class Provenance(StrEnum):
 class Binding(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
+    simulation_hash: str | None = None
     hardware_hash: str | None = None
     wiring_rev: str | None = None
     firmware_hash: str | None = None
@@ -30,6 +31,13 @@ class Binding(BaseModel):
     channel_roles: dict[str, str | None] = {}
     gain_settings: dict[str, str] = {}
     epoch_range: tuple[int, int] = (0, 0)
+
+    @model_validator(mode="after")
+    def _ordered_epochs(self) -> Binding:
+        first, last = self.epoch_range
+        if not 0 <= first <= last:
+            raise ValueError("epoch_range must be ordered and non-negative")
+        return self
 
 
 class CalibItem(BaseModel):

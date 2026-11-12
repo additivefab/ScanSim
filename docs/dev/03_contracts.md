@@ -158,7 +158,7 @@ header:
   format_version
   provenance          "MODEL" | "SIMULATED" | "MEASURED"
   calibration_id, created_at
-  binds_to            {hardware_hash, wiring_rev, firmware_hash, register_dump_hash,
+  binds_to            {simulation_hash, hardware_hash, wiring_rev, firmware_hash, register_dump_hash,
                        channel_roles, gain_settings, epoch_range}
   valid_conditions    温度范围、扫描方向、有效时间等
   generator           算法名称与版本、输入数据的校验值
@@ -173,6 +173,7 @@ items（每项带 value、uncertainty、valid_range、method）:
 ```
 
 - `recon` 默认拒绝 `MODEL`；只有显式传入 `allow_model_calibration=True`（仅 `legacy_*` 预设与专门的兼容测试使用）才接受。
+- 研究模拟可用独立的 `simulation_hash` 标识采集配置。实测文件须匹配硬件、固件、接线和寄存器标识。两种模式均核对通道角色、增益与采集时期范围。
 - 应用前检查 `binds_to` 与当前会话是否匹配；不匹配时拒绝，或在显式的研究开关下继续并在输出中标记。
 - 某一项无法从给定数据估计时（例如用均匀场估送片向偏移），该项写 `status: "unidentifiable"`，不写数值。
 
