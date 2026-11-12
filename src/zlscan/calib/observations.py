@@ -231,7 +231,19 @@ def calibration_from_scan(
             range(slanted.first_line, slanted.first_line + slanted.lines) if slanted else range(0)
         )
         model, phases = fit_observed_targets(
-            facet_path, raw, protocol.raw_sha256, channel_flags, grid_lines, slanted_lines
+            facet_path,
+            raw,
+            protocol.raw_sha256,
+            channel_flags,
+            grid_lines,
+            slanted_lines,
+            image.codes,
+            protocol.grid_line_x_fraction,
+            protocol.width_m,
+            range(by_name["dark"].first_line, by_name["dark"].first_line + by_name["dark"].lines),
+            range(
+                by_name["white"].first_line, by_name["white"].first_line + by_name["white"].lines
+            ),
         )
         items["facet_geometry"] = CalibItem(
             value=model,

@@ -23,7 +23,7 @@ class FacetTargets(BaseModel):
 
     timing: FacetTiming
     channel: StrictInt = Field(ge=0)
-    grid: list[Landmark]
+    grid: list[Landmark] = []
     slanted: list[Landmark] = []
     slanted_dx_dy: FiniteFloat | None = None
 
@@ -35,6 +35,11 @@ def fit_observed_targets(
     flags_by_channel: dict[int, np.ndarray],
     grid_lines: range,
     slanted_lines: range,
+    codes_by_channel: dict[int, np.ndarray],
+    grid_fractions: list[float],
+    width_m: float,
+    dark_lines: range,
+    white_lines: range,
 ) -> tuple[dict, np.ndarray]:
     targets = FacetTargets.model_validate_json(path.read_bytes())
     if targets.channel not in flags_by_channel:
@@ -57,7 +62,17 @@ def fit_observed_targets(
         phase, u, x = np.asarray(rows, dtype=float).reshape(-1, 3).T
         return phase.astype(int), u, x
 
-    phase, u, x = points(targets.grid, grid_lines)
+    grid = targets.grid
+    if not grid:
+        codes = codes_by_channel[targets.channel]
+        dark, white = (
+            float(np.median(codes[region.start : region.stop]))
+            for region in (dark_lines, white_lines)
+        )
+        grid = _detect_grid(
+            codes, flags, grid_lines, grid_fractions, width_m, np.sign(dark - white)
+        )
+    phase, u, x = points(grid, grid_lines)
     sp, su, sx = points(targets.slanted, slanted_lines)
     result = {}
     for facet, fit in fit_facet_geometry(phase, u, x, None, None, None).items():
@@ -112,3 +127,57 @@ def fit_facet_gain(
         if np.isfinite(gain) and gain > 0:
             gains[str(phase)] = gain
     return gains
+
+
+def _detect_grid(
+    codes: np.ndarray,
+    flags: np.ndarray,
+    lines: range,
+    fractions: list[float],
+    width_m: float,
+    dark_polarity: float,
+) -> list[Landmark]:
+    """Locate certified dark bars at the midpoint of their two half-contrast crossings."""
+    centers = np.asarray(fractions, dtype=float) * codes.shape[1] - 0.5
+    if (
+        len(centers) < 3
+        or not np.all(np.isfinite(centers))
+        or not 0 < centers[0] < centers[-1] < codes.shape[1] - 1
+        or np.any(np.diff(centers) < 6)
+        or dark_polarity == 0
+    ):
+        raise ValueError(
+            "automatic grid detection requires separated certified bars and dark contrast"
+        )
+    radius = 0.4 * float(np.min(np.diff(centers)))
+    result = []
+    for line in lines:
+        oriented = dark_polarity * codes[line].astype(float)
+        for fraction, center in zip(fractions, centers, strict=True):
+            start = max(0, int(np.ceil(center - radius)))
+            stop = min(len(oriented), int(np.floor(center + radius)) + 1)
+            values = oriented[start:stop]
+            if len(values) < 5 or flags[line, start:stop].any():
+                continue
+            peak = int(np.argmax(values))
+            baseline = float(np.median(np.r_[values[:2], values[-2:]]))
+            height = values[peak] - baseline
+            if height <= 3:
+                continue
+            level = baseline + height / 2
+            below_left = np.flatnonzero(values[:peak] < level)
+            below_right = np.flatnonzero(values[peak + 1 :] < level)
+            if not len(below_left) or not len(below_right):
+                continue
+            left = int(below_left[-1])
+            right = peak + 1 + int(below_right[0])
+            x_left = left + (level - values[left]) / (values[left + 1] - values[left])
+            x_right = right - (level - values[right]) / (values[right - 1] - values[right])
+            result.append(
+                Landmark(
+                    line=line,
+                    sample_column=start + (x_left + x_right) / 2,
+                    target_x_m=fraction * width_m,
+                )
+            )
+    return result

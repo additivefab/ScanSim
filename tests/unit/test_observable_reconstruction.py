@@ -300,7 +300,27 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
                 }
             )
     facets = tmp_path / "facets.json"
-    facets.write_text(json.dumps({"timing": timing_ref, "channel": 0, "grid": grid_points}))
+    column = width // 2
+    u = 2 * (column + 0.5) / width - 1
+    slope, y_offset = 0.5, 0.0002
+    slanted = [
+        {
+            "line": 20,
+            "sample_column": column,
+            "target_x_m": 0.04 + 0.04 * u + 0.0003 * u**3 - slope * y_offset,
+        }
+    ]
+    facets.write_text(
+        json.dumps(
+            {
+                "timing": timing_ref,
+                "channel": 0,
+                "grid": grid_points,
+                "slanted": slanted,
+                "slanted_dx_dy": slope,
+            }
+        )
+    )
     mapped_cal = tmp_path / "mapped-calibration"
     assert (
         main(
@@ -321,6 +341,7 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
     mapping = json.loads((mapped_cal / "calibration.json").read_text())["items"]["facet_geometry"]
     assert mapping["value"]["facets"]["0"]["x_coefficients_m"][2] == pytest.approx(0.0003)
     assert mapping["value"]["facets"]["1"]["x_coefficients_m"][2] == pytest.approx(-0.0004)
+    assert mapping["value"]["facets"]["0"]["y_offset_m"] == pytest.approx(y_offset)
     assert mapping["value"]["facets"]["1"]["y_offset_m"] is None
 
     observed_timing = tmp_path / "facet-timing.json"
