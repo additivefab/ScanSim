@@ -80,3 +80,8 @@ offline_env/bin/python -m pip check
 系统 Python、内核及系统库仍来自该主机；另一台干净机器、Windows/Linux
 与其他 Python 版本尚未验收。构建后端版本会在 wheel 元数据/日志中记录，
 构建工具链与 dev/外部仿真工具的完整锁定、发布许可及 CI 仍待完成。
+
+当前正式参考锁：`install/locks/macos-x86_64-cpython314-runtime-ident.lock`；
+对应工件/来源/平台汇总见 `docs/reports/wheel_install_audit.json`。
+这份锁只对应记录中的特定 wheel；配套 wheelhouse 位于审计 work_dir。
+源码重新构建时，工具会生成该构建对应的新锁。

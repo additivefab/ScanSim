@@ -17,7 +17,7 @@
 
 - 旧 `4dafc01` 实际 wheel 缺 API `static/index.html`，其余四资源在；新合同 1 失败/4 通过复现。现显式纳入 HTML、版本单源 0.1.0.dev0（不改 ZLRAW/标定/物理模型版本），资源合同及 CLI 定向 12 项通过（9.25 s）。见 D057、`docs/reports/wheel_install.md`、`docs/install.md`。
 - 独立于 checkout 的跟踪源目录构建/五资源字节核验；20 发行包生成哈希锁并离线安装到无 system-site-packages 的新 venv。`-I` 与模块路径/版本核对、pip check、数字/短物理/标定/重建/报告、HTTP 根/清单/manifest 及静态辨识三案例重读已完成开发试运行；硬件 check 仍未决（4）。最初验证脚本 http 变量重名中断，未记成功；修正并完整重跑通过。实际为 macOS 15.7.6/Python 3.14.7/进程 x86_64，同机环境不称另一干净机器，未做浏览器验收。
-- 最终全量 1245 通过/2 跳过（168.36 s，Icarus 不可用），Ruff/格式通过（243 文件）；起点既有全量 1240 通过/2 跳过（192.47 s）；跨平台/版本矩阵、构建/dev/外部工具全锁定、许可/CI 及其余阶段门槛仍未完成。下一步冻结当前代码做全量及干净提交安装证据，不以短模拟证明物理性能。
+- 最终全量 1245 通过/2 跳过（168.36 s，Icarus 不可用），Ruff/格式通过（243 文件）；起点既有全量 1240 通过/2 跳过（192.47 s）；跨平台/版本矩阵、构建/dev/外部工具全锁定、许可/CI 及其余阶段门槛仍未完成。干净实现 `bbd046b` 正式构建与完整隔离流程通过；20 个实际安装版本逐项等于锁，pyvenv.cfg 确认不继承系统包。记录 `evidence_runs/2026-11-13_wheel_install/record/`，汇总 `docs/reports/wheel_install_audit.json`，目标锁 `install/locks/macos-x86_64-cpython314-runtime-ident.lock`。wheel SHA `663427e17c7760ec95259fb50da36f8e6db3c534475e16812b55fed207c62891`。开发全量数与新运行环境的短流程分别记录，未声称新依赖集合跑了全量；不以短模拟证明物理性能。下一步继续动态辨识、工作台/长期运行剩余门槛。
 
 ## 本轮 S6-T03 静态条件辨识与名义留出验证
 

@@ -1,0 +1,138 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Tracked-source wheel resources and same-host isolated locked runtime install",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T18:22:41.656858+00:00",
+ "finished_at": "2026-11-12T18:27:51.778490+00:00",
+ "code": {
+  "commit": "bbd046bc9cd5d3e8d94e827da9f94ab1fef3cfe9",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "pyproject.toml": "6c057a984a35be36815a8633cac82aa7ee8472f506fac5704ddd65c54fc8ab20",
+  "src/zlscan/__init__.py": "b3ce925a80339601f1323f155d73fdefc0fb5f66996634720857dda4466a4714",
+  "tools/audit_wheel_install.py": "21f0bf93b9ea72462a904d2702e833ca58b336339b085fa54d6b70d3ba7bdebd",
+  "tools/wheel_smoke.py": "9f308e4e93d11c5f1bf169bc3ed20d8d201c980a4082979157ad25567d461690",
+  "tools/audit_static_identification.py": "7bfb8832ddaa7bb93494c73c6cbe091a9b6c786b2d3f75f775a2c5bbc9f74c2b",
+  "tests/contract/test_package_assets.py": "e5c5625469d0b12be8707fabd33c3190bc691ac6facc8751eced5c8adac2f448",
+  "evidence_runs/2026-11-13_wheel_install/output/formal/source_manifest.json": "7a7defd0959e7d5bd0c096f49795378cec5a964ac7fe5746d75af58abfa04839",
+  "evidence_runs/2026-11-13_wheel_install/output/formal/expected.json": "193d9f6c4d92edab2a0bae9140467d1d06abfc7c0ccb4d42d8b7812b46c9104f",
+  "evidence_runs/2026-11-13_wheel_install/output/formal/requirements.lock": "ec57d6f4f06ef20c9cb2ad17dfd4fe318c42df17af7c45e736ddbff2161782dc",
+  "evidence_runs/2026-11-13_wheel_install/output/formal/wheelhouse_manifest.json": "51392a564c5cd417c6a391f2374f2d7c81a400c13a132443ef733177616b6f54",
+  "evidence_runs/2026-11-13_wheel_install/output/baseline_wheel/zlscan-0.0.0-py3-none-any.whl": "4a800a6c312c97b4059497a72cee28d84c9ab796fbe38e5c1633f3af2bdc53a0"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_wheel_install/output/formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "baseline wheel contains workbench HTML",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "clean source commit",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "runtime asset count",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "all build/install/audit command returns successful",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "locked runtime and ident distribution count",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "actual installed versions match lock",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "no system site packages",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "CLI/package version",
+   "expected": "0.1.0.dev0",
+   "tolerance": null,
+   "actual": "0.1.0.dev0",
+   "passed": true
+  },
+  {
+   "quantity": "installed package inside fresh prefix",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "HTTP root",
+   "expected": 200,
+   "tolerance": null,
+   "actual": 200,
+   "passed": true
+  },
+  {
+   "quantity": "HTTP run manifest",
+   "expected": 200,
+   "tolerance": null,
+   "actual": 200,
+   "passed": true
+  },
+  {
+   "quantity": "hardware check remains unresolved",
+   "expected": "unresolved",
+   "tolerance": null,
+   "actual": "unresolved",
+   "passed": true
+  }
+ ],
+ "notes": "Started-at uses the formal console log creation time (capture window). Audit source and resource hashes bind the clean implementation commit. Runtime target, exact installed versions/wheels and all command results are in audit.json, smoke.json and the SHA256 lock. Full source-developer suite:1245 passed/2 skipped,168.36 s; that count is not a full-suite run under the fresh locked dependency set. Fresh runtime+ident smoke covers CLI, digital, short nominal physical/calibration/reconstruction/report, HTTP, and positive/negative static cases. Static negative case exit 1 is expected. Same physical macOS host/Python3.14.7 x86_64, no system-site packages, no source import; not browser, Windows/Linux, another machine or hardware validation. Build/dev/external-tool locks, license/CI and other stage gates remain open. Hardware check remains unresolved (4)."
+}

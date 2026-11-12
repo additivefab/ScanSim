@@ -4,7 +4,7 @@
 不含 `zlscan/api/static/index.html`；其它四项运行资源在包内。
 旧 wheel SHA256 为 `4a800a6c312c97b4059497a72cee28d84c9ab796fbe38e5c1633f3af2bdc53a0`。
 新增资源合同测试得到 1 失败/4 通过，准确定位该遗漏；这次是实际压缩包
-证据，不再沿用旧评审的风险推测。未称旧 wheel 的 HTTP 已独立执行。
+证据，不再沿用旧评审的风险推测。基线检查覆盖压缩包内容；旧安装环境的 HTTP 未执行。
 
 修复：显式纳入 API 静态 HTML；所有五项运行资源均有打包声明覆盖测试。
 包版本改为单一来源 `0.1.0.dev0`，setuptools 从 __version__ 提取；
@@ -29,3 +29,13 @@ ZLRAW、标定格式和物理模型版本均不因此变化。
 正式干净提交证据、配套目标锁及汇总在验证完成后附后。
 
 开发环境全量 1245 通过、2 跳过（168.36 s，Icarus 不可用）；Ruff/格式通过。资源/CLI 定向 12 项通过（9.25 s）。隔离运行环境执行的是另列短流程/静态案例，不将开发全量数写成新依赖集合全量测试。
+
+干净提交 `bbd046b` 的正式构建/隔离安装已通过，源码状态干净。
+wheel SHA256 为 `663427e17c7760ec95259fb50da36f8e6db3c534475e16812b55fed207c62891`。
+正式记录 `evidence_runs/2026-11-13_wheel_install/record/`，汇总为
+`docs/reports/wheel_install_audit.json`；目标运行+ident 的 20 发行包锁及
+文件名/版本/SHA 清单存于 `install/locks/macos-x86_64-cpython314-runtime-ident.lock`
+与同目录 wheelhouse JSON。实际已安装版本逐项等于锁，pyvenv.cfg 确认
+不继承 system-site-packages，包导入位于新环境，硬件未决保持。
+这些锁绑定该次构建工件及目标；构建 wheel 与 wheelhouse 保留于审计输出/
+work_dir 指向的仓库外目录。新构建由工具生成自己的配套锁。

@@ -1,0 +1,102 @@
+{
+  "annotated-types": {
+    "version": "0.8.0",
+    "filename": "annotated_types-0.8.0-py3-none-any.whl",
+    "sha256": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0"
+  },
+  "contourpy": {
+    "version": "1.4.0",
+    "filename": "contourpy-1.4.0-cp314-cp314-macosx_10_15_x86_64.whl",
+    "sha256": "a3e67bc1a6a4618a1dac7c3053a9ffece5ddfa2046b2670b342cf430bb0b87d1"
+  },
+  "cycler": {
+    "version": "0.12.1",
+    "filename": "cycler-0.12.1-py3-none-any.whl",
+    "sha256": "85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30"
+  },
+  "fonttools": {
+    "version": "4.68.0",
+    "filename": "fonttools-4.68.0-cp314-cp314-macosx_10_15_x86_64.whl",
+    "sha256": "9d80813ae74b969ef2166a3040b591826e80ecd879bdeab7f13f4e8eaf08b345"
+  },
+  "h5py": {
+    "version": "3.16.0",
+    "filename": "h5py-3.16.0-cp314-cp314-macosx_10_15_x86_64.whl",
+    "sha256": "9c9d307c0ef862d1cd5714f72ecfafe0a5d7529c44845afa8de9f46e5ba8bd65"
+  },
+  "kiwisolver": {
+    "version": "1.5.1",
+    "filename": "kiwisolver-1.5.1-cp314-cp314-macosx_10_15_x86_64.whl",
+    "sha256": "9b3092d8992a1d69b7a59c3e39f35e1b9be327a17f68a7c35fc17329e337d6f2"
+  },
+  "matplotlib": {
+    "version": "3.11.2",
+    "filename": "matplotlib-3.11.2-cp314-cp314-macosx_10_15_x86_64.whl",
+    "sha256": "c9721f81275499da1feeb36a2cf8192ea086283b3bd16b7dc4c9d7aedb7396d6"
+  },
+  "numpy": {
+    "version": "2.5.4",
+    "filename": "numpy-2.5.4-cp314-cp314-macosx_14_0_x86_64.whl",
+    "sha256": "2c2c4afffdeb7920e445028dd71eb932cac3e704792e964bc2a232426d4f1255"
+  },
+  "packaging": {
+    "version": "26.3",
+    "filename": "packaging-26.3-py3-none-any.whl",
+    "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+  },
+  "pillow": {
+    "version": "13.0.0",
+    "filename": "pillow-13.0.0-cp314-cp314-macosx_10_15_x86_64.whl",
+    "sha256": "49c12af515073e9bf511e4ef736743bf70d531a643668722279314b937742ba4"
+  },
+  "pydantic": {
+    "version": "2.14.3",
+    "filename": "pydantic-2.14.3-py3-none-any.whl",
+    "sha256": "3f7b347782ab7e4cf4c798496ae3a82787d9f21ec12676a9c564355eeef8daa8"
+  },
+  "pydantic-core": {
+    "version": "2.50.4",
+    "filename": "pydantic_core-2.50.4-cp314-cp314-macosx_10_12_x86_64.whl",
+    "sha256": "5c074454dc6d4f6f4ba6561a56bf33a14db7651d882a5a5321ba3ae8868e082d"
+  },
+  "pyparsing": {
+    "version": "3.3.3",
+    "filename": "pyparsing-3.3.3-py3-none-any.whl",
+    "sha256": "ece8c00a69cf01b45d0b1dedabb469c90d8caf996d4fda40f147627a122849a4"
+  },
+  "python-dateutil": {
+    "version": "4.0.0",
+    "filename": "python_dateutil-4.0.0-py3-none-any.whl",
+    "sha256": "a5e246f79eb80475e691bf93862cead98decd8a498cf53ba0516fcdc0f50dc1c"
+  },
+  "scipy": {
+    "version": "1.18.1",
+    "filename": "scipy-1.18.1-cp314-cp314-macosx_14_0_x86_64.whl",
+    "sha256": "88f0e784020649f88ea48c9f5ddfa403bf9205820667c0914740b392035afb82"
+  },
+  "tifffile": {
+    "version": "2026.11.8",
+    "filename": "tifffile-2026.11.8-py3-none-any.whl",
+    "sha256": "bb41732b357a7fa3077db439961ea1ec3a88d2fda4b45fd3ea9f7786690f6049"
+  },
+  "typing-extensions": {
+    "version": "4.16.0",
+    "filename": "typing_extensions-4.16.0-py3-none-any.whl",
+    "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+  },
+  "typing-inspection": {
+    "version": "0.4.5",
+    "filename": "typing_inspection-0.4.5-py3-none-any.whl",
+    "sha256": "bc210535442b39e1bf2805e0c7a17dfd6a4ace760c84c7f7d16245d23a6b1c39"
+  },
+  "tzdata": {
+    "version": "2026.6",
+    "filename": "tzdata-2026.6-py2.py3-none-any.whl",
+    "sha256": "0a10eec6e13ef16b627fabed9a5f2ba61a62b1c67f327305f4e7e412a70b4aec"
+  },
+  "zlscan": {
+    "version": "0.1.0.dev0",
+    "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+    "sha256": "663427e17c7760ec95259fb50da36f8e6db3c534475e16812b55fed207c62891"
+  }
+}
