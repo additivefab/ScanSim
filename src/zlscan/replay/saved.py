@@ -1,23 +1,32 @@
 """Replay a saved physical run from its on-disk analogue checkpoints."""
 
+import hashlib
 import json
 from pathlib import Path
 
 import numpy as np
 
 from zlscan.engine.chain import ChainConfig
+from zlscan.engine.config_bundle import configuration_for_run
 from zlscan.replay.replay import CheckpointStore, replay_window
 
 
 def replay_saved_window(
-    source: Path, output: Path, cfg: ChainConfig, start_step: int, steps: int
+    source: Path, output: Path, cfg: ChainConfig | None, start_step: int, steps: int
 ) -> None:
     """Publish the requested ADC window to a new directory."""
     if output.resolve().is_relative_to(source.resolve()):
         raise ValueError("replay output must be separate from the source run")
     run = json.loads((source / "run.json").read_text(encoding="utf-8"))
-    if run.get("mode") != "physical" or run.get("config_hash") != cfg.hash():
-        raise ValueError("source configuration does not match the physical preset")
+    if run.get("mode") != "physical":
+        raise ValueError("source is not a physical run")
+    with configuration_for_run(source, run, cfg) as restored:
+        _publish(source, output, restored, run, start_step, steps)
+
+
+def _publish(
+    source: Path, output: Path, cfg: ChainConfig, run: dict, start_step: int, steps: int
+) -> None:
     fine_steps = run.get("fine_steps", 0)
     if start_step < 0 or steps < 1 or start_step + steps > fine_steps:
         raise ValueError("replay window falls outside the saved run")
@@ -31,7 +40,12 @@ def replay_saved_window(
     if not candidates:
         raise ValueError("no checkpoint at or before the requested window")
     base = max(candidates)
-    blob = (directory / f"{base}.json").read_bytes()
+    path = directory / f"{base}.json"
+    if run.get("workbench") and hashlib.sha256(path.read_bytes()).hexdigest() != run["workbench"][
+        "checkpoints"
+    ].get(str(base)):
+        raise ValueError("checkpoint hash mismatch")
+    blob = path.read_bytes()
     if json.loads(blob).get("step") != base:
         raise ValueError("checkpoint step does not match its index")
     result = replay_window(cfg, CheckpointStore(0, {base: blob}), start_step, steps)

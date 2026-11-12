@@ -125,6 +125,13 @@ def main() -> None:
         ]
     )
     assert (args.out / "image.html").is_file()
+    from zlscan.engine.saved_service import saved_service
+
+    with saved_service(args.out / "sample") as saved:
+        loaded = saved.runs["saved"]
+        assert saved.manifest(loaded)["loaded_from_saved"]
+        delivered = saved.traces(loaded, "adc.code", 0, loaded.steps, 40, "instrument")
+        assert delivered["missing_count"] > 0 and len(delivered["values"]) <= 40
     service = demo_service(lines=2)
     server = make_server(service, "127.0.0.1", 0)
     thread = threading.Thread(target=server.serve_forever, daemon=True)

@@ -68,3 +68,7 @@ python3 -m venv .venv
 静态线性辨识：测量表导入加 `--static-fit static.json`，显式映射拟合/留出记录，
 输出可辨识参数/组合、条件区间和残差图；绘图需安装 `.[ident]`。
 见 [辨识假设与使用边界](docs/reports/static_identification.md)，不自动升级实测参数。
+
+已有单通道物理运行可通过 `zlscan serve --run physical_out` 只读打开；
+`replay` 默认复用保存的自定义配置。研究源码与交付 ADC 分开，未记录内容保留空缺。
+支持范围见 [已有运行工作台](docs/reports/saved_workbench.md)。

@@ -104,6 +104,23 @@ def run_physical(
         directory.mkdir(exist_ok=True)
         for step, blob in checkpoints.blobs.items():
             (directory / f"{step}.json").write_bytes(blob)
+    import json
+
+    from zlscan.engine.config_bundle import save_config_bundle
+
+    config_sha = save_config_bundle(out / "truth/workbench", cfg)
+    run["workbench"] = {
+        "version": 1,
+        "visibility": "ORACLE_ONLY",
+        "config_sha256": config_sha,
+        "link_lineage_sha256": sha256_file(out / "truth/link_lineage.json"),
+        "source_codes_sha256": sha256_file(out / "truth/source_codes.npy"),
+        "observable_sha256": {
+            name: sha256_file(out / "observable" / name) for name in ("capture.json", "losses.json")
+        },
+        "checkpoints": {p.stem: sha256_file(p) for p in (out / "truth/checkpoints").glob("*.json")},
+    }
+    (out / "run.json").write_text(json.dumps(run, indent=2) + "\n")
     return run
 
 

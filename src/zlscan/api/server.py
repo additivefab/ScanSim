@@ -101,7 +101,11 @@ class Service:
                 "samples": int(len(r.codes)), "config_hash": c.hash(), "origin": "SIMULATED",
                 "evidence": c.evidence, "checkpoint_interval_steps": r.store.interval_steps,
                 "physical_applicability": r.meta.get("physical_applicability"),
-                "recorded_probes": sorted(r.recorded)}  # fmt: skip
+                "recorded_probes": sorted(r.recorded),
+                **({"loaded_from_saved": True, "read_only": True,
+                    "artifact_integrity": r.meta["artifact_integrity"],
+                    "source_adc_visibility": "ORACLE_ONLY",
+                    "saved_source": r.meta["saved_source"]} if r.meta.get("saved_source") else {})}  # fmt: skip
 
     def signals(self, r: Run, view: str) -> dict:
         if isinstance(r, ImageRun):
@@ -123,6 +127,8 @@ class Service:
             if view == "instrument" and s.visibility is Visibility.ORACLE_ONLY:
                 continue
             d = s.model_dump(mode="json")
+            if r.meta.get("saved_source") and s.signal_id == "adc.code":
+                d["visibility"] = "ORACLE_ONLY" if view == "research" else "OBSERVABLE"
             d["recorded"] = s.signal_id == "adc.code" or any(
                 PROBE_TO_SIGNAL[p] == s.signal_id for p in r.recorded
             )
@@ -141,7 +147,23 @@ class Service:
                     "reason": "physical trace not registered for this capture",
                 }
             )
+        meta = getattr(r, "meta", {})
+        if meta.get("validate_saved"):
+            meta["validate_saved"]()
         validate_window(start, end, pixel_width)
+        if meta.get("saved_source") and signal == "adc.code" and view == "instrument":
+            result = meta["delivered_adc"].query(
+                start // r.cfg.os, -(-end // r.cfg.os), pixel_width
+            )
+            if "start" in result:
+                result.update(
+                    first_step=result["start"] * r.cfg.os,
+                    block_steps=result["block_size"] * r.cfg.os,
+                    requested_window=[start, end],
+                    signal=signal,
+                    display_interpolation="hold",
+                )
+            return result
         requested = [start, end]
         start, end = max(0, start), min(end, r.steps)
         if end <= start:
@@ -160,6 +182,10 @@ class Service:
                 r.link.domain if r.link is not None else ClockDomain(r.cfg.domain_id, r.cfg.fs_hz)
             )
             origin = r.link.first_index if r.link is not None else 0
+            if meta.get("saved_source"):
+                result.update(
+                    visibility="ORACLE_ONLY", source="saved simulation ADC source; not delivery"
+                )
             result.update(
                 signal=signal,
                 unit_step="sample",
@@ -203,6 +229,15 @@ class Service:
         if view == "instrument":
             return {"status": QueryStatus.NOT_RECORDED, "step": tick_step, "run_id": r.run_id,
                     "reason": "the instrument view has no access to simulation truth"}  # fmt: skip
+        if r.meta.get("validate_saved"):
+            r.meta["validate_saved"]()
+        if not 0 <= tick_step < r.steps:
+            raise ValueError("cursor outside run")
+        if not r.store.blobs:
+            return {
+                "status": "not_recorded",
+                "reason": "saved simulation checkpoints not available",
+            }
         res = replay_window(r.cfg, r.store, tick_step, 1, probes or set(PROBE_TO_SIGNAL))
         return {"status": QueryStatus.REPLAYED, "step": tick_step, "run_id": r.run_id,
                 "epoch": r.epoch, "checkpoint_step": res.checkpoint_step,
@@ -217,6 +252,12 @@ class Service:
                 "events": [],
                 "reason": "event records not registered for this capture",
             }
+        if r.meta.get("saved_source") and view == "instrument":
+            return {
+                "status": "not_recorded",
+                "events": [],
+                "reason": "event timeline not persisted",
+            }
         os_ = r.cfg.os
         out = []
         for kind, idx in r.events.items() if view == "research" else ():
@@ -230,13 +271,44 @@ class Service:
                 if start <= x["first"] * os_ < end:
                     out.append({"kind": "transport_loss", "layer": x["layer"], "first": x["first"],
                                 "last": x["last"], "reason": x["reason"], "step": x["first"] * os_})  # fmt: skip
-        return {"status": QueryStatus.EXACT_RECORD, "events": sorted(out, key=lambda e: e["step"])}
+        ordered = sorted(out, key=lambda e: e["step"])
+        if r.meta.get("saved_source") and (kinds is None or kinds - {"transport_loss"}):
+            return {
+                "status": "not_recorded",
+                "events": ordered,
+                "reason": "only saved simulated transport losses registered; analogue event positions not persisted",
+            }
+        return {"status": QueryStatus.EXACT_RECORD, "events": ordered}
 
-    def lineage(self, r: Run, index: int) -> dict:
+    def lineage(self, r: Run, index: int, view: str = "research") -> dict:
         if isinstance(r, ImageRun):
             return {
                 "status": "not_recorded",
                 "reason": "output and arrival timestamps not registered",
+            }
+        if r.link is None:
+            record = r.meta.get("saved_link_records", {}).get(index)
+            if record is None or view != "research":
+                return {
+                    "status": "not_recorded",
+                    "reason": "no observable link timestamps registered",
+                }
+            record = dict(record)
+            for field in (
+                "sample_index",
+                "sample_time",
+                "adc_output_time",
+                "pin_arrival_time",
+                "capture_time",
+            ):
+                record[field] = str(record[field])
+            record.update(host_arrival_time=None, host_arrival_status="not_recorded")
+            return {
+                "status": "exact_record",
+                "visibility": "ORACLE_ONLY",
+                "origin": "SIMULATED",
+                "source": "saved partial modeled link timestamps",
+                "lineage": record,
             }
         i = index - r.link.first_index
         if not 0 <= i < len(r.codes):
@@ -271,6 +343,14 @@ class Service:
                 "status": "not_computed",
                 "reason": "this capture has no registered simulation checkpoints",
             }
+        if r.meta.get("saved_source") and view == "instrument":
+            return {"status": "not_computed", "reason": "source-model replay is research only"}
+        if r.meta.get("validate_saved"):
+            r.meta["validate_saved"]()
+        if start < 0 or n < 1 or start + n > r.steps:
+            raise ValueError("replay outside saved duration")
+        if not r.store.blobs or min(r.store.blobs) > start:
+            return {"status": "not_recorded", "reason": "simulation checkpoints not available"}
         res = replay_window(r.cfg, r.store, start, n, set(probes) if view == "research" else set())
         return {"status": res.status, "checkpoint_step": res.checkpoint_step, "start": start,
                 "n_steps": n, "first_sample": res.out.first_sample,
@@ -355,7 +435,7 @@ def _handler(service: Service):
                     kinds = set(filter(None, q.get("kinds", "").split(","))) or None
                     body = service.events(run, int(q["start"]), int(q["end"]), kinds, view)
                 elif what == "samples" and len(parts) > 4 and parts[4] == "lineage":
-                    body = service.lineage(run, int(parts[3]))
+                    body = service.lineage(run, int(parts[3]), view)
                 elif what == "images":
                     body = service.image_query(run, parts)
                 elif what == "updates":
@@ -396,4 +476,7 @@ def _handler(service: Service):
 def make_server(service: Service, host: str = "127.0.0.1", port: int = 0) -> ThreadingHTTPServer:
     if host not in ("127.0.0.1", "localhost", "::1"):
         raise ValueError("the query service only binds to the local machine")
-    return ThreadingHTTPServer((host, port), _handler(service))
+    server = ThreadingHTTPServer((host, port), _handler(service))
+    # Close all query workers before an enclosing saved-artifact context unmaps files.
+    server.daemon_threads = False
+    return server

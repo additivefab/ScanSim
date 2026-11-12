@@ -113,9 +113,20 @@ def image_service(registry_path: Path):
         yield service
 
 
-def serve(port: int = 8765, lines: int = 6, registry: Path | None = None) -> None:
+def serve(
+    port: int = 8765, lines: int = 6, registry: Path | None = None, saved_run: Path | None = None
+) -> None:
     with ExitStack() as stack:
-        service = stack.enter_context(image_service(registry)) if registry else demo_service(lines)
+        if registry is not None and saved_run is not None:
+            raise ValueError("select a saved run or an image registry")
+        if saved_run is not None:
+            from zlscan.engine.saved_service import saved_service
+
+            service = stack.enter_context(saved_service(saved_run))
+        else:
+            service = (
+                stack.enter_context(image_service(registry)) if registry else demo_service(lines)
+            )
         server = make_server(service, "127.0.0.1", port)
         print(
             f"工作台服务：http://127.0.0.1:{server.server_address[1]}/  （Ctrl+C 结束）", flush=True

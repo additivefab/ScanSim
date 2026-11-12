@@ -463,11 +463,13 @@ def _run_replay(argv: Sequence[str]) -> int:
     p.add_argument("--start-step", required=True, type=int)
     p.add_argument("--steps", required=True, type=int)
     p.add_argument("--out", required=True, type=Path)
-    p.add_argument("--preset", choices=["demo", "nominal"], default="demo")
+    p.add_argument("--preset", choices=["demo", "nominal"], default=None)
     args = p.parse_args(list(argv))
     try:
         preset = nominal_config if args.preset == "nominal" else demo_config
-        replay_saved_window(args.run, args.out, preset(), args.start_step, args.steps)
+        replay_saved_window(
+            args.run, args.out, preset() if args.preset else None, args.start_step, args.steps
+        )
     except (OSError, ValueError) as exc:
         print(f"回放失败：{exc}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
@@ -483,10 +485,12 @@ def _run_serve(argv: Sequence[str]) -> int:
     p = argparse.ArgumentParser(prog="zlscan serve")
     p.add_argument("--port", type=int, default=8765)
     p.add_argument("--lines", type=int, default=6)
-    p.add_argument("--images", type=Path, help="read-only reconstruction registry JSON")
+    selection = p.add_mutually_exclusive_group()
+    selection.add_argument("--images", type=Path, help="read-only reconstruction registry JSON")
+    selection.add_argument("--run", type=Path, help="read-only saved single-channel physical run")
     args = p.parse_args(list(argv))
     try:
-        serve(args.port, args.lines, args.images)
+        serve(args.port, args.lines, args.images, args.run)
     except (OSError, KeyError, ValueError) as exc:
         print(f"工作台启动失败：{exc}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE

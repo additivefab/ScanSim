@@ -53,8 +53,8 @@ function badge(s){return '<span class="badge">'+s+'</span>'}
 function load(){
   api('/manifest').then(function(m){if(stale(m))return;manifest=m;win={start:0,end:Math.min(m.steps,Number.MAX_SAFE_INTEGER)};
     imageMeta=m.image||null;if(imageMeta)sel['adc.code']=true;selectedPixel=null;document.getElementById('imaging').hidden=!imageMeta;
-    document.getElementById('m-origin').textContent='来源：'+m.origin;
-    document.getElementById('branch').disabled=!!imageMeta||view==='instrument';
+    document.getElementById('m-origin').textContent='来源：'+m.origin+(m.loaded_from_saved?' · 已保存运行（只读）':'');
+    document.getElementById('branch').disabled=!!imageMeta||!!m.read_only||view==='instrument';
     document.getElementById('replay').disabled=!!imageMeta;
     document.querySelector('label[for=cursor]').textContent=m.cursor_unit==='sample'?'游标（相对源样本）':'游标（模型细步）';
     document.getElementById('m-run').textContent='运行：'+m.run_id;
@@ -190,7 +190,7 @@ document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventList
   document.getElementById('plots').textContent='';
   document.getElementById('events').textContent='';
   document.getElementById('info').textContent='';
-  document.getElementById('branch').disabled=view==='instrument';
+  document.getElementById('branch').disabled=!!(manifest&&(manifest.image||manifest.read_only))||view==='instrument';
   if(manifest){listSignals();showImages()}else load()})});
 function zoom(f){if(!manifest)return;var c=(win.start+win.end)/2,half=Math.max(1,(win.end-win.start)/2*f);win={start:Math.max(0,Math.round(c-half)),end:Math.min(manifest.steps,Math.round(c+half))};draw()}
 function pan(d){if(!manifest)return;var s=win.end-win.start,first=Math.max(0,Math.min(manifest.steps-s,Math.round(win.start+d*s/4)));win={start:first,end:Math.min(manifest.steps,first+s)};draw()}

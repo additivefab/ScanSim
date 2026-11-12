@@ -120,6 +120,12 @@ def run_from_source(out: Path, src, syncs: list[int], cfg: dict[str, Any], prese
 
     digital = _digital_view(got, res, tx, tr, stages, items, cfg)
     (out / "digital.json").write_text(json.dumps(digital, ensure_ascii=False), encoding="utf-8")
+    if cfg.get("mode_name") == "physical":
+        (truth / "link_lineage.json").write_text(
+            json.dumps(
+                {"visibility": "ORACLE_ONLY", "origin": "SIMULATED", "records": digital["lineage"]}
+            )
+        )
     (out / "viewer.html").write_text(
         build_viewer(load_parameters(), [], run, digital), encoding="utf-8"
     )
