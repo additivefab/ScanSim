@@ -1,0 +1,65 @@
+......F............                                                      [100%]
+=================================== FAILURES ===================================
+_____ test_bad_or_ambiguous_scenarios_fail_before_creating_output[change6] _____
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-90/test_bad_or_ambiguous_scenario6')
+change = {'chain': {'fs_hz': 1}}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"format": "unknown"},
+            {"model_version": "unknown"},
+            {"preset": "unknown"},
+            {"lines": True},
+            {"lines": 0},
+            {"chain": {"fs_hz": "1000000"}},
+            {"chain": {"fs_hz": 1}},
+            {"chain": {"os": 3}},
+            {"chain": {"scan": {"facets": 0}}},
+            {"chain": {"adc": {"bits": 17}}},
+            {"chain": {"adc": {"vmax": -1.0}}},
+            {"chain": {"source": {"power_w": None}}},
+            {"chain": {"source": {"power_w": float("nan")}}},
+            {"chain": {"source": {"power_W": 1.0}}},
+            {"chain": {"evidence": {"all": "measured"}}},
+            {"chain": {"scan": {"facet_gain": [1.0]}}},
+            {"extra": True},
+            {"timeline": [{"name": "bad", "first_line": 1, "n_lines": 2, "scene": "missing"}]},
+            {"secondary": {"fs_hz": 2000000}},
+        ],
+    )
+    def test_bad_or_ambiguous_scenarios_fail_before_creating_output(tmp_path, change):
+        path = scenario(tmp_path, **change)
+        out = tmp_path / "refused"
+>       assert main(["run", "--mode", "physical", "--config", str(path), "--out", str(out)]) != 0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_research_config.py:155: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/zlscan/cli.py:677: in main
+    return ARG_HANDLERS[args.command](rest)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/zlscan/cli.py:202: in _run_run
+    run = run_physical(args.out, primary, args.lines, save_checkpoints=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/zlscan/engine/physical_run.py:63: in run_physical
+    res, checkpoints = run_with_checkpoints(cfg, total, line_steps(cfg), chunk)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/zlscan/replay/replay.py:51: in run_with_checkpoints
+    return merge(parts), store
+           ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+parts = []
+
+    def merge(parts: list[ChunkOut]) -> ChunkOut:
+        probes = {}
+>       for name in parts[0].probes:
+                    ^^^^^^^^
+E       IndexError: list index out of range
+
+src/zlscan/engine/chain.py:231: IndexError
+=========================== short test summary info ============================
+FAILED tests/unit/test_research_config.py::test_bad_or_ambiguous_scenarios_fail_before_creating_output[change6]
+1 failed, 18 passed, 13 deselected in 1.51s

@@ -1,0 +1,51 @@
+{
+  "started_at": "2026-11-12T19:26:28.604304+00:00",
+  "code": {
+    "commit": "53a3c9b6465adfd5c1a6f2730d1aa4a6e1b45169",
+    "dirty": false
+  },
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_research_scenario.py",
+        "--out",
+        "evidence_runs/2026-11-13_scenario_config/output/formal"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_research_scenario.py",
+        "--verify",
+        "evidence_runs/2026-11-13_scenario_config/output/formal"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_wheel_install.py",
+        "--out",
+        "evidence_runs/2026-11-13_scenario_config/output/wheel_formal"
+      ],
+      "returncode": 0
+    }
+  ],
+  "finished_at": "2026-11-12T19:28:24.436900+00:00"
+}

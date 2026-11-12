@@ -1,0 +1,15 @@
+{
+  "config_hash": "5f42d5de12fc19501c97818e3d9ad36a06db7c6eaad4ea994b366ffe3586238a",
+  "input_sha256": "cfe5b4946b4b3a0f2baf07eacedcc8e4e3c12f0c28578e1acabfa8386e047d77",
+  "source_file_count": 20,
+  "source_samples": 7500,
+  "repeat_codes_equal": true,
+  "replay_codes_equal": true,
+  "source_unchanged": true,
+  "observed_missing_count": 5589,
+  "observed_bins": 40,
+  "budget_unresolved": true,
+  "over_limit_preserved": true,
+  "origin": "SIMULATED",
+  "scope": "finite scenario CLI and saved services; no browser/hardware acceptance"
+}

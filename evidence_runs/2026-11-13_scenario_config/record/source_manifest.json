@@ -1,0 +1,22 @@
+{
+  "viewer.html": "546d1119acf226ddab7048e9092a24230f823de922ca043f82571b853a5d8069",
+  "digital.json": "1a840cd3fb33c0db5e9b724ad29e8541409de80d27bc942bf2207a7c40425a42",
+  "run.json": "0f5c6b5f05d8ef697f00f92530f772b33d34d6daa78d5c965f14d7a86b6e5e10",
+  "truth/link_lineage.json": "69e939d90ad0bf666d80cbb489ff2421cf5e0ff53ee68674de7ba37e9b866303",
+  "truth/source_codes.npy": "6dce9011f089bd03c5a140d85a7e86b1f00ffca2f5ddf862c86180a6229261ec",
+  "observable/recon.npz": "0e7308214ecb96ead202ae20a0ff634673a6d772bdddafb092599b3bd5c59c6e",
+  "observable/raw.zlraw": "11ff064dcb84ca0c92633f90c8720f6926202a04374321329cc20f87749f056e",
+  "observable/capture.json": "a64a69253c659f3a13b497dab30de95cad46c57acac1416c0610be66df0686ac",
+  "observable/losses.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "observable/integrity.json": "6b3a42a28fb8a3db9b0cbfa847bca48d981ffbeccb1c74ce915f0addfc731f39",
+  "inputs/resolved_scenario.json": "c7dde2f3eee15e2fb9fa12995eebf49c90837d05f8b6477f55c4d118f6f0fb1a",
+  "inputs/scenario.json": "cfe5b4946b4b3a0f2baf07eacedcc8e4e3c12f0c28578e1acabfa8386e047d77",
+  "inputs/resolved_0/config.json": "09724cffd144de86bc8070ae7b9ce6af56a6c4e324a3fc49b11a04b6f6258d4d",
+  "inputs/resolved_0/scene_0.npy": "c6e8d7bf61be244290665cc25de66f9e46ed8f334f594cd0db5827404927966f",
+  "truth/checkpoints/0.json": "0849f3cefa244614d902d58357767a49b4268b868e33ae3d31ad4ea09920dd01",
+  "truth/checkpoints/30000.json": "df824d9873a0bf139f2446d30c227669a4e59f477427c5dfe57a1ac3430591ec",
+  "truth/checkpoints/20000.json": "a21e3e66f54da6bf1804a25955f3233cb045e7c2840d29a55b4277e841c43455",
+  "truth/checkpoints/10000.json": "4c8b4ab1755402f1f1faf0d0f2d606710b0a524fa0e9fcb53a70574d03907868",
+  "truth/workbench/config.json": "09724cffd144de86bc8070ae7b9ce6af56a6c4e324a3fc49b11a04b6f6258d4d",
+  "truth/workbench/scene_0.npy": "c6e8d7bf61be244290665cc25de66f9e46ed8f334f594cd0db5827404927966f"
+}

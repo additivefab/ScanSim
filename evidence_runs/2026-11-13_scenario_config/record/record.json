@@ -1,0 +1,285 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Versioned research scenario CLI self-contained repeat replay and isolated wheel",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T19:26:28.604304+00:00",
+ "finished_at": "2026-11-12T19:28:24.436900+00:00",
+ "code": {
+  "commit": "53a3c9b6465adfd5c1a6f2730d1aa4a6e1b45169",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 91,
+ "inputs": {
+  "configs/research_scenario.json": "cfe5b4946b4b3a0f2baf07eacedcc8e4e3c12f0c28578e1acabfa8386e047d77",
+  "src/zlscan/engine/research_config.py": "0e8fbdf562d7a59319f461ea113e311026475d5e4b1a5e1029b2800432569bc7",
+  "src/zlscan/cli.py": "2c3c10a0bd8cdf41f17ca1042e65d5e833fdb7326ada51260cb20e07a37f7992",
+  "tools/audit_research_scenario.py": "0496cee6843d30d674bf40b13c42df88a08b23ffad0649de7ee5c1760faa1c30",
+  "tools/wheel_smoke.py": "d6e43e1593fc3add9b5b87edb33d3720be6f9d253af3e758a5e5cba2cad8cfbd",
+  "tools/audit_wheel_install.py": "21f0bf93b9ea72462a904d2702e833ca58b336339b085fa54d6b70d3ba7bdebd",
+  "tests/unit/test_research_config.py": "bf5c89298edd528cfbefb342f2fa262efd7e83475ad28631dca361500c649c81",
+  "evidence_runs/2026-11-13_scenario_config/output/formal/audit.json": "4d588ada7bd5830211a1abe36b2d12d61f933b38aaec0bcf3a27faa44a30e045",
+  "evidence_runs/2026-11-13_scenario_config/output/formal/source_manifest.json": "fb066e29fa92479c91d6b86f8a3e684b3e85ebd9d62615e4d73fee4264087688",
+  "evidence_runs/2026-11-13_scenario_config/output/formal/commands.json": "95b84a55172e039caed701ae2b45f97ba8161d61c96e21cae5ddb2d322e0f97e",
+  "evidence_runs/2026-11-13_scenario_config/output/wheel_formal/source_manifest.json": "3d6c3062264e360bcc1a1b7fae4bf5de5db0db87217e206a0fd5b1b23da9e01a",
+  "evidence_runs/2026-11-13_scenario_config/output/wheel_formal/smoke.json": "24359448bde26cbf5c31f474cf1edf3e0ee6cbdab7953450c000a55ff11d16d4",
+  "evidence_runs/2026-11-13_scenario_config/output/wheel_formal/requirements.lock": "79ea1969e33ac8403bbfc11cc6f51bc1763f2e16234ae97f32ae8bc51f3abab7",
+  "evidence_runs/2026-11-13_scenario_config/output/wheel_formal/wheelhouse_manifest.json": "86d032de3ce07b49763fc5e12e6eb6d5b8ef8c5d1fc0ae755d69cb2443675f0f"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_research_scenario.py",
+    "--out",
+    "evidence_runs/2026-11-13_scenario_config/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_research_scenario.py",
+    "--verify",
+    "evidence_runs/2026-11-13_scenario_config/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_scenario_config/output/wheel_formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "self-contained repeat codes",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "checkpoint replay codes",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "original source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "recorded source files",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "source samples",
+   "expected": 7500,
+   "tolerance": null,
+   "actual": 7500,
+   "passed": true
+  },
+  {
+   "quantity": "observable bins",
+   "expected": 40,
+   "tolerance": null,
+   "actual": 40,
+   "passed": true
+  },
+  {
+   "quantity": "unsupported source positions",
+   "expected": 5589,
+   "tolerance": null,
+   "actual": 5589,
+   "passed": true
+  },
+  {
+   "quantity": "unknown budget remains unresolved",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "anode over-limit failure preserved",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "simulation origin",
+   "expected": "SIMULATED",
+   "tolerance": null,
+   "actual": "SIMULATED",
+   "passed": true
+  },
+  {
+   "quantity": "isolated wheel packages",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "isolated wheel assets",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "hardware unresolved",
+   "expected": "unresolved",
+   "tolerance": null,
+   "actual": "unresolved",
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit budget",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit physical",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit repeat",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit replay",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit over_limit",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit bad",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit hardware",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit build",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit download",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit venv",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit install",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit pip_check",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit pip_list",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit smoke",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit static_cases",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit static_verify",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Formal public CLI and fresh-process verifier assert one parsed configuration drives nominal research budgets, physical generation, self-contained rerun and checkpoint replay. Expected unresolved budget exit 4 and over-limit/invalid-input/hardware refusal exit 1 are preserved. Wheel uses actual --config sample and budget with matching config hashes; short runtime+ident flow only, same host, no system-site packages. No new-dependency full-suite, browser, other-OS/machine, hardware or complete-stage claim. Developer full suite ran before implementation commit with same source; its log is separately archived. Missing source positions include unkept samples, not only packet loss. Model/scenario all ASSUMED; unknown hardware values stay null."
+}
