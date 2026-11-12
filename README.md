@@ -123,7 +123,9 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 
 录制配置可选 `"record_digital_history": true` 保存原始数字操作历史，默认关闭。
 同步输入、原源批次码摘要和数字链状态摘要进入统一恢复根 v4；旧记录继续可读。
-这提供可复核的重放输入，指定时刻数字状态 API 和统一游标仍待接入。
+研究视图可用精确整数 ps 游标查询原数字状态；`digital-state?tick=25000001` 返回
+在途/未来预生成行、采集窗口与队列摘要。源时间范围外（包括 EOF 后排空）明确拒绝；
+旧记录没有历史时不补造。事件按钮与 ADC 样本选择共用游标，细步间不冒充精确物理探针。
 见 [原始数字操作历史](docs/reports/producer_history.md)。
 前端削顶/PMT 超限在细步网格，ADC 饱和在源 ADC 网格；仅研究视图可见。
 见 [事件来源与恢复规则](docs/reports/model_quality_events.md)。

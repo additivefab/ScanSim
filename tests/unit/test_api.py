@@ -41,6 +41,32 @@ def test_it_refuses_to_bind_to_a_public_address():
         make_server(Service(), "0.0.0.0", 0)
 
 
+def test_http_json_order_is_canonical_even_when_nested_insertion_order_differs():
+    from zlscan.api.server import Service
+
+    service = Service()
+    service.runs["r"] = object()
+    replies = [dict(b=2, a=dict(y=2, x=1)), dict(a=dict(x=1, y=2), b=2)]
+    service.manifest = lambda run: replies.pop(0)
+    server = make_server(service, "127.0.0.1", 0)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        bodies = []
+        for _ in range(2):
+            connection = http.client.HTTPConnection(*server.server_address, timeout=10)
+            connection.request("GET", "/runs/r/manifest")
+            response = connection.getresponse()
+            assert response.status == 200
+            bodies.append(response.read())
+            connection.close()
+        assert bodies[0] == bodies[1]
+    finally:
+        server.shutdown()
+        thread.join(timeout=5)
+        server.server_close()
+
+
 def test_manifest_states_origin_evidence_and_step(server):
     port, _ = server
     code, m = get(port, "/runs/demo/manifest?req=1")

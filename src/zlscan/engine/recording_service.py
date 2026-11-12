@@ -77,6 +77,11 @@ class RecordingService(Service):
             loaded_from_saved=True,
             read_only=True,
             frozen_commit=True,
+            digital_history_recorded=self.snapshot.history_reader is not None,
+            exact_tick_cursor=True,
+            tick_start_ps=str(self.snapshot.current.fine_clock.tick_of(0)),
+            tick_end_ps=str(self.snapshot.current.fine_clock.tick_of(r.steps)),
+            fine_clock_phase_ps=str(self.snapshot.current.fine_clock.phase_ticks),
             live_follow=False,
             saved_source=str(self.snapshot.directory),
             artifact_integrity="committed_prefix_verified",
@@ -224,6 +229,15 @@ class RecordingService(Service):
             values={PROBE_TO_SIGNAL[p]: float(result[p][0, col]) for p in wanted},
         )
 
+    def digital_state(self, r, tick, view="research"):
+        self._check()
+        if view == "instrument":
+            return dict(status="not_recorded", reason="internal digital state is research only")
+        result = self.snapshot.digital_state(tick)
+        result.update(run_id=r.run_id)
+        self._check()
+        return result
+
     def replay(self, r, start, n, probes, view="research"):
         self._check()
         if view == "instrument":
@@ -329,6 +343,7 @@ class RecordingService(Service):
                             step=first * r.cfg.os,
                             first=str(first),
                             last=str(last),
+                            time_ps=str(loss["time_ps"]),
                             layer=loss["layer"],
                             reason=loss["reason"],
                             visibility="ORACLE_ONLY",

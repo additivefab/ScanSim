@@ -254,6 +254,20 @@ class DigitalPipeline:
         self._collect(tick)
         self.watermark = tick
 
+    def advance_to(self, tick: int) -> None:
+        """Close an inclusive physical tick without inventing another source row."""
+        if (
+            self.closed
+            or type(tick) is not int
+            or not -(2**63) <= tick < 2**63
+            or self.watermark is not None
+            and tick < self.watermark
+        ):
+            raise ValueError("digital time must be an open, monotonic signed integer ps")
+        self.link.advance(tick)
+        self._collect(tick)
+        self.watermark = tick
+
     def finish(self) -> None:
         if self.closed:
             return

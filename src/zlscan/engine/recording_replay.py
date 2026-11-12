@@ -189,7 +189,7 @@ class RecordingReplay:
             if last != b"\n" or rows != int(record["records"]) + 1:
                 raise ValueError("recording journal committed row count differs")
 
-    def _nearest(self, start):
+    def _nearest(self, start, *, need_history=False):
         best = None
         for path in (self.directory / "history").glob("*.json"):
             match = _HISTORY.fullmatch(path.name)
@@ -202,6 +202,10 @@ class RecordingReplay:
             if hashlib.sha256(blob).hexdigest() != match[2]:
                 raise ValueError("recording history SHA mismatch")
             state = json.loads(blob)
+            if need_history and (
+                "digital_history" not in state or state["digital_history"]["closed"]
+            ):
+                continue
             channels = state.get("chains", {})
             if not channels or any(int(c["step"]) != point for c in channels.values()):
                 raise ValueError("recording history step differs from its index")
@@ -213,7 +217,13 @@ class RecordingReplay:
                 or log != self.root["control"]["log"][: len(log)]
             ):
                 raise ValueError("recording history is not a prefix of the committed lineage")
-            key = (point, len(commands), len(log), match[2])
+            key = (
+                point,
+                int(state.get("digital_history", {}).get("records", 0)),
+                len(commands),
+                len(log),
+                match[2],
+            )
             if best is None or key > best[0]:
                 best = (key, blob, path.name)
         if best is None:
@@ -234,6 +244,11 @@ class RecordingReplay:
             HistoryReader(self.directory / "producer_history.jsonl", state["digital_history"])
         self._file_headers(record)
         return restored, best[2]
+
+    def digital_state(self, tick):
+        from zlscan.engine.digital_state import replay_state
+
+        return replay_state(self, tick)
 
     def replay(self, start: int, steps: int, probes: set[str]):
         if (

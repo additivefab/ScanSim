@@ -19,7 +19,7 @@ def test_independent_panels_and_newest_cursor_queries_do_not_overwrite_each_othe
 const vm=require('node:vm'),assert=require('node:assert/strict');
 const pending=[];
 const context=vm.createContext({reqSeq:0,view:'research',runId:'demo',
-  latestIssued:{},lastApplied:{},viewGeneration:0,URLSearchParams,
+  latestIssued:{},lastApplied:{},viewGeneration:0,cursorGeneration:0,URLSearchParams,
   fetch:()=>new Promise(resolve=>pending.push(()=>resolve({json:async()=>({})}))) });
 vm.runInContext(HELPERS,context);
 (async()=>{

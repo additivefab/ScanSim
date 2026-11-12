@@ -243,6 +243,9 @@ class Service:
                 "epoch": r.epoch, "checkpoint_step": res.checkpoint_step,
                 "values": {PROBE_TO_SIGNAL[k]: float(v[0]) for k, v in res.out.probes.items()}}  # fmt: skip
 
+    def digital_state(self, r, tick, view="research") -> dict:
+        return dict(status="not_recorded", reason="original digital producer history unavailable")
+
     def events(
         self, r: Run, start: int, end: int, kinds: set[str] | None, view: str = "research"
     ) -> dict:
@@ -391,7 +394,11 @@ def _handler(service: Service):
             pass
 
         def _send(self, code: int, body: Any, ctype: str = "application/json") -> None:
-            raw = body if isinstance(body, bytes) else json.dumps(body, default=str).encode()
+            raw = (
+                body
+                if isinstance(body, bytes)
+                else json.dumps(body, default=str, sort_keys=True).encode()
+            )
             self.send_response(code)
             self.send_header("Content-Type", ctype)
             self.send_header("Content-Length", str(len(raw)))
@@ -428,6 +435,11 @@ def _handler(service: Service):
                 elif what == "state":
                     probes = set(filter(None, q.get("probes", "").split(",")))
                     body = service.state(run, int(q["step"]), probes, view)
+                elif what == "digital-state":
+                    tick = int(q["tick"])
+                    if str(tick) != q["tick"] or not -(2**63) <= tick < 2**63:
+                        raise ValueError("tick must be a canonical signed integer ps")
+                    body = service.digital_state(run, tick, view)
                 elif what == "traces":
                     body = service.traces(run, q["signal"], int(q["start"]), int(q["end"]),
                                           int(q.get("pixel_width", 800)), view)  # fmt: skip
