@@ -1,0 +1,90 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Composed digital checkpoint continued in fresh process with identical ZLRAW",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T13:49:55.591279+00:00",
+ "finished_at": "2026-11-12T13:49:57.344658+00:00",
+ "code": {
+  "commit": "59cb9f032d0da0d8244575bc629b45c7bc428c58",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261112,
+ "inputs": {
+  "tools/audit_digital_checkpoints.py": "a1dc182913bb24b9b61850e36077d6c0ec10725948c3da16b767b1caeb12808a",
+  "src/zlscan/engine/digital_pipeline.py": "f786629e74dc055ebef16d0bf1c483d423b1c5f680f79e58eb1da41e9d93666b",
+  "src/zlscan/digital/stream.py": "da08ad187e8d1cd3440b31550a5a53f4d16e0fc382b5f2209af92558162ec618",
+  "src/zlscan/contracts/time.py": "6bd379e52d83f94a6034593c6e6fdec64bab373b34eac6acad439be3f11c88ff",
+  "src/zlscan/transport/queues.py": "cb6957fa104ed7275af9042966f3240227416984470b1fc05ea441337ee68998"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_digital_checkpoints.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "fresh-process composed cases",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "complete ledger and actual raw bytes identical",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all child processes exit zero",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all checkpoints contain actual partial-window samples",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "actual queued payloads preserved",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "stalled cases actually lose packets",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Functional ADC+capture+transport+payload recovery with assumed clocks/rates. Restores unfinished window, in-flight words and queued payloads; preserves cross-epoch source IDs. Actual ZLRAW is rebuilt from recovered delivery records and checked byte-for-byte, not resumed at a previously committed file offset. Excludes analog state, controller/physical reset, committed writer cursor, main CLI/UI integration and hardware recovery. Timing excludes child startup and output serialization/write; disk cache uncontrolled, no fsync durability."
+}

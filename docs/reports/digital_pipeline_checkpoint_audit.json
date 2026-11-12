@@ -1,0 +1,108 @@
+{
+  "seed": 20261112,
+  "passed": true,
+  "cases": [
+    {
+      "edge": "rising",
+      "stalled": false,
+      "checkpoint_bytes": 6429,
+      "serialize_write_ms": 5.372459,
+      "resume_ms": 3.9175,
+      "pending_payload_packets": 0,
+      "active_window_samples": 4,
+      "delivered_packets": 5,
+      "lost_packets": 0,
+      "actual_raw_bytes": 1451,
+      "raw_sha256": "d80410ad2fc54579102c0e70928c8e7fd6d419eeb1571e2cef5ec40028a89a21",
+      "raw_and_full_ledger_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_digital_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/checkpoint_rising_0.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/spec_rising_0.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/resumed_rising_0.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "rising",
+      "stalled": true,
+      "checkpoint_bytes": 6717,
+      "serialize_write_ms": 0.98,
+      "resume_ms": 4.67825,
+      "pending_payload_packets": 1,
+      "active_window_samples": 4,
+      "delivered_packets": 3,
+      "lost_packets": 2,
+      "actual_raw_bytes": 1267,
+      "raw_sha256": "0d4b47406ef7780f22f605fc67f72d157e292b102d08e06fd75a8a603bcacc81",
+      "raw_and_full_ledger_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_digital_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/checkpoint_rising_1.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/spec_rising_1.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/resumed_rising_1.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "falling",
+      "stalled": false,
+      "checkpoint_bytes": 6694,
+      "serialize_write_ms": 0.999166,
+      "resume_ms": 4.3915,
+      "pending_payload_packets": 0,
+      "active_window_samples": 3,
+      "delivered_packets": 5,
+      "lost_packets": 0,
+      "actual_raw_bytes": 1453,
+      "raw_sha256": "dce88e7ecdfc8fb99272ebdf7ab46a938a83e287138be49b25872a4c22e7ccf2",
+      "raw_and_full_ledger_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_digital_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/checkpoint_falling_0.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/spec_falling_0.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/resumed_falling_0.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "falling",
+      "stalled": true,
+      "checkpoint_bytes": 6982,
+      "serialize_write_ms": 0.930625,
+      "resume_ms": 4.676625,
+      "pending_payload_packets": 1,
+      "active_window_samples": 3,
+      "delivered_packets": 3,
+      "lost_packets": 2,
+      "actual_raw_bytes": 1269,
+      "raw_sha256": "02a20bb60d3a713be0812219bc8192d06106ca83df9a359f9d264fa759663ce3",
+      "raw_and_full_ledger_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_digital_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/checkpoint_falling_1.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/spec_falling_1.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_digital_pipeline_checkpoints/output/resumed_falling_1.json"
+      ],
+      "child_returncode": 0
+    }
+  ],
+  "scope": "Functional ADC+capture+queue+pending payloads; assumed clocks/rates. Excludes analog, controller and committed writer cursor.",
+  "timing_scope": "Save+write and read+restore+35 inputs+EOF+queue drain. Excludes process startup, output serialization/writing. Cache uncontrolled; no fsync."
+}
