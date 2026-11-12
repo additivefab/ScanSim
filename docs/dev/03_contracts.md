@@ -442,3 +442,13 @@ measurement_id 唯一，partition 为 fit/validation/unassigned；空值保留 n
 (session,epoch,acquisition_id) 的记录标为泄漏，不输出独立验证通过；
 未发现重复只说明声明中未检出复用，不证明统计独立。
 表为标量记录，不生成同步波形，不自动辨识/标定或升级实测参数。
+
+## 示波器观测附件 v1（S6-T02）
+
+`ident --csv ... --metadata ... --out ... --model-waveform model.csv
+--observer observer.json --observe-channel CH1` 将模型电压投影到选定单通道的
+导出时间轴。model.csv 固定 time_s/voltage_v 列。三个附加参数成组必填，
+仅 CSV 电压通道可用，和侧车已知探头倍率、补偿状态、耦合/带宽限制冲突则拒绝。
+observer 显式声明响应、孔径、初态、偏移及假设来源；未知必需量不默认。
+附件保留输入/配置 SHA256、模型标签、名义残差、无效原因及对齐不确定度；
+不跨通道同步，不外推，不自动估计偏移或把模型/残差升级为实测验收。

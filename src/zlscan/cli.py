@@ -498,9 +498,11 @@ def _run_ident(argv: Sequence[str]) -> int:
     import json
     from pathlib import Path
 
+    from zlscan.ident.observe import attach_scope_observer
     from zlscan.ident.raw import RawMetadata, import_raw_capture, write_raw_import_report
     from zlscan.ident.scope import ScopeMetadata, import_scope_csv
     from zlscan.ident.table import TableMetadata, import_measurement_table
+    from zlscan.observation.scope import ScopeObserverConfig
 
     p = argparse.ArgumentParser(
         prog="zlscan ident", description="波形、码流与测量表导入（不作参数辨识）"
@@ -509,9 +511,15 @@ def _run_ident(argv: Sequence[str]) -> int:
     source.add_argument("--csv", type=Path)
     source.add_argument("--table", type=Path, help="标量测量模板 CSV")
     source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
+    p.add_argument("--model-waveform", type=Path, help="model CSV: time_s,voltage_v")
+    p.add_argument("--observer", type=Path, help="explicit candidate scope response JSON")
+    p.add_argument("--observe-channel", help="one voltage channel for nominal residuals")
     p.add_argument("--metadata", required=True, type=Path)
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
+    observation_args = [args.model_waveform, args.observer, args.observe_channel]
+    if any(observation_args) and (not all(observation_args) or args.csv is None):
+        p.error("--model-waveform/--observer/--observe-channel require each other and --csv")
     try:
         declaration = args.metadata.read_bytes()
         if args.raw is not None:
@@ -528,6 +536,29 @@ def _run_ident(argv: Sequence[str]) -> int:
             else:
                 metadata = ScopeMetadata.model_validate_json(declaration)
                 result = import_scope_csv(args.csv, metadata)
+                if args.observer is not None:
+                    observer_bytes = args.observer.read_bytes()
+                    observer = ScopeObserverConfig.model_validate_json(observer_bytes)
+                    model = import_scope_csv(
+                        args.model_waveform,
+                        ScopeMetadata(
+                            time_column="time_s",
+                            time_unit="s",
+                            channels=[{"column": "voltage_v", "unit": "V"}],
+                        ),
+                    )
+                    attachment = attach_scope_observer(
+                        result,
+                        model["time_s"],
+                        model["channels"][0]["values_si"],
+                        observer,
+                        args.observe_channel,
+                    )
+                    attachment["model_waveform_sha256"] = model["source_sha256"]
+                    attachment["observer_config_sha256"] = hashlib.sha256(
+                        observer_bytes
+                    ).hexdigest()
+                    result["observation_model"] = attachment
             result["metadata_sha256"] = hashlib.sha256(declaration).hexdigest()
             args.out.mkdir(parents=True, exist_ok=False)
             with (args.out / "run.json").open("x", encoding="utf-8") as stream:

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "parameter_source": null,
+  "probe_ratio": null,
+  "probe_compensated": null,
+  "probe_bandwidth_hz": null,
+  "scope_bandwidth_hz": null,
+  "bandwidth_limit_hz": null,
+  "coupling": null,
+  "ac_corner_hz": null,
+  "aperture_s": null,
+  "initial_state": null,
+  "time_offset_s": null,
+  "alignment_uncertainty_s": null
+}

@@ -61,3 +61,6 @@ python3 -m venv .venv
 标量测量模板表：`zlscan ident --table measurements.csv --metadata metadata.json --out imported_table`。
 支持显式单位/不确定度及拟合/验证来源复用检查，见 [模板与限制](docs/reports/measurement_table_import.md)。
 导入不等于辨识或独立实测验收。
+
+示波器 CSV 可附加显式候选观测模型：`--model-waveform model.csv --observer observer.json --observe-channel CH1`。
+支持声明的带宽、耦合与采样孔径；模型预测单独标记，不改测量。见 [观测模型与限制](docs/reports/scope_observation_model.md)。
