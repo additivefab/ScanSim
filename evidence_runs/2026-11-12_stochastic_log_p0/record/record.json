@@ -1,0 +1,69 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "ASSUMED fixed pre-log response statistical grid audit",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T11:36:58.206442+00:00",
+ "finished_at": "2026-11-12T11:37:07.993324+00:00",
+ "code": {
+  "commit": "15057126c907c53e351a0ec4e39d2a84fa31f475",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": [
+  41,
+  42,
+  43
+ ],
+ "inputs": {
+  "tools/audit_stochastic_log.py": "1bdabb97270c633e2a6863480b0e111ee43021630f63730c2b7e0c77e4511816"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_stochastic_log.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_stochastic_log_p0/output/audit.json"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "fixed-response output mean CIs overlap finest grid",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "fixed-response 0-50kHz variance CIs overlap finest grid",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all grid/model cases produced",
+   "expected": 8,
+   "tolerance": null,
+   "actual": 8,
+   "passed": true
+  }
+ ],
+ "notes": "Only tests the stated candidate. Low-light step, independent calibration and measured response remain open."
+}

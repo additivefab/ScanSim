@@ -1,0 +1,8 @@
+completed os=4, assumed input response=None
+completed os=4, assumed input response=20000
+completed os=8, assumed input response=None
+completed os=8, assumed input response=20000
+completed os=16, assumed input response=None
+completed os=16, assumed input response=20000
+completed os=32, assumed input response=None
+completed os=32, assumed input response=20000
