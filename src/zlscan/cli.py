@@ -231,6 +231,43 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
     return 0 if result["valid_fraction"] > 0 else CHECK_FAIL_EXIT_CODE
 
 
+def _run_metrics(argv: Sequence[str]) -> int:
+    import json
+    from pathlib import Path
+
+    import numpy as np
+
+    from zlscan.metrics.quality import compare_density
+
+    p = argparse.ArgumentParser(prog="zlscan metrics")
+    p.add_argument("--image", required=True, type=Path, help="density.npz from reconstruction")
+    p.add_argument("--truth", required=True, type=Path, help="unblurred density reference (.npy)")
+    p.add_argument("--optical", required=True, type=Path, help="optical density reference (.npy)")
+    p.add_argument("--roi", type=Path, help="evaluation region mask (.npy); default is full frame")
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    try:
+        with np.load(args.image) as image:
+            density = image["density"]
+            flags = image["flags"]
+        region = np.load(args.roi) if args.roi else np.ones(density.shape, dtype=bool)
+        result = compare_density(
+            density,
+            flags,
+            {"unblurred": np.load(args.truth), "optical": np.load(args.optical)},
+            region,
+        )
+        args.out.mkdir(parents=True)
+        np.savez(args.out / "mask.npz", region=region, valid=result.evaluation_mask)
+        manifest = {"mode": "metrics", "contains_truth": True, **result.metrics}
+        (args.out / "run.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    except (OSError, ValueError, KeyError) as exc:
+        print(f"评价失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"评价已写入 {args.out}，有效覆盖 {manifest['valid_fraction']:.1%}")
+    return 0 if manifest["valid_pixels"] else CHECK_FAIL_EXIT_CODE
+
+
 def _run_replay(argv: Sequence[str]) -> int:
     from pathlib import Path
 
@@ -271,6 +308,7 @@ ARG_HANDLERS = {
     "run": _run_run,
     "calibrate": _run_calibrate,
     "reconstruct": _run_reconstruct,
+    "metrics": _run_metrics,
     "replay": _run_replay,
     "serve": _run_serve,
 }
