@@ -387,6 +387,11 @@ class TraceReader:
                         values = data[first - row["start"] : min(hi, first + 4096) - row["start"]]
                         if not np.isfinite(values).all():
                             raise ValueError("nonfinite raw probe")
+                        if raw_block == 1:
+                            for offset, value in enumerate(values):
+                                scalar = float(value)
+                                yield [first + offset, 1, scalar, scalar, scalar, scalar]
+                            continue
                         offset = 0
                         while offset < len(values):
                             position = first + offset
