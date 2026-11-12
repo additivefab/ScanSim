@@ -130,3 +130,32 @@ assert(moves.concat(lines).flat().every(Number.isFinite));
         timeout=20,
     )
     assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node.js needed for page helper checks")
+def test_view_switch_before_manifest_arrives_reloads_manifest():
+    import json
+
+    html = (STATIC / "index.html").read_text()
+    helper = re.search(
+        r"document.querySelectorAll\('input\[name=view\]'\).*?(?=function zoom\()", html, re.S
+    ).group()
+    script = r"""
+const vm=require('node:vm'),assert=require('node:assert/strict');
+let change,loads=0,signals=0,images=0;
+const input={value:'instrument',addEventListener:(_,fn)=>change=fn};
+const context=vm.createContext({document:{querySelectorAll:()=>[input],getElementById:()=>({})},
+  manifest:null,view:'research',viewGeneration:0,load:()=>loads++,
+  listSignals:()=>signals++,showImages:()=>images++});
+vm.runInContext(HELPER,context);change();
+assert.equal(loads,1,'view change must restart invalidated initial manifest request');
+assert.equal(signals,0);assert.equal(context.viewGeneration,1);
+context.manifest={};change();assert.equal(signals,1);assert.equal(images,1);
+"""
+    result = subprocess.run(
+        [shutil.which("node"), "-e", "const HELPER=" + json.dumps(helper) + ";\n" + script],
+        capture_output=True,
+        text=True,
+        timeout=20,
+    )
+    assert result.returncode == 0, result.stderr

@@ -1,0 +1,127 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Nominal observable reconstruction and real HTTP image/source queries",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T12:35:03.570979+00:00",
+ "finished_at": "2026-11-12T12:35:06.872055+00:00",
+ "code": {
+  "commit": "6586aa60f62841e94f2dc2b775a7c7c01da545f2",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "evidence_runs/2026-11-12_nominal_cli/output/sample/observable/raw.zlraw": "73fd5004cc6779113ea0fd01aaca26b2d306f750d3bce4948330833984401cbb",
+  "evidence_runs/2026-11-12_nominal_cli/output/sample/observable/capture.json": "7b38cfea9223112b12622b623b0d73e511b04199b732f25fb52dcf97a1ca40d7",
+  "evidence_runs/2026-11-12_nominal_cli/output/calibration/calibration.json": "a398593bce04a47859e7b99c53947b880f23f269b302f4b238e4e78660210106",
+  "evidence_runs/2026-11-12_nominal_cli/output/reconstructed/density.npz": "4c3d3224b41c6be419491d8b24a992c2e6966cc917e2a4956b776eb9259b12e7",
+  "tools/verify_image_http.py": "73fb3352036686364c1e9e1a38b7ccc50e8a7fa6aa68f8d80ac512bcc949880c"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "reconstruct",
+    "--raw",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output/sample/observable/raw.zlraw",
+    "--capture",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output/sample/observable/capture.json",
+    "--calibration",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output/calibration/calibration.json",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_http_imaging/output/fine",
+    "--columns",
+    "40",
+    "--pitch-x-m",
+    "0.002",
+    "--pitch-y-m",
+    "0.002"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "reconstruct",
+    "--raw",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output/sample/observable/raw.zlraw",
+    "--capture",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output/sample/observable/capture.json",
+    "--calibration",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output/calibration/calibration.json",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_http_imaging/output/coarse",
+    "--columns",
+    "20",
+    "--pitch-x-m",
+    "0.004",
+    "--pitch-y-m",
+    "0.002"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/verify_image_http.py",
+    "--registry",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_http_imaging/output/registry.json",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_http_imaging/output/http_report.json"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "HTTP image source consistency",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "registered runs verified",
+   "expected": 3,
+   "tolerance": null,
+   "actual": 3,
+   "passed": true
+  },
+  {
+   "quantity": "fine reconstruction mask unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "fine valid density max difference OD",
+   "expected": 0.0,
+   "tolerance": {
+    "abs": 1e-12,
+    "rel": 0.0
+   },
+   "actual": 0.0,
+   "passed": true
+  }
+ ],
+ "notes": "Historical SIMULATED nominal input, no new physical simulation or measured capability claim. Fine40x12/coarse20x12 plus deliberately mismatched registration. No browser/render/interactive timing acceptance; browser disabled in Work settings. Source hashes checked unchanged by verifier."
+}
