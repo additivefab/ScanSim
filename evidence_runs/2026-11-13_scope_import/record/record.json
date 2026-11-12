@@ -1,0 +1,55 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Scope CSV synthetic import gates",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T16:47:57.577347+00:00",
+ "finished_at": "2026-11-12T16:48:00.062986+00:00",
+ "code": {
+  "commit": "4ad445e0def4675dcca96c37819326a4656d3a79",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tests/unit/test_measurement_import.py": "bab1a891577704c5aec72187e13f947d5b67bc11010a58474ea22fddc8998aeb",
+  "tests/unit/test_cli.py": "c0fd7ecd2f9d2f6e499ae5284cefa10e6b6f7b60f8a10bc5a7c8204494c0aa88",
+  "docs/examples/scope_metadata.json": "e5aef95df3cb6a41f3bd37bd7c600b75cddbd98996ec8cf9deee1f54a231f85a"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_measurement_import.py",
+    "tests/unit/test_cli.py"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "synthetic safeguard suite exit",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Synthetic fixtures only. No hardware waveform imported; no parameter evidence upgrade. Tests include CLI import, SHA preservation, no overwrite, unit conversion, incomplete metadata, non-simultaneous/conflicting acquisition and interval mismatch, corrupt CSV refusal. Full suite before commit: 1176 passed / 2 skipped; Icarus unavailable."
+}
