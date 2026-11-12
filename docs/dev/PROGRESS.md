@@ -7,11 +7,17 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S6-T01 示波器 CSV 导入与元数据/同步门禁已实现；FPGA/测量表适配及实测验收未完成 |
+| 进行中的任务 | S6-T01 ZLRAW 导入快照与完整性/来源门禁已实现；硬件协议及测量表适配仍待完成 |
 | 下一个任务 | 按阶段表补齐阶段 3/4 的工作台与指标验收；阶段 5/6 依赖分别记录，阶段 7 继续性能、比较及交付 |
-| 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（CSV 导入部分）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
+| 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（CSV/ZLRAW 导入部分）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1176 通过、2 跳过，78.33 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1191 通过、2 跳过，77.85 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+
+## 本轮 S6-T01 ZLRAW 原样快照导入（部分）
+
+- `ident --raw` 读取明确的 ZLRAW 0.1 草案：独占目录、复制后校验，保留 session/编码/跨时期/64 位源身份及 CRC/缺样；预览至多 256 行，不补样，不猜本机 FPGA 布局。见 D053 和 `docs/reports/raw_measurement_import.md`。
+- 完整性限定已见范围，未知起止边界不称整次完整。不可读返回失败并保存副本与诊断；可读损坏供查看。仿真/实测声明冲突、不同采集/时钟域和缺项均阻止声明同步；不升级参数或硬验收。块索引仍随块数增长，不宣称未知长度采集有界。
+- 最新全量 1191 通过/2 跳过（77.85 s，Icarus 不可用），Ruff/格式通过（231 文件）。起点全量 1176 通过/2 跳过（79.43 s）；CSV/原始码流/CLI 定向 32 项通过（2.22 s）。本机协议与测量模板表、实机验证仍未完成。
 
 ## 本轮 S6-T01 示波器 CSV 导入（部分）
 

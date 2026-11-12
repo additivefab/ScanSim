@@ -498,21 +498,34 @@ def _run_ident(argv: Sequence[str]) -> int:
     import json
     from pathlib import Path
 
+    from zlscan.ident.raw import RawMetadata, import_raw_capture, write_raw_import_report
     from zlscan.ident.scope import ScopeMetadata, import_scope_csv
 
-    p = argparse.ArgumentParser(prog="zlscan ident", description="示波器 CSV 导入（不作参数辨识）")
-    p.add_argument("--csv", required=True, type=Path)
+    p = argparse.ArgumentParser(
+        prog="zlscan ident", description="CSV/ZLRAW 观测导入（不作参数辨识）"
+    )
+    source = p.add_mutually_exclusive_group(required=True)
+    source.add_argument("--csv", type=Path)
+    source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
     p.add_argument("--metadata", required=True, type=Path)
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
     try:
         declaration = args.metadata.read_bytes()
-        metadata = ScopeMetadata.model_validate_json(declaration)
-        result = import_scope_csv(args.csv, metadata)
-        result["metadata_sha256"] = hashlib.sha256(declaration).hexdigest()
-        args.out.mkdir(parents=True, exist_ok=False)
-        with (args.out / "run.json").open("x", encoding="utf-8") as stream:
-            json.dump(result, stream, ensure_ascii=False, allow_nan=False)
+        if args.raw is not None:
+            raw_metadata = RawMetadata.model_validate_json(declaration)
+            result = import_raw_capture(args.raw, raw_metadata, args.out)
+            write_raw_import_report(result, declaration, args.out)
+            if result["integrity"] == "unreadable":
+                print(f"码流不可读；副本与诊断已保存于 {args.out}", file=sys.stderr)
+                return CHECK_FAIL_EXIT_CODE
+        else:
+            metadata = ScopeMetadata.model_validate_json(declaration)
+            result = import_scope_csv(args.csv, metadata)
+            result["metadata_sha256"] = hashlib.sha256(declaration).hexdigest()
+            args.out.mkdir(parents=True, exist_ok=False)
+            with (args.out / "run.json").open("x", encoding="utf-8") as stream:
+                json.dump(result, stream, ensure_ascii=False, allow_nan=False)
     except (OSError, ValueError) as exc:
         print(f"导入失败：{exc}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE

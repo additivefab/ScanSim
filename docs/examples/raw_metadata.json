@@ -1,0 +1,21 @@
+{
+  "source_kind": "unknown",
+  "device": null,
+  "session_id": null,
+  "epochs": null,
+  "channels": [
+    {
+      "channel": 0,
+      "measurement_point": null,
+      "probe_ratio": null,
+      "coupling": null,
+      "bandwidth_limit_hz": null,
+      "acquisition_id": null
+    }
+  ],
+  "sample_interval_s": null,
+  "trigger_source": null,
+  "trigger_threshold_v": null,
+  "time_origin": null,
+  "simultaneous": null
+}
