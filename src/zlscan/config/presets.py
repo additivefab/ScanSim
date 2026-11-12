@@ -89,7 +89,6 @@ def legacy_dc_config(density: float) -> ChainConfig:
 
 LEGACY_A_NOT_MODELLED = (
     "pmt_bw_hz and pmt_transit_ns (PMT fast response)", "adc_noise_lsb and electronic_noise_v",
-    "attenuation (scene scaling is done through the density map here)",
     "phantom_supersample (spot is integrated by quadrature instead)",
     "adc_latency_cycles and adc_tpd_ns (belong to the output link)",
 )  # fmt: skip
@@ -105,7 +104,8 @@ def from_legacy_a(flat: dict, seed: int = 1) -> tuple[ChainConfig, list[str]]:
     f = flat
     cfg = demo_config(seed)
     fs = int(f["adc_fs_hz"])
-    cfg.fs_hz, cfg.os = fs, int(f.get("analog_oversample", 8))
+    os = int(f.get("analog_oversample", 8))
+    cfg.fs_hz, cfg.os = fs, os * 2 if os % 2 else os
     cfg.scan = scan.ScanConfig(
         facets=int(f["facets"]), rpm=float(f["rpm"]),
         focal_m=0.238732, pitch_x_m=f["pitch_x_um"] * 1e-6, pitch_y_m=f["pitch_y_um"] * 1e-6,
@@ -113,8 +113,13 @@ def from_legacy_a(flat: dict, seed: int = 1) -> tuple[ChainConfig, list[str]]:
         active_offset_s=f["active_start_us"] * 1e-6,
     )  # fmt: skip
     cfg.source = source.SourceConfig(power_w=f["laser_power_w"])
-    cfg.collect = collect.CollectConfig(f["eta_pre"], f["eta_collect"], f.get("collection_rolloff", 0.0),
-                                        f["stray_fraction"] * f["laser_power_w"])  # fmt: skip
+    eta_collect = f["eta_collect"] * f["attenuation"]
+    cfg.collect = collect.CollectConfig(
+        f["eta_pre"],
+        eta_collect,
+        f.get("collection_rolloff", 0.0),
+        f["stray_fraction"] * f["laser_power_w"] * f["eta_pre"] * eta_collect,
+    )
     cfg.psf = psf.PsfConfig(f["spot_fwhm_um"] * 1e-6, f["spot_fwhm_um"] * 1e-6)
     cfg.detector = detector.DetectorConfig(f["qe"], f["pmt_gain"], f["pmt_excess_noise_factor"],
                                            f["dark_anode_current_a"], f["wavelength_nm"],
@@ -124,7 +129,7 @@ def from_legacy_a(flat: dict, seed: int = 1) -> tuple[ChainConfig, list[str]]:
                             i_floor_a=f["log_i_floor_a"], pole_hz=f["log_bw_hz"],
                             current_dependent=bool(f["log_bw_current_dependent"]),
                             knee_a=f["log_bw_knee_a"], floor_hz=f["log_bw_floor_hz"],
-                            aa_poles_hz=(f["aa_bw_hz"],))  # fmt: skip
+                            aa_poles_hz=(f["aa_bw_hz"],) if f["aa_bw_hz"] else ())  # fmt: skip
     cfg.adc = adc.AdcConfig(
         f["adc_bits"], f["adc_vmin"], f["adc_vmax"], f["sample_jitter_ps"] * 1e-12
     )
@@ -138,7 +143,8 @@ def from_legacy_b(grouped: dict, seed: int | None = None) -> tuple[ChainConfig, 
     g = grouped
     cfg = demo_config(g["seed"] if seed is None else seed)
     sc, op, pm, an, ad = g["scan"], g["optics"], g["pmt"], g["analog"], g["adc"]
-    cfg.fs_hz, cfg.os = int(sc["fs_hz"]), int(sc["oversample"])
+    os = int(sc["oversample"])
+    cfg.fs_hz, cfg.os = int(sc["fs_hz"]), os * 2 if os % 2 else os
     cfg.scan = scan.ScanConfig(
         facets=6, rpm=10000.0, focal_m=0.238732, pitch_x_m=sc["pitch_x_um"] * 1e-6,
         pitch_y_m=sc["pitch_y_um"] * 1e-6, nx=int(sc["nx"]),
@@ -158,7 +164,7 @@ def from_legacy_b(grouped: dict, seed: int | None = None) -> tuple[ChainConfig, 
                             i_floor_a=an["current_floor_A"], r_t_ohm=an["transimpedance_ohm"],
                             pole_hz=an["log_bandwidth_hz"], driver_gain=an["adc_driver_gain"],
                             driver_offset_v=an["adc_driver_offset_V"],
-                            aa_poles_hz=(an["aa_cutoff_hz"], an["aa_cutoff_hz"]))  # fmt: skip
+                            aa_poles_hz=(an["aa_cutoff_hz"],) * 2 if an["aa_cutoff_hz"] else ())  # fmt: skip
     cfg.adc = adc.AdcConfig(ad["bits"], ad["vmin"], ad["vmax"])
     cfg.evidence = {"all": "assumed (package B configuration)"}
     return cfg, list(LEGACY_B_NOT_MODELLED)
