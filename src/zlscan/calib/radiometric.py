@@ -89,7 +89,9 @@ def fit_log_transfer(
     departure = np.abs(white_by_column - white_code)
     threshold = max(3.0, 6 * 1.4826 * float(np.median(departure)))
     flagged = np.flatnonzero(departure > threshold)
-    knots = np.linspace(float(np.min(codes)), float(np.max(codes)), 257)
+    # The applied references are column medians, so include their observed range.
+    supported = np.r_[codes, np.median(dark, axis=0), white_by_column[departure <= threshold]]
+    knots = np.linspace(float(np.min(supported)), float(np.max(supported)), 257)
     intensities = 10 ** ((knots - offset) / slope)
     return LogTransferFit(
         float(slope),

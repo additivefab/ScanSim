@@ -17,12 +17,15 @@ def test_wedge_fit_recovers_injected_slope_and_intercept(slope, offset):
     )
     # A narrow scratch in the white reference leaves a warning and preserves the robust fit.
     white[:, 81:83] += 1500
+    dark[:, 4] += 100
+    dark[:, 5] -= 100
     fit = fit_log_transfer(dark, white, wedge, density)
     assert abs(fit.slope_codes_per_decade - slope) <= fit.slope_uncertainty_codes_per_decade
     assert abs(fit.intercept_code - offset) <= fit.intercept_uncertainty_code
     assert fit.white_outlier_columns == (81, 82)
     assert fit.dark_ratio == pytest.approx(dark_ratio, rel=0.002)
     assert fit.code_knots[0] < fit.code_knots[-1]
+    assert fit.code_knots[0] <= np.min(dark) <= np.max(dark) <= fit.code_knots[-1]
 
 
 def test_flat_references_cannot_identify_transfer():
