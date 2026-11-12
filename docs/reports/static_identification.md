@@ -79,3 +79,11 @@ independence_established=false、parameter_upgrades=[]。不生成生产标定�
 该入口；真实来源、可辨识性与独立实测验证门槛仍未完成，阶段6不关闭。
 
 最终代码全量测试 1240 通过、2 跳过（159.89 s，Icarus 不可用）；Ruff/格式通过。辨识/观测/导入/CLI 定向 76 项通过（3.87 s）。首轮全量 1240/2（176.19 s）后仅补来源标签并再次全量通过；测试耗时不是扫描性能。
+
+干净实现提交 `3dbb7a8` 的正式复跑：定向 76 项通过（pytest 报告 8.86 s）；
+三例公共 CLI 运行 17.64 s，新进程文件重分析 2.52 s。全部辨识结果重读一致，
+来源摘要不变，归档合成残差 PNG 与正式输出逐字节一致。汇总见
+`docs/reports/static_identification_audit.json`，正式记录位于
+`evidence_runs/2026-11-13_static_identification/record/`。两个负例 CLI 退出 1
+是预期拒绝行为，审计脚本退出 0 只代表诊断正确，不能读作验证失配已消除。
+这些执行时间不代表采集/重建性能。

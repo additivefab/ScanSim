@@ -1,0 +1,144 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Conditional static identification: compatible, mismatching and unidentifiable file cases",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T17:52:49.591807+00:00",
+ "finished_at": "2026-11-12T17:53:19.771850+00:00",
+ "code": {
+  "commit": "3dbb7a881f85cffd05219973a0c3d67e69fed617",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tests/unit/test_static_identification.py": "079121a58ca224d34c3731a0177fc3f469fedac67dee4327ddaab07e9b665c19",
+  "tests/unit/test_scope_observation.py": "c2943ed6b165652f45e4a6abed7e4b70da4618dfb297a4e6e99e6e9c405dea76",
+  "tests/unit/test_measurement_table.py": "66223a55dda2940b1694ff00a6c57f565a70ebd589d5fe36316098ccc4d00f9e",
+  "tests/unit/test_raw_measurement_import.py": "1ec29223c7d008013c87cdc5ceb1a8998aca3a5dc58689140772be9bce88e618",
+  "tests/unit/test_measurement_import.py": "bab1a891577704c5aec72187e13f947d5b67bc11010a58474ea22fddc8998aeb",
+  "tests/unit/test_cli.py": "c0fd7ecd2f9d2f6e499ae5284cefa10e6b6f7b60f8a10bc5a7c8204494c0aa88",
+  "tools/audit_static_identification.py": "7bfb8832ddaa7bb93494c73c6cbe091a9b6c786b2d3f75f775a2c5bbc9f74c2b",
+  "docs/examples/static_fit.json": "50b439efdc7c7025fe9415dd2cea44614fdd8ce6aaf0e206f968e34357fbba34",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/fit2.json": "6b7b1d6d6a1a1fe501783413a675881ebf81c4114706771213a011011eb6312e",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/static.json": "681aec64c1cf619f670abb840b4f83aadb08978a4715fd25b55bb2173a63159b",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/fit3.json": "a52e07db697de171ff3d2f006949946a4b215b1a97a6ab48498c494438a3a58d",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/metadata.json": "5d5685d9c5714ff1ccf2361a539754092cd074219d057e87d52a1767b2db7349",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/measurements.csv": "cf7648b245aa3563c1959007563f9f61f3686c98a06d292888889aa3fe8d4a11",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/validation0.json": "ceefaf43945a2566bdbfa3afbc77b33457212a2a62b35b7378efc193543bbd47",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/fit0.json": "ebc668db7a2b4c828b44559204abff8b5fe46961509f8267846fc3b0e09c2611",
+  "evidence_runs/2026-11-13_static_identification/output/formal/compatible/inputs/fit1.json": "3cf39f9d745c31ed6e9582e189403c21503921b3bd39855412ee0e7c3db9742b",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/fit2.json": "cbd8060fc08b182e8403128f0784a4b2eedfbccf6a3884d1295a01aac75318f5",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/static.json": "febe14b25dab37f992cfc4a3a89b9bb75ba573b61135996cb5911cd4102d5ec6",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/fit3.json": "73f9f2dfbe70b663cb44af3d3b0211ea134b5b9415a1485634972aa22d724812",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/metadata.json": "881649e6f17c04c46b2fc42b3e05f38c4094ebf92e5b9d218f5cfc5643fabf93",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/measurements.csv": "ba8390af830fd1875f0315eae24e6d3addf8880b6d1b8b9dc576080e23a03ac3",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/validation0.json": "b4087d258e2ee72a18b984a9b3ff33b02774e34ded232bcf3a67a1dcf42026c9",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/fit0.json": "cd4e9d76b5386d8ea1ad5cde6f9fb283f9722446ea60396b9a9bcde30f589b42",
+  "evidence_runs/2026-11-13_static_identification/output/formal/collinear/inputs/fit1.json": "3d429b9bb723a7a7e38e28f67f9573b4b956aa6c543aadb05cac42f23f97bf16",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/fit2.json": "6b7b1d6d6a1a1fe501783413a675881ebf81c4114706771213a011011eb6312e",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/static.json": "681aec64c1cf619f670abb840b4f83aadb08978a4715fd25b55bb2173a63159b",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/fit3.json": "a52e07db697de171ff3d2f006949946a4b215b1a97a6ab48498c494438a3a58d",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/metadata.json": "09f95c86712c88b806c39cac7533fee91f63dcb410f095c7759e3ddadc45fe82",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/measurements.csv": "da3647d9946d00509a92639343ed82e73b95ab0e9209ed731a24f62bd96dc989",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/validation0.json": "e37a8ce8fe2c0ae5a7b1b20288f73c0c5b999ed05849d2b5e1dbcc14f2134b80",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/fit0.json": "ebc668db7a2b4c828b44559204abff8b5fe46961509f8267846fc3b0e09c2611",
+  "evidence_runs/2026-11-13_static_identification/output/formal/mismatch/inputs/fit1.json": "3cf39f9d745c31ed6e9582e189403c21503921b3bd39855412ee0e7c3db9742b"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_static_identification.py",
+    "tests/unit/test_scope_observation.py",
+    "tests/unit/test_measurement_table.py",
+    "tests/unit/test_raw_measurement_import.py",
+    "tests/unit/test_measurement_import.py",
+    "tests/unit/test_cli.py"
+   ],
+   "returncode": 0,
+   "elapsed_s": 10.007866832999753
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_static_identification.py",
+    "--out",
+    "evidence_runs/2026-11-13_static_identification/output/formal"
+   ],
+   "returncode": 0,
+   "elapsed_s": 17.64214125000035
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_static_identification.py",
+    "--verify",
+    "evidence_runs/2026-11-13_static_identification/output/formal"
+   ],
+   "returncode": 0,
+   "elapsed_s": 2.5218107909995524
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "synthetic case count",
+   "expected": 3,
+   "tolerance": null,
+   "actual": 3,
+   "passed": true
+  },
+  {
+   "quantity": "holdout values leave fitted parameters unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "negative validation status",
+   "expected": "mismatch",
+   "tolerance": null,
+   "actual": "mismatch",
+   "passed": true
+  },
+  {
+   "quantity": "collinear fit status",
+   "expected": "partially_identifiable",
+   "tolerance": null,
+   "actual": "partially_identifiable",
+   "passed": true
+  },
+  {
+   "quantity": "unsupported holdout status",
+   "expected": "unidentifiable",
+   "tolerance": null,
+   "actual": "unidentifiable",
+   "passed": true
+  },
+  {
+   "quantity": "archived synthetic residual figure matches formal CLI output",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "All sources are deterministic synthetic scalar JSON, not hardware. The audit wrapper expects CLI exit 1 for mismatch and partial identifiability; its own success means diagnostics match the declared negative controls, not that validation passed. Parameters/intervals condition on declared inputs and known independent Gaussian output sigmas. No source independence, physical gain decomposition, measured upgrade or hardware acceptance claimed. Full final code suite before commit:1240 passed/2 skipped; Icarus unavailable. Test and audit times are not scanning benchmarks."
+}

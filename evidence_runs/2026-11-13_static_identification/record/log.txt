@@ -1,0 +1,7 @@
+........................................................................ [ 94%]
+....                                                                     [100%]
+76 passed in 8.86s
+
+Saved compatible, mismatching and unidentifiable synthetic cases
+
+Three synthetic cases re-read exactly; original input hashes unchanged
