@@ -138,3 +138,50 @@ def test_headerless_reconstruction_streams_signed_words(tmp_path):
     assert summary["storage"] == "row-streamed disk scratch"
     with np.load(out / "density.npz") as result:
         np.testing.assert_allclose(result["transmittance"], [[0.09 / 0.99, 1]])
+
+
+def test_electronic_delay_is_only_applied_to_its_adc_channel(tmp_path):
+    from zlscan.adc.patterns import ConvertedSamples
+    from zlscan.contracts.calibration import CaptureDescription
+    from zlscan.contracts.time import ClockDomain
+    from zlscan.digital.acquisition import AcquisitionConfig, session_header
+    from zlscan.io.manifest import sha256_file
+    from zlscan.io.rawstream import FLAG_LINE_START, RawWriter
+    from zlscan.recon.capture import reconstruct_capture
+
+    cal = calibration()
+    cal.binds_to.channel_roles = {"0": None, "1": None}
+    for name in ("dark_raw_code", "white_raw_code"):
+        cal.items[name].value["1"] = cal.items[name].value["0"]
+    channels = cal.items["transfer_lut"].value["channels"]
+    channels["1"] = channels["0"]
+    cal.items["delay"] = CalibItem(value={"delay_ticks": 1_000_000, "channel": 0})
+    raw = tmp_path / "dual.zlraw"
+    src = ConvertedSamples(
+        np.array([[10, 10], [20, 20]], dtype=np.uint16),
+        (0, 1),
+        0,
+        0,
+        ClockDomain(1, 1_000_000),
+    )
+    with RawWriter(raw, session_header(src, AcquisitionConfig(0, 2), 1)) as writer:
+        writer.write_block(
+            epoch=0,
+            channel_mask=3,
+            clock_domain=1,
+            first_sample_index=0,
+            samples=src.codes,
+            flags=FLAG_LINE_START,
+            line_number=0,
+        )
+    capture = CaptureDescription(raw_sha256=sha256_file(raw), binding=cal.binds_to, lines=1)
+    for channel, offset in ((0, 1.0), (1, 0.0)):
+        result = reconstruct_capture(
+            raw,
+            capture,
+            cal,
+            Grid(2, 1, 1, 1),
+            tmp_path / f"channel-{channel}",
+            channel=channel,
+        )
+        assert result["delay_offset_samples"] == offset

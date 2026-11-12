@@ -9,6 +9,7 @@ import numpy as np
 from scipy.optimize import least_squares
 
 from zlscan.contracts.events import Derivation, Event
+from zlscan.contracts.time import ClockDomain
 from zlscan.contracts.verdict import Verdict
 
 
@@ -95,3 +96,26 @@ def fit_synchronous_response(
     ):
         raise ValueError("physical delay requires an observable injection monitor in this capture")
     return fit_step_response(ticks, values, monitor.tick, reference="synchronous_injection")
+
+
+def fit_optical_registration(
+    codes: np.ndarray, flags: np.ndarray, domain: ClockDomain, edge_fraction: float
+) -> StepResponse:
+    """Fit the recorded edge against the certified fraction of the nominal scan window."""
+    if codes.ndim != 2 or flags.shape != codes.shape or not 0 < edge_fraction < 1:
+        raise ValueError("invalid optical edge scan or target coordinate")
+    width = codes.shape[1]
+    position = edge_fraction * width - 0.5
+    half = min(position, width - 1 - position) * 0.8
+    start = max(0, int(np.ceil(position - half)))
+    end = min(width, int(np.floor(position + half)) + 1)
+    valid = ~np.any(flags[:, start:end], axis=1)
+    if not np.any(valid):
+        raise ValueError("all optical edge rows have flagged samples")
+    sample_ticks = np.array(
+        [domain.tick_of(column) - domain.phase_ticks for column in range(start, end)],
+        dtype=np.int64,
+    )
+    reference_tick = round(position * 10**12 * domain.freq_den / domain.freq_num)
+    values = np.median(codes[valid, start:end], axis=0)
+    return fit_step_response(sample_ticks, values, reference_tick, reference="nominal_registration")

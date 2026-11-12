@@ -9,13 +9,14 @@ from pathlib import Path
 from typing import Literal
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, FiniteFloat, StrictInt, model_validator
 
-from zlscan.calib.delay import fit_synchronous_response
+from zlscan.calib.delay import fit_optical_registration, fit_synchronous_response
 from zlscan.calib.facet_targets import fit_facet_gain, fit_observed_targets
 from zlscan.calib.radiometric import fit_log_transfer
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
 from zlscan.contracts.events import Event
+from zlscan.contracts.time import ClockDomain
 from zlscan.io.line_image import reconstruct
 from zlscan.io.manifest import sha256_file
 from zlscan.io.quality import apply_quality_log
@@ -67,9 +68,10 @@ class InjectionTrace(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     raw_sha256: str
-    ticks: list[int]
-    values: list[float]
+    ticks: list[StrictInt]
+    values: list[FiniteFloat]
     monitor: Event
+    channel: StrictInt | None = Field(default=None, ge=0)
 
 
 def calibration_from_scan(
@@ -80,6 +82,7 @@ def calibration_from_scan(
     timing_path: Path | None = None,
     quality_path: Path | None = None,
     facet_path: Path | None = None,
+    edge_registration: bool = False,
 ) -> CalibrationHeader:
     """Create empirical code-domain references from a complete calibration scan."""
     protocol = ScanProtocol.model_validate_json(protocol_path.read_bytes())
@@ -162,8 +165,16 @@ def calibration_from_scan(
         if (
             timing.raw_sha256 != protocol.raw_sha256
             or timing.monitor.origin.value != session.origin
+            or timing.monitor.clock_domain not in {clock["id"] for clock in session.clock_domains}
         ):
             raise ValueError("injection trace does not belong to this calibration capture")
+        channel = timing.channel
+        if channel is None:
+            if len(image.codes) != 1:
+                raise ValueError("multi-channel injection trace requires an explicit channel")
+            channel = next(iter(image.codes))
+        if channel not in image.codes:
+            raise ValueError("injection trace names an absent ADC channel")
         fit = fit_synchronous_response(
             np.asarray(timing.ticks, dtype=np.int64),
             np.asarray(timing.values),
@@ -172,9 +183,42 @@ def calibration_from_scan(
             epoch=binding.epoch_range[0],
         )
         items["delay"] = CalibItem(
-            value=asdict(fit), method="observable synchronous injection and first-order step fit"
+            value={**asdict(fit), "channel": channel},
+            method="observable synchronous injection and first-order step fit",
         )
         sources["timing_sha256"] = sha256_file(timing_path)
+    if edge_registration:
+        edge = by_name.get("edge")
+        if edge is None:
+            raise ValueError("optical registration requires an edge target scan")
+        selection = slice(edge.first_line, edge.first_line + edge.lines)
+        declared = {clock["id"]: ClockDomain(**clock) for clock in session.clock_domains}
+        registrations = {}
+        for channel, codes in image.codes.items():
+            clock_ids = {
+                block.clock_domain for block in raw.blocks[selection] if channel in block.channels
+            }
+            if len(clock_ids) != 1 or not clock_ids <= declared.keys():
+                registrations[str(channel)] = {
+                    "status": "unidentifiable",
+                    "reason": "ambiguous sample clock",
+                }
+                continue
+            try:
+                fit = fit_optical_registration(
+                    codes[selection],
+                    channel_flags[channel][selection],
+                    declared[next(iter(clock_ids))],
+                    protocol.edge_fraction,
+                )
+            except ValueError as exc:
+                registrations[str(channel)] = {"status": "unidentifiable", "reason": str(exc)}
+            else:
+                registrations[str(channel)] = {"status": "ok", **asdict(fit)}
+        items["optical_registration"] = CalibItem(
+            value={"channels": registrations},
+            method="optical edge offset relative to nominal target position",
+        )
     if quality_path is not None:
         sources["quality_sha256"] = sha256_file(quality_path)
     if facet_path is not None:
@@ -232,6 +276,8 @@ def calibration_from_scan(
                 method="relative white-field amplitude grouped by observable facet phase",
             )
     source_ids = ":".join(sources.values()) if len(sources) > 2 else protocol_sha256
+    if edge_registration:
+        source_ids += ":optical-registration-v1"
     provenance = Provenance(protocol.origin)
     calibration = CalibrationHeader(
         format_version=1,

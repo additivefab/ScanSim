@@ -144,6 +144,7 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
                 str(reference_obs / "raw.zlraw"),
                 "--protocol",
                 str(reference_obs / "scan_protocol.json"),
+                "--edge-registration",
                 "--timing",
                 str(timing),
                 "--out",
@@ -152,6 +153,10 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
         )
         == 0
     )
+    fitted_items = json.loads((timed_cal / "calibration.json").read_text())["items"]
+    assert fitted_items["delay"]["value"]["channel"] == 0
+    edge_result = fitted_items["optical_registration"]["value"]["channels"]["0"]
+    assert edge_result.get("delay_ticks") is None
     timed = tmp_path / "timed-reconstruction"
     reconstruct(bright, timed, timed_cal)
     assert json.loads((timed / "run.json").read_text())["delay_offset_samples"] == 1.0

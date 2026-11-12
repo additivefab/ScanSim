@@ -177,7 +177,9 @@ items（每项带 value、uncertainty、valid_range、method）:
 - 应用前检查 `binds_to` 与当前会话是否匹配；不匹配时拒绝，或在显式的研究开关下继续并在输出中标记。
 - 某一项无法从给定数据估计时（例如用均匀场估送片向偏移），该项写 `status: "unidentifiable"`，不写数值。
 
-`zlscan calibrate --timing` 可附同步注入观测 JSON。字段为 `raw_sha256`、整数皮秒 `ticks`、观测 `values` 及第 4 节的 `monitor` 事件。事件类型为 `injection_monitor`，须来自同一采集会话和时期的可观测传感器。标定结果带该文件校验值。重建用 ZLRAW 记录的采样时钟把延迟换成样本坐标偏移。
+`zlscan calibrate --timing` 可附同步注入观测 JSON。字段为 `raw_sha256`、整数皮秒 `ticks`、观测 `values` 及第 4 节的 `monitor` 事件。事件类型为 `injection_monitor`，须来自同一采集会话和时期的可观测传感器。标定结果带该文件校验值。双通道注入须声明 `channel`，重建仅将该通道的延迟按 ZLRAW 采样时钟换算成坐标偏移。
+
+`calibrate --edge-registration` 使用边沿靶区实采码值与协议中的名义靶位拟合光学配准量，单独记录在 `optical_registration`。不具备可辨识边沿的通道记录原因。重建使用的是可观测独立注入产生的 `delay`，光学配准量只作诊断。
 
 标定和重建的 `--quality` 接受 `{"raw_sha256": "...", "ranges": [{"event": {...}, "samples": 1}]}`。事件须可观测且携带 `related_sample`。样本数默认 1，范围从源样本序号起算。事件按会话、时期、时钟域及通道匹配到保留窗口，并按位合并饱和、限幅和丢样原因。标定遇到暗场、白场或用于拟合的阶梯内有无效样本时拒绝本次拟合。重建保留各原因并输出 NaN。输入码流与事件文件的校验值随结果保存。
 

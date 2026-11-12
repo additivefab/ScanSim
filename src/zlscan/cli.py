@@ -181,6 +181,7 @@ def _run_calibrate(argv: Sequence[str]) -> int:
     p.add_argument("--raw", required=True, type=Path)
     p.add_argument("--protocol", required=True, type=Path)
     p.add_argument("--timing", type=Path, help="synchronized injection observation JSON")
+    p.add_argument("--edge-registration", action="store_true", help="fit optical edge registration")
     p.add_argument("--quality", type=Path, help="observable quality event JSON")
     p.add_argument("--facets", type=Path, help="observable facet timing and calibration landmarks")
     p.add_argument("--out", required=True, type=Path)
@@ -193,6 +194,7 @@ def _run_calibrate(argv: Sequence[str]) -> int:
             timing_path=args.timing,
             quality_path=args.quality,
             facet_path=args.facets,
+            edge_registration=args.edge_registration,
         )
         args.out.mkdir(parents=True)
         save_calibration(args.out / "calibration.json", cal)

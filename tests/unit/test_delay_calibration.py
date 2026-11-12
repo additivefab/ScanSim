@@ -50,3 +50,24 @@ def test_injection_reference_rejects_oracle_and_wrong_epoch():
     oracle = Event.model_validate({**monitor.model_dump(), "visibility": "ORACLE_ONLY"})
     with pytest.raises(ValueError, match="observable injection monitor"):
         fit_synchronous_response(ticks, values, oracle, session_id=3, epoch=1)
+
+
+def test_optical_edge_uses_nominal_position_and_does_not_report_electronic_delay():
+    from zlscan.calib.delay import fit_optical_registration
+    from zlscan.contracts.time import ClockDomain
+
+    width = 200
+    clock = ClockDomain(id=1, freq_num=10_000_000)
+    ticks = np.arange(width) * 100_000
+    known_registration = 250_000
+    known_tau = 400_000
+    edge_tick = 9_950_000
+    response = -np.expm1(-np.maximum(ticks - edge_tick - known_registration, 0) / known_tau)
+    for polarity in (1, -1):
+        codes = np.stack([polarity * response, np.zeros(width)])
+        flags = np.zeros_like(codes, dtype=np.uint16)
+        flags[1] = 1
+        fit = fit_optical_registration(codes, flags, clock, 0.5)
+        assert fit.registration_ticks == known_registration
+        assert fit.delay_ticks is None
+        assert fit.response_tau_ticks == pytest.approx(known_tau)

@@ -72,7 +72,13 @@ def reconstruct_capture(
     if delay is not None and delay.status == "ok":
         if not isinstance(delay.value, dict) or type(delay.value.get("delay_ticks")) is not int:
             raise ValueError("calibration delay requires an integer delay_ticks")
-        delay_ticks = delay.value["delay_ticks"]
+        fitted_channel = delay.value.get("channel")
+        if fitted_channel is None and len(capture.binding.channel_roles) > 1:
+            raise ValueError("multi-channel capture requires channel-specific electronic delay")
+        if fitted_channel is not None and type(fitted_channel) is not int:
+            raise ValueError("invalid electronic delay channel")
+        if fitted_channel is None or fitted_channel == channel:
+            delay_ticks = delay.value["delay_ticks"]
 
     raw = None
     phases = None
