@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "state": "unconfigured",
+      "checkpoint_bytes": 832,
+      "source_sha256": "4169cdbfb72a5b26391b6b032df8b80725b36cde49a9f866cd40e79aa5fcfbcd",
+      "continued_sha256": "8105f906c5a3ab9336ce12d32af8c6ad1ef039b1ac2081360e94092eff59e290",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/unconfigured_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/unconfigured_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.854666,
+      "read_restore_verify_continue_snapshot_ms": 1.225041
+    },
+    {
+      "state": "configured",
+      "checkpoint_bytes": 918,
+      "source_sha256": "6b4301aa17a7598a87e0fe4063ff38053fb474b4840df275e089b264f218f673",
+      "continued_sha256": "4c30f7dd06d01ab7f2816d11355c07d19eecc9c6d61b54b1863246a3d8b056f7",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/configured_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/configured_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.807666,
+      "read_restore_verify_continue_snapshot_ms": 1.158875
+    },
+    {
+      "state": "settling",
+      "checkpoint_bytes": 1000,
+      "source_sha256": "62bb182c12ffcdddb315d89ee66c177f9e78275e1da5ce80c2003fabe230dbcd",
+      "continued_sha256": "cddfb2f4f81ed85f979ce329652027f35b9a7cef8d208336eb39bcfe544dc12f",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/settling_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/settling_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.916458,
+      "read_restore_verify_continue_snapshot_ms": 1.305958
+    },
+    {
+      "state": "calibrating",
+      "checkpoint_bytes": 1088,
+      "source_sha256": "a5c3d240e2186728d7fe86801aaf7a965ed49af49dcf2f8c92c1ba347e9bdb25",
+      "continued_sha256": "7cd604f97e27a7f2301a4ef725b87af327150bf216a7cde273fae34f2658c92f",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/calibrating_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/calibrating_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.946333,
+      "read_restore_verify_continue_snapshot_ms": 1.419416
+    },
+    {
+      "state": "ready",
+      "checkpoint_bytes": 1164,
+      "source_sha256": "abc19e647db3adc30014c6ebfa8aafbc55cbcf0cd55032e036d8c4e7811ec4b1",
+      "continued_sha256": "f5f4eec34cc88726beac00a94ab578c4f482058bf1bf5b086ba513e764f0dfdd",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/ready_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/ready_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.840083,
+      "read_restore_verify_continue_snapshot_ms": 1.234708
+    },
+    {
+      "state": "scanning",
+      "checkpoint_bytes": 1246,
+      "source_sha256": "eabe4b900b3894b6a258c03e29857c5697c44911680d8056ce24847d0533028d",
+      "continued_sha256": "fc86da27dd6777be57ea70bdc2e4973080e3af67003df67f26797b4678899862",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/scanning_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/scanning_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.991833,
+      "read_restore_verify_continue_snapshot_ms": 1.424458
+    },
+    {
+      "state": "draining",
+      "checkpoint_bytes": 1328,
+      "source_sha256": "4456a613b8d600b2d2372ff8c7b562546cbc4ea9490e9b32fd9f16bc42081829",
+      "continued_sha256": "ee707df60a74130727b2df3a5971295ea648ec8d49f37014570706f28b8d7021",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/draining_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/draining_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.904375,
+      "read_restore_verify_continue_snapshot_ms": 1.348334
+    },
+    {
+      "state": "done",
+      "checkpoint_bytes": 1403,
+      "source_sha256": "c96331689982f15151a27aa0461ef5ee40640766cb56c415451fa370c3717bf3",
+      "continued_sha256": "f9ea64ccffcdc0bcb8854f17378a147ac5fc9d3ba59ac250893a64ed4a8e2f35",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/done_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/done_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.975917,
+      "read_restore_verify_continue_snapshot_ms": 1.461084
+    },
+    {
+      "state": "fault",
+      "checkpoint_bytes": 907,
+      "source_sha256": "cd6713fbaf81885df7c42e5f57043799f8e2a89a7e4a238a13f3cea6a5d4b0b0",
+      "continued_sha256": "20ce3cbfe88426b5bef79d439615f9091c120ec715e348017a0c1c7868f895f8",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/fault_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/fault_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.858542,
+      "read_restore_verify_continue_snapshot_ms": 1.225584
+    },
+    {
+      "state": "aborted",
+      "checkpoint_bytes": 911,
+      "source_sha256": "5bf715546d7e1a38be3608e052a15b87131bd5820c2df2ae3c15460711bdb2b2",
+      "continued_sha256": "053212703c71a1358aa847153cbc54f83033f747152c295eb3d71100523e11e4",
+      "source_unchanged": true,
+      "continuation_bytes_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_control_checkpoints.py",
+        "--resume",
+        "evidence_runs/2026-11-12_control_checkpoints/output/aborted_checkpoint.json",
+        "--continued",
+        "evidence_runs/2026-11-12_control_checkpoints/output/aborted_continued.json"
+      ],
+      "child_returncode": 0,
+      "read_restore_verify_ms": 0.781709,
+      "read_restore_verify_continue_snapshot_ms": 1.137459
+    }
+  ],
+  "scope": "Functional control ledger only; all times/configuration values assumed. Future declarations are not executed hardware confirmations. No physical parameter changes or analog/digital/file composite checkpoint.",
+  "timing_scope": "New process read/restore/replay-validation and control continuation. Excludes process startup and result write. Disk cache uncontrolled."
+}

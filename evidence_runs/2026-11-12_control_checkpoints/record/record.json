@@ -1,0 +1,74 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Control-state file checkpoints and fresh-process continuation",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T14:40:10.755029+00:00",
+ "finished_at": "2026-11-12T14:40:12.991115+00:00",
+ "code": {
+  "commit": "061f6006b496697a5d9aec6068afa20b463acf41",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tools/audit_control_checkpoints.py": "bac7af3de5ce633fc1d618c3848a5d1961e1530e7eccfd7b30c362265700b615",
+  "src/zlscan/control/state.py": "e6fd67df2cd5ae21cc9424adaf32f13458cbad87c39b20ea2360952ffc5ebd25",
+  "tests/unit/test_control_checkpoints.py": "d4f6b5990c278e3e5dcdfd78bdbc859b9ac4a2ecf35f7055c255453692affb94"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_control_checkpoints.py",
+    "--out",
+    "evidence_runs/2026-11-12_control_checkpoints/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "all_control_states",
+   "expected": 10,
+   "tolerance": null,
+   "actual": 10,
+   "passed": true
+  },
+  {
+   "quantity": "continuation_bytes_match",
+   "expected": 10,
+   "tolerance": null,
+   "actual": 10,
+   "passed": true
+  },
+  {
+   "quantity": "source_unchanged",
+   "expected": 10,
+   "tolerance": null,
+   "actual": 10,
+   "passed": true
+  },
+  {
+   "quantity": "child_success",
+   "expected": 10,
+   "tolerance": null,
+   "actual": 10,
+   "passed": true
+  }
+ ],
+ "notes": "Functional control ledger only; all times/configuration values assumed. Future declarations are not executed hardware confirmations. No physical parameter changes or analog/digital/file composite checkpoint. New process read/restore/replay-validation and control continuation. Excludes process startup and result write. Disk cache uncontrolled. Test stimulus includes ticks greater than 2^53; no random source used."
+}
