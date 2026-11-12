@@ -296,6 +296,59 @@ def _run_metrics(argv: Sequence[str]) -> int:
     return 0 if manifest["valid_pixels"] else CHECK_FAIL_EXIT_CODE
 
 
+def _run_sweep(argv: Sequence[str]) -> int:
+    import json
+    from pathlib import Path
+
+    from zlscan.experiment.sweep import run_sweep
+
+    p = argparse.ArgumentParser(prog="zlscan sweep")
+    p.add_argument("--config", required=True, type=Path, help="JSON with preset, lines and axes")
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    try:
+        spec = json.loads(args.config.read_text(encoding="utf-8"))
+        if not isinstance(spec, dict):
+            raise ValueError("sweep specification must be a JSON object")
+        result = run_sweep(
+            args.out,
+            preset=spec.get("preset", "demo"),
+            parameter_values=spec["axes"],
+            lines=spec.get("lines", 2),
+        )
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        print(f"扫描失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"扫描完成：{len(result['points'])} 个点，写入 {args.out}")
+    return 0
+
+
+def _run_compare(argv: Sequence[str]) -> int:
+    import json
+    from pathlib import Path
+
+    from zlscan.metrics.compare_runs import compare_runs
+
+    p = argparse.ArgumentParser(prog="zlscan compare")
+    p.add_argument("--first", required=True, type=Path)
+    p.add_argument("--second", required=True, type=Path)
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    try:
+        if any(
+            args.out.resolve().is_relative_to(run.resolve()) for run in (args.first, args.second)
+        ):
+            raise ValueError("comparison output must be outside both input runs")
+        result = compare_runs(args.first, args.second)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    except (OSError, ValueError) as exc:
+        print(f"比较失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"比较结果已写入 {args.out}")
+    return 0
+
+
 def _run_cosim(argv: Sequence[str]) -> int:
     import json
     from pathlib import Path
@@ -387,6 +440,8 @@ def _run_serve(argv: Sequence[str]) -> int:
 
 HANDLERS = {"check": _run_check}
 ARG_HANDLERS = {
+    "sweep": _run_sweep,
+    "compare": _run_compare,
     "budget": _run_budget,
     "run": _run_run,
     "calibrate": _run_calibrate,

@@ -1,0 +1,8 @@
+{
+  "preset": "demo",
+  "lines": 2,
+  "axes": {
+    "source.power_w": [0.001, 0.002],
+    "seed": [1, 2]
+  }
+}

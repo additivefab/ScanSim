@@ -47,6 +47,8 @@ IMPLEMENTED = {
     "reconstruct",
     "metrics",
     "report",
+    "sweep",
+    "compare",
     "cosim",
 }
 
@@ -71,7 +73,7 @@ def test_unknown_command_is_rejected():
 
 def test_module_entry_point_runs_in_a_fresh_interpreter():
     result = subprocess.run(
-        [sys.executable, "-m", "zlscan", "sweep"], capture_output=True, text=True, check=False
+        [sys.executable, "-m", "zlscan", "ident"], capture_output=True, text=True, check=False
     )
     assert result.returncode == NOT_IMPLEMENTED_EXIT_CODE
     assert "尚未实现" in result.stderr
