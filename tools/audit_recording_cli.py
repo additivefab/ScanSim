@@ -22,7 +22,11 @@ def hashes(path):
 def verify(root):
     expected = json.loads((root / "fault_manifest.json").read_text())
     assert hashes(root / "fault") == expected
-    for name in ["raw.zlraw", "events.jsonl", "checkpoint.json"]:
+    files = ["raw.zlraw", "events.jsonl", "checkpoint.json"]
+    quality = json.loads((root / "recording.json").read_bytes()).get("record_quality", False)
+    if quality:
+        files.append("quality_model.jsonl")
+    for name in files:
         baseline = sha256_file(root / "baseline" / name)
         assert sha256_file(root / "resumed" / name) == baseline
         assert sha256_file(root / "branch" / name) == baseline
@@ -50,6 +54,20 @@ def verify(root):
         origin="SIMULATED",
         scope="same-host public CLI and process kill; not power failure, browser or hardware",
     )
+    if quality:
+        assert killed["unknown_quality_tail_bytes"] > 0
+        assert (root / "fault/quality_model.jsonl").stat().st_size == (
+            killed["committed_quality_size"] + killed["unknown_quality_tail_bytes"]
+        )
+        from zlscan.engine.saved_service import saved_service
+
+        with saved_service(root / "branch") as service:
+            assert service.quality is not None
+            actual = service.events(
+                service.runs["recording-c0"], 0, 20000, {"adc_saturated"}, "research"
+            )
+            assert actual["status"] == "exact_record"
+        result["quality_sha256"] = sha256_file(root / "branch/quality_model.jsonl")
     print("Public unknown-length recording pause/resume and process-kill branch passed")
     return result
 
@@ -59,6 +77,7 @@ def main():
     group = p.add_mutually_exclusive_group(required=True)
     group.add_argument("--out", type=Path)
     group.add_argument("--verify", type=Path)
+    p.add_argument("--record-quality", action="store_true")
     args = p.parse_args()
     if args.verify:
         root = args.verify.resolve()
@@ -69,7 +88,12 @@ def main():
     root.mkdir(parents=True, exist_ok=False)
     fixture = Path(__file__).resolve().parents[1] / "configs/physical_recording.json"
     config = root / "recording.json"
-    config.write_bytes(fixture.read_bytes())
+    if args.record_quality:
+        data = json.loads(fixture.read_bytes())
+        data["record_quality"] = True
+        config.write_text(json.dumps(data))
+    else:
+        config.write_bytes(fixture.read_bytes())
     command_log = []
 
     def cli(label, extra, commands, expected=0):
@@ -155,6 +179,13 @@ def main():
             committed_raw_size=size,
             unknown_tail_bytes=(root / "fault/raw.zlraw").stat().st_size - size,
         )
+        if args.record_quality:
+            paired = json.loads((root / "fault/checkpoint.json").read_bytes())["quality"]
+            receipt["committed_quality_size"] = int(paired["file"]["offset"])
+            receipt["unknown_quality_tail_bytes"] = (
+                root / "fault/quality_model.jsonl"
+            ).stat().st_size - receipt["committed_quality_size"]
+            assert receipt["unknown_quality_tail_bytes"] > 0
         (root / "kill_receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
     finally:
         if proc.poll() is None:

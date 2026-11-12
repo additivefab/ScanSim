@@ -75,6 +75,8 @@
 
 2026-11-13：可选研究探针已接 recording 同次物理输出，以不可变 HDF5 分块/多层摘要与统一根游标恢复；工作台直接读取，细窗不足则明确重放。见 `docs/reports/probe_recording.md`；持久模拟质量事件索引与全界面验收仍待完成。
 
+2026-11-13：可选原生模型质量事件已接统一根 v3，前端削顶/PMT 超限不再只留 ADC 抽样标志，单细步异常可保留；查询和页面标明原生网格与研究来源。见 `docs/reports/model_quality_events.md`。仍非全数字/探针界面或实机验收。
+
 ### S3-T14 重放
 
 2026-11-13：recording 模式新增按 step/hash 保存的历史根，以及按原参数生效时刻的多通道只读模型重放，见 `docs/reports/recording_replay.md`；输出为 ORACLE_ONLY，不补缺失历史，不当作实际交付。工作台/探针游标/全部阶段门槛仍未完成。

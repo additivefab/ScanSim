@@ -86,6 +86,7 @@ class ChunkOut:
     front_end_clipped: np.ndarray
     over_limit: np.ndarray
     probes: dict[str, np.ndarray] = field(default_factory=dict)
+    quality_flags: dict[str, np.ndarray] = field(default_factory=dict)
 
 
 class Chain:
@@ -106,6 +107,7 @@ class Chain:
         self.step = 0
         self.last_v: float | None = None
         self.probe_names: set[str] = set()
+        self.record_quality = False
         self.observers: list[Callable[[str, int, np.ndarray], None]] = []
 
     # ---- timeline -----------------------------------------------------------------------
@@ -181,6 +183,12 @@ class Chain:
         codes, sat = adc_mod.quantize(cfg.adc, vs)
 
         out = ChunkOut(first_sample, codes, sat, clipped[idx], over[idx])
+        if self.record_quality:
+            out.quality_flags = {
+                "adc_saturated": sat.copy(),
+                "front_end_clipped": clipped.copy(),
+                "pmt_over_limit": over.copy(),
+            }
         values = {"power_w": power, "t_eff": t_eff, "current_a": current, "v_adc": v,
                   "x_m": x, "line": k}  # fmt: skip
         for name in self.probe_names:
@@ -237,4 +245,8 @@ def merge(parts: list[ChunkOut]) -> ChunkOut:
         np.concatenate([p.front_end_clipped for p in parts]),
         np.concatenate([p.over_limit for p in parts]),
         probes,
+        {
+            name: np.concatenate([p.quality_flags[name] for p in parts])
+            for name in parts[0].quality_flags
+        },
     )

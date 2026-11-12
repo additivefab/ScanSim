@@ -25,6 +25,13 @@ assert(missing.includes('未完整记录')&&missing.includes('analogue index mis
 assert(!missing.includes('无已登记事件'));
 const partial=context.eventText({status:'not_recorded',events:[{kind:'epoch_observed',step:9}]});
 assert(partial.includes('部分记录')&&partial.includes('epoch_observed@9'));
+const quality=context.eventText({status:'exact_record',
+ events:[{kind:'front_end_clipped',step_exact:'7',sample_grid:'fine'}]});
+assert(quality.includes('模型记录[细步网格]')&&quality.includes('@7'));
+const adc=context.eventText({status:'exact_record',
+ events:[{kind:'adc_saturated',step_exact:'8',sample_grid:'adc'}]});
+assert(adc.includes('ADC源网格'));
+
 const sample=context.sampleText({status:'exact_record',lineage:{sample_index:'9223372036854775825',
  epoch:0,line_number:'0',value:0,sample_time:'123',host_arrival_time:null},
  model_lineage:{adc_output_time:'124',pin_arrival_time:'125',capture_time:'126'},

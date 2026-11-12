@@ -10,15 +10,49 @@ import signal
 import subprocess
 import sys
 import time
+from copy import deepcopy
+from dataclasses import replace
 from pathlib import Path
 
+import numpy as np
+
+from zlscan.engine.chain import Chain
 from zlscan.engine.recording_replay import RecordingReplay
 from zlscan.io.manifest import sha256_file
+from zlscan.io.model_quality import GRIDS
 from zlscan.io.rawstream import read_all
 
 
 def hashes(path: Path) -> dict:
     return {p.relative_to(path).as_posix(): sha256_file(p) for p in path.rglob("*") if p.is_file()}
+
+
+def quality_reference(model):
+    chains = {c: Chain(cfg) for c, cfg in deepcopy(model.configs).items()}
+    parts = {c: {kind: [] for kind in GRIDS} for c in chains}
+    for chain in chains.values():
+        chain.record_quality = True
+    stops = sorted({int(c["effective_step"]) for c in model.current.commands} | {model.step})
+    start = 0
+    for end in stops:
+        if end > start:
+            for c, chain in chains.items():
+                output = chain.advance(end - start)
+                for kind in GRIDS:
+                    parts[c][kind].append(output.quality_flags[kind])
+        for command in model.current.commands:
+            if int(command["effective_step"]) == end:
+                section, name = command["parameter"].split(".")
+                config = chains[command["channel"]].cfg
+                setattr(
+                    config, section, replace(getattr(config, section), **{name: command["value"]})
+                )
+        start = end
+    assert all(chains[c].checkpoint() == model.current.chains[c].checkpoint() for c in chains)
+    return {
+        c: {kind: np.concatenate(arrays) for kind, arrays in kinds.items()}
+        for c, kinds in parts.items()
+    }
 
 
 def verify(root: Path) -> dict:
@@ -65,13 +99,49 @@ def verify(root: Path) -> dict:
             assert set(query("/runs")["runs"]) == {"recording-c0", "recording-c1"}
             raw = read_all(source / "raw.zlraw")
             trace_policy = json.loads((root / "config.json").read_text()).get("trace")
+            quality_enabled = json.loads((root / "config.json").read_text()).get(
+                "record_quality", False
+            )
             with RecordingReplay(source) as model:
                 expected = model.replay(10200, 800, {"power_w"})
+                quality_flags = quality_reference(model) if quality_enabled else None
+                controller, fine_clock = model.current.controller, model.current.fine_clock
             for channel in [0, 1]:
                 prefix = f"/runs/recording-c{channel}"
                 manifest = query(prefix + "/manifest")
                 assert manifest["frozen_commit"] and manifest["read_only"]
                 assert not manifest["live_follow"] and manifest["steps"] == 11000
+                if quality_enabled:
+                    assert manifest["recorded_model_event_grids"] == GRIDS
+                    path = prefix + "/events?start=10200&end=11000&kinds=" + ",".join(GRIDS)
+                    actual = query(path + "&view=research")
+                    reference = []
+                    for kind, mask in quality_flags[channel].items():
+                        stride = manifest["os"] if GRIDS[kind] == "adc" else 1
+                        for index in np.flatnonzero(mask):
+                            step = int(index) * stride
+                            if 10200 <= step < 11000:
+                                reference.append(
+                                    (step, kind, controller.epoch_at(fine_clock.tick_of(step)).id)
+                                )
+                    reference.sort()
+                    assert (
+                        sorted((e["step"], e["kind"], e["epoch"]) for e in actual["events"])
+                        == reference
+                    )
+                    assert all(
+                        e["visibility"] == "ORACLE_ONLY"
+                        and e["channel"] == channel
+                        and e["sample_grid"] == GRIDS[e["kind"]]
+                        for e in actual["events"]
+                    )
+                    assert actual["status"] == "exact_record"
+                    denied = query(path + "&view=instrument")
+                    assert denied["status"] == "not_recorded" and denied["events"] == []
+                    dense = query(
+                        prefix + "/events?start=0&end=11000&kinds=front_end_clipped&view=research"
+                    )
+                    assert dense["truncated"] and len(dense["events"]) == 4096
                 query(prefix + "/signals?view=instrument")
                 query(prefix + "/signals?view=research")
                 delivered = query(
@@ -162,6 +232,7 @@ def main():
     group.add_argument("--out", type=Path)
     group.add_argument("--verify", type=Path)
     parser.add_argument("--probe-policy", choices=["raw", "summary"])
+    parser.add_argument("--record-quality", action="store_true")
     args = parser.parse_args()
     if args.out:
         root = args.out.resolve()
@@ -189,6 +260,11 @@ def main():
             config["trace"] = dict(
                 probes=["power_w", "v_adc"], base=8, factor=4, keep_raw=args.probe_policy == "raw"
             )
+        if args.record_quality:
+            config["record_quality"] = True
+            config["chain"]["detector"]["anode_limit_a"] = 1e-20
+            config["chain"]["afe"] = {"clip_max_v": -5.0}
+            config["secondary"]["detector"] = {"anode_limit_a": None}
         (root / "config.json").write_text(json.dumps(config))
         commands = [
             {"op": "lines", "count": 1},

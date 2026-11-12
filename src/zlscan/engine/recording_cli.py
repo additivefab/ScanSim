@@ -44,6 +44,7 @@ class RecordingInput(PhysicsInput):
     max_pending_syncs: int = Field(default=128, gt=0, le=4096)
     max_control_events: int = Field(default=1024, ge=16, le=4096)
     trace: TracePolicy | None = None
+    record_quality: bool = False
 
 
 def _json(data):
@@ -90,8 +91,11 @@ def _create(directory, path):
         run_id=spec.run_id,
         branch_id=spec.branch_id,
         trace_policy=spec.trace,
+        record_quality=spec.record_quality,
     )
     try:
+        if (recorder.quality is not None) != spec.record_quality:
+            raise ValueError("model quality policy differs from saved input")
         inputs = directory / "inputs"
         inputs.mkdir()
         (inputs / "recording.json").write_bytes(original)
@@ -181,6 +185,8 @@ def _restore(source, target, stack):
         branch_directory=target if target != source else None,
     )
     try:
+        if (recorder.quality is not None) != spec.record_quality:
+            raise ValueError("model quality policy differs from saved input")
         if (recorder.trace.policy if recorder.trace is not None else None) != spec.trace:
             raise ValueError("probe recording policy differs from saved input")
         if recorder.identity != dict(

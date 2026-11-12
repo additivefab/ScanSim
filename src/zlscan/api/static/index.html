@@ -98,7 +98,7 @@ function draw(){
   moveCursor()}
 function eventText(b){
   if(b.error)return '查询失败：'+b.error;
-  var events=b.events||[],text=events.map(function(e){return e.kind==='transport_loss'?('丢样 层级 '+e.layer+' 样本 '+e.first+'–'+e.last+'（'+e.reason+'）'):(e.kind+'@'+(e.step_exact||e.step))}).join('；');
+  var events=b.events||[],text=events.map(function(e){return e.kind==='transport_loss'?('丢样 层级 '+e.layer+' 样本 '+e.first+'–'+e.last+'（'+e.reason+'）'):((e.sample_grid?'模型记录['+(e.sample_grid==='fine'?'细步':'ADC源')+'网格] ':'')+e.kind+'@'+(e.step_exact||e.step))}).join('；');
   if(b.status==='not_recorded')return '事件未完整记录'+(b.reason?' · '+b.reason:'')+(text?' · 部分记录：'+text:'')+(b.truncated?' · 结果已截断':'');
   return (text||'窗口内无已登记事件')+(b.truncated?' · 结果已截断':'');
 }

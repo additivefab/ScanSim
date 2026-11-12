@@ -152,6 +152,7 @@ def main() -> None:
                 stages=[{"name": "model_disk", "capacity_bytes": 4096, "rate_Bps": 1e9}],
                 session_id=21,
                 trace=dict(probes=["power_w"], base=64, factor=8, keep_raw=True),
+                record_quality=True,
                 run_id="installed_recording",
                 branch_id="main",
                 chunk_steps=1024,
@@ -216,6 +217,13 @@ def main() -> None:
         line = saved.lineage(loaded, index, "instrument")
         assert line["lineage"]["capture_time"] is not None
         assert line["lineage"]["host_arrival_time"] is None and "model_lineage" not in line
+        assert saved.quality is not None
+        quality = saved.events(loaded, 10200, 10300, {"adc_saturated"}, "research")
+        assert quality["status"] == "exact_record"
+        assert (
+            saved.events(loaded, 10200, 10300, {"adc_saturated"}, "instrument")["status"]
+            == "not_recorded"
+        )
         persisted = saved.traces(loaded, "pmt.power_w", 10200, 10300, 100, "research")
         assert persisted["derivation"] == "recorded" and len(persisted["values"]) == 100
         replayed = saved.replay(loaded, 10200, 100, ["power_w"])

@@ -13,6 +13,7 @@ from zlscan.contracts.time import CaptureClock
 from zlscan.engine.recording_replay import MAX_WINDOW_STEPS, RecordingReplay
 from zlscan.engine.validity import physical_applicability
 from zlscan.io.committed_adc import CommittedADC
+from zlscan.io.model_quality import GRIDS
 from zlscan.replay.replay import CheckpointStore
 from zlscan.telemetry.registry import PROBE_TO_SIGNAL, chain_signals
 from zlscan.trace.window import raw_window, validate_window
@@ -23,6 +24,7 @@ class RecordingService(Service):
         super().__init__()
         self.snapshot, self.delivered = snapshot, delivered
         self.probes = snapshot.trace_reader
+        self.quality = snapshot.quality_reader
         for channel, cfg in snapshot.configs.items():
             self.add(
                 Run(
@@ -68,6 +70,7 @@ class RecordingService(Service):
             config_hash=cfg.hash(),
             checkpoint_interval_steps=None,
             recorded_probes=list(self.probes.policy.probes) if self.probes is not None else [],
+            recorded_model_event_grids=dict(GRIDS) if self.quality is not None else {},
             physical_applicability=physical_applicability(
                 self.snapshot.current.chains[channel].cfg
             ),
@@ -254,6 +257,9 @@ class RecordingService(Service):
         self._check()
         known = {"epoch_observed"}
         output = []
+        truncated = False
+        quality_support = None
+        quality_incomplete = False
         if kinds is None or "epoch_observed" in kinds:
             for event in self.delivered.events(
                 r.meta["channel"],
@@ -263,6 +269,26 @@ class RecordingService(Service):
             ):
                 output.append({**event, "step": int(event["sample_index"]) * r.cfg.os})
         if view == "research":
+            if self.quality is not None:
+                selected = set(GRIDS) if kinds is None else set(kinds) & set(GRIDS)
+                if selected:
+                    quality = self.quality.query(
+                        r.meta["channel"], start, end, selected, limit=4097
+                    )
+                    quality_support = {
+                        key: quality.get(key)
+                        for key in [
+                            "support_start",
+                            "support_end",
+                            "requested_window",
+                            "clipped_window",
+                            "grids",
+                        ]
+                    }
+                    quality_incomplete = quality["status"] != "exact_record"
+                    output.extend(quality["events"])
+                    truncated = quality.get("truncated", False)
+                known.update(GRIDS)
             known.update(
                 {"control_request", "control_effective", "control_readback", "transport_loss"}
             )
@@ -309,12 +335,13 @@ class RecordingService(Service):
                         )
                     )
         output.sort(key=lambda e: e["step"])
-        partial = kinds is None or bool(kinds - known)
+        partial = kinds is None or bool(kinds - known) or quality_incomplete
         return dict(
             status="not_recorded" if partial else "exact_record",
             events=output[:4096],
-            truncated=len(output) > 4096,
-            reason="analogue event positions not persisted; supplied records are partial"
+            truncated=truncated or len(output) > 4096,
+            **({"quality_support": quality_support} if quality_support is not None else {}),
+            reason="unregistered or out-of-span events not persisted; supplied records are partial"
             if partial
             else "",
         )

@@ -21,6 +21,8 @@ from zlscan.engine.digital_pipeline import DigitalPipeline
 from zlscan.engine.digital_recording import DigitalRecorder, _serialized
 from zlscan.engine.validity import physical_applicability
 from zlscan.io.committed import publish_checkpoint, publish_document
+from zlscan.io.model_quality import QualityWriter, quality_header
+from zlscan.io.model_quality import validate_checkpoint as validate_quality
 from zlscan.io.probe_store import MAX_CHUNK, TracePolicy, TraceWriter, validate_checkpoint
 from zlscan.transport.queues import StageSpec
 
@@ -28,6 +30,7 @@ from zlscan.transport.queues import StageSpec
 class PhysicalRecorder:
     FORMAT = "zlscan-physical-recording-checkpoint/1"
     TRACE_FORMAT = "zlscan-physical-recording-checkpoint/2"
+    QUALITY_FORMAT = "zlscan-physical-recording-checkpoint/3"
     PARAMETERS = {"source.power_w", "detector.gain"}
     _hash = staticmethod(DigitalRecorder._hash)
 
@@ -61,6 +64,7 @@ class PhysicalRecorder:
         run_id: str,
         branch_id: str,
         trace_policy: TracePolicy | None = None,
+        record_quality: bool = False,
     ) -> None:
         self.base = self._configs(configs, link)
         if not isinstance(run_id, str) or not isinstance(branch_id, str):
@@ -80,19 +84,39 @@ class PhysicalRecorder:
         self.recording = DigitalRecorder(directory, pipeline, session_id)
         self.directory = self.recording.directory
         self.trace = None
+        self.quality = None
         try:
+            if record_quality:
+                self.quality = QualityWriter(
+                    self.directory / "quality_model.jsonl", self.quality_header()
+                )
+                for chain in self.chains.values():
+                    chain.record_quality = True
             if trace_policy is not None:
                 self.trace = TraceWriter(self.directory / "probes", trace_policy, self.channels)
                 for chain in self.chains.values():
                     chain.probe_names = set(trace_policy.probes)
         except BaseException:
-            self.recording.__exit__()
+            self.__exit__()
             raise
         self.start()
 
     @property
     def step(self) -> int:
         return next(iter(self.chains.values())).step
+
+    def quality_header(self) -> dict:
+        from zlscan.engine.chain import MODEL_VERSION
+
+        return quality_header(
+            self.channels,
+            next(iter(self.base.values())).os,
+            self.domain,
+            self.fine_clock,
+            self.identity,
+            self.base_hashes,
+            MODEL_VERSION,
+        )
 
     def _healthy(self) -> None:
         if self.failed or self.recording.failed:
@@ -215,12 +239,27 @@ class PhysicalRecorder:
         try:
             while self.step < end:
                 self._apply_due()
-                stop = min(end, self.step + MAX_CHUNK) if self.trace is not None else end
+                stop = (
+                    min(end, self.step + MAX_CHUNK)
+                    if (self.trace is not None or self.quality is not None)
+                    else end
+                )
                 if self.applied_commands < len(self.commands):
                     stop = min(stop, int(self.commands[self.applied_commands]["effective_step"]))
                 count = stop - self.step
                 start = self.step
                 outputs = [self.chains[c].advance(count) for c in self.channels]
+                if self.quality is not None:
+                    epoch = self.controller.epoch_at(self.fine_clock.tick_of(start)).id
+                    self.quality.append(
+                        start,
+                        stop,
+                        epoch,
+                        {
+                            c: out.quality_flags
+                            for c, out in zip(self.channels, outputs, strict=True)
+                        },
+                    )
                 if self.trace is not None:
                     self.trace.append(
                         start,
@@ -311,6 +350,8 @@ class PhysicalRecorder:
         self._pipeline_consistent(self.recording.pipeline, self.recording.next_source_index)
         if self.trace is not None and self.trace.step != self.step:
             raise ValueError("physical and probe committed boundaries disagree")
+        if self.quality is not None and self.quality.step != self.step:
+            raise ValueError("physical and quality committed boundaries disagree")
 
     def _pipeline_consistent(
         self, pipeline: DigitalPipeline, next_source_index: int | None
@@ -334,7 +375,9 @@ class PhysicalRecorder:
         try:
             self._consistent()
             value = {
-                "format": self.TRACE_FORMAT if self.trace is not None else self.FORMAT,
+                "format": self.QUALITY_FORMAT
+                if self.quality is not None
+                else (self.TRACE_FORMAT if self.trace is not None else self.FORMAT),
                 "origin": "SIMULATED",
                 "visibility": "ORACLE_ONLY",
                 "base_hashes": self.base_hashes,
@@ -350,6 +393,8 @@ class PhysicalRecorder:
             }
             if self.trace is not None:
                 value["trace"] = self.trace.checkpoint()
+            if self.quality is not None:
+                value["quality"] = self.quality.checkpoint()
             value["checksum"] = self._hash(value)
             return json.dumps(value, sort_keys=True, allow_nan=False).encode()
         except Exception:
@@ -414,6 +459,19 @@ class PhysicalRecorder:
         )
         result.directory = result.recording.directory
         try:
+            if "quality" in value:
+                result.quality = QualityWriter.restore(
+                    directory / "quality_model.jsonl",
+                    value["quality"],
+                    expected_epoch=lambda step: result.controller.epoch_at(
+                        result.fine_clock.tick_of(step)
+                    ).id,
+                    branch_path=result.directory / "quality_model.jsonl"
+                    if branch_directory is not None
+                    else None,
+                )
+                for chain in result.chains.values():
+                    chain.record_quality = True
             if "trace" in value:
                 result.trace = TraceWriter.restore(
                     directory / "probes",
@@ -438,10 +496,18 @@ class PhysicalRecorder:
     ) -> PhysicalRecorder:
         """Validate/rebuild only model state; do not open or resume any output writer."""
         value = json.loads(blob)
-        if not isinstance(value, dict) or value.get("format") not in {cls.FORMAT, cls.TRACE_FORMAT}:
+        if not isinstance(value, dict) or value.get("format") not in {
+            cls.FORMAT,
+            cls.TRACE_FORMAT,
+            cls.QUALITY_FORMAT,
+        }:
             raise ValueError("physical recording checkpoint version is unsupported")
-        if ("trace" in value) != (value["format"] == cls.TRACE_FORMAT):
+        if (value["format"] == cls.FORMAT and "trace" in value) or (
+            value["format"] == cls.TRACE_FORMAT and "trace" not in value
+        ):
             raise ValueError("probe checkpoint requires the version 2 recovery contract")
+        if ("quality" in value) != (value["format"] == cls.QUALITY_FORMAT):
+            raise ValueError("quality checkpoint requires the version 3 recovery contract")
         if value.pop("checksum", None) != cls._hash(value):
             raise ValueError("physical recording checkpoint checksum differs")
         if value.get("origin") != "SIMULATED" or value.get("visibility") != "ORACLE_ONLY":
@@ -466,6 +532,11 @@ class PhysicalRecorder:
         result.domain, result.fine_clock = first.adc_clock, first.fine_clock
         result._mutex, result.failed = threading.RLock(), False
         result.trace = None
+        result.quality = None
+        if "quality" in value:
+            quality = validate_quality(value["quality"])
+            if quality["header"] != result.quality_header() or int(quality["step"]) != result.step:
+                raise ValueError("physical and model quality source identities differ")
         if "trace" in value:
             trace, _, channels = validate_checkpoint(value["trace"])
             if channels != result.channels or int(trace["step"]) != result.step:
@@ -491,6 +562,8 @@ class PhysicalRecorder:
 
     @_serialized
     def __exit__(self, *args) -> None:
+        if self.quality is not None:
+            self.quality.__exit__()
         if self.trace is not None:
             self.trace.__exit__()
         self.recording.__exit__()

@@ -17,6 +17,7 @@ from zlscan.engine.physical_recording import PhysicalRecorder
 from zlscan.engine.recording_cli import read_definition
 from zlscan.io.committed import verify_committed_prefix as _prefix
 from zlscan.io.manifest import sha256_file
+from zlscan.io.model_quality import QualityReader
 from zlscan.io.probe_store import TraceReader
 from zlscan.io.rawstream import RawWriter, verify_raw_prefix
 
@@ -51,6 +52,19 @@ class RecordingReplay:
             self.current = self._decode(self.root_blob)
             self.step = self.current.step
             self.record = self.root["recording"]
+            self.quality_reader = None
+            if "quality" in self.root:
+                self.quality_reader = self.stack.enter_context(
+                    QualityReader(self.directory / "quality_model.jsonl", self.root["quality"])
+                )
+            if self.quality_reader is not None:
+                self.quality_reader.check_epochs(
+                    lambda step: self.current.controller.epoch_at(
+                        self.current.fine_clock.tick_of(step)
+                    ).id
+                )
+            if (self.quality_reader is not None) != self.spec.record_quality:
+                raise ValueError("saved model quality policy differs from recording input")
             self.trace_reader = None
             if "trace" in self.root:
                 self.trace_reader = self.stack.enter_context(
@@ -116,7 +130,8 @@ class RecordingReplay:
         raw_tail = _prefix(self.directory / "raw.zlraw", self.raw_cursor)
         journal_tail = _prefix(self.directory / "events.jsonl", self.journal_cursor)
         trace_tail = self.trace_reader.unchanged() if self.trace_reader is not None else False
-        return raw_tail or journal_tail or trace_tail
+        quality_tail = self.quality_reader.unchanged() if self.quality_reader is not None else False
+        return raw_tail or journal_tail or trace_tail or quality_tail
 
     def _file_headers(self, record=None):
         record = self.record if record is None else record

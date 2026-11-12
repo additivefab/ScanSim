@@ -117,3 +117,8 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 录制配置可增加 `"trace": {"probes": ["power_w", "v_adc"], "base": 64, "factor": 8, "keep_raw": false}`
 持久保存研究探针摘要；显式 keep_raw 才存原始波形。与统一根配对恢复，工作台优先读取已存探针。
 格式、故障分支和未验收范围见 [探针记录说明](docs/reports/probe_recording.md)。
+
+
+录制配置可选 `"record_quality": true` 持久保存原生网格的模型质量事件，并与统一根恢复。
+前端削顶/PMT 超限在细步网格，ADC 饱和在源 ADC 网格；仅研究视图可见。
+见 [事件来源与恢复规则](docs/reports/model_quality_events.md)。
