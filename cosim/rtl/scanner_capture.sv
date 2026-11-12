@@ -7,13 +7,14 @@ module scanner_capture #(
     input wire clk, input wire rst, input wire line_sync,
     input wire [15:0] code_in,
     output reg out_valid, output reg [15:0] code_out,
-    output reg [31:0] sample_out, output reg [31:0] line_out,
+    output reg [63:0] sample_out, output reg [31:0] line_out,
     output reg first_out, output reg last_out,
     output reg [31:0] ignored_syncs
 );
     localparam integer WINDOW_END = WINDOW_START + WINDOW_LENGTH - 1;
     reg sync_meta, sync_ff, sync_previous, busy;
-    reg [31:0] sample_count, position, next_line, active_line;
+    reg [63:0] sample_count;
+    reg [31:0] position, next_line, active_line;
     wire rising = sync_ff && !sync_previous;
     wire keep = (busy && position >= WINDOW_START)
              || (!busy && rising && WINDOW_START == 0);
@@ -29,14 +30,14 @@ module scanner_capture #(
             sync_ff <= 0;
             sync_previous <= 0;
             busy <= 0;
-            sample_count <= 0;
+            sample_count <= 64'd0;
             position <= 0;
             next_line <= 0;
             active_line <= 0;
             ignored_syncs <= 0;
             out_valid <= 0;
             code_out <= 0;
-            sample_out <= 0;
+            sample_out <= 64'd0;
             line_out <= 0;
             first_out <= 0;
             last_out <= 0;
@@ -44,7 +45,7 @@ module scanner_capture #(
             sync_meta <= line_sync;
             sync_ff <= sync_meta;
             sync_previous <= sync_ff;
-            sample_count <= sample_count + 1;
+            sample_count <= sample_count + 64'd1;
             out_valid <= keep;
             if (keep) begin
                 code_out <= code_in;
