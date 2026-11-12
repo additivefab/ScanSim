@@ -85,7 +85,9 @@ def run_physical(
         "config_hash": cfg.hash(),
     }
     extra["fine_steps"] = total
-    run = run_from_source(out, src, syncs, dcfg, preset="physical", extra_run=extra)
+    run = run_from_source(
+        out, src, syncs, dcfg, preset=cfg.evidence.get("preset", "physical"), extra_run=extra
+    )
     observable = out / "observable"
     capture = CaptureDescription(
         binding=simulation_binding(cfg),

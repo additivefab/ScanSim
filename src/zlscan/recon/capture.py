@@ -27,7 +27,17 @@ def reconstruct_capture(
     """Reconstruct using declared uniform coordinates and preserve missing line positions."""
     if sha256_file(raw_path) != capture.raw_sha256:
         raise ValueError("capture SHA-256 does not match its description")
+    offset_samples = 0.0
+    delay = calibration.items.get("delay")
+    if delay is not None and delay.status == "ok":
+        if not isinstance(delay.value, dict) or type(delay.value.get("delay_ticks")) is not int:
+            raise ValueError("calibration delay requires an integer delay_ticks")
+    else:
+        delay = None
     if headerless_spp is not None:
+        if delay is not None:
+            raise ValueError("headerless capture requires a clock declaration for calibrated delay")
+
         if headerless_spp <= 0 or channel != 0:
             raise ValueError("headerless input requires positive samples per pixel and channel 0")
         codes = read_headerless_u16(
@@ -62,11 +72,20 @@ def reconstruct_capture(
         if channel not in image.codes:
             raise ValueError(f"capture lacks channel {channel}")
         codes, flags = image.codes[channel], image.invalid
+        if delay is not None:
+            domains = {block.clock_domain for block in raw.blocks if channel in block.channels}
+            clocks = [clock for clock in session.clock_domains if clock["id"] in domains]
+            if len(clocks) != 1:
+                raise ValueError("delay compensation requires one observed sample clock")
+            clock = clocks[0]
+            offset_samples = (
+                delay.value["delay_ticks"] * clock["freq_num"] / (1e12 * clock["freq_den"])
+            )
 
     cols = codes.shape[1]
     width_m = grid.width * grid.pitch_x_m
     height_m = grid.height * grid.pitch_y_m
-    x = grid.origin_x_m + (np.arange(cols) + 0.5) / cols * width_m
+    x = grid.origin_x_m + (np.arange(cols) + 0.5 - offset_samples) / cols * width_m
     y = grid.origin_y_m + (np.arange(capture.lines) + 0.5) / capture.lines * height_m
     result = reconstruct_density(
         codes,
@@ -94,6 +113,7 @@ def reconstruct_capture(
         "calibration_id": result.calibration_id,
         "calibration_provenance": calibration.provenance.value,
         "coordinate_source": "declared uniform capture coordinates",
+        "delay_offset_samples": offset_samples,
         "support": "positive bilinear weight within one grid pitch per axis",
         "minimum_support_weight": 0.5,
         "valid_fraction": result.valid_fraction,

@@ -128,27 +128,28 @@ def _run_budget(argv: Sequence[str]) -> int:
 def _run_run(argv: Sequence[str]) -> int:
     from pathlib import Path
 
+    from zlscan.config.presets import demo_config, nominal_config
     from zlscan.engine.digital_run import run_digital
 
     p = argparse.ArgumentParser(prog="zlscan run")
     p.add_argument("--mode", choices=["digital", "physical", "calibration"], required=True)
     p.add_argument("--out", type=Path, default=Path("run_out"))
     p.add_argument("--lines", type=int, default=8)
+    p.add_argument("--preset", choices=["demo", "nominal"], default="demo")
     args = p.parse_args(list(argv))
+    preset = nominal_config if args.preset == "nominal" else demo_config
     if args.mode == "calibration":
-        from zlscan.config.presets import demo_config
         from zlscan.experiment.calibration_scan import run_calibration_scan
 
         if args.lines < 2:
             p.error("calibration mode requires at least two lines per target")
-        run = run_calibration_scan(args.out, demo_config(), lines_per_target=args.lines)
+        run = run_calibration_scan(args.out, preset(), lines_per_target=args.lines)
     elif args.mode == "physical":
-        from zlscan.config.presets import demo_config
         from zlscan.engine.physical_run import run_physical
 
         if args.lines < 1:
             p.error("--lines must be positive")
-        run = run_physical(args.out, demo_config(), args.lines, save_checkpoints=True)
+        run = run_physical(args.out, preset(), args.lines, save_checkpoints=True)
     else:
         run = run_digital(args.out)
     print(
@@ -168,10 +169,13 @@ def _run_calibrate(argv: Sequence[str]) -> int:
     p = argparse.ArgumentParser(prog="zlscan calibrate")
     p.add_argument("--raw", required=True, type=Path)
     p.add_argument("--protocol", required=True, type=Path)
+    p.add_argument("--timing", type=Path, help="synchronized injection observation JSON")
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
     try:
-        cal = calibration_from_scan(args.raw, args.protocol, fit_transfer=True)
+        cal = calibration_from_scan(
+            args.raw, args.protocol, fit_transfer=True, timing_path=args.timing
+        )
         args.out.mkdir(parents=True)
         save_calibration(args.out / "calibration.json", cal)
         summary = {
@@ -268,10 +272,63 @@ def _run_metrics(argv: Sequence[str]) -> int:
     return 0 if manifest["valid_pixels"] else CHECK_FAIL_EXIT_CODE
 
 
+def _run_cosim(argv: Sequence[str]) -> int:
+    import json
+    from pathlib import Path
+    from subprocess import CalledProcessError, TimeoutExpired
+
+    from zlscan.digital.cosim import run_capture_cosim
+
+    p = argparse.ArgumentParser(prog="zlscan cosim")
+    p.add_argument("--out", required=True, type=Path)
+    p.add_argument("--iverilog")
+    p.add_argument("--vvp")
+    args = p.parse_args(list(argv))
+    try:
+        result = run_capture_cosim(args.iverilog, args.vvp)
+        args.out.mkdir(parents=True)
+        (args.out / "run.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    except (OSError, RuntimeError, CalledProcessError, TimeoutExpired) as exc:
+        detail = getattr(exc, "stderr", None) or str(exc)
+        print(f"RTL 协同未完成：{detail}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"RTL 采集协同结果已写入 {args.out}")
+    return 0 if result["passed"] else CHECK_FAIL_EXIT_CODE
+
+
+def _run_report(argv: Sequence[str]) -> int:
+    from pathlib import Path
+
+    from zlscan.report.image_view import write_image_view
+
+    p = argparse.ArgumentParser(prog="zlscan report")
+    p.add_argument("--run", required=True, type=Path)
+    p.add_argument("--raw", type=Path)
+    p.add_argument("--compare", type=Path)
+    p.add_argument("--compare-raw", type=Path)
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    if args.compare_raw and not args.compare:
+        p.error("--compare-raw requires --compare")
+    try:
+        write_image_view(
+            args.run,
+            args.out,
+            raw_path=args.raw,
+            comparison=args.compare,
+            comparison_raw=args.compare_raw,
+        )
+    except (OSError, ValueError, KeyError) as exc:
+        print(f"工作台生成失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"成像工作台已写入 {args.out}")
+    return 0
+
+
 def _run_replay(argv: Sequence[str]) -> int:
     from pathlib import Path
 
-    from zlscan.config.presets import demo_config
+    from zlscan.config.presets import demo_config, nominal_config
     from zlscan.replay.saved import replay_saved_window
 
     p = argparse.ArgumentParser(prog="zlscan replay")
@@ -281,9 +338,11 @@ def _run_replay(argv: Sequence[str]) -> int:
     p.add_argument("--start-step", required=True, type=int)
     p.add_argument("--steps", required=True, type=int)
     p.add_argument("--out", required=True, type=Path)
+    p.add_argument("--preset", choices=["demo", "nominal"], default="demo")
     args = p.parse_args(list(argv))
     try:
-        replay_saved_window(args.run, args.out, demo_config(), args.start_step, args.steps)
+        preset = nominal_config if args.preset == "nominal" else demo_config
+        replay_saved_window(args.run, args.out, preset(), args.start_step, args.steps)
     except (OSError, ValueError) as exc:
         print(f"回放失败：{exc}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
@@ -309,6 +368,8 @@ ARG_HANDLERS = {
     "calibrate": _run_calibrate,
     "reconstruct": _run_reconstruct,
     "metrics": _run_metrics,
+    "report": _run_report,
+    "cosim": _run_cosim,
     "replay": _run_replay,
     "serve": _run_serve,
 }

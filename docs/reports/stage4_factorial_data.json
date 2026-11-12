@@ -1,0 +1,320 @@
+{
+  "mode": "stage4_factorial",
+  "contains_truth": true,
+  "configuration": "ASSUMED nominal single-channel",
+  "optical_reference": "spot-integrated transmittance at output grid centres",
+  "calibration_policy": "separate observable calibration for each condition",
+  "region_pixels": 288,
+  "common_pixels": 288,
+  "cases": {
+    "ideal": {
+      "active_effects": [],
+      "calibration_id": "6e0c3716b051e68db68765b533dbf7fea7b541607fbdbccb0df948ea845eb5c1",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.003568685034112113,
+            "rmse": 0.059738471976709555,
+            "bias": -0.0003105327689044178,
+            "variance": 0.0035685886035115486
+          },
+          "optical": {
+            "mse": 0.003568685034112113,
+            "rmse": 0.059738471976709555,
+            "bias": -0.0003105327689044178,
+            "variance": 0.0035685886035115486
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "noise": {
+      "active_effects": [
+        "noise"
+      ],
+      "calibration_id": "0ceb7e2ab554d3ec83483502fab7b5a51844d90b55e16764e2217789b70fea67",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.003569298507680634,
+            "rmse": 0.05974360641675922,
+            "bias": -0.0005905586400236073,
+            "variance": 0.0035689497481733276
+          },
+          "optical": {
+            "mse": 0.003569298507680634,
+            "rmse": 0.05974360641675922,
+            "bias": -0.0005905586400236073,
+            "variance": 0.0035689497481733276
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "spot": {
+      "active_effects": [
+        "spot"
+      ],
+      "calibration_id": "39311e3b426e7c7b894745fb2deb1bbbe943a97e2a548c6c5786dee00d12ccbe",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.0042297356526433995,
+            "rmse": 0.06503641789523312,
+            "bias": -0.0019337277159116864,
+            "variance": 0.0042259963497641145
+          },
+          "optical": {
+            "mse": 0.000479220366410379,
+            "rmse": 0.02189110244849215,
+            "bias": 0.0043638822642578234,
+            "variance": 0.00046017689799407506
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "bandwidth": {
+      "active_effects": [
+        "bandwidth"
+      ],
+      "calibration_id": "7bac42520fa267edff6330fd4186e666660e524791b785566f161100451be38a",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.0035787569786447726,
+            "rmse": 0.05982271289940613,
+            "bias": -0.0005898889492668899,
+            "variance": 0.0035784090096723053
+          },
+          "optical": {
+            "mse": 0.0035787569786447726,
+            "rmse": 0.05982271289940613,
+            "bias": -0.0005898889492668899,
+            "variance": 0.0035784090096723053
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "noise+spot": {
+      "active_effects": [
+        "noise",
+        "spot"
+      ],
+      "calibration_id": "b0b4cc1b4bc76e3c7a914fcfd7a7b55866b3618d52d868cb3f75880a8ce875f5",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.004230956038377047,
+            "rmse": 0.06504579954445212,
+            "bias": -0.002206505478153553,
+            "variance": 0.004226087371951927
+          },
+          "optical": {
+            "mse": 0.0004786493171056114,
+            "rmse": 0.021878055606145884,
+            "bias": 0.004091104502015958,
+            "variance": 0.00046191218105919626
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "noise+bandwidth": {
+      "active_effects": [
+        "noise",
+        "bandwidth"
+      ],
+      "calibration_id": "dcb81ef71954a63675e36ff53bb31335022fabb641db5111793f386b6a7f164d",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.003579583681218696,
+            "rmse": 0.05982962210492973,
+            "bias": -0.0008490963207940685,
+            "variance": 0.0035788627166567105
+          },
+          "optical": {
+            "mse": 0.003579583681218696,
+            "rmse": 0.05982962210492973,
+            "bias": -0.0008490963207940685,
+            "variance": 0.0035788627166567105
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "spot+bandwidth": {
+      "active_effects": [
+        "spot",
+        "bandwidth"
+      ],
+      "calibration_id": "797f508aaf3b690d43def95ae2a061e3ad090470ea97dbeaf115390b13ab5067",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.004254394325976489,
+            "rmse": 0.06522571828639749,
+            "bias": -0.0022416376564864623,
+            "variance": 0.004249369386593512
+          },
+          "optical": {
+            "mse": 0.00045013813326675873,
+            "rmse": 0.02121645901810099,
+            "bias": 0.004055972323683047,
+            "variance": 0.000433687221776276
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    },
+    "noise+spot+bandwidth": {
+      "active_effects": [
+        "noise",
+        "spot",
+        "bandwidth"
+      ],
+      "calibration_id": "9a49e7c866abc416d2c6fb8167ea5f4f4fa65134e4be0eed3b0a12ed5f12c067",
+      "full_frame_valid_fraction": 0.975,
+      "comparison": {
+        "references": {
+          "unblurred": {
+            "mse": 0.0042541768764308,
+            "rmse": 0.06522405136474428,
+            "bias": -0.0024871576335258345,
+            "variance": 0.004247990923336793
+          },
+          "optical": {
+            "mse": 0.00044989811560456765,
+            "rmse": 0.021210801861423524,
+            "bias": 0.003810452346643676,
+            "variance": 0.0004353785685185253
+          }
+        },
+        "region_pixels": 288,
+        "valid_pixels": 288,
+        "valid_fraction": 1.0,
+        "invalid_reason_counts": {
+          "NONPOSITIVE_TRANSMITTANCE": 0,
+          "WHITE_REFERENCE_INVALID": 0,
+          "OUTSIDE_CALIBRATION": 0,
+          "ADC_SATURATED": 0,
+          "FRONT_END_CLIPPED": 0,
+          "MISSING_SAMPLE": 0,
+          "RESAMPLING_SUPPORT": 0,
+          "CALIBRATION_MISMATCH": 0
+        },
+        "missing_rows": 0
+      }
+    }
+  },
+  "unblurred_mse_interactions_od_squared": {
+    "baseline": 0.003568685034112113,
+    "noise": 6.134735685207719e-07,
+    "spot": 0.0006610506185312864,
+    "bandwidth": 1.0071944532659503e-05,
+    "noise+spot": 6.069121651266357e-07,
+    "noise+bandwidth": 2.1322900540252446e-07,
+    "spot+bandwidth": 1.4586728800430188e-05,
+    "noise+spot+bandwidth": -1.6510642847390733e-06
+  }
+}

@@ -29,6 +29,19 @@ python3 -m venv .venv
 .venv/bin/zlscan serve
 ```
 
-运行目录包含 `observable/raw.zlraw`、完整性报告和离线工作台 `viewer.html`。当前重建输出为采集码值图与无效掩膜。已标定的光学密度图属于阶段 4。
+运行目录包含 `observable/raw.zlraw`、完整性报告和离线工作台 `viewer.html`。`run` 的最简重建输出为采集码值图与无效掩膜。以下命令从观测标定扫描生成密度图与独立成像工作台。
+
+```bash
+.venv/bin/zlscan run --mode calibration --preset nominal --lines 4 --out reference
+.venv/bin/zlscan calibrate --raw reference/observable/raw.zlraw \
+  --protocol reference/observable/scan_protocol.json --out calibration
+.venv/bin/zlscan run --mode physical --preset nominal --lines 12 --out sample
+.venv/bin/zlscan reconstruct --raw sample/observable/raw.zlraw \
+  --capture sample/observable/capture.json --calibration calibration/calibration.json \
+  --columns 40 --pitch-x-m 0.002 --pitch-y-m 0.002 --out reconstructed
+.venv/bin/zlscan report --run reconstructed --raw sample/observable/raw.zlraw --out image.html
+```
+
+上面的网格和采样参数来自研究预设。验收结果见 [nominal 与旧包对照](docs/reports/nominal_vs_legacy.md)。
 
 本工程不代表任何实机性能、激光安全或检测合规结论。

@@ -37,6 +37,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 "zlscan.evidence" = ["*.json"]
 "zlscan.hardware" = ["*.json"]
+"zlscan.report" = ["*.html"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

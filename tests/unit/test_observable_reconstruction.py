@@ -1,3 +1,5 @@
+import json
+import re
 import shutil
 from dataclasses import replace
 
@@ -33,7 +35,7 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
         == 0
     )
 
-    def reconstruct(observable, output):
+    def reconstruct(observable, output, calibration_dir=cal):
         assert (
             main(
                 [
@@ -43,7 +45,7 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
                     "--capture",
                     str(observable / "capture.json"),
                     "--calibration",
-                    str(cal / "calibration.json"),
+                    str(calibration_dir / "calibration.json"),
                     "--out",
                     str(output),
                     "--columns",
@@ -75,3 +77,78 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
     _, dark = scan(1.0, "dark")
     dimmed = reconstruct(dark, tmp_path / "dimmed")
     assert np.nanmedian(dimmed - baseline) == pytest.approx(0.3, abs=0.015)
+
+    report = tmp_path / "image.html"
+    assert (
+        main(
+            [
+                "report",
+                "--run",
+                str(tmp_path / "result"),
+                "--raw",
+                str(bright / "raw.zlraw"),
+                "--compare",
+                str(tmp_path / "dimmed"),
+                "--compare-raw",
+                str(dark / "raw.zlraw"),
+                "--out",
+                str(report),
+            ]
+        )
+        == 0
+    )
+    html = report.read_text()
+    payload = re.search(r'<script id="image-data" type="application/json">(.*?)</script>', html)
+    assert payload is not None
+    images = json.loads(payload.group(1))["images"]
+    assert len(images) == 2
+    assert images[0]["lineage"]["lines"]["1"]["clock"]["freq_num"] == 1_000_000
+    assert "http://" not in html and "https://" not in html
+
+    protocol = json.loads((reference_obs / "scan_protocol.json").read_text())
+    edge_tick = 4_000_000
+    ticks = np.arange(0, 16_000_000, 100_000, dtype=np.int64)
+    timing = tmp_path / "timing.json"
+    timing.write_text(
+        json.dumps(
+            {
+                "raw_sha256": protocol["raw_sha256"],
+                "ticks": ticks.tolist(),
+                "values": (
+                    -np.expm1(-np.maximum(ticks - edge_tick - 1_000_000, 0) / 500_000)
+                ).tolist(),
+                "monitor": {
+                    "kind": "injection_monitor",
+                    "origin": "SIMULATED",
+                    "visibility": "OBSERVABLE",
+                    "derivation": "SENSOR",
+                    "clock_domain": 1,
+                    "count": 4,
+                    "tick": edge_tick,
+                    "session_id": 1,
+                    "epoch": 0,
+                    "capability_ref": "fixture/injection_monitor",
+                },
+            }
+        )
+    )
+    timed_cal = tmp_path / "timed-calibration"
+    assert (
+        main(
+            [
+                "calibrate",
+                "--raw",
+                str(reference_obs / "raw.zlraw"),
+                "--protocol",
+                str(reference_obs / "scan_protocol.json"),
+                "--timing",
+                str(timing),
+                "--out",
+                str(timed_cal),
+            ]
+        )
+        == 0
+    )
+    timed = tmp_path / "timed-reconstruction"
+    reconstruct(bright, timed, timed_cal)
+    assert json.loads((timed / "run.json").read_text())["delay_offset_samples"] == 1.0

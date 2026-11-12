@@ -11,8 +11,10 @@ from typing import Literal
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from zlscan.calib.delay import fit_synchronous_response
 from zlscan.calib.radiometric import fit_log_transfer
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
+from zlscan.contracts.events import Event
 from zlscan.io.line_image import reconstruct
 from zlscan.io.manifest import sha256_file
 from zlscan.io.rawstream import read_all
@@ -57,8 +59,23 @@ class ScanProtocol(BaseModel):
         return self
 
 
+class InjectionTrace(BaseModel):
+    """Observation from a synchronized test injection associated with this capture."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    raw_sha256: str
+    ticks: list[int]
+    values: list[float]
+    monitor: Event
+
+
 def calibration_from_scan(
-    raw_path: Path, protocol_path: Path, *, fit_transfer: bool = False
+    raw_path: Path,
+    protocol_path: Path,
+    *,
+    fit_transfer: bool = False,
+    timing_path: Path | None = None,
 ) -> CalibrationHeader:
     """Create empirical code-domain references from a complete calibration scan."""
     protocol = ScanProtocol.model_validate_json(protocol_path.read_bytes())
@@ -124,19 +141,38 @@ def calibration_from_scan(
         )
     algorithm = "log_transfer" if fit_transfer else "code_reference"
     protocol_sha256 = sha256_file(protocol_path)
+    sources = {"raw_sha256": protocol.raw_sha256, "protocol_sha256": protocol_sha256}
+    if timing_path is not None:
+        timing = InjectionTrace.model_validate_json(timing_path.read_bytes())
+        if (
+            timing.raw_sha256 != protocol.raw_sha256
+            or timing.monitor.origin.value != session.origin
+        ):
+            raise ValueError("injection trace does not belong to this calibration capture")
+        fit = fit_synchronous_response(
+            np.asarray(timing.ticks, dtype=np.int64),
+            np.asarray(timing.values),
+            timing.monitor,
+            session_id=session.session_id,
+            epoch=binding.epoch_range[0],
+        )
+        items["delay"] = CalibItem(
+            value=asdict(fit), method="observable synchronous injection and first-order step fit"
+        )
+        sources["timing_sha256"] = sha256_file(timing_path)
+    source_ids = protocol_sha256 if timing_path is None else ":".join(sources.values())
     provenance = Provenance(protocol.origin)
     calibration = CalibrationHeader(
         format_version=1,
         provenance=provenance,
-        calibration_id=hashlib.sha256(f"{algorithm}-v1:{protocol_sha256}".encode()).hexdigest(),
+        calibration_id=hashlib.sha256(f"{algorithm}-v1:{source_ids}".encode()).hexdigest(),
         created_at=datetime.now(UTC).isoformat(),
         binds_to=binding,
         valid_conditions={"scan_direction": "forward"},
         generator={
             "name": algorithm,
             "version": 1,
-            "raw_sha256": protocol.raw_sha256,
-            "protocol_sha256": protocol_sha256,
+            **sources,
         },
         items=items,
     )

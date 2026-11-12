@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>密度成像工作台</title>
+<style>
+  :root { color-scheme: dark; background: #141a21; color: #eaf0f5; font: 15px system-ui, sans-serif; }
+  body { margin: 0 auto; max-width: 1200px; padding: 28px 16px; }
+  h1 { font-size: 1.6rem; margin: 0 0 16px; }
+  h2 { font-size: 1rem; margin: 0 0 8px; overflow-wrap: anywhere; }
+  .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px; }
+  input[type="number"] { width: 5em; }
+  #views { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 370px), 1fr)); gap: 14px; }
+  section { min-width: 0; padding: 14px; border: 1px solid #445364; background: #202833; }
+  canvas { display: block; width: 100%; image-rendering: pixelated; cursor: crosshair; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.55; color: #b9d9df; }
+  small { color: #b9c7d6; }
+</style>
+<h1>密度成像工作台</h1>
+<div class="controls">
+  <label><input type="checkbox" id="mask" checked> 显示无效掩膜</label>
+  <label>列 <input type="number" id="column" min="0" value="0"></label>
+  <label>行 <input type="number" id="row" min="0" value="0"></label>
+  <small id="range"></small>
+</div>
+<div id="views"></div>
+<script id="image-data" type="application/json">__ZLSCAN_IMAGE_DATA__</script>
+<script>
+const data = JSON.parse(document.getElementById("image-data").textContent);
+const rowInput = document.getElementById("row");
+const columnInput = document.getElementById("column");
+const overlay = document.getElementById("mask");
+const densityValues = data.images.flatMap(image => image.density.filter(x => x !== null));
+const low = densityValues.reduce((a, b) => Math.min(a, b), Infinity);
+const high = densityValues.reduce((a, b) => Math.max(a, b), -Infinity);
+document.getElementById("range").textContent = densityValues.length
+  ? `统一灰阶 ${low.toFixed(3)}–${high.toFixed(3)} OD` : "没有有效密度";
+rowInput.max = Math.max(...data.images.map(image => image.height)) - 1;
+columnInput.max = Math.max(...data.images.map(image => image.width)) - 1;
+const views = data.images.map(image => {
+  const panel = document.createElement("section");
+  const title = document.createElement("h2");
+  title.textContent = `${image.label} · ${(100 * image.valid_fraction).toFixed(1)}% 有效`;
+  const canvas = document.createElement("canvas");
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const status = document.createElement("pre");
+  status.setAttribute("aria-live", "polite");
+  canvas.addEventListener("click", event => {
+    const bounds = canvas.getBoundingClientRect();
+    columnInput.value = Math.min(image.width - 1, Math.floor((event.clientX - bounds.left) / bounds.width * image.width));
+    rowInput.value = Math.min(image.height - 1, Math.floor((event.clientY - bounds.top) / bounds.height * image.height));
+    render();
+  });
+  panel.append(title, canvas, status);
+  document.getElementById("views").append(panel);
+  return {image, canvas, status};
+});
+function sourceTicks(clock, sample) {
+  if (!clock) return null;
+  return BigInt(clock.phase_ticks) + sample * 1000000000000n * BigInt(clock.freq_den) / BigInt(clock.freq_num);
+}
+function lineage(image, row, col, pixel) {
+  if (!image.lineage) return "样本谱系未记录";
+  const line = image.lineage.lines[row];
+  if (!line) return "本行无已交付样本";
+  const count = image.lineage.window;
+  const scale = image.width / count;
+  const offset = image.lineage.delay_offset_samples;
+  const begin = Math.max(0, Math.floor((col - 0.5) / scale - 0.5 + offset));
+  const end = Math.min(line.count, Math.ceil((col + 1.5) / scale - 0.5 + offset));
+  const rows = [];
+  for (let index = begin; index < end; index++) {
+    const weight = 1 - Math.abs((index + 0.5 - offset) * scale - 0.5 - col);
+    if (weight <= 0) continue;
+    const sample = BigInt(line.first) + BigInt(index);
+    const time = sourceTicks(line.clock, sample);
+    const normalized = image.flags[pixel] === 0 ? weight / image.support[pixel] : null;
+    rows.push({sample, time, normalized});
+  }
+  if (!rows.length) return "像素支持范围内无已交付样本";
+  const t0 = rows[0].time, t1 = rows.at(-1).time;
+  const description = t0 === null || t1 === null ? "采样时间未取得" : `采样时间 ${t0}–${t1} ps`;
+  const samples = rows.map(({sample, normalized}) => normalized === null
+    ? String(sample) : `${sample} (${(100 * normalized).toFixed(1)}%)`).join("、");
+  return `${description}\n${image.flags[pixel] === 0 ? "样本及权重" : "支持范围内的样本"} ${samples}`;
+}
+function render() {
+  const row = Number(rowInput.value), col = Number(columnInput.value);
+  for (const {image, canvas, status} of views) {
+    const ctx = canvas.getContext("2d");
+    const frame = ctx.createImageData(image.width, image.height);
+    for (let i = 0; i < image.density.length; i++) {
+      const value = image.density[i];
+      const grey = value === null ? 35 : Math.round(245 - 220 * (value - low) / Math.max(1e-9, high - low));
+      frame.data.set(overlay.checked && image.flags[i] ? [222, 109, 76, 255] : [grey, grey, grey, 255], i * 4);
+    }
+    ctx.putImageData(frame, 0, 0);
+    const cal = `标定 ${image.provenance} · ${image.calibration_id.slice(0, 12)}`;
+    if (!Number.isInteger(row) || !Number.isInteger(col) || row < 0 || col < 0 || row >= image.height || col >= image.width) {
+      status.textContent = `${cal}\n像素超出此图范围`;
+      continue;
+    }
+    ctx.fillStyle = "#46d1d1";
+    ctx.fillRect(0, row, image.width, 0.35);
+    ctx.strokeStyle = "#46d1d1";
+    ctx.lineWidth = 0.25;
+    ctx.strokeRect(col, row, 1, 1);
+    const pixel = row * image.width + col;
+    const reasons = Object.entries(data.reasons).filter(([bit]) => image.flags[pixel] & Number(bit)).map(([, name]) => name);
+    const value = image.density[pixel] === null ? reasons.join("、") : `${image.density[pixel].toFixed(5)} OD`;
+    status.textContent = `${cal}\n行 ${row} · 列 ${col} · ${value}\n${lineage(image, row, col, pixel)}`;
+  }
+}
+for (const input of [rowInput, columnInput, overlay]) input.addEventListener("input", render);
+render();
+</script>

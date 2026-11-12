@@ -51,6 +51,13 @@ def demo_config(seed: int = 1, **over) -> ChainConfig:
     return cfg
 
 
+def nominal_config() -> ChainConfig:
+    """Continuous-state research preset for observable calibration and reconstruction."""
+    cfg = demo_config()
+    cfg.evidence = {"all": "assumed", "preset": "nominal"}
+    return cfg
+
+
 def with_timeline(cfg: ChainConfig, phases: list[Phase], scenes: dict[str, Scene]) -> ChainConfig:
     cfg.timeline = phases
     cfg.scenes = {**cfg.scenes, **scenes}
