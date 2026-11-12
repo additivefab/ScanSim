@@ -209,10 +209,17 @@ def _run_calibrate(argv: Sequence[str]) -> int:
             "calibration_id": cal.calibration_id,
             "provenance": cal.provenance.value,
             "items": list(cal.items),
+            "transfer_reference_assessments": {
+                channel: transfer["reference_assessment"]
+                for channel, transfer in cal.items["transfer_lut"].value["channels"].items()
+            },
         }
         (args.out / "run.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     except (OSError, ValueError) as exc:
         print(f"标定失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    if any(a["status"] == "mismatch" for a in summary["transfer_reference_assessments"].values()):
+        print("参考传递拟合未满足协议容差；已保存诊断，重建将拒绝该通道", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
     print(f"标定文件已写入 {args.out}")
     return 0

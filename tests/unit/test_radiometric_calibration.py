@@ -32,3 +32,46 @@ def test_flat_references_cannot_identify_transfer():
     flat = np.full((4, 100), 2000)
     with pytest.raises(ValueError, match="contrast"):
         fit_log_transfer(flat, flat, flat, np.linspace(0, 2, 5))
+
+
+def test_reference_diagnostics_identify_floor_mismatch_without_reading_generator_parameters():
+    from zlscan.calib.radiometric import assess_reference_fit
+
+    densities = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+    shape = (8, 100)
+
+    # The assumed data law uses max(T, floor), while the candidate fit uses T + dark.
+    def code(x):
+        return np.rint(45000 + 4500 * np.log10(np.maximum(x, 6.25e-5)))
+
+    dark, white = np.full(shape, code(0)), np.full(shape, code(1))
+    wedge = np.broadcast_to(np.repeat(code(10**-densities), 20), shape)
+    fit = fit_log_transfer(dark, white, wedge, densities)
+    result = assess_reference_fit(fit, tolerance_code=1.0)
+    assert result["status"] == "mismatch"
+    assert result["max_absolute_residual_code"] > 100
+    assert result["violating_reference_indices"]
+    np.testing.assert_allclose(
+        np.asarray(fit.fitted_reference_codes) - fit.reference_codes, fit.reference_residual_codes
+    )
+    assert assess_reference_fit(fit, tolerance_code=None)["status"] == "not_assessed"
+    for tolerance in (-1, float("nan"), float("inf")):
+        with pytest.raises(ValueError):
+            assess_reference_fit(fit, tolerance_code=tolerance)
+
+
+def test_reference_diagnostics_accept_an_additive_log_law_at_declared_code_resolution():
+    from zlscan.calib.radiometric import assess_reference_fit
+
+    densities = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+    shape = (8, 100)
+
+    def code(x):
+        return np.rint(45000 + 4500 * np.log10(x + 0.001))
+
+    dark, white = np.full(shape, code(0)), np.full(shape, code(1))
+    wedge = np.broadcast_to(np.repeat(code(10**-densities), 20), shape)
+    fit = fit_log_transfer(dark, white, wedge, densities)
+    result = assess_reference_fit(fit, tolerance_code=1.0)
+    assert result["status"] == "compatible"
+    assert result["violating_reference_indices"] == []

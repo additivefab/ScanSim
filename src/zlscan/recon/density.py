@@ -7,7 +7,12 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from zlscan.contracts.calibration import Binding, CalibrationHeader, require_applicable
+from zlscan.contracts.calibration import (
+    Binding,
+    CalibrationHeader,
+    require_applicable,
+    require_reference_consistency,
+)
 from zlscan.contracts.flags import InvalidFlag
 
 
@@ -58,6 +63,7 @@ def _prepare_transfer(calibration: CalibrationHeader, channel: str, width: int) 
         white_codes = calibration.items["white_raw_code"].value[channel]["median"]
     except (KeyError, TypeError) as exc:
         raise ValueError(f"channel {channel} lacks radiometric calibration") from exc
+    require_reference_consistency(transfer)
     code_axis = np.asarray(transfer["code_knots"], dtype=float)
     intensity_axis = np.asarray(transfer["intensity_knots"], dtype=float)
     if (

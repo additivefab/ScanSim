@@ -149,3 +149,15 @@ def require_applicable(
     valid_first, valid_last = bound.epoch_range
     if not valid_first <= first <= last <= valid_last:
         raise ValueError("incompatible calibration epoch_range")
+
+
+def require_reference_consistency(transfer: dict) -> None:
+    """Older files retain compatibility; an explicit failed or malformed assessment is rejected."""
+    if "reference_assessment" not in transfer:
+        return
+    assessment = transfer["reference_assessment"]
+    if not isinstance(assessment, dict) or assessment.get("status") not in {
+        "compatible",
+        "not_assessed",
+    }:
+        raise ValueError("radiometric reference fit is failed or has an unsupported assessment")

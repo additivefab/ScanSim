@@ -59,3 +59,52 @@ def test_calibration_protocol_is_backed_by_a_continuous_observable_capture(tmp_p
     protocol_path.write_text(json.dumps(protocol), encoding="utf-8")
     with pytest.raises(ValueError, match="SHA-256"):
         calibration_from_scan(raw, protocol_path)
+
+
+def test_cli_preserves_failed_fit_diagnostics_and_reconstruction_refuses_them(tmp_path, capsys):
+    from zlscan.cli import CHECK_FAIL_EXIT_CODE, main
+
+    cfg = demo_config()
+    cfg.detector = replace(cfg.detector, shot_noise=False)
+    scan = tmp_path / "scan"
+    run_calibration_scan(scan, cfg, lines_per_target=2)
+    observable = scan / "observable"
+    protocol_path = observable / "scan_protocol.json"
+    protocol = json.loads(protocol_path.read_text())
+    protocol["transfer_reference_tolerance_code"] = 0
+    protocol_path.write_text(json.dumps(protocol))
+    out = tmp_path / "calibration"
+    raw = observable / "raw.zlraw"
+    code = main(
+        ["calibrate", "--raw", str(raw), "--protocol", str(protocol_path), "--out", str(out)]
+    )
+    assert code == CHECK_FAIL_EXIT_CODE
+    calibration = load_calibration(out / "calibration.json")
+    assessment = calibration.items["transfer_lut"].value["channels"]["0"]["reference_assessment"]
+    assert assessment["status"] == "mismatch"
+    assert calibration.generator["version"] == 2
+    summary = json.loads((out / "run.json").read_text())
+    assert summary["transfer_reference_assessments"]["0"] == assessment
+    reconstructed = tmp_path / "reconstruction"
+    code = main(
+        [
+            "reconstruct",
+            "--raw",
+            str(raw),
+            "--capture",
+            str(observable / "capture.json"),
+            "--calibration",
+            str(out / "calibration.json"),
+            "--out",
+            str(reconstructed),
+            "--columns",
+            "40",
+            "--pitch-x-m",
+            ".002",
+            "--pitch-y-m",
+            ".002",
+        ]
+    )
+    assert code == CHECK_FAIL_EXIT_CODE
+    assert "reference" in capsys.readouterr().err
+    assert not (reconstructed / "run.json").exists()

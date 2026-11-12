@@ -19,6 +19,10 @@ class LogTransferFit:
     intensity_knots: tuple[float, ...]
     white_outlier_columns: tuple[int, ...]
     residual_rms_code: float
+    reference_transmittance: tuple[float, ...]
+    reference_codes: tuple[float, ...]
+    fitted_reference_codes: tuple[float, ...]
+    reference_residual_codes: tuple[float, ...]
 
 
 def fit_log_transfer(
@@ -103,4 +107,36 @@ def fit_log_transfer(
         tuple(intensities.tolist()),
         tuple(flagged.tolist()),
         rms,
+        tuple(t.tolist()),
+        tuple(codes.tolist()),
+        tuple((codes + result.fun).tolist()),
+        tuple(result.fun.tolist()),
     )
+
+
+def assess_reference_fit(fit: LogTransferFit, *, tolerance_code: float | None) -> dict:
+    """Check this fitted solution, using only an explicitly declared code-domain tolerance."""
+    residual = np.asarray(fit.reference_residual_codes, float)
+    if residual.ndim != 1 or not len(residual) or not np.all(np.isfinite(residual)):
+        raise ValueError("fit reference residuals must be finite and nonempty")
+    maximum = float(np.max(np.abs(residual)))
+    result = {
+        "status": "not_assessed",
+        "absolute_tolerance_code": tolerance_code,
+        "max_absolute_residual_code": maximum,
+        "reference_count": len(residual),
+        "violating_reference_indices": None,
+        "scope": "fitted reference reproduction; not held-out validation or parameter confidence",
+    }
+    if tolerance_code is not None:
+        if (
+            isinstance(tolerance_code, bool)
+            or not np.isfinite(tolerance_code)
+            or tolerance_code < 0
+        ):
+            raise ValueError("reference tolerance must be finite and nonnegative")
+        indices = np.flatnonzero(np.abs(residual) > tolerance_code).tolist()
+        result.update(
+            status="mismatch" if indices else "compatible", violating_reference_indices=indices
+        )
+    return result

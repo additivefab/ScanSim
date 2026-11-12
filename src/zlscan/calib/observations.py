@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, FiniteFloat, StrictInt, model
 
 from zlscan.calib.delay import fit_optical_registration, fit_synchronous_response
 from zlscan.calib.facet_targets import fit_facet_gain, fit_observed_targets
-from zlscan.calib.radiometric import fit_log_transfer
+from zlscan.calib.radiometric import assess_reference_fit, fit_log_transfer
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
 from zlscan.contracts.events import Event
 from zlscan.contracts.time import ClockDomain
@@ -42,6 +42,9 @@ class ScanProtocol(BaseModel):
     pitch_y_m: float = Field(gt=0)
     targets: list[TargetScan]
     wedge_density: list[float]
+    transfer_reference_tolerance_code: float | None = Field(
+        default=None, ge=0, allow_inf_nan=False, strict=True
+    )
     edge_fraction: float
     grid_line_x_fraction: list[float]
     slanted_line_x_fractions: tuple[float, float]
@@ -150,9 +153,13 @@ def calibration_from_scan(
         transfers = {}
         for channel, codes in image.codes.items():
             dark, white, wedge = (codes[selection] for selection in slices)
-            transfers[str(channel)] = asdict(
-                fit_log_transfer(dark, white, wedge, np.asarray(protocol.wedge_density))
-            )
+            fit = fit_log_transfer(dark, white, wedge, np.asarray(protocol.wedge_density))
+            transfers[str(channel)] = {
+                **asdict(fit),
+                "reference_assessment": assess_reference_fit(
+                    fit, tolerance_code=protocol.transfer_reference_tolerance_code
+                ),
+            }
         items["transfer_lut"] = CalibItem(
             value={"channels": transfers, "extrapolation": "invalid"},
             method="logarithmic fit to dark, white and interior wedge patch medians",
@@ -256,6 +263,8 @@ def calibration_from_scan(
             by_channel = {}
             for channel, codes in image.codes.items():
                 transfer = items["transfer_lut"].value["channels"][str(channel)]
+                if transfer["reference_assessment"]["status"] == "mismatch":
+                    continue
                 dark_codes = items["dark_raw_code"].value[str(channel)]["median"]
                 measured_white = codes[white_rows]
                 locked_phases = phases[white_rows]
@@ -291,16 +300,19 @@ def calibration_from_scan(
     if edge_registration:
         source_ids += ":optical-registration-v1"
     provenance = Provenance(protocol.origin)
+    algorithm_version = 2 if fit_transfer else 1
     calibration = CalibrationHeader(
         format_version=1,
         provenance=provenance,
-        calibration_id=hashlib.sha256(f"{algorithm}-v1:{source_ids}".encode()).hexdigest(),
+        calibration_id=hashlib.sha256(
+            f"{algorithm}-v{algorithm_version}:{source_ids}".encode()
+        ).hexdigest(),
         created_at=datetime.now(UTC).isoformat(),
         binds_to=binding,
         valid_conditions={"scan_direction": "forward"},
         generator={
             "name": algorithm,
-            "version": 1,
+            "version": algorithm_version,
             **sources,
         },
         items=items,
