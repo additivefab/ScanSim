@@ -1,0 +1,26 @@
+{
+  "time_column": "time",
+  "time_unit": "s",
+  "source_kind": "unknown",
+  "device": null,
+  "sample_interval_s": null,
+  "time_tolerance_s": null,
+  "trigger_source": null,
+  "trigger_threshold_v": null,
+  "time_origin": null,
+  "session": null,
+  "epoch": null,
+  "simultaneous": null,
+  "channels": [
+    {
+      "column": "CH1",
+      "unit": "V",
+      "measurement_point": null,
+      "probe_ratio": null,
+      "coupling": null,
+      "bandwidth_limit_hz": null,
+      "probe_compensated": null,
+      "acquisition_id": null
+    }
+  ]
+}

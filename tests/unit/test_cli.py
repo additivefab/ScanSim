@@ -6,7 +6,7 @@ import sys
 import pytest
 
 from zlscan import __version__
-from zlscan.cli import COMMANDS, NOT_IMPLEMENTED_EXIT_CODE, USAGE_EXIT_CODE, main
+from zlscan.cli import COMMANDS, USAGE_EXIT_CODE, main
 
 # docs/dev/02_architecture.md, section 8.
 PLANNED = {
@@ -36,31 +36,6 @@ def test_version(capsys):
     assert __version__ in capsys.readouterr().out
 
 
-# Commands that are implemented are tested in test_profile_and_check.py.
-IMPLEMENTED = {
-    "check",
-    "budget",
-    "run",
-    "serve",
-    "replay",
-    "calibrate",
-    "reconstruct",
-    "metrics",
-    "report",
-    "sweep",
-    "compare",
-    "cosim",
-}
-
-
-@pytest.mark.parametrize("name", sorted(PLANNED - IMPLEMENTED))
-def test_unimplemented_command_fails_loudly(name, capsys):
-    code = main([name])
-    assert code == NOT_IMPLEMENTED_EXIT_CODE
-    assert code != 0
-    assert "尚未实现" in capsys.readouterr().err
-
-
 def test_no_command_is_a_usage_error():
     assert main([]) == USAGE_EXIT_CODE
 
@@ -75,8 +50,9 @@ def test_module_entry_point_runs_in_a_fresh_interpreter():
     result = subprocess.run(
         [sys.executable, "-m", "zlscan", "ident"], capture_output=True, text=True, check=False
     )
-    assert result.returncode == NOT_IMPLEMENTED_EXIT_CODE
-    assert "尚未实现" in result.stderr
+    assert result.returncode == USAGE_EXIT_CODE
+    assert "--csv" in result.stderr
+    assert "--metadata" in result.stderr
 
 
 def test_cli_replays_a_saved_physical_window_without_mutating_source(tmp_path):

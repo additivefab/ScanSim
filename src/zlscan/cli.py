@@ -493,8 +493,36 @@ def _run_serve(argv: Sequence[str]) -> int:
     return 0
 
 
+def _run_ident(argv: Sequence[str]) -> int:
+    import hashlib
+    import json
+    from pathlib import Path
+
+    from zlscan.ident.scope import ScopeMetadata, import_scope_csv
+
+    p = argparse.ArgumentParser(prog="zlscan ident", description="示波器 CSV 导入（不作参数辨识）")
+    p.add_argument("--csv", required=True, type=Path)
+    p.add_argument("--metadata", required=True, type=Path)
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    try:
+        declaration = args.metadata.read_bytes()
+        metadata = ScopeMetadata.model_validate_json(declaration)
+        result = import_scope_csv(args.csv, metadata)
+        result["metadata_sha256"] = hashlib.sha256(declaration).hexdigest()
+        args.out.mkdir(parents=True, exist_ok=False)
+        with (args.out / "run.json").open("x", encoding="utf-8") as stream:
+            json.dump(result, stream, ensure_ascii=False, allow_nan=False)
+    except (OSError, ValueError) as exc:
+        print(f"导入失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"导入已写入 {args.out}；同步={result['synchronization']}；不自动升级实测证据")
+    return 0
+
+
 HANDLERS = {"check": _run_check}
 ARG_HANDLERS = {
+    "ident": _run_ident,
     "sweep": _run_sweep,
     "compare": _run_compare,
     "budget": _run_budget,

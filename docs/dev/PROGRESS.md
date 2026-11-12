@@ -7,11 +7,17 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S4-T02 观测单调表正式同数据复跑完成；下一步密参考/独立验证及实测导入，P0 未达标 |
+| 进行中的任务 | S6-T01 示波器 CSV 导入与元数据/同步门禁已实现；FPGA/测量表适配及实测验收未完成 |
 | 下一个任务 | 按阶段表补齐阶段 3/4 的工作台与指标验收；阶段 5/6 依赖分别记录，阶段 7 继续性能、比较及交付 |
-| 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
+| 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（CSV 导入部分）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1165 通过、2 跳过，75.85 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1176 通过、2 跳过，78.33 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+
+## 本轮 S6-T01 示波器 CSV 导入（部分）
+
+- `ident` 已接入 CSV+JSON 声明导入，显式时间/幅值单位转 SI；探头倍率只登记，不重复乘倍率。保留原始文件/元数据 SHA256、null 缺项和无效声明，不插值或自动对齐。
+- 相同 CSV 不推断同次；非同次/不同 acquisition_id 标记，元数据缺项或采样间隔矛盾不能标为声明同步。完整声明也不自动升级实测参数或硬验收。说明与未知模板见 `docs/reports/scope_measurement_import.md` 与 `docs/examples/scope_metadata.json`，决策 D052。
+- 最新全量 1176 通过/2 跳过（78.33 s），Icarus 不可用；Ruff/格式通过（229 文件）。起点全量 1165 通过/2 跳过（79.74 s）。新增导入合同 11 项、更新 CLI 后定向 18 项通过；中间一次批量替换误改 csv/zip 参数造成 10 项失败，修正后 18 项通过。FPGA/模板表适配、实际测量、观测模型及辨识仍未完成，不能关闭阶段6或 P0。
 
 ## 本轮 S4-T02 观测单调表
 

@@ -50,3 +50,7 @@ python3 -m venv .venv
 上面的网格和采样参数来自研究预设。验收结果见 [nominal 与旧包对照](docs/reports/nominal_vs_legacy.md)。
 
 本工程不代表任何实机性能、激光安全或检测合规结论。
+
+实测波形入口（当前仅 CSV 导入，不含参数辨识）：
+`zlscan ident --csv capture.csv --metadata metadata.json --out imported_scope`。
+模板与同步/证据限制见 [导入说明](docs/reports/scope_measurement_import.md)。
