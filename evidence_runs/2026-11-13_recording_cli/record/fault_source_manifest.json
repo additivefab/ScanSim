@@ -1,0 +1,13 @@
+{
+  "checkpoint.json": "2a3fe2e14d88e3a9f84b8aef69fa66e403cc3e9a2ae2c1dadc87547431131f27",
+  "raw.zlraw": "0a2c9bf4f3a0ca44328e94fc705372e9a184067977ead5d348fb5ac3bda67b4f",
+  "events.jsonl": "35046f486896662d3a3593310c94f0dcf631a1c78aae95238fac7629c8e4c8ac",
+  "definition.sha256": "0b37f4ca30eddafe8304553f2712a7fe647f7041e2e2ddabc4e5b81f2c2b72b8",
+  "run.json": "4a4906fb3d65b56f8dd76f1338f1df5a2dfed5a87615bcb3253f05e958db206d",
+  "definition.json": "1472bbb991c5a59113f82dd8bf70b610a794cbacba4d72bbed67eb654386e434",
+  "inputs/recording.json": "794d2175e487ae9dfb5c96c55ac52753e8fca2ce0c65fa5c7a89e151094d427f",
+  "inputs/channel_0/config.json": "c06b718874199daf036de5257092004c89d1643377ce792ce929b70fd4684f72",
+  "inputs/channel_0/scene_0.npy": "b350ecd4a96e9e18267fd5e7e42dba665ecd98ccf95d9f6964d9b07cfff888de",
+  "inputs/channel_1/config.json": "77a82599fef7af06b6c0a1935555ed9692b3ae0f80a4dcc4dc5de83accb8ac9d",
+  "inputs/channel_1/scene_0.npy": "b350ecd4a96e9e18267fd5e7e42dba665ecd98ccf95d9f6964d9b07cfff888de"
+}

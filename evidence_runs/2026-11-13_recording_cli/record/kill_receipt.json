@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "run",
+    "--mode",
+    "recording",
+    "--config",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_cli/output/formal/recording.json",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_cli/output/formal/fault"
+  ],
+  "returncode": -9,
+  "committed_checkpoint_sha256": "2a3fe2e14d88e3a9f84b8aef69fa66e403cc3e9a2ae2c1dadc87547431131f27",
+  "committed_raw_size": 3564,
+  "unknown_tail_bytes": 2612
+}

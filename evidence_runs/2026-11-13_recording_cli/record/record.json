@@ -1,0 +1,277 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Unknown-final-length public physical recording and process-kill prefix recovery",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T19:48:00.511271+00:00",
+ "finished_at": "2026-11-12T19:49:38.062457+00:00",
+ "code": {
+  "commit": "05dea2e02bada08a64656d2b3b281c0d8054093b",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "primary": 3,
+  "secondary": 31
+ },
+ "inputs": {
+  "configs/physical_recording.json": "794d2175e487ae9dfb5c96c55ac52753e8fca2ce0c65fa5c7a89e151094d427f",
+  "src/zlscan/engine/recording_cli.py": "76e0878b0a24ae4ec337c22d49b10cd6ba4ddb36e1ad0082ef116b9ae882a837",
+  "src/zlscan/engine/physical_recording.py": "5fa093b2be4bc25a6f3581414d6d1440bf7c686204425d037eaedfce0a92c9f7",
+  "src/zlscan/engine/research_config.py": "a761fa435a3d6ff9b811b262609e7068aac88bec0fcc9e2c523a61891efba3a1",
+  "src/zlscan/io/committed.py": "6edb93f9d9392ed27ea4014d410ee53cdc9f1a598c5c8d494d7ba7d05886b9ea",
+  "src/zlscan/cli.py": "f6943099faf9fb1e798001ed7b242c093b83ddbefe81b7fafe4c90b7152e00a6",
+  "tools/audit_recording_cli.py": "22e2320c4f1958d41bbddbaaf18561190e8c4b3fd513236ddaf1b386e6f716a2",
+  "tools/wheel_smoke.py": "d266758150fb71cfbcad87435f9491179d13ab710339a2fd390dec08f6bb80d7",
+  "tests/unit/test_recording_cli.py": "c5f3c816d84a9c67632227ce61bd54b3e86b585f65c223afe31f79c15ab09bd1",
+  "evidence_runs/2026-11-13_recording_cli/output/formal/commands.json": "56058c5f7af74eb7b0124303103e13b53f388296c4862aa31666e65fb2f4720b",
+  "evidence_runs/2026-11-13_recording_cli/output/formal/kill_receipt.json": "b5485beb95357857aff61213ef1eff2ff0cdb100dca8f2553438aa5adb3b75f4",
+  "evidence_runs/2026-11-13_recording_cli/output/formal/fault_manifest.json": "0ba19e0f41cc1f819ce07ee1120e6615227614f5e1c4774a5f4cb6d4e194b16e",
+  "evidence_runs/2026-11-13_recording_cli/output/formal/audit.json": "2b9183b54d8548e963e948acab5053d1841486f25b3b2e1bd66528f37e39a16a",
+  "evidence_runs/2026-11-13_recording_cli/output/wheel_formal/source_manifest.json": "c9c8ab97639d0cf1541da780a266aa34375d6c5315228a26b411dc5434569783",
+  "evidence_runs/2026-11-13_recording_cli/output/wheel_formal/smoke.json": "643d37a7bcc707f9c8f8fe1907116c6731d31f3263b810b7cac6375d38e8ede9",
+  "evidence_runs/2026-11-13_recording_cli/output/wheel_formal/requirements.lock": "fb866b0bc350401f14ba13e86549da80a6b81b8118b25b946cb2a02191cd3be6",
+  "evidence_runs/2026-11-13_recording_cli/output/wheel_formal/wheelhouse_manifest.json": "c3a76aef0662575f0eb647886eed4aad9b7a03932a62895132e6b62bbe41ec02"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_cli.py",
+    "--out",
+    "evidence_runs/2026-11-13_recording_cli/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_cli.py",
+    "--verify",
+    "evidence_runs/2026-11-13_recording_cli/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_recording_cli/output/wheel_formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "pause resume equals continuous",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "prefix branch equals continuous",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "fault source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "unknown tail preserved",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "actual process kill exit",
+   "expected": -9,
+   "tolerance": null,
+   "actual": -9,
+   "passed": true
+  },
+  {
+   "quantity": "uncommitted tail exists",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "delivered blocks",
+   "expected": 2,
+   "tolerance": null,
+   "actual": 2,
+   "passed": true
+  },
+  {
+   "quantity": "final fine step",
+   "expected": "20000",
+   "tolerance": null,
+   "actual": "20000",
+   "passed": true
+  },
+  {
+   "quantity": "simulated origin",
+   "expected": "SIMULATED",
+   "tolerance": null,
+   "actual": "SIMULATED",
+   "passed": true
+  },
+  {
+   "quantity": "isolated installed recording commands",
+   "expected": 2,
+   "tolerance": null,
+   "actual": 2,
+   "passed": true
+  },
+  {
+   "quantity": "isolated runtime distributions",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "wheel static assets",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "hardware unresolved",
+   "expected": "unresolved",
+   "tolerance": null,
+   "actual": "unresolved",
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit baseline",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit pause",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit resume",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit tail_refused",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  },
+  {
+   "quantity": "CLI expected exit branch",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit build",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit download",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit venv",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit install",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit pip_check",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit pip_list",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit smoke",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit static_cases",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "wheel audit static_verify",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Public CLI continuous, EOF pause, fresh-process in-place resume and actual killed producer with uncommitted tail. Exit -9 is the intentional process kill, not physical power failure. Tail refusal exit 1 is expected and preserved. Branch and resumed raw/journal/full checkpoint bytes equal continuous baseline; fault source all file hashes unchanged. Wheel smoke executes recording command-file EOF pause and a separate resume/finish, plus prior short workflows. Same host isolated runtime+ident only; no other OS/machine, browser, hardware, arbitrary power/storage failure, new-dependency full-suite or complete-stage claim. Developer full-suite log and 2000-line allocation assertions are separate from this formal process audit. All model/queue values ASSUMED; finite software resource limits and container bit widths remain."
+}

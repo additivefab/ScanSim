@@ -1,0 +1,165 @@
+{
+  "format": "zlscan.wheel-install-audit/1",
+  "source": {
+    "commit": "05dea2e02bada08a64656d2b3b281c0d8054093b",
+    "dirty": false
+  },
+  "work_dir": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd",
+  "wheel": {
+    "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+    "sha256": "ac15d16371d49d4d971cfac4ffc80273899d30471a82ffc45a303e715ae8e90b",
+    "size_bytes": 289757,
+    "metadata_version": "0.1.0.dev0",
+    "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+    "assets": {
+      "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+      "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+      "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+      "zlscan/report/image_view.html": "23a73fe4652eefebfedd7110dd2408a57aac0870b489e060f285cb647f6395db",
+      "zlscan/api/static/index.html": "13222ebf739795f9b603cb8e6c21031afd87c528e12bd47bb57233d6cd85575b"
+    }
+  },
+  "locked_distributions": 20,
+  "runtime_target": {
+    "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 17.0.0 (clang-1700.6.4.2)]",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "process_arch": "x86_64",
+    "prefix": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime",
+    "module_path": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/lib/python3.14/site-packages/zlscan/__init__.py"
+  },
+  "http": {
+    "/": {
+      "status": 200,
+      "bytes": 17277
+    },
+    "/runs": {
+      "status": 200,
+      "bytes": 18
+    },
+    "/runs/demo/manifest": {
+      "status": 200,
+      "bytes": 1283
+    }
+  },
+  "hardware_check": "unresolved",
+  "commands": [
+    {
+      "label": "build",
+      "argv": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "-m",
+        "pip",
+        "wheel",
+        "--quiet",
+        "--no-deps",
+        "--wheel-dir",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/dist",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/source-snapshot"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "download",
+      "argv": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "-m",
+        "pip",
+        "download",
+        "--quiet",
+        "--only-binary=:all:",
+        "--dest",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/wheelhouse",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/dist/zlscan-0.1.0.dev0-py3-none-any.whl[ident]"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "venv",
+      "argv": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "-m",
+        "venv",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "install",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--quiet",
+        "--no-index",
+        "--find-links",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/wheelhouse",
+        "--require-hashes",
+        "-r",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_cli/output/wheel_formal/requirements.lock"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "pip_check",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "pip_list",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/bin/python",
+        "-m",
+        "pip",
+        "list",
+        "--format=json"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "smoke",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/bin/python",
+        "-I",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/wheel_smoke.py",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/smoke",
+        "--expected",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_recording_cli/output/wheel_formal/expected.json",
+        "--prefix",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime",
+        "--forbidden-source",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "static_cases",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/bin/python",
+        "-I",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/static_audit.py",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/static_cases"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "static_verify",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/runtime/bin/python",
+        "-I",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/static_audit.py",
+        "--verify",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-utewm6sd/static_cases"
+      ],
+      "returncode": 0
+    }
+  ],
+  "scope": "same-host isolated runtime+ident smoke; no browser, other-OS or hardware acceptance"
+}
