@@ -1,0 +1,80 @@
+{
+  "started_at": "2026-11-12T21:43:21.832382+00:00",
+  "code": {
+    "commit": "4f9c946845008776eb92bafbab93336b1f52558e",
+    "dirty": false
+  },
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_workbench.py",
+        "--probe-policy",
+        "raw",
+        "--out",
+        "evidence_runs/2026-11-13_probe_recording/output/formal_raw"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_workbench.py",
+        "--verify",
+        "evidence_runs/2026-11-13_probe_recording/output/formal_raw"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_workbench.py",
+        "--probe-policy",
+        "summary",
+        "--out",
+        "evidence_runs/2026-11-13_probe_recording/output/formal_summary"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_recording_workbench.py",
+        "--verify",
+        "evidence_runs/2026-11-13_probe_recording/output/formal_summary"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_wheel_install.py",
+        "--out",
+        "evidence_runs/2026-11-13_probe_recording/output/wheel_formal"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "evidence_runs/2026-11-13_probe_recording/output/measure_queries.py"
+      ],
+      "returncode": 0
+    }
+  ],
+  "finished_at": "2026-11-12T21:46:49.459801+00:00"
+}

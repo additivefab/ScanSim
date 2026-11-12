@@ -1,0 +1,87 @@
+{
+  "scope": "same-host research probes, caches uncontrolled, no browser/drawing/network/hardware timing",
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "policies": {
+    "raw": {
+      "registration_ms": 264.0898749996268,
+      "queries": {
+        "overview": {
+          "milliseconds": [
+            174.81791699901805,
+            170.1316250000673,
+            196.18420800179592,
+            205.067583003256,
+            195.79458400039584
+          ],
+          "median_ms": 195.79458400039584,
+          "returned_values": 20,
+          "status": "summary_only",
+          "derivation": "recorded",
+          "response_bytes": 1589
+        },
+        "fine": {
+          "milliseconds": [
+            22.12712499749614,
+            20.677165997767588,
+            20.72316699923249,
+            18.632750001415843,
+            18.382666999968933
+          ],
+          "median_ms": 20.677165997767588,
+          "returned_values": 800,
+          "status": "exact_record",
+          "derivation": "recorded",
+          "response_bytes": 17631
+        }
+      },
+      "source_unchanged": true
+    },
+    "summary": {
+      "registration_ms": 64.37383299999055,
+      "queries": {
+        "overview": {
+          "milliseconds": [
+            159.94920800221735,
+            139.28691700130003,
+            150.1034590000927,
+            113.28020799919614,
+            112.80104199977359
+          ],
+          "median_ms": 139.28691700130003,
+          "returned_values": 11,
+          "status": "summary_only",
+          "derivation": "recorded",
+          "response_bytes": 1114
+        },
+        "fine": {
+          "milliseconds": [
+            26.1596250020375,
+            24.04295800079126,
+            23.78804200270679,
+            23.458583000319777,
+            23.353958000370767
+          ],
+          "median_ms": 23.78804200270679,
+          "returned_values": 800,
+          "status": "replayed",
+          "derivation": "replayed",
+          "response_bytes": 17522
+        }
+      },
+      "source_unchanged": true
+    }
+  }
+}

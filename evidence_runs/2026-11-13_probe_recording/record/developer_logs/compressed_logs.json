@@ -1,0 +1,22 @@
+{
+  "pytest_integration_red.log": {
+    "archive": "pytest_integration_red.log.gz",
+    "original_sha256": "13e529806763fd7f561c15e56477f69bc02983cacb9b64d7c799b970c4b4e42a"
+  },
+  "pytest_full.log": {
+    "archive": "pytest_full.log.gz",
+    "original_sha256": "3ae861ad87af7935ea207875583549ae0432a7f75f8fed3cf2581ea3038ca5d0"
+  },
+  "pytest_public_cli.log": {
+    "archive": "pytest_public_cli.log.gz",
+    "original_sha256": "2b363683de508bdb952974025fb5fe214fa5d9f0b3d8860bdb20a86f7bcb14d0"
+  },
+  "pytest_first.log": {
+    "archive": "pytest_first.log.gz",
+    "original_sha256": "8e5605221166f6766176e099a4f4d6dc86f39dcd80f207221cb4b69810f9777e"
+  },
+  "pytest_integration_first.log": {
+    "archive": "pytest_integration_first.log.gz",
+    "original_sha256": "ee7dde1595be2c2ef78ddff86f91e080475aca96012569bf344fe9d83fbf5f98"
+  }
+}

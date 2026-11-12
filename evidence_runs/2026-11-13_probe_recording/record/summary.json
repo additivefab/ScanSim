@@ -1,0 +1,24 @@
+{
+  "raw": {
+    "source_files": 137,
+    "shards": 116,
+    "hdf5_bytes": 9337824,
+    "index_bytes": 14468,
+    "root_bytes": 9535,
+    "http_responses": 33,
+    "archive_sha256": "9c7030223167ca3b2616ef6e20e3f857a17c9708bdf3af8ef3be7e16f105e6d0",
+    "archive_bytes": 281674
+  },
+  "summary": {
+    "source_files": 137,
+    "shards": 116,
+    "hdf5_bytes": 7946496,
+    "index_bytes": 14469,
+    "root_bytes": 9536,
+    "http_responses": 33,
+    "archive_sha256": "5c3e87f45f77de156c2e81d2256acf688cab7fb8fad8f6ffe4244af9783c2a12",
+    "archive_bytes": 261178
+  },
+  "commit": "4f9c946845008776eb92bafbab93336b1f52558e",
+  "wheel_sha256": "5ccb10361e30560088efb4caf96c1eafdc284a892d37bdfc39ef2ee5e035d971"
+}

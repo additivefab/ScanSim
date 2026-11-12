@@ -1,0 +1,184 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Persistent research probe shards and unified physical recovery cursor",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T21:43:21.832382+00:00",
+ "finished_at": "2026-11-12T21:46:49.459801+00:00",
+ "code": {
+  "commit": "4f9c946845008776eb92bafbab93336b1f52558e",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "primary": 3,
+  "secondary": 31
+ },
+ "inputs": {
+  "src/zlscan/io/probe_store.py": "9862f0f5f7220e6d24724a6ab5d284f4bc083884052ec8ddbb10605374427f32",
+  "src/zlscan/engine/physical_recording.py": "fe5358025e51c95bcacc79254b10988f909c1dc4f95506aa8c29cac0a4f54693",
+  "src/zlscan/engine/recording_cli.py": "54bbb25a1b47c58297fb49d861096be994d20bf0e5c5c3293c94cce4cb55ac5b",
+  "src/zlscan/engine/recording_replay.py": "bb2e0f744d7e24635c67d7f41c4b5b790255d776dd2b03b8f3a1bcf2ae3d8786",
+  "src/zlscan/engine/recording_service.py": "772100bc18dc41d732e6793570eb864f16d34df9bcf9a43a8a85cc137f12c3d5",
+  "tests/unit/test_persistent_trace.py": "de9959b029036bd4d29bfec272e5ba300d5f9fad01d1a24143b38b6f70048453",
+  "tests/unit/test_probe_recording.py": "0b809c2ae2d60564989f874b75fa18880294d3c5ae177b982eb93988186f1143",
+  "tools/audit_recording_workbench.py": "287fa67e79a9f55ae984aa1bc64897844a96a79248c330ed60ca2f5655160d0a",
+  "tools/wheel_smoke.py": "c02d97f894a5b8ff85ade74df558937c9cf12ec57b44a5ec285291f44765d0d2",
+  "evidence_runs/2026-11-13_probe_recording/output/measure_queries.py": "eb521b219a072d735e2b8079488ff11c9dd63633c1be92c98b4842bf11bbbb6a",
+  "evidence_runs/2026-11-13_probe_recording/output/query_measurements.json": "800c024e93f200200b61729491c2e1b25f3dbde3192666762c7cd66b66d0a82f",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_raw/audit.json": "ae6365673a41eb45fa944a9a39b9c3629ff8a288962856f0bac41aa12892be08",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_raw/config.json": "0c413eed69c63627fd17de86e47cac07b7693d126e8fd5287b07276efc29a40e",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_raw/commands.jsonl": "9857b6bb65b8f9e9c5225dc4acb11e23a46a59f6bce3fe1524667d6b979c9361",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_raw/source_manifest.json": "308752a61ad87ba2dfd99de93350d7e0a0d73e9bfc4aa8f3221de6b6cf5ab862",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_raw/source/checkpoint.json": "899214af8dcb4430bfc62d5011f5928e2dbd61ea5e21a6d47c634646d2c834a9",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_raw/source/probes/index.jsonl": "5cf663973d9c5e734323f2e4845c647a44c7ac08c20bb023e3e7c6da65493180",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_summary/audit.json": "dbae1caabf562fe628d2050701b92d7a604555a8b6b3a9bc7f1284213e873850",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_summary/config.json": "b97921f5cc78a45ba7f4c924933d0bb508a23a27bcb714b391a3aaccc898b2f1",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_summary/commands.jsonl": "9857b6bb65b8f9e9c5225dc4acb11e23a46a59f6bce3fe1524667d6b979c9361",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_summary/source_manifest.json": "2af04c9be01ebae0b3c9aafc554c8a64de153b1c4892a75e9f475144056de093",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_summary/source/checkpoint.json": "0bfcfdabe7725f0075376c480315cb4f2343c7b0af836df41b6d5467241ae53d",
+  "evidence_runs/2026-11-13_probe_recording/output/formal_summary/source/probes/index.jsonl": "e406acf2626fec65b14eb028e40fcd1934255e8e5a1dd53a3b9926c2122c139f",
+  "evidence_runs/2026-11-13_probe_recording/output/wheel_formal/audit.json": "139bb07cd04309018c07e56d253414ec5cccaf55d1b5f689e7d20a52932859a0",
+  "evidence_runs/2026-11-13_probe_recording/output/wheel_formal/smoke.json": "e67f571e0f2fe31640488ec5e19d2d593980cbab94747ff37f693ed794f11a81",
+  "evidence_runs/2026-11-13_probe_recording/output/wheel_formal/requirements.lock": "6ed2b94c9d8a0b7e14939271e6294e0297d6a45391efb56cb9c2988f269eeb52",
+  "evidence_runs/2026-11-13_probe_recording/output/wheel_formal/wheelhouse_manifest.json": "a99cbdb16e2d1dea6725d67ee452b04f30f49e682f01b660e4a9c02ccdd08e2f",
+  "evidence_runs/2026-11-13_probe_recording/output/wheel_formal/source_manifest.json": "7c010ef7189b1fb98709d8e277f70426bf0c8d4efcb7a29ae3f00a8e0ec732c4"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--probe-policy",
+    "raw",
+    "--out",
+    "evidence_runs/2026-11-13_probe_recording/output/formal_raw"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--verify",
+    "evidence_runs/2026-11-13_probe_recording/output/formal_raw"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--probe-policy",
+    "summary",
+    "--out",
+    "evidence_runs/2026-11-13_probe_recording/output/formal_summary"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--verify",
+    "evidence_runs/2026-11-13_probe_recording/output/formal_summary"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_probe_recording/output/wheel_formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "evidence_runs/2026-11-13_probe_recording/output/measure_queries.py"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean code at formal start",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "raw source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "raw exact fresh-process HTTP responses",
+   "expected": 33,
+   "tolerance": null,
+   "actual": 33,
+   "passed": true
+  },
+  {
+   "quantity": "summary source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "summary exact fresh-process HTTP responses",
+   "expected": 33,
+   "tolerance": null,
+   "actual": 33,
+   "passed": true
+  },
+  {
+   "quantity": "wheel clean",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "same wheel code",
+   "expected": "4f9c946845008776eb92bafbab93336b1f52558e",
+   "tolerance": null,
+   "actual": "4f9c946845008776eb92bafbab93336b1f52558e",
+   "passed": true
+  },
+  {
+   "quantity": "hash locked packages installed",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "runtime assets included",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED/ORACLE_ONLY. Raw and summary policies each have independent fresh-process exact HTTP comparisons, including actual probe data, fine fallback replay and source preservation. Physical checkpoints with probes use v2; old no-probe behavior remains v1. Same-host isolated installed wheel smoke only, not another machine/browser/hardware or P0 numerical acceptance. Developer full suite and earlier failed logs archived separately; no full-suite claim for the installed dependency set. Persistent analogue quality-event indexing and other stage gates remain open."
+}

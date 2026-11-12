@@ -1,0 +1,94 @@
+{
+  "started_at": "2026-11-12T21:46:46.836733+00:00",
+  "code": {
+    "commit": "4f9c946845008776eb92bafbab93336b1f52558e",
+    "dirty": false
+  },
+  "background": "after task-owned wheel audit completed; OS caches and background load uncontrolled",
+  "scope": "same-host research probes, caches uncontrolled, no browser/drawing/network/hardware timing",
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "policies": {
+    "raw": {
+      "registration_ms": 326.9421249970037,
+      "queries": {
+        "overview": {
+          "milliseconds": [
+            166.2094999992405,
+            152.75470900087385,
+            160.97499999887077,
+            169.0614579965768,
+            164.15387500092038
+          ],
+          "median_ms": 164.15387500092038,
+          "returned_values": 20,
+          "status": "summary_only",
+          "derivation": "recorded",
+          "response_bytes": 1589
+        },
+        "fine": {
+          "milliseconds": [
+            19.619665999925928,
+            19.61200000005192,
+            19.314042001497,
+            18.057707999105332,
+            17.979083000682294
+          ],
+          "median_ms": 19.314042001497,
+          "returned_values": 800,
+          "status": "exact_record",
+          "derivation": "recorded",
+          "response_bytes": 17631
+        }
+      },
+      "source_unchanged": true
+    },
+    "summary": {
+      "registration_ms": 64.10329100253875,
+      "queries": {
+        "overview": {
+          "milliseconds": [
+            128.76137499915785,
+            147.3642920027487,
+            131.47945899982005,
+            149.46312499887426,
+            162.06495799997356
+          ],
+          "median_ms": 147.3642920027487,
+          "returned_values": 11,
+          "status": "summary_only",
+          "derivation": "recorded",
+          "response_bytes": 1114
+        },
+        "fine": {
+          "milliseconds": [
+            27.76725000148872,
+            30.87500000037835,
+            27.597707998211263,
+            25.984209001762792,
+            26.98791600050754
+          ],
+          "median_ms": 27.597707998211263,
+          "returned_values": 800,
+          "status": "replayed",
+          "derivation": "replayed",
+          "response_bytes": 17522
+        }
+      },
+      "source_unchanged": true
+    }
+  },
+  "finished_at": "2026-11-12T21:46:49.459801+00:00"
+}

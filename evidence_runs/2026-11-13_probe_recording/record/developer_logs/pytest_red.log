@@ -1,0 +1,64 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_______ test_streamed_summary_retains_a_one_step_spike_and_pending_tail ________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-135/test_streamed_summary_retains_0')
+
+    def test_streamed_summary_retains_a_one_step_spike_and_pending_tail(tmp_path):
+>       from zlscan.trace.persistent import TraceReader, TraceWriter
+E       ModuleNotFoundError: No module named 'zlscan.trace.persistent'
+
+tests/unit/test_persistent_trace.py:21: ModuleNotFoundError
+_________________ test_raw_window_is_exact_and_output_bounded __________________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-135/test_raw_window_is_exact_and_o0')
+
+    def test_raw_window_is_exact_and_output_bounded(tmp_path):
+>       from zlscan.trace.persistent import TraceReader, TraceWriter
+E       ModuleNotFoundError: No module named 'zlscan.trace.persistent'
+
+tests/unit/test_persistent_trace.py:39: ModuleNotFoundError
+__________ test_resume_keeps_pending_buckets_and_refuses_unknown_tail __________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-135/test_resume_keeps_pending_buck0')
+
+    def test_resume_keeps_pending_buckets_and_refuses_unknown_tail(tmp_path):
+>       from zlscan.trace.persistent import TraceReader, TraceWriter
+E       ModuleNotFoundError: No module named 'zlscan.trace.persistent'
+
+tests/unit/test_persistent_trace.py:54: ModuleNotFoundError
+___________________ test_orphan_shard_is_not_silently_reused ___________________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-135/test_orphan_shard_is_not_silen0')
+
+    def test_orphan_shard_is_not_silently_reused(tmp_path):
+>       from zlscan.trace.persistent import TraceWriter
+E       ModuleNotFoundError: No module named 'zlscan.trace.persistent'
+
+tests/unit/test_persistent_trace.py:77: ModuleNotFoundError
+__________ test_committed_shard_mutation_and_bad_pending_are_refused ___________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-135/test_committed_shard_mutation_0')
+
+    def test_committed_shard_mutation_and_bad_pending_are_refused(tmp_path):
+>       from zlscan.trace.persistent import TraceReader, TraceWriter
+E       ModuleNotFoundError: No module named 'zlscan.trace.persistent'
+
+tests/unit/test_persistent_trace.py:92: ModuleNotFoundError
+_________ test_probe_selection_rejects_unknowns_before_creating_output _________
+
+tmp_path = PosixPath('/private/var/folders/3w/nqq0frq954zg5lyz9n3lb5w40000gp/T/pytest-of-yuxinghua/pytest-135/test_probe_selection_rejects_u0')
+
+    def test_probe_selection_rejects_unknowns_before_creating_output(tmp_path):
+>       from zlscan.trace.persistent import TracePolicy
+E       ModuleNotFoundError: No module named 'zlscan.trace.persistent'
+
+tests/unit/test_persistent_trace.py:104: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/unit/test_persistent_trace.py::test_streamed_summary_retains_a_one_step_spike_and_pending_tail
+FAILED tests/unit/test_persistent_trace.py::test_raw_window_is_exact_and_output_bounded
+FAILED tests/unit/test_persistent_trace.py::test_resume_keeps_pending_buckets_and_refuses_unknown_tail
+FAILED tests/unit/test_persistent_trace.py::test_orphan_shard_is_not_silently_reused
+FAILED tests/unit/test_persistent_trace.py::test_committed_shard_mutation_and_bad_pending_are_refused
+FAILED tests/unit/test_persistent_trace.py::test_probe_selection_rejects_unknowns_before_creating_output
+6 failed in 0.34s
