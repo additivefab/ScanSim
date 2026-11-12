@@ -7,9 +7,8 @@ from typing import Any
 
 import numpy as np
 
-from zlscan.contracts.calibration import Binding
 from zlscan.engine.chain import ChainConfig, Phase
-from zlscan.engine.physical_run import run_physical
+from zlscan.engine.physical_run import run_physical, simulation_binding
 from zlscan.io.manifest import sha256_file
 from zlscan.truth.scene import Scene, edge, step_wedge, uniform
 
@@ -59,12 +58,7 @@ def run_calibration_scan(
     protocol = {
         "version": 1,
         "origin": "SIMULATED",
-        "binding": Binding(
-            simulation_hash=replace(
-                instrument, seed=0, evidence={}, scenes={}, timeline=[], injections=[]
-            ).hash(),
-            channel_roles={"0": None},
-        ).model_dump(mode="json"),
+        "binding": simulation_binding(instrument).model_dump(mode="json"),
         "raw_sha256": sha256_file(observable / "raw.zlraw"),
         "width_m": width_m,
         "pitch_y_m": scan.pitch_y_m,

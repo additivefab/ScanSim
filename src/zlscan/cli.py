@@ -131,11 +131,18 @@ def _run_run(argv: Sequence[str]) -> int:
     from zlscan.engine.digital_run import run_digital
 
     p = argparse.ArgumentParser(prog="zlscan run")
-    p.add_argument("--mode", choices=["digital", "physical"], required=True)
+    p.add_argument("--mode", choices=["digital", "physical", "calibration"], required=True)
     p.add_argument("--out", type=Path, default=Path("run_out"))
     p.add_argument("--lines", type=int, default=8)
     args = p.parse_args(list(argv))
-    if args.mode == "physical":
+    if args.mode == "calibration":
+        from zlscan.config.presets import demo_config
+        from zlscan.experiment.calibration_scan import run_calibration_scan
+
+        if args.lines < 2:
+            p.error("calibration mode requires at least two lines per target")
+        run = run_calibration_scan(args.out, demo_config(), lines_per_target=args.lines)
+    elif args.mode == "physical":
         from zlscan.config.presets import demo_config
         from zlscan.engine.physical_run import run_physical
 
@@ -149,6 +156,79 @@ def _run_run(argv: Sequence[str]) -> int:
         f"完整性 {run['integrity']}，写入 {args.out}"
     )
     return 0 if run["recon_status"] == "complete" else CHECK_FAIL_EXIT_CODE
+
+
+def _run_calibrate(argv: Sequence[str]) -> int:
+    import json
+    from pathlib import Path
+
+    from zlscan.calib.file import save_calibration
+    from zlscan.calib.observations import calibration_from_scan
+
+    p = argparse.ArgumentParser(prog="zlscan calibrate")
+    p.add_argument("--raw", required=True, type=Path)
+    p.add_argument("--protocol", required=True, type=Path)
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    try:
+        cal = calibration_from_scan(args.raw, args.protocol, fit_transfer=True)
+        args.out.mkdir(parents=True)
+        save_calibration(args.out / "calibration.json", cal)
+        summary = {
+            "mode": "calibrate",
+            "calibration_id": cal.calibration_id,
+            "provenance": cal.provenance.value,
+            "items": list(cal.items),
+        }
+        (args.out / "run.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    except (OSError, ValueError) as exc:
+        print(f"标定失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"标定文件已写入 {args.out}")
+    return 0
+
+
+def _run_reconstruct(argv: Sequence[str]) -> int:
+    from pathlib import Path
+
+    from zlscan.calib.file import load_calibration
+    from zlscan.contracts.calibration import CaptureDescription
+    from zlscan.recon.capture import reconstruct_capture
+    from zlscan.recon.density import Grid
+
+    p = argparse.ArgumentParser(prog="zlscan reconstruct")
+    p.add_argument("--raw", required=True, type=Path)
+    p.add_argument("--capture", required=True, type=Path)
+    p.add_argument("--calibration", required=True, type=Path)
+    p.add_argument("--out", required=True, type=Path)
+    p.add_argument("--columns", required=True, type=int)
+    p.add_argument("--pitch-x-m", required=True, type=float)
+    p.add_argument("--pitch-y-m", required=True, type=float)
+    p.add_argument("--channel", type=int, default=0)
+    p.add_argument("--headerless-spp", type=int)
+    p.add_argument(
+        "--coding", choices=["offset_binary", "twos_complement"], default="offset_binary"
+    )
+    args = p.parse_args(list(argv))
+    try:
+        capture = CaptureDescription.model_validate_json(args.capture.read_bytes())
+        cal = load_calibration(args.calibration)
+        grid = Grid(args.columns, capture.lines, args.pitch_x_m, args.pitch_y_m)
+        result = reconstruct_capture(
+            args.raw,
+            capture,
+            cal,
+            grid,
+            args.out,
+            channel=args.channel,
+            headerless_spp=args.headerless_spp,
+            coding=args.coding,
+        )
+    except (OSError, ValueError) as exc:
+        print(f"重建失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"密度图已写入 {args.out}，有效覆盖 {result['valid_fraction']:.1%}")
+    return 0 if result["valid_fraction"] > 0 else CHECK_FAIL_EXIT_CODE
 
 
 def _run_replay(argv: Sequence[str]) -> int:
@@ -186,7 +266,14 @@ def _run_serve(argv: Sequence[str]) -> int:
 
 
 HANDLERS = {"check": _run_check}
-ARG_HANDLERS = {"budget": _run_budget, "run": _run_run, "replay": _run_replay, "serve": _run_serve}
+ARG_HANDLERS = {
+    "budget": _run_budget,
+    "run": _run_run,
+    "calibrate": _run_calibrate,
+    "reconstruct": _run_reconstruct,
+    "replay": _run_replay,
+    "serve": _run_serve,
+}
 
 
 def build_parser() -> argparse.ArgumentParser:

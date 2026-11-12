@@ -11,12 +11,14 @@ from __future__ import annotations
 
 import time
 import tracemalloc
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 
 from zlscan.adc.patterns import ConvertedSamples
+from zlscan.contracts.calibration import Binding, CaptureDescription
 from zlscan.contracts.time import ClockDomain
 from zlscan.digital.acquisition import (
     AcquisitionConfig,
@@ -26,9 +28,16 @@ from zlscan.digital.acquisition import (
 )
 from zlscan.engine.chain import Chain, ChainConfig
 from zlscan.engine.digital_run import run_from_source
+from zlscan.io.manifest import sha256_file
 from zlscan.io.rawstream import FLAG_EPOCH_START, FLAG_LINE_END, FLAG_LINE_START, RawWriter
 from zlscan.replay.replay import run_with_checkpoints
 from zlscan.truth import scan as scan_mod
+
+
+def simulation_binding(config: ChainConfig) -> Binding:
+    """Hash the simulated acquisition settings independently of the target and noise realization."""
+    identity = replace(config, seed=0, evidence={}, scenes={}, timeline=[], injections=[]).hash()
+    return Binding(simulation_hash=identity, channel_roles={"0": None})
 
 
 def line_steps(cfg: ChainConfig) -> int:
@@ -77,6 +86,15 @@ def run_physical(
     }
     extra["fine_steps"] = total
     run = run_from_source(out, src, syncs, dcfg, preset="physical", extra_run=extra)
+    observable = out / "observable"
+    capture = CaptureDescription(
+        binding=simulation_binding(cfg),
+        raw_sha256=sha256_file(observable / "raw.zlraw"),
+        lines=lines,
+    )
+    (observable / "capture.json").write_text(
+        capture.model_dump_json(indent=2) + "\n", encoding="utf-8"
+    )
     if save_checkpoints:
         directory = out / "truth" / "checkpoints"
         directory.mkdir(exist_ok=True)
