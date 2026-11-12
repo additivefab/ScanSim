@@ -25,10 +25,10 @@ class LogTransferFit:
     reference_residual_codes: tuple[float, ...]
 
 
-def fit_log_transfer(
+def reference_observations(
     dark: np.ndarray, white: np.ndarray, wedge: np.ndarray, density: np.ndarray
-) -> LogTransferFit:
-    """Fit code = intercept + slope * log10(T + dark_ratio), with unit white signal."""
+):
+    """Validate reference captures and extract dark/white/interior patch medians."""
     density = np.asarray(density, dtype=float)
     if (
         density.ndim != 1
@@ -59,12 +59,21 @@ def fit_log_transfer(
     ]
     dark_code = float(np.median(dark))
     white_code = float(np.median(white))
+    return density, dark, white, np.r_[dark_code, white_code, observations]
+
+
+def fit_log_transfer(
+    dark: np.ndarray, white: np.ndarray, wedge: np.ndarray, density: np.ndarray
+) -> LogTransferFit:
+    """Fit code = intercept + slope * log10(T + dark_ratio), with unit white signal."""
+    density, dark, white, codes = reference_observations(dark, white, wedge, density)
+    dark_code, white_code = codes[:2]
+    observations = codes[2:]
     contrast = white_code - dark_code
     if abs(contrast) < 2 or (observations[0] - observations[-1]) * contrast <= 0:
         raise ValueError("reference contrast is insufficient to identify a logarithmic transfer")
     polarity = float(np.sign(contrast))
     t = np.r_[0.0, 1.0, 10**-density]
-    codes = np.r_[dark_code, white_code, observations]
 
     def residual(parameters: np.ndarray) -> np.ndarray:
         offset, log_slope, log_dark = parameters

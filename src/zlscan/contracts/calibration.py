@@ -108,13 +108,36 @@ class CalibrationHeader(BaseModel):
         return b.epoch_range[0] <= epoch <= b.epoch_range[1]
 
 
-_FORMAT_VERSION = 1
+_FORMAT_VERSIONS = {1, 2}
 _HARDWARE_FIELDS = ("hardware_hash", "wiring_rev", "firmware_hash", "register_dump_hash")
 
 
 def check_version(calibration: CalibrationHeader) -> None:
-    if calibration.format_version != _FORMAT_VERSION:
+    if calibration.format_version not in _FORMAT_VERSIONS:
         raise ValueError(f"unsupported calibration format version {calibration.format_version}")
+    item = calibration.items.get("transfer_lut")
+    transfers = (
+        item.value.get("channels", {}) if item is not None and isinstance(item.value, dict) else {}
+    )
+    if not isinstance(transfers, dict) or any(
+        not isinstance(value, dict) for value in transfers.values()
+    ):
+        raise ValueError("malformed calibration transfer channels")
+    if calibration.format_version == 1:
+        if any(
+            "normalization" in value or "valid_code_ranges" in value for value in transfers.values()
+        ):
+            raise ValueError("observed normalization/support requires calibration format version 2")
+    elif not transfers or any(
+        not isinstance(value.get("normalization"), dict)
+        or value["normalization"].get("kind") != "relative_transmittance"
+        or not value.get("valid_code_ranges")
+        or "excluded_code_ranges" not in value
+        for value in transfers.values()
+    ):
+        raise ValueError(
+            "calibration version 2 requires explicit relative normalization and code support"
+        )
 
 
 def require_applicable(

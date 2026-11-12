@@ -108,3 +108,70 @@ def test_cli_preserves_failed_fit_diagnostics_and_reconstruction_refuses_them(tm
     assert code == CHECK_FAIL_EXIT_CODE
     assert "reference" in capsys.readouterr().err
     assert not (reconstructed / "run.json").exists()
+
+
+def test_monotonic_cli_requires_declared_uncertainty_and_writes_supported_table(tmp_path, capsys):
+    from zlscan.cli import CHECK_FAIL_EXIT_CODE, main
+
+    cfg = demo_config()
+    cfg.detector = replace(cfg.detector, shot_noise=False)
+    scan = tmp_path / "scan"
+    run_calibration_scan(scan, cfg, lines_per_target=2)
+    observable = scan / "observable"
+    protocol_path = observable / "scan_protocol.json"
+    raw = observable / "raw.zlraw"
+    original_sha = sha256_file(raw)
+    common = [
+        "calibrate",
+        "--raw",
+        str(raw),
+        "--protocol",
+        str(protocol_path),
+        "--transfer-method",
+        "monotonic",
+    ]
+    assert main([*common, "--out", str(tmp_path / "missing")]) == CHECK_FAIL_EXIT_CODE
+    assert not (tmp_path / "missing/calibration.json").exists()
+    protocol = json.loads(protocol_path.read_text())
+    values = np.r_[0.0, 1.0, 10 ** -np.asarray(protocol["wedge_density"])]
+    protocol["monotonic_uncertainty_source"] = (
+        "ASSUMED deterministic reference: +/-2 ADC codes; exact synthetic ratios"
+    )
+    protocol["monotonic_code_half_width"] = [2.0] * len(values)
+    protocol["monotonic_signal_bounds"] = [[float(v), float(v)] for v in values]
+    protocol_path.write_text(json.dumps(protocol))
+    output = tmp_path / "table"
+    assert main([*common, "--out", str(output)]) == 0
+    table = load_calibration(output / "calibration.json")
+    assert table.format_version == 2
+    assert table.generator["name"] == "monotonic_transfer"
+    transfer = table.items["transfer_lut"].value["channels"]["0"]
+    assert transfer["normalization"]["per_column_correction"] is False
+    assert transfer["valid_code_ranges"]
+    assert transfer["reference_assessment"]["status"] == "not_assessed"
+    reconstruction = tmp_path / "reconstructed"
+    assert (
+        main(
+            [
+                "reconstruct",
+                "--raw",
+                str(raw),
+                "--capture",
+                str(observable / "capture.json"),
+                "--calibration",
+                str(output / "calibration.json"),
+                "--out",
+                str(reconstruction),
+                "--columns",
+                "40",
+                "--pitch-x-m",
+                ".002",
+                "--pitch-y-m",
+                ".002",
+            ]
+        )
+        == 0
+    )
+    assert json.loads((reconstruction / "run.json").read_text())["valid_fraction"] > 0
+    assert sha256_file(raw) == original_sha
+    assert "uncertainty" in capsys.readouterr().err

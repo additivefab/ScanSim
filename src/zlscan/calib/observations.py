@@ -13,7 +13,8 @@ from pydantic import BaseModel, ConfigDict, Field, FiniteFloat, StrictInt, model
 
 from zlscan.calib.delay import fit_optical_registration, fit_synchronous_response
 from zlscan.calib.facet_targets import fit_facet_gain, fit_observed_targets
-from zlscan.calib.radiometric import assess_reference_fit, fit_log_transfer
+from zlscan.calib.monotonic import fit_monotonic_transfer
+from zlscan.calib.radiometric import assess_reference_fit, fit_log_transfer, reference_observations
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
 from zlscan.contracts.events import Event
 from zlscan.contracts.time import ClockDomain
@@ -45,6 +46,9 @@ class ScanProtocol(BaseModel):
     transfer_reference_tolerance_code: float | None = Field(
         default=None, ge=0, allow_inf_nan=False, strict=True
     )
+    monotonic_code_half_width: list[float] | None = None
+    monotonic_signal_bounds: list[tuple[float, float]] | None = None
+    monotonic_uncertainty_source: str | None = Field(default=None, min_length=1)
     edge_fraction: float
     grid_line_x_fraction: list[float]
     slanted_line_x_fractions: tuple[float, float]
@@ -82,13 +86,22 @@ def calibration_from_scan(
     protocol_path: Path,
     *,
     fit_transfer: bool = False,
+    transfer_method: str = "log",
     timing_path: Path | None = None,
     quality_path: Path | None = None,
     facet_path: Path | None = None,
     edge_registration: bool = False,
 ) -> CalibrationHeader:
     """Create empirical code-domain references from a complete calibration scan."""
+    if transfer_method not in {"log", "monotonic"}:
+        raise ValueError("unsupported transfer method")
     protocol = ScanProtocol.model_validate_json(protocol_path.read_bytes())
+    if (
+        fit_transfer
+        and transfer_method == "monotonic"
+        and protocol.transfer_reference_tolerance_code is not None
+    ):
+        raise ValueError("log reference tolerance does not apply to a monotonic observation table")
     if sha256_file(raw_path) != protocol.raw_sha256:
         raise ValueError("calibration capture SHA-256 does not match the target protocol")
     raw = read_all(raw_path)
@@ -153,18 +166,48 @@ def calibration_from_scan(
         transfers = {}
         for channel, codes in image.codes.items():
             dark, white, wedge = (codes[selection] for selection in slices)
-            fit = fit_log_transfer(dark, white, wedge, np.asarray(protocol.wedge_density))
-            transfers[str(channel)] = {
-                **asdict(fit),
-                "reference_assessment": assess_reference_fit(
-                    fit, tolerance_code=protocol.transfer_reference_tolerance_code
-                ),
-            }
+            if transfer_method == "log":
+                fit = fit_log_transfer(dark, white, wedge, np.asarray(protocol.wedge_density))
+                transfers[str(channel)] = {
+                    **asdict(fit),
+                    "reference_assessment": assess_reference_fit(
+                        fit, tolerance_code=protocol.transfer_reference_tolerance_code
+                    ),
+                }
+            else:
+                if not protocol.monotonic_uncertainty_source:
+                    raise ValueError("monotonic reference uncertainty source is not declared")
+                density, _, _, observed = reference_observations(
+                    dark, white, wedge, protocol.wedge_density
+                )
+                fit = fit_monotonic_transfer(
+                    observed,
+                    np.r_[0.0, 1.0, 10**-density],
+                    code_half_width=protocol.monotonic_code_half_width,
+                    signal_bounds=protocol.monotonic_signal_bounds,
+                    lut_points=257,
+                )
+                transfers[str(channel)] = {
+                    **asdict(fit),
+                    "uncertainty_source": protocol.monotonic_uncertainty_source,
+                    "reference_assessment": {
+                        "status": "not_assessed",
+                        "scope": "observed interpolation is not held-out validation",
+                    },
+                }
         items["transfer_lut"] = CalibItem(
             value={"channels": transfers, "extrapolation": "invalid"},
-            method="logarithmic fit to dark, white and interior wedge patch medians",
+            method=(
+                "logarithmic fit to reference medians"
+                if transfer_method == "log"
+                else "observed positive-reference log-signal interpolation; global static response"
+            ),
         )
-    algorithm = "log_transfer" if fit_transfer else "code_reference"
+    algorithm = (
+        ("log_transfer" if transfer_method == "log" else "monotonic_transfer")
+        if fit_transfer
+        else "code_reference"
+    )
     protocol_sha256 = sha256_file(protocol_path)
     sources = {"raw_sha256": protocol.raw_sha256, "protocol_sha256": protocol_sha256}
     if timing_path is not None:
@@ -257,7 +300,7 @@ def calibration_from_scan(
             method="observed grid landmarks grouped by observable facet phase",
         )
         sources["facet_sha256"] = sha256_file(facet_path)
-        if fit_transfer:
+        if fit_transfer and transfer_method == "log":
             white = by_name["white"]
             white_rows = slice(white.first_line, white.first_line + white.lines)
             by_channel = {}
@@ -300,16 +343,23 @@ def calibration_from_scan(
     if edge_registration:
         source_ids += ":optical-registration-v1"
     provenance = Provenance(protocol.origin)
-    algorithm_version = 2 if fit_transfer else 1
+    algorithm_version = 2 if fit_transfer and transfer_method == "log" else 1
     calibration = CalibrationHeader(
-        format_version=1,
+        format_version=2 if fit_transfer and transfer_method == "monotonic" else 1,
         provenance=provenance,
         calibration_id=hashlib.sha256(
             f"{algorithm}-v{algorithm_version}:{source_ids}".encode()
         ).hexdigest(),
         created_at=datetime.now(UTC).isoformat(),
         binds_to=binding,
-        valid_conditions={"scan_direction": "forward"},
+        valid_conditions={
+            "scan_direction": "forward",
+            **(
+                {"radiometry": "global static table; no column flat field or separate facet gain"}
+                if fit_transfer and transfer_method == "monotonic"
+                else {}
+            ),
+        },
         generator={
             "name": algorithm,
             "version": algorithm_version,

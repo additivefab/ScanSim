@@ -186,6 +186,12 @@ def _run_calibrate(argv: Sequence[str]) -> int:
     p = argparse.ArgumentParser(prog="zlscan calibrate")
     p.add_argument("--raw", required=True, type=Path)
     p.add_argument("--protocol", required=True, type=Path)
+    p.add_argument(
+        "--transfer-method",
+        choices=["log", "monotonic"],
+        default="log",
+        help="radiometric model; monotonic requires declared reference uncertainty",
+    )
     p.add_argument("--timing", type=Path, help="synchronized injection observation JSON")
     p.add_argument("--edge-registration", action="store_true", help="fit optical edge registration")
     p.add_argument("--quality", type=Path, help="observable quality event JSON")
@@ -197,6 +203,7 @@ def _run_calibrate(argv: Sequence[str]) -> int:
             args.raw,
             args.protocol,
             fit_transfer=True,
+            transfer_method=args.transfer_method,
             timing_path=args.timing,
             quality_path=args.quality,
             facet_path=args.facets,

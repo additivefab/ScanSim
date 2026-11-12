@@ -54,13 +54,13 @@ class _Transfer:
     dark: np.ndarray
     white_minus_dark: np.ndarray
     valid_white: np.ndarray
+    valid_code_ranges: tuple[tuple[float, float], ...] | None
+    excluded_code_ranges: tuple[tuple[float, float], ...]
 
 
 def _prepare_transfer(calibration: CalibrationHeader, channel: str, width: int) -> _Transfer:
     try:
         transfer = calibration.items["transfer_lut"].value["channels"][channel]
-        dark_codes = calibration.items["dark_raw_code"].value[channel]["median"]
-        white_codes = calibration.items["white_raw_code"].value[channel]["median"]
     except (KeyError, TypeError) as exc:
         raise ValueError(f"channel {channel} lacks radiometric calibration") from exc
     require_reference_consistency(transfer)
@@ -76,24 +76,72 @@ def _prepare_transfer(calibration: CalibrationHeader, channel: str, width: int) 
         or np.any(intensity_axis <= 0)
     ):
         raise ValueError("invalid code-to-intensity lookup table")
-    if np.shape(dark_codes) != (width,) or np.shape(white_codes) != (width,):
-        raise ValueError("capture window does not match the reference column count")
+    normalization = transfer.get("normalization")
+    if normalization is None:
+        try:
+            dark_codes = calibration.items["dark_raw_code"].value[channel]["median"]
+            white_codes = calibration.items["white_raw_code"].value[channel]["median"]
+        except (KeyError, TypeError) as exc:
+            raise ValueError("channel lacks dark/white references") from exc
+        if np.shape(dark_codes) != (width,) or np.shape(white_codes) != (width,):
+            raise ValueError("capture window does not match the reference column count")
+        dark = np.interp(dark_codes, code_axis, intensity_axis, left=np.nan, right=np.nan)
+        white = np.interp(white_codes, code_axis, intensity_axis, left=np.nan, right=np.nan)
+        denominator = white - dark
+        valid_white = np.isfinite(denominator) & (denominator > 0)
+    else:
+        if (
+            not isinstance(normalization, dict)
+            or normalization.get("kind") != "relative_transmittance"
+            or normalization.get("dark_signal") != 1
+            or normalization.get("white_signal") != 2
+            or normalization.get("per_column_correction") is not False
+        ):
+            raise ValueError("unsupported transfer normalization")
+        dark, denominator, valid_white = np.ones(width), np.ones(width), np.ones(width, bool)
+        if not transfer.get("valid_code_ranges"):
+            raise ValueError("observed transfer has no declared code support")
 
-    dark = np.interp(dark_codes, code_axis, intensity_axis, left=np.nan, right=np.nan)
-    white = np.interp(white_codes, code_axis, intensity_axis, left=np.nan, right=np.nan)
-    denominator = white - dark
-    valid_white = np.isfinite(denominator) & (denominator > 0)
+    def ranges(name, allow_empty):
+        if name not in transfer:
+            return () if allow_empty else None
+        value = np.asarray(transfer[name], float)
+        if allow_empty and not value.size:
+            return ()
+        if (
+            value.ndim != 2
+            or value.shape[1] != 2
+            or not np.all(np.isfinite(value))
+            or np.any(value[:, 0] > value[:, 1])
+            or not len(value)
+        ):
+            raise ValueError("invalid transfer code support range")
+        return tuple(tuple(float(v) for v in pair) for pair in value)
+
+    supported = ranges("valid_code_ranges", False)
+    excluded = ranges("excluded_code_ranges", True)
     outliers = np.asarray(transfer.get("white_outlier_columns", []), dtype=int)
     if np.any((outliers < 0) | (outliers >= width)):
         raise ValueError("white reference flags lie outside the calibrated window")
     valid_white[outliers] = False
-    return _Transfer(code_axis, intensity_axis, dark, denominator, valid_white)
+    return _Transfer(code_axis, intensity_axis, dark, denominator, valid_white, supported, excluded)
 
 
 def _sample_transmittance(codes: np.ndarray, flags: np.ndarray, transfer: _Transfer) -> np.ndarray:
     signal = np.interp(
         codes, transfer.code_axis, transfer.intensity_axis, left=np.nan, right=np.nan
     )
+    supported = (
+        np.ones(codes.shape, bool)
+        if transfer.valid_code_ranges is None
+        else np.zeros(codes.shape, bool)
+    )
+    if transfer.valid_code_ranges is not None:
+        for low, high in transfer.valid_code_ranges:
+            supported |= (codes >= low) & (codes <= high)
+    for low, high in transfer.excluded_code_ranges:
+        supported &= ~((codes >= low) & (codes <= high))
+    signal[~supported] = np.nan
     flags[~transfer.valid_white] |= int(InvalidFlag.WHITE_REFERENCE_INVALID)
     flags[~np.isfinite(signal)] |= int(InvalidFlag.OUTSIDE_CALIBRATION)
     transmittance = np.full(codes.shape, np.nan)
