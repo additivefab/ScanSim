@@ -1,0 +1,60 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Unclamped point-spot trajectory and preserved ideal legacy frames",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T11:56:20.228068+00:00",
+ "finished_at": "2026-11-12T11:56:23.351347+00:00",
+ "code": {
+  "commit": "79fb441e148f6150910740b05d400382883076e7",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "trajectory": 1,
+  "legacy": "see hashed frozen config files"
+ },
+ "inputs": {
+  "src/zlscan/truth/scan/__init__.py": "bf3b94b6e487c76e6eed307386acb8acf808b4b00d3bc4717f9682deae197ac9",
+  "src/zlscan/truth/scene/__init__.py": "d9e4216799a2015a974bdf756c19bd5460f5ae15d71aa6be1b50f8356d4df4a4",
+  "tests/unit/test_unclamped_trajectory.py": "11a4b17f7fdada5c51477108a11ac1bff3ad35bfbae6a49468be9b5fb2e6dd59",
+  "legacy/package_a/config/ideal.json": "76618ff8b7e6e26fda20cea6bc7547552c2511c67b35e6e31c46cefed97c3f2c",
+  "legacy/package_b/configs/ideal_regression.json": "5c018a71a17f1c6e1339ec3d10a10c03ff80992d667d7281163c674a33e41dde"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_unclamped_trajectory.py",
+    "tests/unit/test_legacy_regression.py"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "trajectory boundary state and ideal-frame assertions pass",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Noiseless point-spot causality, explicit legacy boundary identity and strict package A/B ideal code comparisons; not noisy or measured-device validation."
+}

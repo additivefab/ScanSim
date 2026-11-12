@@ -22,3 +22,6 @@ off_film_T，数字采集窗口和输出区域不参与物理坐标计算。默�
 `Scene.legacy_nearest_boundary=True`，并将边界策略计入配置哈希；没有恢复公共物理轨迹的夹紧，
 也没有放宽旧码值断言。随后包 A/B 理想整图与新增轨迹专项合计 5 项测试通过。
 透明片外模型仍是普通 Scene 的默认；nearest 扩展作为旧行为在物理适用性中另行标注。
+
+在干净提交 `79fb441` 上正式复跑轨迹、边界策略和包 A/B 理想整图，共 6 项通过，记录位于
+`evidence_runs/2026-11-12_unclamped_trajectory/record/`。此前完整测试集 869 项通过（71.76 s，含 Icarus）。
