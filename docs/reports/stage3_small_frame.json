@@ -1,0 +1,82 @@
+{
+  "machine": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "python": "3.14.7",
+  "nx": 100,
+  "lines": 1000,
+  "fine_steps": 10000000,
+  "adc_samples": 2500000,
+  "active_s": 0.0015915494309189533,
+  "line_period_s": 0.0025,
+  "end_to_end": {
+    "wall_s": 196.52836658299202,
+    "steps_per_s": 50883.23977789281,
+    "python_peak_bytes": 700595933,
+    "integrity": "complete",
+    "recon_status": "complete",
+    "lost_blocks": 0
+  },
+  "streaming": {
+    "lines_requested": 1000,
+    "lines_written": 1000,
+    "fine_steps": 10000000,
+    "wall_s": 130.87041795800906,
+    "steps_per_s": 76411.46223899575,
+    "python_peak_bytes": 4033115
+  },
+  "criteria": [
+    {
+      "quantity": "batch integrity",
+      "expected": "complete",
+      "tolerance": null,
+      "actual": "complete",
+      "passed": true
+    },
+    {
+      "quantity": "minimal reconstruction",
+      "expected": "complete",
+      "tolerance": null,
+      "actual": "complete",
+      "passed": true
+    },
+    {
+      "quantity": "lost blocks",
+      "expected": 0,
+      "tolerance": null,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "quantity": "streaming lines",
+      "expected": 1000,
+      "tolerance": null,
+      "actual": 1000,
+      "passed": true
+    },
+    {
+      "quantity": "streaming fine steps",
+      "expected": 10000000,
+      "tolerance": null,
+      "actual": 10000000,
+      "passed": true
+    },
+    {
+      "quantity": "raw reader accepted both streams",
+      "expected": true,
+      "tolerance": null,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "quantity": "raw block metadata and all samples identical",
+      "expected": true,
+      "tolerance": null,
+      "actual": true,
+      "passed": true
+    }
+  ],
+  "config_hash": "5ab32ada7fceb6f56e2cce3120c7103e30654d3ed4bfe50cd0d2ee5cc9a420e6",
+  "output_sha256": {
+    "end_to_end/observable/raw.zlraw": "70a5d74573ac884e7c4b76b6789ee247d217e95d30d16ba21612bbe3a2f64b9c",
+    "stream.zlraw": "70a5d74573ac884e7c4b76b6789ee247d217e95d30d16ba21612bbe3a2f64b9c"
+  }
+}

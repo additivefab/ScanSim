@@ -107,7 +107,7 @@ def main() -> int:
             ).hexdigest()
     result = 0 if all(criterion["passed"] for criterion in criteria) else 1
     summary = json.dumps(data, indent=2)
-    (out / "summary.json").write_text(summary + "\n", encoding="utf-8")
+    (payload / "summary.json").write_text(summary + "\n", encoding="utf-8")
     e, s = data["end_to_end"], data["streaming"]
     md = f"""# 阶段 3 小幅面实测（100 × 1000）
 
@@ -125,7 +125,7 @@ def main() -> int:
 
 本算例未设耗时阈值。4000 × 5000、7000 × 8600、双通道以及 RTL 协同未执行。
 """
-    (out / "summary.md").write_text(md, encoding="utf-8")
+    (payload / "summary.md").write_text(md, encoding="utf-8")
     write_record(
         out / "record",
         name="stage3_small_frame",

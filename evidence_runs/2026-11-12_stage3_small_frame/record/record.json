@@ -1,0 +1,88 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "stage3_small_frame",
+ "status": "measured",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T06:31:54.543936+00:00",
+ "finished_at": "2026-11-12T06:37:22.218017+00:00",
+ "code": {
+  "commit": "530ff7720062cea13742f15a74e029edc7395c30",
+  "dirty": true
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 1,
+ "inputs": {
+  "chain_config_sha256": "5ab32ada7fceb6f56e2cce3120c7103e30654d3ed4bfe50cd0d2ee5cc9a420e6"
+ },
+ "commands": [
+  {
+   "cmd": "tools/perf_small_frame.py evidence_runs/2026-11-12_stage3_small_frame",
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "batch integrity",
+   "expected": "complete",
+   "tolerance": null,
+   "actual": "complete",
+   "passed": true
+  },
+  {
+   "quantity": "minimal reconstruction",
+   "expected": "complete",
+   "tolerance": null,
+   "actual": "complete",
+   "passed": true
+  },
+  {
+   "quantity": "lost blocks",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  },
+  {
+   "quantity": "streaming lines",
+   "expected": 1000,
+   "tolerance": null,
+   "actual": 1000,
+   "passed": true
+  },
+  {
+   "quantity": "streaming fine steps",
+   "expected": 10000000,
+   "tolerance": null,
+   "actual": 10000000,
+   "passed": true
+  },
+  {
+   "quantity": "raw reader accepted both streams",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "raw block metadata and all samples identical",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Single-channel research scenario. Pass applies to this scenario only."
+}
