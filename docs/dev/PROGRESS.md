@@ -13,6 +13,12 @@
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
 | 最近一次全量测试 | 2026-11-13 `pytest -q`：1312 通过、2 跳过，116.21 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
+## 当前发布交接
+
+- 本轮实现 `05dea2e` 与证据 `7d4c0e6` 已本地提交，尚未成功推送。最后一次成功 fetch 的 origin/main 为 `b665edc`；随后多次 push/ls-remote、普通 HTTPS 与 GitHub 连接器均出现连接/TLS 失败，不能声称远端已更新。
+- 只读核对 macOS 已配置本地 HTTP/HTTPS/SOCKS 代理；单次 Git 请求尝试现有 HTTP 和 SOCKS 路径仍失败，没有更改系统代理、仓库代理、TLS 校验或 Git 历史。下一轮先核对网络/远端，再正常快进推送；用户的推送授权继续有效，无需再次确认。
+- 所有测试、正式 CLI 故障/新进程审计、同机隔离 wheel 验证及证据归档均已完成；网络故障不改变这些本地验证范围，阶段 3–7 其它工作仍可继续。
+
 ## 本轮 S3-T11/S3-T14 未知终点录制 CLI
 
 - 新 `run --mode recording` 接入 PhysicalRecorder 统一恢复根；无总行数，JSONL 按有界块推进/逐行同步，含已有物理控制/功能复位/重启、提交和结束。EOF 暂停，finish 才排空；命令确认在 fsync 与根发布后输出；committed 只表示最后提交，不当作进程存活。新配置显式提供研究链路/窗口/有限队列值，未知硬件不填。见 D060、`docs/reports/recording_cli.md`、`configs/physical_recording.json`。
