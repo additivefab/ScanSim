@@ -83,11 +83,15 @@ class Service:
             out.append(d)
         return {"status": QueryStatus.EXACT_RECORD, "view": view, "signals": out}
 
-    def traces(self, r: Run, signal: str, start: int, end: int, pixel_width: int) -> dict:
+    def traces(
+        self, r: Run, signal: str, start: int, end: int, pixel_width: int, view: str = "research"
+    ) -> dict:
         if signal == "adc.code":
             lo, hi = max(start // r.cfg.os, 0), min(-(-end // r.cfg.os), len(r.codes))
             return {"status": QueryStatus.EXACT_RECORD, "signal": signal, "level": "raw",
                     "unit_step": "sample", "start": lo, "values": r.codes[lo:hi].tolist()}  # fmt: skip
+        if view == "instrument":
+            return {"status": QueryStatus.NOT_RECORDED, "reason": "private simulation trace"}
         probe = next((p for p, s in PROBE_TO_SIGNAL.items() if s == signal), None)
         if probe is None:
             return {
@@ -119,10 +123,12 @@ class Service:
                 "epoch": r.epoch, "checkpoint_step": res.checkpoint_step,
                 "values": {PROBE_TO_SIGNAL[k]: float(v[0]) for k, v in res.out.probes.items()}}  # fmt: skip
 
-    def events(self, r: Run, start: int, end: int, kinds: set[str] | None) -> dict:
+    def events(
+        self, r: Run, start: int, end: int, kinds: set[str] | None, view: str = "research"
+    ) -> dict:
         os_ = r.cfg.os
         out = []
-        for kind, idx in r.events.items():
+        for kind, idx in r.events.items() if view == "research" else ():
             if kinds and kind not in kinds:
                 continue
             for i in idx:
@@ -142,8 +148,8 @@ class Service:
         return {"status": QueryStatus.EXACT_RECORD,
                 "lineage": sample_lineage(r.link, i, ["rx", "net"], None)}  # fmt: skip
 
-    def replay(self, r: Run, start: int, n: int, probes: list[str]) -> dict:
-        res = replay_window(r.cfg, r.store, start, n, set(probes))
+    def replay(self, r: Run, start: int, n: int, probes: list[str], view: str = "research") -> dict:
+        res = replay_window(r.cfg, r.store, start, n, set(probes) if view == "research" else set())
         return {"status": res.status, "checkpoint_step": res.checkpoint_step, "start": start,
                 "n_steps": n, "first_sample": res.out.first_sample,
                 "codes": res.out.codes.tolist(),
@@ -192,20 +198,23 @@ def _handler(service: Service):
                 if run is None:
                     return self._send(404, {"error": "unknown run"})
                 what = parts[2] if len(parts) > 2 else ""
+                view = q.get("view", "research")
+                if view not in {"research", "instrument"}:
+                    raise ValueError("unknown view")
                 body: dict
                 if what == "manifest":
                     body = service.manifest(run)
                 elif what == "signals":
-                    body = service.signals(run, q.get("view", "research"))
+                    body = service.signals(run, view)
                 elif what == "state":
                     probes = set(filter(None, q.get("probes", "").split(",")))
-                    body = service.state(run, int(q["step"]), probes, q.get("view", "research"))
+                    body = service.state(run, int(q["step"]), probes, view)
                 elif what == "traces":
                     body = service.traces(run, q["signal"], int(q["start"]), int(q["end"]),
-                                          int(q.get("pixel_width", 800)))  # fmt: skip
+                                          int(q.get("pixel_width", 800)), view)  # fmt: skip
                 elif what == "events":
                     kinds = set(filter(None, q.get("kinds", "").split(","))) or None
-                    body = service.events(run, int(q["start"]), int(q["end"]), kinds)
+                    body = service.events(run, int(q["start"]), int(q["end"]), kinds, view)
                 elif what == "samples" and len(parts) > 4 and parts[4] == "lineage":
                     body = service.lineage(run, int(parts[3]))
                 elif what == "images" or what == "updates":
@@ -219,11 +228,12 @@ def _handler(service: Service):
                     n = int(self.headers.get("Content-Length", 0))
                     p = json.loads(self.rfile.read(n) or b"{}")
                     body = service.replay(
-                        run, int(p["start"]), int(p["n_steps"]), p.get("probes", [])
+                        run, int(p["start"]), int(p["n_steps"]), p.get("probes", []), view
                     )
                 elif what == "branches" and method == "POST":
                     n = int(self.headers.get("Content-Length", 0))
-                    body = service.branch(run, json.loads(self.rfile.read(n) or b"{}"))
+                    overrides = json.loads(self.rfile.read(n) or b"{}")
+                    body = service.branch(run, overrides if view == "research" else {})
                 else:
                     return self._send(404, {"error": "not found"})
                 body["req"] = req

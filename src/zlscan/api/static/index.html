@@ -35,10 +35,10 @@ button{font:inherit;padding:2px 10px}label{display:block}
 (function(){
 var base=location.pathname.replace(/\/$/,''),runId='demo',manifest=null,view='research',
     win={start:0,end:1},reqSeq=0,sel={},lastApplied=0;
-function api(path,opts){var n=++reqSeq,sep=path.indexOf('?')<0?'?':'&';
-  return fetch('/runs/'+runId+path+sep+'req='+n,opts).then(function(r){return r.json()})
-    .then(function(b){b._n=n;return b})}
-function stale(b){if(b._n<lastApplied)return true;lastApplied=b._n;return false}
+function api(path,opts){var n=++reqSeq,requestedView=view,sep=path.indexOf('?')<0?'?':'&';
+  return fetch('/runs/'+runId+path+sep+'req='+n+'&view='+requestedView,opts).then(function(r){return r.json()})
+    .then(function(b){b._n=n;b._view=requestedView;return b})}
+function stale(b){if(b._view!==view||b._n<lastApplied)return true;lastApplied=b._n;return false}
 function badge(s){return '<span class="badge">'+s+'</span>'}
 function load(){
   api('/manifest').then(function(m){manifest=m;win={start:0,end:m.steps};
@@ -46,7 +46,10 @@ function load(){
     document.getElementById('m-epoch').textContent='时期：'+m.session_id+'/'+m.epoch;
     var c=document.getElementById('cursor');c.max=m.steps-1;c.value=0;listSignals()})}
 function listSignals(){
-  api('/signals?view='+view).then(function(b){
+  api('/signals').then(function(b){
+    if(stale(b))return;
+    var allowed=b.signals.map(function(s){return s.signal_id});
+    Object.keys(sel).forEach(function(sig){if(!allowed.includes(sig))delete sel[sig]});
     var h='';b.signals.forEach(function(s){
       h+='<label><input type="checkbox" data-sig="'+s.signal_id+'"'+(sel[s.signal_id]?' checked':'')+'> '+
         s.signal_id+(s.visibility==='ORACLE_ONLY'?' <span class="oracle">仿真真值，实机不可见</span>':'')+
@@ -79,10 +82,17 @@ function paint(cv,b){var g=cv.getContext('2d'),w=cv.width,h=cv.height,v=b.values
   g.stroke()}
 function moveCursor(){var s=parseInt(document.getElementById('cursor').value,10);
   document.getElementById('readout').textContent='细步 '+s+(manifest?' · 采样时刻 '+(s*manifest.fine_step_ps)+' ps':'');
-  api('/state?step='+s+'&probes=power_w&view='+view).then(function(b){if(stale(b))return;
+  api('/state?step='+s+'&probes=power_w').then(function(b){if(stale(b))return;
     document.getElementById('info').innerHTML=badge(b.status||'')+' '+(b.values?JSON.stringify(b.values):(b.reason||''))})}
 document.getElementById('cursor').addEventListener('input',moveCursor);
-document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventListener('change',function(){view=i.value;listSignals()})});
+document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventListener('change',function(){
+  view=i.value;lastApplied=reqSeq+1;
+  document.getElementById('signals').textContent='';
+  document.getElementById('plots').textContent='';
+  document.getElementById('events').textContent='';
+  document.getElementById('info').textContent='';
+  document.getElementById('branch').disabled=view==='instrument';
+  listSignals()})});
 function zoom(f){var c=(win.start+win.end)/2,half=(win.end-win.start)/2*f;win={start:Math.max(0,Math.round(c-half)),end:Math.round(c+half)};draw()}
 function pan(d){var s=win.end-win.start;win={start:Math.max(0,win.start+d*s/4),end:win.end+d*s/4};draw()}
 document.getElementById('zoom-in').onclick=function(){zoom(0.5)};
@@ -91,7 +101,7 @@ document.getElementById('left').onclick=function(){pan(-1)};
 document.getElementById('right').onclick=function(){pan(1)};
 document.getElementById('replay').onclick=function(){
   api('/replay-window',{method:'POST',body:JSON.stringify({start:win.start,n_steps:Math.min(2000,win.end-win.start),probes:['v_adc']})})
-    .then(function(b){document.getElementById('info').innerHTML=badge(b.status)+' 重放结果单独发布，原运行不被修改'})};
+    .then(function(b){if(stale(b))return;document.getElementById('info').innerHTML=badge(b.status)+' 重放结果单独发布，原运行不被修改'})};
 document.getElementById('branch').onclick=function(){
   api('/branches',{method:'POST',body:JSON.stringify({gain:1100})}).then(function(b){
     document.getElementById('info').innerHTML=badge(b.status)+' 分支 '+(b.run_id||'')+'；原运行不变'})};

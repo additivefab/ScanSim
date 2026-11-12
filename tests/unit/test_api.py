@@ -176,3 +176,18 @@ def test_w08_a_stalled_link_shows_up_with_layer_and_sample_range(server):
     assert {(e["first"], e["last"]) for e in losses} <= {
         (x["first"], x["last"]) for x in run.losses
     }
+
+
+def test_instrument_queries_refuse_private_trace_and_replay_probes(server):
+    port, _ = server
+    _, trace = get(port, "/runs/demo/traces?signal=pmt.power_w&start=0&end=100&view=instrument")
+    assert trace["status"] == "not_recorded"
+    assert "values" not in trace
+    _, replay = get(
+        port,
+        "/runs/demo/replay-window?view=instrument",
+        "POST",
+        {"start": 0, "n_steps": 100, "probes": ["v_adc"]},
+    )
+    assert replay["codes"]
+    assert replay["probes"] == {}
