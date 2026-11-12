@@ -4,7 +4,7 @@
 sync instants to the stage-2 pipeline and writes the same run directory as the digital mode, plus
 the simulation truth separately. ``stream_raw`` is the streaming kernel used for performance
 scenarios: it keeps only a couple of lines in memory and writes ZLRAW blocks as lines complete,
-so its memory use does not grow with the image height.
+so it does not keep frame-sized sample arrays. Sync scheduling uses O(lines) metadata.
 """
 
 from __future__ import annotations
@@ -18,7 +18,12 @@ import numpy as np
 
 from zlscan.adc.patterns import ConvertedSamples
 from zlscan.contracts.time import ClockDomain
-from zlscan.digital.acquisition import AcquisitionConfig, channel_mask, session_header
+from zlscan.digital.acquisition import (
+    AcquisitionConfig,
+    capture_windows,
+    channel_mask,
+    session_header,
+)
 from zlscan.engine.chain import Chain, ChainConfig
 from zlscan.engine.digital_run import run_from_source
 from zlscan.io.rawstream import FLAG_EPOCH_START, FLAG_LINE_END, FLAG_LINE_START, RawWriter
@@ -62,7 +67,7 @@ def run_physical(out: Path, cfg: ChainConfig, lines: int, digital: dict[str, Any
 
 def stream_raw(path: Path, cfg: ChainConfig, lines: int, acq: AcquisitionConfig | None = None,
                measure_memory: bool = False) -> dict[str, Any]:  # fmt: skip
-    """Run ``lines`` lines and write one ZLRAW block per line without keeping the image."""
+    """Write accepted capture windows to ZLRAW without keeping the frame samples."""
     chain = Chain(cfg)
     dom = ClockDomain(cfg.domain_id, cfg.fs_hz)
     steps = line_steps(cfg)
@@ -70,43 +75,53 @@ def stream_raw(path: Path, cfg: ChainConfig, lines: int, acq: AcquisitionConfig 
         round(cfg.scan.window_start_s() * cfg.fs_hz), round(cfg.scan.active_s * cfg.fs_hz)
     )
     syncs = scan_mod.sync_ticks(cfg.scan, lines, chain.rng, cfg.domain_id)
-    starts = []
-    for t in syncs:
-        c = dom.count_at(t)
-        c0 = (c if dom.tick_of(c) == t else c + 1) + acq.sync_latency_cycles
-        starts.append(c0 + acq.window_start)
+    windows = enumerate(capture_windows(dom, syncs, acq))
+    pending = next(windows, None)
+    capture_end = -(-(steps * lines) // cfg.os)
     src = ConvertedSamples(np.zeros((0, 1), np.uint16), (0,), 0, 0, dom, cfg.adc.bits)
     if measure_memory:
         tracemalloc.start()
     t0 = time.perf_counter()
     buf = np.zeros(0, dtype=np.uint16)
-    buf_first = 0
-    next_line = 0
     written = 0
-    with RawWriter(path, session_header(src, acq, 1)) as w:
-        for _ in range(lines + 1):
-            r = chain.advance(steps)
-            buf = np.concatenate([buf, r.codes])
-            while next_line < lines:
-                s = starts[next_line]
-                e = s + acq.window_length
-                if e > buf_first + len(buf):
-                    break
-                seg = buf[s - buf_first : e - buf_first].reshape(-1, 1)
-                w.write_block(epoch=0, channel_mask=channel_mask((0,)), clock_domain=cfg.domain_id,
-                              first_sample_index=s, samples=seg, line_number=next_line,
-                              flags=FLAG_LINE_START | FLAG_LINE_END
-                              | (FLAG_EPOCH_START if written == 0 else 0))  # fmt: skip
-                written += 1
-                next_line += 1
-            keep_from = starts[next_line] if next_line < lines else buf_first + len(buf)
-            drop = max(0, keep_from - buf_first)
-            buf, buf_first = buf[drop:], buf_first + drop
+    try:
+        with RawWriter(path, session_header(src, acq, 1)) as w:
+            for _ in range(lines):
+                r = chain.advance(steps)
+                # The retained tail ends at this chunk's first sample, even if a
+                # gap between capture windows left the tail empty.
+                buf_first = r.first_sample - len(buf)
+                buf = np.concatenate([buf, r.codes])
+                available_end = buf_first + len(buf)
+                while pending is not None:
+                    line_number, (_, _, start, stop) = pending
+                    if start >= capture_end:
+                        pending = None
+                        break
+                    stop = min(stop, capture_end)
+                    if stop > available_end:
+                        break
+                    segment = buf[start - buf_first : stop - buf_first].reshape(-1, 1)
+                    w.write_block(
+                        epoch=0,
+                        channel_mask=channel_mask(src.channels),
+                        clock_domain=dom.id,
+                        first_sample_index=start,
+                        samples=segment,
+                        line_number=line_number,
+                        flags=FLAG_LINE_START
+                        | FLAG_LINE_END
+                        | (FLAG_EPOCH_START if written == 0 else 0),
+                    )
+                    written += 1
+                    pending = next(windows, None)
+                keep_from = pending[1][2] if pending is not None else available_end
+                buf = buf[max(0, keep_from - buf_first) :]
+    finally:
+        peak = tracemalloc.get_traced_memory()[1] if measure_memory else None
+        if measure_memory:
+            tracemalloc.stop()
     wall = time.perf_counter() - t0
-    peak = None
-    if measure_memory:
-        peak = tracemalloc.get_traced_memory()[1]
-        tracemalloc.stop()
     done = chain.step
     return {
         "lines_requested": lines, "lines_written": written, "fine_steps": done,

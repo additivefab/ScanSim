@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from zlscan.config.presets import demo_config
+from zlscan.digital.acquisition import AcquisitionConfig
 from zlscan.engine.physical_run import line_steps, run_physical, stream_raw
 from zlscan.io.rawstream import read_all
 
@@ -52,17 +53,49 @@ def test_stream_writer_matches_the_batch_pipeline_samples(tmp_path, physical):
     stream_raw(tmp_path / "s.zlraw", cfg, lines=6)
     a = read_all(tmp_path / "s.zlraw")
     b = read_all(out / "observable" / "raw.zlraw")
-    assert [x.first_sample_index for x in a.blocks] == [x.first_sample_index for x in b.blocks]
-    assert np.array_equal(a.segments[0].samples if a.segments else 0, b.segments[0].samples)
+    assert a.blocks == b.blocks
+    assert len(a.segments) == len(b.segments) == 6
+    for actual, expected in zip(a.segments, b.segments, strict=True):
+        np.testing.assert_array_equal(actual.samples, expected.samples)
 
 
-def test_streaming_memory_does_not_grow_with_the_number_of_lines(tmp_path):
+def test_streaming_sample_memory_stays_bounded_after_cache_warmup(tmp_path):
     cfg = demo_config()
-    small = stream_raw(tmp_path / "a.zlraw", cfg, lines=4, measure_memory=True)
-    big = stream_raw(tmp_path / "b.zlraw", cfg, lines=16, measure_memory=True)
-    assert big["lines_written"] == 16 and small["lines_written"] == 4
+    # Both runs fill the bounded RNG cache before comparing peak allocations.
+    small = stream_raw(tmp_path / "a.zlraw", cfg, lines=16, measure_memory=True)
+    big = stream_raw(tmp_path / "b.zlraw", cfg, lines=32, measure_memory=True)
+    assert big["lines_written"] == 32 and small["lines_written"] == 16
     assert big["python_peak_bytes"] < small["python_peak_bytes"] * 1.5
 
 
 def test_line_steps_matches_the_period():
     assert line_steps(demo_config()) == 10_000
+
+
+@pytest.mark.parametrize(
+    ("window_start", "window_length", "expected_lengths"),
+    [(0, 2600, [2600, 2497]), (2400, 300, [300, 97])],
+)
+def test_stream_matches_acquisition_for_overlapping_sync_and_frame_end(
+    tmp_path, window_start, window_length, expected_lengths
+):
+    cfg = demo_config()
+    out = tmp_path / "batch"
+    run_physical(
+        out,
+        cfg,
+        lines=3,
+        digital={"window_start": window_start, "window_length": window_length},
+    )
+    path = tmp_path / "stream.zlraw"
+    result = stream_raw(path, cfg, lines=3, acq=AcquisitionConfig(window_start, window_length))
+    batch = read_all(out / "observable" / "raw.zlraw")
+    stream = read_all(path)
+    assert result["fine_steps"] == 3 * line_steps(cfg)
+    assert result["lines_written"] == len(batch.blocks) == len(stream.blocks)
+    assert [len(segment.samples) for segment in batch.segments] == expected_lengths
+    for actual, expected in zip(stream.blocks, batch.blocks, strict=True):
+        assert actual.first_sample_index == expected.first_sample_index
+        assert actual.line_number == expected.line_number
+    for actual, expected in zip(stream.segments, batch.segments, strict=True):
+        np.testing.assert_array_equal(actual.samples, expected.samples)

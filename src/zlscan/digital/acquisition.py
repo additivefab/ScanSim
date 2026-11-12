@@ -13,6 +13,7 @@ Aggregation is off by default. Averaging raw log-amplifier codes is refused.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -83,39 +84,48 @@ def _first_edge_at_or_after(domain: ClockDomain, tick: Tick) -> int:
     return c if domain.tick_of(c) == tick else c + 1
 
 
+def capture_windows(
+    domain: ClockDomain,
+    sync_ticks: list[Tick],
+    cfg: AcquisitionConfig,
+    ignored_syncs: list[Tick] | None = None,
+) -> Iterator[tuple[Tick, int, int, int]]:
+    """Yield the sync, counter zero and half-open sample range of each accepted window."""
+    validate(cfg)
+    if cfg.aggregation is not None:
+        raise NotImplementedError("board-side aggregation is validated but not implemented yet")
+    busy_until = 0  # exclusive
+    for tick in sorted(sync_ticks):
+        counter_zero = _first_edge_at_or_after(domain, tick) + cfg.sync_latency_cycles
+        if counter_zero < busy_until:
+            if ignored_syncs is not None:
+                ignored_syncs.append(tick)
+            continue
+        start = counter_zero + cfg.window_start
+        busy_until = start + cfg.window_length
+        yield tick, counter_zero, start, busy_until
+
+
 def acquire(
     src: ConvertedSamples,
     sync_ticks: list[Tick],
     cfg: AcquisitionConfig,
     first_line_number: int = 0,
 ) -> AcquisitionResult:
-    validate(cfg)
-    if cfg.aggregation is not None:
-        raise NotImplementedError("board-side aggregation is validated but not implemented yet")
     d = src.domain
     res = AcquisitionResult()
-    last = src.first_index + len(src) - 1
-    busy_until = -1  # last sample index of the open line
-    line_no = first_line_number
-    for t in sorted(sync_ticks):
-        c0 = _first_edge_at_or_after(d, t) + cfg.sync_latency_cycles
-        if c0 <= busy_until:
-            res.ignored_syncs.append(t)
-            continue
-        start = c0 + cfg.window_start
-        end = start + cfg.window_length - 1
-        busy_until = end
-        if start < src.first_index or start > last:
+    capture_end = src.first_index + len(src)
+    windows = capture_windows(d, sync_ticks, cfg, res.ignored_syncs)
+    for line_no, (t, c0, start, end) in enumerate(windows, first_line_number):
+        if not src.first_index <= start < capture_end:
             res.skipped_lines.append((line_no, "window outside the captured samples"))
-            line_no += 1
             continue
-        stop = min(end, last)
-        rows = src.codes[start - src.first_index : stop - src.first_index + 1]
+        stop = min(end, capture_end)
+        rows = src.codes[start - src.first_index : stop - src.first_index]
         res.lines.append(
             Line(line_no, t, start, c0, d.tick_of(c0 - cfg.sync_latency_cycles) - t, rows,
                  truncated=stop < end)
         )  # fmt: skip
-        line_no += 1
     return res
 
 

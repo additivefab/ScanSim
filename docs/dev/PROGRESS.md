@@ -6,9 +6,9 @@
 
 | 项 | 值 |
 |---|---|
-| 当前阶段 | 阶段 1（进行中） |
-| 进行中的任务 | 无（阶段 3 任务全部做完；门槛 3 项未满足，等用户在对话里明确回答） |
-| 下一个任务 | 用户确认推迟后进入 S4-T01 |
+| 当前阶段 | 阶段 3（门槛待完成） |
+| 进行中的任务 | S3-T11：写盘修复已通过测试，100 × 1000 复跑进行中 |
+| 下一个任务 | 完成阶段 3 的剩余核查 |
 | 代码 | 仓库骨架：33 个包目录、`cli.py`（13 个子命令，均未实现）、`io/manifest.py`、`contracts/param.py`、`evidence/{records,legacy_runner,sim_tools}.py`、`evidence/parameters.json`（95 条参数）、`evidence/forbidden_defaults.json`（17 条）、337 项测试（其中 40 项遗留回归，约 38 秒）；`hardware/`（引脚表、接线规则、画像门槛、原理图解析）；`zlscan check` 已实现；`legacy/` 已冻结（230 个文件，72.5 MB） |
 | git | 已初始化（分支 main），仅本地，无远端；作者身份是临时的，见 DECISIONS.md Q011 |
 | 最近一次全量测试 | 2026-11-11 `pytest -q`：775 通过，约 57 秒（含 40 项遗留回归）；`ruff check` 与 `ruff format --check` 干净 |
@@ -142,6 +142,10 @@
 - 没有 `iverilog`、`ngspice`、Vivado；Homebrew 安装失败，见上表 S0-T04 与 DECISIONS.md Q012。
 - 这是 Intel 版 Homebrew（`/usr/local`），shell 是 arm64，Python 是 x86_64；Homebrew 已不再支持 Intel macOS。
 - 建议在工程根目录建虚拟环境 `.venv`，不要往系统 Python 里装包。
+
+## 本轮起点（2026-11-12）
+
+工作区有未跟踪的包 B 理想回归、100 × 1000 性能脚本与报告，以及本地运行产物。起点全量测试 777 项通过，Ruff 检查在性能脚本报两处 E501。S3-T11 修复后全量测试 779 项通过，快速集 745 项通过，Ruff 检查与格式检查通过。
 
 ## 会话日志
 
