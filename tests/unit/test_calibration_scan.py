@@ -50,6 +50,11 @@ def test_calibration_protocol_is_backed_by_a_continuous_observable_capture(tmp_p
         calibration.items["dark_raw_code"].value["0"]["median"],
         np.median(dark_rows, axis=0),
     )
+    fitted = calibration_from_scan(raw, protocol_path, fit_transfer=True)
+    assert fitted.calibration_id != calibration.calibration_id
+    assert fitted.items["transfer_lut"].value["extrapolation"] == "invalid"
+    assert fitted.items["transfer_lut"].value["channels"]["0"]["slope_codes_per_decade"] < 0
+
     protocol["raw_sha256"] = "different"
     protocol_path.write_text(json.dumps(protocol), encoding="utf-8")
     with pytest.raises(ValueError, match="SHA-256"):

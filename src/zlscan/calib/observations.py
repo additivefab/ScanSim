@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
@@ -10,6 +11,7 @@ from typing import Literal
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from zlscan.calib.radiometric import fit_log_transfer
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
 from zlscan.io.line_image import reconstruct
 from zlscan.io.manifest import sha256_file
@@ -55,7 +57,9 @@ class ScanProtocol(BaseModel):
         return self
 
 
-def calibration_from_scan(raw_path: Path, protocol_path: Path) -> CalibrationHeader:
+def calibration_from_scan(
+    raw_path: Path, protocol_path: Path, *, fit_transfer: bool = False
+) -> CalibrationHeader:
     """Create empirical code-domain references from a complete calibration scan."""
     protocol = ScanProtocol.model_validate_json(protocol_path.read_bytes())
     if sha256_file(raw_path) != protocol.raw_sha256:
@@ -83,6 +87,7 @@ def calibration_from_scan(raw_path: Path, protocol_path: Path) -> CalibrationHea
         raise ValueError("calibration capture has missing or invalid samples")
 
     items = {}
+    by_name = {target.name: target for target in protocol.targets}
     for target in protocol.targets:
         if target.name not in {"dark", "white"}:
             continue
@@ -91,23 +96,44 @@ def calibration_from_scan(raw_path: Path, protocol_path: Path) -> CalibrationHea
             str(channel): {
                 "median": np.median(codes[rows], axis=0).tolist(),
                 "std": np.std(codes[rows], axis=0, ddof=1).tolist(),
+                "median_drift_code": float(
+                    np.median(codes[rows][-1].astype(float) - codes[rows][0])
+                ),
             }
             for channel, codes in image.codes.items()
         }
         items[f"{target.name}_raw_code"] = CalibItem(
             value=references, method="per-column median and sample standard deviation in ADC codes"
         )
+    if fit_transfer:
+        if "wedge" not in by_name:
+            raise ValueError("a density wedge is required to fit a transfer")
+        slices = [
+            slice(by_name[name].first_line, by_name[name].first_line + by_name[name].lines)
+            for name in ("dark", "white", "wedge")
+        ]
+        transfers = {}
+        for channel, codes in image.codes.items():
+            dark, white, wedge = (codes[selection] for selection in slices)
+            transfers[str(channel)] = asdict(
+                fit_log_transfer(dark, white, wedge, np.asarray(protocol.wedge_density))
+            )
+        items["transfer_lut"] = CalibItem(
+            value={"channels": transfers, "extrapolation": "invalid"},
+            method="logarithmic fit to dark, white and interior wedge patch medians",
+        )
+    algorithm = "log_transfer" if fit_transfer else "code_reference"
     protocol_sha256 = sha256_file(protocol_path)
     provenance = Provenance(protocol.origin)
     calibration = CalibrationHeader(
         format_version=1,
         provenance=provenance,
-        calibration_id=hashlib.sha256(f"code-reference-v1:{protocol_sha256}".encode()).hexdigest(),
+        calibration_id=hashlib.sha256(f"{algorithm}-v1:{protocol_sha256}".encode()).hexdigest(),
         created_at=datetime.now(UTC).isoformat(),
         binds_to=binding,
         valid_conditions={"scan_direction": "forward"},
         generator={
-            "name": "code_reference",
+            "name": algorithm,
             "version": 1,
             "raw_sha256": protocol.raw_sha256,
             "protocol_sha256": protocol_sha256,
