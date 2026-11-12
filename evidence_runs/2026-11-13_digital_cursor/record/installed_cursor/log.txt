@@ -1,0 +1,5 @@
+{"python": "3.14.7", "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O", "machine": "x86_64", "prefix": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime", "module_path": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/lib/python3.14/site-packages/zlscan/__init__.py", "packages": {"numpy": "2.5.4", "scipy": "1.18.1", "pydantic": "2.14.3", "h5py": "3.16.0", "pillow": "13.0.0", "tifffile": "2026.11.8", "matplotlib": "3.11.2"}}
+
+real HTTP digital cursor and chronological reference passed
+
+fresh-process HTTP bytes and chronological reference match

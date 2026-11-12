@@ -1,0 +1,122 @@
+{
+  "work_dir": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi",
+  "commands": [
+    {
+      "label": "build",
+      "argv": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "-m",
+        "pip",
+        "wheel",
+        "--quiet",
+        "--no-deps",
+        "--wheel-dir",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/dist",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/source-snapshot"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "download",
+      "argv": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "-m",
+        "pip",
+        "download",
+        "--quiet",
+        "--only-binary=:all:",
+        "--dest",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/wheelhouse",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/dist/zlscan-0.1.0.dev0-py3-none-any.whl[ident]"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "venv",
+      "argv": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "-m",
+        "venv",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "install",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--quiet",
+        "--no-index",
+        "--find-links",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/wheelhouse",
+        "--require-hashes",
+        "-r",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/output/wheel/requirements.lock"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "pip_check",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "pip_list",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/bin/python",
+        "-m",
+        "pip",
+        "list",
+        "--format=json"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "smoke",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/bin/python",
+        "-I",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/wheel_smoke.py",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/smoke",
+        "--expected",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/output/wheel/expected.json",
+        "--prefix",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime",
+        "--forbidden-source",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "static_cases",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/bin/python",
+        "-I",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/static_audit.py",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/static_cases"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "static_verify",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/runtime/bin/python",
+        "-I",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/static_audit.py",
+        "--verify",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-a43ya8fi/static_cases"
+      ],
+      "returncode": 0
+    }
+  ]
+}

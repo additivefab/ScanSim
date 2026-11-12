@@ -1,0 +1,94 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Original-input exact digital state and real HTTP cursor",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T23:53:30.120255+00:00",
+ "finished_at": "2026-11-12T23:54:00.525237+00:00",
+ "code": {
+  "commit": "cef8c5d7f77e0c89fd5c6a00fc3c6fa942c24507",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "0": 3,
+  "1": 31
+ },
+ "inputs": {
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/configs/physical_recording.json": "794d2175e487ae9dfb5c96c55ac52753e8fca2ce0c65fa5c7a89e151094d427f",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/output/formal_http/config.json": "32e590bfb49768c303a5996bdb529ee700440a2b02dd7d0683e7a44f2d65b93c",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/output/formal_http/commands.jsonl": "9ccee991891d9cb1f947d8f1ed91464f875ea6a927bb752a6098fa7b6834c262"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_digital_cursor.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/output/formal_http"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_digital_cursor.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/output/formal_http",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "exact_time_queries",
+   "expected": 448,
+   "tolerance": null,
+   "actual": 448,
+   "passed": true
+  },
+  {
+   "quantity": "http_responses",
+   "expected": 464,
+   "tolerance": null,
+   "actual": 464,
+   "passed": true
+  },
+  {
+   "quantity": "source_files",
+   "expected": 22,
+   "tolerance": null,
+   "actual": 22,
+   "passed": true
+  },
+  {
+   "quantity": "chronological_reference_match",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "source_unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED/ORACLE_ONLY. Source interval only, includes exact-time boundaries and explicit invalid HTTP 400 cases. Full HTTP response bytes equal in fresh process. 787 fine steps, two channels, uncontrolled cache; no browser, whole-frame performance, other OS, hardware or EOF-drain projection."
+}

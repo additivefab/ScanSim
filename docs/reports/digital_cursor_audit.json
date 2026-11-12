@@ -1,0 +1,29 @@
+{
+  "origin": "SIMULATED",
+  "visibility": "ORACLE_ONLY",
+  "source_files": 22,
+  "exact_time_queries": 448,
+  "http_responses": 464,
+  "chronological_reference_match": true,
+  "source_unchanged": true,
+  "archived_checkpoint_bytes": {
+    "count": 9,
+    "minimum": 6027,
+    "maximum": 8951
+  },
+  "closure": "inclusive; source interval only; no EOF drain projection",
+  "scope": "Same-host CLI/HTTP and software reference; no browser or hardware acceptance",
+  "code": {
+    "commit": "cef8c5d7f77e0c89fd5c6a00fc3c6fa942c24507",
+    "dirty": false
+  },
+  "wheel_sha256": "1109dea3157461f363af7c1e332876ce3acc57cfb3276ed1ca5b01d4e4fdfac2",
+  "locked_distributions": 20,
+  "http_query_ms": {
+    "count": 448,
+    "median": 23.58522900067328,
+    "minimum": 17.601125000510365,
+    "maximum": 60.53350000001956,
+    "scope": "787 fine steps, two channels; HTTP; uncontrolled cache; no drawing"
+  }
+}

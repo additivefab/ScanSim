@@ -1,0 +1,17 @@
+{
+  "scope": "Development pre-canonical JSON ordering; retained failing raw responses",
+  "mismatches": [
+    {
+      "path": "/runs/recording-c0/events?start=0&end=787",
+      "expected_sha256": "b2bc62cd86f0f3a1dc1621c1405d54317049294f2f8668173b51d9e95609f217",
+      "readback_sha256": "60fbde39115638ee20055a4cf614eaf12c874b8398342128f59c0b845e97c5c7",
+      "parsed_json_equal": true
+    },
+    {
+      "path": "/runs/recording-c1/events?start=0&end=787",
+      "expected_sha256": "29188ff6478af4387ef46025785e1a58953d1fb5abf3c51921c516745812d6f9",
+      "readback_sha256": "7243bea799c8c0707dca0f7bf425c2647f6e2a70c1d475246638b1fe8d5894b5",
+      "parsed_json_equal": true
+    }
+  ]
+}
