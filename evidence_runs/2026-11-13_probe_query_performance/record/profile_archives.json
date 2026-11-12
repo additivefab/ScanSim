@@ -1,0 +1,32 @@
+{
+  "profile_summary_current.txt": {
+    "original_sha256": "008ac948afbe1636a3b3e645d527e334e0b1f657fd669305e0ca70f08ec94079",
+    "archive": "profile_summary_current.txt.gz",
+    "view": "original text with trailing empty lines removed"
+  },
+  "profile_baseline_summary.txt": {
+    "original_sha256": "42cc6feb22a30dd6e9ef4e27cb3d2b3205bd1ca918495adf2989a464171edf41",
+    "archive": "profile_baseline_summary.txt.gz",
+    "view": "original text with trailing empty lines removed"
+  },
+  "profile_summary_baseline.txt": {
+    "original_sha256": "ddeabc20c93391c624168361692a85e4469525cbbcdb69f2d39491b08eba95ad",
+    "archive": "profile_summary_baseline.txt.gz",
+    "view": "original text with trailing empty lines removed"
+  },
+  "profile_raw_current.txt": {
+    "original_sha256": "e0b6272292b64653a5c441447b1093e816374946e3eefe2fd9f8f2c39220bb56",
+    "archive": "profile_raw_current.txt.gz",
+    "view": "original text with trailing empty lines removed"
+  },
+  "profile_raw_baseline.txt": {
+    "original_sha256": "7bbc3503f5364426130ccb8749ff75b14ca1fab435c3ac40620059a1f4268444",
+    "archive": "profile_raw_baseline.txt.gz",
+    "view": "original text with trailing empty lines removed"
+  },
+  "profile_baseline_raw.txt": {
+    "original_sha256": "7c82cb8e67b0dd19e5ef37de86a2aa9d20430cc13e675b7b07970eeb1b628d0f",
+    "archive": "profile_baseline_raw.txt.gz",
+    "view": "original text with trailing empty lines removed"
+  }
+}
