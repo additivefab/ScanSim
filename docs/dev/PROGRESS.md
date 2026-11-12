@@ -7,7 +7,7 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S3-T14 数字记录器与提交文件游标已实现，正式新进程复跑待记录；模拟/控制和主 CLI 接入仍待完成 |
+| 进行中的任务 | S3-T14 数字记录器与文件续写八组正式复跑通过；模拟/控制和主 CLI 接入仍待完成 |
 | 下一个任务 | 按阶段表补齐阶段 3/4 的工作台与指标验收；阶段 5/6 依赖分别记录，阶段 7 继续性能、比较及交付 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
@@ -17,7 +17,7 @@
 
 - `DigitalRecorder` 配对数字子链与 ZLRAW/诊断日志的已提交游标，单生产边界串行检查点；输出 fsync 后原子发布根。`RawWriter` 新建不覆盖，恢复核验前缀 SHA、CRC、会话和序号，发现未知尾部拒绝原位续写；显式新分支保留故障原件。
 - 日志含内部队列/丢失，明确 SIMULATED/ORACLE_ONLY，不交给标定重建。部分写入失败后记录器失效，旧检查点仍可从提交前缀恢复。详见 D046 和 `docs/reports/recording_checkpoints.md`。
-- 带 Icarus 全量 1091 项通过（74.56 s），Ruff/格式通过（211 个 Python 文件）。正式八组新进程恢复记录待干净提交复跑；模拟、控制、主 CLI/工作台及跨时期密度重建仍未完成。
+- 带 Icarus 全量 1091 项通过（74.56 s），Ruff/格式通过（211 个 Python 文件）。正式八组新进程复跑通过，绑定干净提交 `ab8ed8d`，证据位于 `evidence_runs/2026-11-12_recording_checkpoints/record/`。四组原位续写同 inode，四组突然退出码 86 后分支恢复保留原件；raw/journal 全字节与摘要一致。检查点 5729–7654 B，发布 1.630–7.388 ms，恢复 3.534–5.065 ms，恢复/继续/同步发布 9.557–11.023 ms（不含进程启动，缓存未控制）。模拟、控制、主 CLI/工作台及跨时期密度重建仍未完成。
 
 ## 本轮 S3-T14 数字采集与组合子链
 

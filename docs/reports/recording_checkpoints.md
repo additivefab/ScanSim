@@ -34,4 +34,19 @@ ZLRAW 保留模拟 ADC 观测代码；诊断日志包含精确模型队列占用
 
 本机 macOS 执行；Windows 锁分支依据 [Python 官方 msvcrt 文档](https://docs.python.org/3/library/msvcrt.html)
 实现，但 Windows 执行未验证。磁盘缓存未控制，不外推为硬件吞吐、断电保证或界面时延。
-正式提交绑定、实测数值与证据记录在干净提交复跑后补入。
+
+## 正式新进程复跑
+
+干净提交 `ab8ed8d83dc083d72575fbea783af660b2d18550` 的八组全部通过。
+四组原位续写保持原 raw inode；四组在新进程 `os._exit(86)` 后验证旧检查点不变、
+原位拒绝未提交尾部，另建分支恢复且故障原件哈希不变。八组最终 raw/journal 的全部
+字节和摘要均与连续基线相同，raw CRC/结构及连续序号复读通过。
+
+检查点 5729–7654 B，发布 1.630–7.388 ms；文件/子链恢复 3.534–5.065 ms；
+恢复并继续 35 个输入样本、EOF/排空、输出同步与新检查点发布共 9.557–11.023 ms。
+后两者不含进程启动；缓存未控制。这些值不是全幅、UI 或断电验收。
+带 Icarus 全量 1091 项通过（74.56 s），Ruff 与格式检查通过。
+
+正式记录：`evidence_runs/2026-11-12_recording_checkpoints/record/`；
+逐组结果：`docs/reports/recording_checkpoint_audit.json`。
+

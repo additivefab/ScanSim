@@ -1,0 +1,77 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Actual digital recording file resume and preserved-tail recovery",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T14:32:06.572062+00:00",
+ "finished_at": "2026-11-12T14:32:11.127898+00:00",
+ "code": {
+  "commit": "ab8ed8d83dc083d72575fbea783af660b2d18550",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261112,
+ "inputs": {
+  "tools/audit_recording_checkpoints.py": "0a51557090deaa2e1eba90316d9bf9da3ac8cccbe6aa8c7360cd6146e8b9e134",
+  "tools/audit_digital_checkpoints.py": "a1dc182913bb24b9b61850e36077d6c0ec10725948c3da16b767b1caeb12808a",
+  "src/zlscan/engine/digital_recording.py": "78de5a0c5ab008e35a9c6a5cd0c76a58ee824b6179b103041e05a49dc517b51f",
+  "src/zlscan/io/committed.py": "1dbc347367f0e2c288db45b7f2595661da422a2dd7e8d8d79fb956865e9c3a3a",
+  "src/zlscan/io/rawstream.py": "3e228b51c452ecc8d606e8263bf8bf414f2740482f6b5e30c1c017602bfe2166",
+  "evidence_runs/2026-11-12_recording_checkpoints/output/codes.npy": "4b0ed2bda40b59910b5bf215be7f16b00f40bcbf5fdf4044dfe28a0a1d551640"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_recording_checkpoints.py",
+    "--out",
+    "evidence_runs/2026-11-12_recording_checkpoints/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "cases",
+   "expected": 8,
+   "tolerance": null,
+   "actual": 8,
+   "passed": true
+  },
+  {
+   "quantity": "raw_journal_summary_equal",
+   "expected": 8,
+   "tolerance": null,
+   "actual": 8,
+   "passed": true
+  },
+  {
+   "quantity": "abrupt_exit_86_preserved",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "same_inode_in_place",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  }
+ ],
+ "notes": "Actual committed-file append and preserved-tail branch recovery. Synthetic digital model; excludes analog, controller, CLI/UI and physical power loss. Checkpoint flush/fsync+atomic publication; file/pipeline restore; continuation adds 35 inputs, EOF/drain, writes/fsyncs outputs and publishes. Excludes process startup. Disk cache uncontrolled. Journal is SIMULATED/ORACLE_ONLY. Identical producer submission boundaries. macOS execution only; not a power-loss certification."
+}
