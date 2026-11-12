@@ -1,0 +1,78 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Nominal density wedge and four uniform-patch PSD evaluations",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T11:05:35.139589+00:00",
+ "finished_at": "2026-11-12T11:05:35.522209+00:00",
+ "code": {
+  "commit": "6fef55b6fc2117be10de575978c8fb28818b78cd",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "evidence_runs/2026-11-12_nominal_cli/output/reconstructed/density.npz": "4c3d3224b41c6be419491d8b24a992c2e6966cc917e2a4956b776eb9259b12e7",
+  "evidence_runs/2026-11-12_nominal_cli/output/reconstructed/run.json": "3f12fff8fdd5abedc249285e86d66f2b0e72425588aa9222ea704804e5a541d9",
+  "evidence_runs/2026-11-12_nominal_cli/output/evaluation_inputs/unblurred.npy": "05c0f2a5baf25ad067cb3422067fc9e2308ba6039be0280fea185fe1066bd77b",
+  "evidence_runs/2026-11-12_nominal_cli/output/evaluation_inputs/roi.npy": "34edbec03317dbcbe1727322e358599d4efbdbb627bf9486036c31665a18183e",
+  "evidence_runs/2026-11-12_nominal_cli/output/evaluation_inputs/optical.npy": "1c65d0f5ec1f08c83299c45cf8d5972e94f26c872d50c11063d40f62d53350d5"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/nominal_quality_metrics.py",
+    "--source",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_cli/output",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_quality/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "common evaluation pixels",
+   "expected": 288,
+   "tolerance": null,
+   "actual": 288,
+   "passed": true
+  },
+  {
+   "quantity": "computed target metrics",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "wedge equals common mask",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "noise pixels per step",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Existing 12x40 SIMULATED nominal calibration/reconstruction. Evaluation side uses declared wedge truth. No measured device evidence; no usable-range thresholds assumed."
+}

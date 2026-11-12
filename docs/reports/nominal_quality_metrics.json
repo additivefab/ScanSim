@@ -1,0 +1,77 @@
+{
+  "source_reconstruction_sha256": "4c3d3224b41c6be419491d8b24a992c2e6966cc917e2a4956b776eb9259b12e7",
+  "wedge": {
+    "steps": [
+      {
+        "target_od": 0.2,
+        "pixels": 64,
+        "mean_od": 0.21250501431981245,
+        "bias_od": 0.012505014319812435,
+        "std_od": 0.03286527711348755,
+        "transmittance_snr_db": 23.16466617238958,
+        "snr_status": "computed"
+      },
+      {
+        "target_od": 0.8,
+        "pixels": 80,
+        "mean_od": 0.7985929231380714,
+        "bias_od": -0.0014070768619286467,
+        "std_od": 0.04828522883382122,
+        "transmittance_snr_db": 18.82184198209116,
+        "snr_status": "computed"
+      },
+      {
+        "target_od": 1.4,
+        "pixels": 80,
+        "mean_od": 1.3988336936021148,
+        "bias_od": -0.001166306397885064,
+        "std_od": 0.048106488799221615,
+        "transmittance_snr_db": 18.896115888696325,
+        "snr_status": "computed"
+      },
+      {
+        "target_od": 2.0,
+        "pixels": 64,
+        "mean_od": 1.9858630591363164,
+        "bias_od": -0.014136940863683556,
+        "std_od": 0.03673925060057275,
+        "transmittance_snr_db": 20.63608922219472,
+        "snr_status": "computed"
+      }
+    ],
+    "linearity": {
+      "slope": 0.9867191508189255,
+      "offset_od": 0.013557606648261004,
+      "max_residual_od": 0.00434000416532998
+    },
+    "covered_target_range_od": [
+      0.2,
+      2.0
+    ],
+    "highest_step_mean_od": 1.9858630591363164,
+    "usable_target_range_od": null,
+    "usable_target_levels_od": null,
+    "status": "computed",
+    "kind": "wedge",
+    "evaluation_pixels": 288
+  },
+  "noise": {
+    "noise_step_0": {
+      "accepted_patches": 2,
+      "evaluation_pixels": 32
+    },
+    "noise_step_1": {
+      "accepted_patches": 2,
+      "evaluation_pixels": 32
+    },
+    "noise_step_2": {
+      "accepted_patches": 2,
+      "evaluation_pixels": 32
+    },
+    "noise_step_3": {
+      "accepted_patches": 2,
+      "evaluation_pixels": 32
+    }
+  },
+  "valid_pixels": 288
+}

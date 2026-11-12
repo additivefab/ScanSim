@@ -1,0 +1,1 @@
+评价已写入 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_nominal_quality/output/metrics，有效覆盖 100.0%
