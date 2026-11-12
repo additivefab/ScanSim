@@ -180,7 +180,7 @@ def run_case(
     if fault == "buffer_wrap":
         res.lines[5].samples = res.lines[1].samples.copy()
 
-    tmp = Path(workdir) if workdir else Path(tempfile.mkdtemp(prefix="zlscan_fault_"))
+    tmp = Path(tempfile.mkdtemp(prefix=f"zlscan_fault_{fault or 'none'}_", dir=workdir))
     path = tmp / "case.zlraw"
     if fault == "reset_interruption":
         with RawWriter(path, session_header(got, CFG, 1)) as w:

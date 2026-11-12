@@ -14,6 +14,8 @@ trusted to say where the next block starts.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import struct
 import zlib
@@ -24,6 +26,8 @@ from typing import Any, BinaryIO, Literal
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict
+
+from zlscan.io.committed import CommittedFile
 
 PRELUDE = b"ZLRAW0.1"
 BLOCK_MAGIC = b"ZLR1"
@@ -122,17 +126,150 @@ def _channels(mask: int) -> list[int]:
 
 class RawWriter:
     def __init__(self, path: Path, session: SessionHeader) -> None:
-        self.session = session
+        self.session = session.model_copy(deep=True)
+        self._validate_session()
+        self._session_hash = self._hash_session(self.session)
         self._seq = 0
-        self._file = open(path, "wb")  # noqa: SIM115 - closed in __exit__
-        meta = session.model_dump_json().encode("utf-8")
-        self._file.write(PRELUDE + struct.pack("<I", len(meta)) + meta)
+        self._output = CommittedFile(path)
+        self._file = self._output.stream
+        meta = self.session.model_dump_json().encode("utf-8")
+        try:
+            self._output.append(PRELUDE + struct.pack("<I", len(meta)) + meta)
+        except Exception:
+            self._output.close()
+            raise
+
+    FORMAT = "zlscan-rawwriter-checkpoint/1"
+
+    def _validate_session(self) -> None:
+        if not 0 <= self.session.session_id < 2**64 or not 1 <= self.session.bits_per_sample <= 16:
+            raise ValueError("raw session id or bit width is outside the container range")
+
+    @staticmethod
+    def _hash_session(session: SessionHeader) -> str:
+        return hashlib.sha256(
+            json.dumps(session.model_dump(mode="json"), sort_keys=True).encode()
+        ).hexdigest()
+
+    @property
+    def next_sequence(self) -> int:
+        return self._seq
+
+    @property
+    def offset(self) -> int:
+        return self._output.offset
+
+    def checkpoint(self) -> bytes:
+        if self._hash_session(self.session) != self._session_hash:
+            raise ValueError("writer session changed")
+        value = {
+            "format": self.FORMAT,
+            "session_hash": self._session_hash,
+            "next_sequence": str(self._seq),
+            "file": self._output.checkpoint(),
+        }
+        value["checksum"] = hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
+        return json.dumps(value, sort_keys=True).encode()
+
+    @classmethod
+    def resume(
+        cls, path: Path, session: SessionHeader, blob: bytes, *, branch_path: Path | None = None
+    ) -> RawWriter:
+        value = json.loads(blob)
+        if not isinstance(value, dict) or value.get("format") != cls.FORMAT:
+            raise ValueError("raw writer checkpoint version is unsupported")
+        checksum = value.pop("checksum", None)
+        if checksum != hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest():
+            raise ValueError("raw writer checkpoint checksum is invalid")
+        if value["session_hash"] != cls._hash_session(session):
+            raise ValueError("raw writer session differs")
+        result = cls.__new__(cls)
+        result.session = session.model_copy(deep=True)
+        result._validate_session()
+        result._session_hash, result._seq = value["session_hash"], int(value["next_sequence"])
+        if not 0 <= result._seq <= 2**32:
+            raise ValueError("raw block sequence is outside the container range")
+        result._output = CommittedFile.resume(path, value["file"], branch_path=branch_path)
+        result._file = result._output.stream
+        try:
+            result._verify_prefix()
+            result._output.check()
+        except Exception:
+            result._output.close()
+            raise
+        return result
+
+    def _verify_prefix(self) -> None:
+        stream = self._file
+        stream.seek(0)
+        if stream.read(len(PRELUDE)) != PRELUDE:
+            raise ValueError("committed raw prelude differs")
+        size = stream.read(4)
+        if len(size) != 4:
+            raise ValueError("committed session is truncated")
+        length = struct.unpack("<I", size)[0]
+        if length > self.offset - stream.tell():
+            raise ValueError("committed session length exceeds file")
+        if (
+            self._hash_session(SessionHeader.model_validate_json(stream.read(length)))
+            != self._session_hash
+        ):
+            raise ValueError("committed raw session differs")
+        sequence = 0
+        while stream.tell() < self.offset:
+            header = stream.read(BLOCK_HEADER_SIZE)
+            if (
+                len(header) != BLOCK_HEADER_SIZE
+                or zlib.crc32(header[:60]) != struct.unpack_from("<I", header, 60)[0]
+            ):
+                raise ValueError("committed block header is incomplete or has bad CRC")
+            (
+                magic,
+                version,
+                head_len,
+                sid,
+                _epoch,
+                seq,
+                mask,
+                _domain,
+                _flags,
+                _reserved,
+                _first,
+                count,
+                size,
+                _line,
+                crc,
+                _reserved2,
+            ) = _HEAD.unpack(header[:60])
+            if (
+                magic != BLOCK_MAGIC
+                or version != BLOCK_VERSION
+                or head_len != BLOCK_HEADER_SIZE
+                or sid != self.session.session_id
+                or seq != sequence
+                or not mask
+                or size != count * len(_channels(mask)) * 2
+                or size > self.offset - stream.tell()
+            ):
+                raise ValueError("committed block layout or sequence differs")
+            remaining, actual = size, 0
+            while remaining:
+                data = stream.read(min(1 << 20, remaining))
+                if not data:
+                    raise ValueError("committed payload is truncated")
+                actual = zlib.crc32(data, actual)
+                remaining -= len(data)
+            if actual != crc:
+                raise ValueError("committed payload CRC differs")
+            sequence += 1
+        if stream.tell() != self.offset or sequence != self._seq:
+            raise ValueError("committed block boundary or next sequence differs")
 
     def __enter__(self) -> RawWriter:
         return self
 
     def __exit__(self, *exc: object) -> None:
-        self._file.close()
+        self._output.close()
 
     def write_block(
         self,
@@ -145,7 +282,13 @@ class RawWriter:
         flags: int = 0,
         line_number: int = 0,
     ) -> None:
+        if self._hash_session(self.session) != self._session_hash:
+            raise ValueError("writer session changed")
+        if self._seq >= 2**32:
+            raise ValueError("raw block sequence exhausted")
         samples = np.asarray(samples)
+        if not 0 < channel_mask < 2**16:
+            raise ValueError("channel mask must name 1..16 channels")
         if samples.dtype not in (np.dtype("<u2"), np.dtype("uint16")):
             raise ValueError("samples must be uint16")
         channels = _channels(channel_mask)
@@ -161,7 +304,7 @@ class RawWriter:
             self._seq, channel_mask, clock_domain, flags, 0, first_sample_index,
             samples.shape[0], len(payload), line_number, zlib.crc32(payload), 0,
         )  # fmt: skip
-        self._file.write(head + struct.pack("<I", zlib.crc32(head)) + payload)
+        self._output.append(head + struct.pack("<I", zlib.crc32(head)) + payload)
         self._seq += 1
 
 
