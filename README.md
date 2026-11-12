@@ -64,3 +64,7 @@ python3 -m venv .venv
 
 示波器 CSV 可附加显式候选观测模型：`--model-waveform model.csv --observer observer.json --observe-channel CH1`。
 支持声明的带宽、耦合与采样孔径；模型预测单独标记，不改测量。见 [观测模型与限制](docs/reports/scope_observation_model.md)。
+
+静态线性辨识：测量表导入加 `--static-fit static.json`，显式映射拟合/留出记录，
+输出可辨识参数/组合、条件区间和残差图；绘图需安装 `.[ident]`。
+见 [辨识假设与使用边界](docs/reports/static_identification.md)，不自动升级实测参数。

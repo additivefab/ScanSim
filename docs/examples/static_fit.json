@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "features": [
+    {
+      "name": "drive",
+      "scale_si": 1.0
+    }
+  ],
+  "intercept": true,
+  "confidence_level": 0.95,
+  "rank_rtol": 1e-10,
+  "input_handling": "conditional_on_declared_values",
+  "output_error_model": "independent_gaussian_known_standard_uncertainty",
+  "assumption_source": "ASSUMED example protocol choices; replace after checking your experiment",
+  "observations": [
+    {
+      "inputs": {
+        "drive": "input_measurement_id"
+      },
+      "output": "output_measurement_id"
+    }
+  ],
+  "validation_max_abs_residual_si": null
+}

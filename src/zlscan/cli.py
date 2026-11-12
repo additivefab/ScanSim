@@ -501,16 +501,19 @@ def _run_ident(argv: Sequence[str]) -> int:
     from zlscan.ident.observe import attach_scope_observer
     from zlscan.ident.raw import RawMetadata, import_raw_capture, write_raw_import_report
     from zlscan.ident.scope import ScopeMetadata, import_scope_csv
+    from zlscan.ident.static import StaticFitConfig, identify_static
     from zlscan.ident.table import TableMetadata, import_measurement_table
     from zlscan.observation.scope import ScopeObserverConfig
+    from zlscan.report.static_identification import write_static_residuals
 
-    p = argparse.ArgumentParser(
-        prog="zlscan ident", description="波形、码流与测量表导入（不作参数辨识）"
-    )
+    p = argparse.ArgumentParser(prog="zlscan ident", description="观测导入与显式分区静态线性辨识")
     source = p.add_mutually_exclusive_group(required=True)
     source.add_argument("--csv", type=Path)
     source.add_argument("--table", type=Path, help="标量测量模板 CSV")
     source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
+    p.add_argument(
+        "--static-fit", type=Path, help="explicit paired scalar linear identification JSON"
+    )
     p.add_argument("--model-waveform", type=Path, help="model CSV: time_s,voltage_v")
     p.add_argument("--observer", type=Path, help="explicit candidate scope response JSON")
     p.add_argument("--observe-channel", help="one voltage channel for nominal residuals")
@@ -520,6 +523,8 @@ def _run_ident(argv: Sequence[str]) -> int:
     observation_args = [args.model_waveform, args.observer, args.observe_channel]
     if any(observation_args) and (not all(observation_args) or args.csv is None):
         p.error("--model-waveform/--observer/--observe-channel require each other and --csv")
+    if args.static_fit is not None and args.table is None:
+        p.error("--static-fit requires --table")
     try:
         declaration = args.metadata.read_bytes()
         if args.raw is not None:
@@ -533,6 +538,11 @@ def _run_ident(argv: Sequence[str]) -> int:
             if args.table is not None:
                 table_metadata = TableMetadata.model_validate_json(declaration)
                 result = import_measurement_table(args.table, table_metadata, args.metadata.parent)
+                if args.static_fit is not None:
+                    fit_bytes = args.static_fit.read_bytes()
+                    fit_config = StaticFitConfig.model_validate_json(fit_bytes)
+                    result["static_identification"] = identify_static(result, fit_config)
+                    result["static_fit_config_sha256"] = hashlib.sha256(fit_bytes).hexdigest()
             else:
                 metadata = ScopeMetadata.model_validate_json(declaration)
                 result = import_scope_csv(args.csv, metadata)
@@ -563,6 +573,14 @@ def _run_ident(argv: Sequence[str]) -> int:
             args.out.mkdir(parents=True, exist_ok=False)
             with (args.out / "run.json").open("x", encoding="utf-8") as stream:
                 json.dump(result, stream, ensure_ascii=False, allow_nan=False)
+            if "static_identification" in result:
+                identified = result["static_identification"]
+                write_static_residuals(identified, args.out / "static_residuals.svg")
+                if identified["status"] != "identified" or identified.get("validation", {}).get(
+                    "status"
+                ) in {"mismatch", "unidentifiable"}:
+                    print(f"辨识未通过；诊断已保存于 {args.out}", file=sys.stderr)
+                    return CHECK_FAIL_EXIT_CODE
     except (OSError, ValueError) as exc:
         print(f"导入失败：{exc}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
