@@ -1,0 +1,136 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Frozen recording workbench: delivered ADC and historical research replay",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T21:20:38.779642+00:00",
+ "finished_at": "2026-11-12T21:22:17.491767+00:00",
+ "code": {
+  "commit": "ba87adb3c056348d5ac063872d33652f54f15e66",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "primary": 3,
+  "secondary": 31
+ },
+ "inputs": {
+  "src/zlscan/engine/recording_service.py": "9bfc08a73abf73de6abf8b9d65edc1e8e709d8c42b0ff67e09ffa737e9c3ba68",
+  "src/zlscan/engine/saved_service.py": "3b70b8089069c6769668b02a4371c903170d5e035397cbdb4c2fdd9b819e88e9",
+  "src/zlscan/engine/recording_replay.py": "e61ca168eaca07f5b49d41f77eb7c8551e535865cd32089f0516a9be4cd6c531",
+  "src/zlscan/io/committed_adc.py": "978b17662bca090c45284408d0147bc571f99e6f8943fce1d6b045d61f52ccea",
+  "src/zlscan/io/committed.py": "2e905837e69aa58283aa37fb29f07df3036ecd167f98ff59e867a67a02f0f9cb",
+  "src/zlscan/io/observable_arrays.py": "d21a1c325de08acdd849eb9126e31a65862c583d32e8adc448e7b6d7d2d3f1e1",
+  "src/zlscan/api/static/index.html": "ff96a0921605715232ac136ba0d968d27aab615c31abc2258f205106ce2ead59",
+  "tools/audit_recording_workbench.py": "2cc04f9c351b468fd10e4f9ab15be04daeb40ee538523cedde6d59be2057f24e",
+  "tools/wheel_smoke.py": "38d42b1ee8cafb66a571ec0ace9858666a21a73d0bf78940eac199cc91f39fef",
+  "tests/unit/test_recording_workbench.py": "090b23bb22a915593fd5c869a59eba9cb09fda8ce368c51788ad8ee88a587f1f",
+  "tests/unit/test_recording_ui_helpers.py": "51531c27dba48235129b6bd77d143bcc6ecefe7462c3a0e46d94a0cda6dd5416",
+  "tests/unit/test_observable_sample.py": "7d4cb1ff98b6cead241146b4ce49d408ed6c70a362a264ca7aee8156428cde6f",
+  "tests/unit/test_ui_query_races.py": "e46635abc83661439fbb8d33bbd8b60fa47ae58e7f5d048060f3309653c61639",
+  "evidence_runs/2026-11-13_recording_workbench/output/formal/config.json": "4a77a0a76871b33e4f93b46b40f98c3923573dff52d2b94751b1b770789ba817",
+  "evidence_runs/2026-11-13_recording_workbench/output/formal/commands.jsonl": "9857b6bb65b8f9e9c5225dc4acb11e23a46a59f6bce3fe1524667d6b979c9361",
+  "evidence_runs/2026-11-13_recording_workbench/output/formal/audit.json": "d864f32987b7cb35fd2a3d9d0b6c211175b1d3640a463299b04b0c0aaec84ae8",
+  "evidence_runs/2026-11-13_recording_workbench/output/formal/source_manifest.json": "03681f5bd7f9524e59ca6f8926ed77c29550a0573701fb975ddf9260ab13d631",
+  "evidence_runs/2026-11-13_recording_workbench/output/formal/source/checkpoint.json": "079a53b23f3fba518c5d040314cf3707eb42ee1ba718c5de200f6bf037bce8f0",
+  "evidence_runs/2026-11-13_recording_workbench/output/wheel_formal/audit.json": "39cffae869a4b1f9a88fad26d5ca6524df8daa6fef65bfc77665e4daf6079a76",
+  "evidence_runs/2026-11-13_recording_workbench/output/wheel_formal/smoke.json": "597dfeb41aa8d3ed63f8e1dae40d936eea0f30163319e7dffb10034a77f9d6b0",
+  "evidence_runs/2026-11-13_recording_workbench/output/wheel_formal/requirements.lock": "4a0363fa2eeee82e7f964b22d66617e4bdcad61f6d0a0d73b7239cbecf833fc1",
+  "evidence_runs/2026-11-13_recording_workbench/output/wheel_formal/wheelhouse_manifest.json": "8537f01b2f508648e024328d2240af8b982cea0ddf694ff03eb8eaf50744aeed",
+  "evidence_runs/2026-11-13_recording_workbench/output/wheel_formal/source_manifest.json": "8e36147772402d77aa953f1ac15c86b94a81ea410fd911d90ac28156bb42fb55"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--out",
+    "evidence_runs/2026-11-13_recording_workbench/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_recording_workbench.py",
+    "--verify",
+    "evidence_runs/2026-11-13_recording_workbench/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_recording_workbench/output/wheel_formal"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation at formal start",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "source preserved",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "HTTP responses reproduced exactly by fresh process",
+   "expected": 31,
+   "tolerance": null,
+   "actual": 31,
+   "passed": true
+  },
+  {
+   "quantity": "wheel implementation commit matches",
+   "expected": "ba87adb3c056348d5ac063872d33652f54f15e66",
+   "tolerance": null,
+   "actual": "ba87adb3c056348d5ac063872d33652f54f15e66",
+   "passed": true
+  },
+  {
+   "quantity": "wheel source clean",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "hash locked distributions installed",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "wheel runtime assets present",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED assumptions only. Public CLI, two recording channels, delivered codes/gaps/epochs, original capture observables and controlled model replay checked. Source directory unchanged. Same-host wheel isolation is not another machine, browser or hardware acceptance. Developer full pytest 1360 passed/2 Icarus skips (147.70 s) predates clean commit and is archived separately; new installed dependency set exercised short flows only. Earlier failed development logs preserved; no physical performance or P0 high-density gate upgraded."
+}

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_recording_workbench.py", line 15, in <module>
+    from zlscan.engine.recording_replay import RecordingReplay
+ModuleNotFoundError: No module named 'zlscan'

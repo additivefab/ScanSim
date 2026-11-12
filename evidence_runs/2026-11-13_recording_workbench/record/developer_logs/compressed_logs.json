@@ -1,0 +1,17 @@
+{
+  "pytest_red.log": {
+    "archive": "pytest_red.log.gz",
+    "original_sha256": "f9dff898555eeefb612d805f6acf97825750c0d23ae67b1b5be7049c2c641a26",
+    "uncompressed_bytes": 107625
+  },
+  "pytest_sample_race_red.log": {
+    "archive": "pytest_sample_race_red.log.gz",
+    "original_sha256": "dbaca1ae9e58f3e4cd1e1ca8dddf4b0b0527f7dc7ef7a705f72cde460fec52d9",
+    "uncompressed_bytes": 4263
+  },
+  "pytest_targeted_2.log": {
+    "archive": "pytest_targeted_2.log.gz",
+    "original_sha256": "8ea7bfe95c94c846802ade1a708eec433fd7b61153ad63ce8b611455f18a417a",
+    "uncompressed_bytes": 2010
+  }
+}
