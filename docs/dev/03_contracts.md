@@ -427,3 +427,18 @@ run.json 保存原 session、块索引、错误及缺样；坏 CRC 块不进入�
 硬验收永远 false、参数升级为空。没有预期起止样本时只声明 seen_range_checked，
 不证明文件首尾无损失或本机 FPGA 协议已冻结。预览最多 256 行，块索引仍随块数增长，
 该适配器不声称未知长度采集内存有界。
+
+## 标量测量模板表合同 v1（S6-T01）
+
+`ident --table ... --metadata ... --out ...` 读严格 CSV；固定列为
+measurement_id,reference_id,partition,quantity,value,unit,uncertainty,uncertainty_kind,
+coverage_factor,uncertainty_source,source_sha256,session,epoch,acquisition_id。
+measurement_id 唯一，partition 为 fit/validation/unassigned；空值保留 null，
+未知单位、非有限数值、负不确定度或重复身份拒绝。物理量与单位必须匹配；
+转 SI 后保留原声明，标准不确定度/扩展不确定度/绝对界限不互换；
+缺不确定度来源或 expanded 的覆盖因子只允许查看，不默认零。
+侧车显式列 source_files 的 path/sha256；路径相对侧车目录。逐文件核验哈希，
+错误拒绝，未登记源保留未核验状态。拟合与验证复用同一源摘要，或复用同一
+(session,epoch,acquisition_id) 的记录标为泄漏，不输出独立验证通过；
+未发现重复只说明声明中未检出复用，不证明统计独立。
+表为标量记录，不生成同步波形，不自动辨识/标定或升级实测参数。

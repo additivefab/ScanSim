@@ -7,11 +7,17 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S6-T01 ZLRAW 导入快照与完整性/来源门禁已实现；硬件协议及测量表适配仍待完成 |
+| 进行中的任务 | S6-T01 三类声明格式导入及模板表来源隔离检查已实现；真实协议/实测验收未完成 |
 | 下一个任务 | 按阶段表补齐阶段 3/4 的工作台与指标验收；阶段 5/6 依赖分别记录，阶段 7 继续性能、比较及交付 |
-| 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（CSV/ZLRAW 导入部分）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
+| 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1191 通过、2 跳过，77.85 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1211 通过、2 跳过，76.62 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+
+## 本轮 S6-T01 标量测量模板表
+
+- 新增 `ident --table`，严格列名/身份/单位维度，保留未知值与标准/扩展不确定度/绝对界限语义；不默认为零或互相转换。原文件 SHA 及实际来源核验进入报告，源与侧车只读，不覆盖输出。见 D054、`docs/reports/measurement_table_import.md` 及 `docs/examples/measurement_table.csv`。
+- 拟合/验证复用同一源摘要或采集身份标为泄漏；缺来源仅未核验，未发现复用不宣称统计独立。标量不生成同步波形，不自动拟合/升级参数。三类接口已有声明格式适配，但真实 FPGA/仪器格式和实测适配验收仍未完成。
+- 最新全量 1211 通过/2 跳过（76.62 s，Icarus 不可用），Ruff/格式通过（233 文件）；未知模板的实际 CLI 导入保留 null，分区 not_assessed。起点全量 1191 通过/2 跳过（80.65 s）；三类导入与 CLI 定向 51 项通过（2.22 s），均合成输入。
 
 ## 本轮 S6-T01 ZLRAW 原样快照导入（部分）
 

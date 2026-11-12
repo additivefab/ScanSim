@@ -57,3 +57,7 @@ python3 -m venv .venv
 
 当前 ZLRAW 0.1 草案可通过 `zlscan ident --raw capture.zlraw --metadata metadata.json --out imported_raw`
 导入并保留原样快照；见 [码流导入限制](docs/reports/raw_measurement_import.md)。不代表已对接本机 FPGA。
+
+标量测量模板表：`zlscan ident --table measurements.csv --metadata metadata.json --out imported_table`。
+支持显式单位/不确定度及拟合/验证来源复用检查，见 [模板与限制](docs/reports/measurement_table_import.md)。
+导入不等于辨识或独立实测验收。

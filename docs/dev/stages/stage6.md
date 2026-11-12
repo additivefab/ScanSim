@@ -29,7 +29,7 @@
 
 **验收**：缺元数据的文件被标记；非同次采集的多路数据不被当作同步。
 
-2026-11-13：S6-T01 已增加示波器 CSV 的 SI 转换、缺项清单、采样间隔与同步声明门禁；见 `docs/reports/scope_measurement_import.md`。仅软件适配，未取得实测波形。新增当前 ZLRAW 草案的原样快照导入、完整性及来源门禁，见 `docs/reports/raw_measurement_import.md`；本机 FPGA 真实协议及测量模板表适配仍待完成。
+2026-11-13：S6-T01 已增加示波器 CSV 的 SI 转换、缺项清单、采样间隔与同步声明门禁；见 `docs/reports/scope_measurement_import.md`。仅软件适配，未取得实测波形。新增当前 ZLRAW 草案的原样快照导入、完整性及来源门禁，见 `docs/reports/raw_measurement_import.md`；标量测量模板表已增加显式单位/不确定度与拟合/验证来源复用检查，见 `docs/reports/measurement_table_import.md`。三类声明格式的软件接口已接通，本机 FPGA 真实协议、仪器专有格式及实测适配验收仍待完成。
 
 ### S6-T02 观测模型
 

@@ -500,12 +500,14 @@ def _run_ident(argv: Sequence[str]) -> int:
 
     from zlscan.ident.raw import RawMetadata, import_raw_capture, write_raw_import_report
     from zlscan.ident.scope import ScopeMetadata, import_scope_csv
+    from zlscan.ident.table import TableMetadata, import_measurement_table
 
     p = argparse.ArgumentParser(
-        prog="zlscan ident", description="CSV/ZLRAW 观测导入（不作参数辨识）"
+        prog="zlscan ident", description="波形、码流与测量表导入（不作参数辨识）"
     )
     source = p.add_mutually_exclusive_group(required=True)
     source.add_argument("--csv", type=Path)
+    source.add_argument("--table", type=Path, help="标量测量模板 CSV")
     source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
     p.add_argument("--metadata", required=True, type=Path)
     p.add_argument("--out", required=True, type=Path)
@@ -520,8 +522,12 @@ def _run_ident(argv: Sequence[str]) -> int:
                 print(f"码流不可读；副本与诊断已保存于 {args.out}", file=sys.stderr)
                 return CHECK_FAIL_EXIT_CODE
         else:
-            metadata = ScopeMetadata.model_validate_json(declaration)
-            result = import_scope_csv(args.csv, metadata)
+            if args.table is not None:
+                table_metadata = TableMetadata.model_validate_json(declaration)
+                result = import_measurement_table(args.table, table_metadata, args.metadata.parent)
+            else:
+                metadata = ScopeMetadata.model_validate_json(declaration)
+                result = import_scope_csv(args.csv, metadata)
             result["metadata_sha256"] = hashlib.sha256(declaration).hexdigest()
             args.out.mkdir(parents=True, exist_ok=False)
             with (args.out / "run.json").open("x", encoding="utf-8") as stream:

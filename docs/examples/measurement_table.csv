@@ -1,0 +1,2 @@
+measurement_id,reference_id,partition,quantity,value,unit,uncertainty,uncertainty_kind,coverage_factor,uncertainty_source,source_sha256,session,epoch,acquisition_id
+reference_001,white,unassigned,voltage,,V,,,,,,,,
