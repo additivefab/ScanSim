@@ -37,7 +37,7 @@ def test_version(capsys):
 
 
 # Commands that are implemented are tested in test_profile_and_check.py.
-IMPLEMENTED = {"check", "budget", "run", "serve"}
+IMPLEMENTED = {"check", "budget", "run", "serve", "replay"}
 
 
 @pytest.mark.parametrize("name", sorted(PLANNED - IMPLEMENTED))
@@ -64,3 +64,53 @@ def test_module_entry_point_runs_in_a_fresh_interpreter():
     )
     assert result.returncode == NOT_IMPLEMENTED_EXIT_CODE
     assert "尚未实现" in result.stderr
+
+
+def test_cli_replays_a_saved_physical_window_without_mutating_source(tmp_path):
+    import json
+
+    import numpy as np
+
+    source, output = tmp_path / "source", tmp_path / "replayed"
+    assert main(["run", "--mode", "physical", "--lines", "3", "--out", str(source)]) == 0
+    manifest = (source / "run.json").read_bytes()
+    assert (
+        main(
+            [
+                "replay",
+                "--run",
+                str(source),
+                "--start-step",
+                "11000",
+                "--steps",
+                "100",
+                "--out",
+                str(output),
+            ]
+        )
+        == 0
+    )
+    report = json.loads((output / "run.json").read_text())
+    assert report["checkpoint_step"] == 10000
+    assert report["status"] == "replayed"
+    assert (source / "run.json").read_bytes() == manifest
+    originals = np.load(source / "truth/source_codes.npy")
+    with np.load(output / "samples.npz") as replayed:
+        np.testing.assert_array_equal(replayed["codes"], originals[2750:2775, 0])
+    assert (
+        main(
+            [
+                "replay",
+                "--run",
+                str(source),
+                "--start-step",
+                "29999",
+                "--steps",
+                "2",
+                "--out",
+                str(tmp_path / "invalid"),
+            ]
+        )
+        == 1
+    )
+    assert not (tmp_path / "invalid").exists()

@@ -27,6 +27,7 @@ from zlscan.digital.acquisition import (
 from zlscan.engine.chain import Chain, ChainConfig
 from zlscan.engine.digital_run import run_from_source
 from zlscan.io.rawstream import FLAG_EPOCH_START, FLAG_LINE_END, FLAG_LINE_START, RawWriter
+from zlscan.replay.replay import run_with_checkpoints
 from zlscan.truth import scan as scan_mod
 
 
@@ -34,12 +35,24 @@ def line_steps(cfg: ChainConfig) -> int:
     return round(cfg.scan.line_period_s * cfg.fs_hz * cfg.os)
 
 
-def run_physical(out: Path, cfg: ChainConfig, lines: int, digital: dict[str, Any] | None = None,
-                 chunk_lines: float = 1.0) -> dict[str, Any]:  # fmt: skip
+def run_physical(
+    out: Path,
+    cfg: ChainConfig,
+    lines: int,
+    digital: dict[str, Any] | None = None,
+    chunk_lines: float = 1.0,
+    *,
+    save_checkpoints: bool = False,
+) -> dict[str, Any]:
+    if lines < 1:
+        raise ValueError("physical run requires at least one line")
     chain = Chain(cfg)
     total = line_steps(cfg) * lines
     chunk = max(1000, int(line_steps(cfg) * chunk_lines))
-    res = chain.run_steps(total, chunk)
+    if save_checkpoints:
+        res, checkpoints = run_with_checkpoints(cfg, total, line_steps(cfg), chunk)
+    else:
+        res = chain.run_steps(total, chunk)
     dom = ClockDomain(cfg.domain_id, cfg.fs_hz)
     src = ConvertedSamples(res.codes.reshape(-1, 1), (0,), res.first_sample, 0, dom,
                            cfg.adc.bits, meta={"saturated": res.saturated})  # fmt: skip
@@ -62,7 +75,14 @@ def run_physical(out: Path, cfg: ChainConfig, lines: int, digital: dict[str, Any
         "model_version": "chain-0.1",
         "config_hash": cfg.hash(),
     }
-    return run_from_source(out, src, syncs, dcfg, preset="physical", extra_run=extra)
+    extra["fine_steps"] = total
+    run = run_from_source(out, src, syncs, dcfg, preset="physical", extra_run=extra)
+    if save_checkpoints:
+        directory = out / "truth" / "checkpoints"
+        directory.mkdir(exist_ok=True)
+        for step, blob in checkpoints.blobs.items():
+            (directory / f"{step}.json").write_bytes(blob)
+    return run
 
 
 def stream_raw(path: Path, cfg: ChainConfig, lines: int, acq: AcquisitionConfig | None = None,

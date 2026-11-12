@@ -139,7 +139,9 @@ def _run_run(argv: Sequence[str]) -> int:
         from zlscan.config.presets import demo_config
         from zlscan.engine.physical_run import run_physical
 
-        run = run_physical(args.out, demo_config(), args.lines)
+        if args.lines < 1:
+            p.error("--lines must be positive")
+        run = run_physical(args.out, demo_config(), args.lines, save_checkpoints=True)
     else:
         run = run_digital(args.out)
     print(
@@ -147,6 +149,29 @@ def _run_run(argv: Sequence[str]) -> int:
         f"完整性 {run['integrity']}，写入 {args.out}"
     )
     return 0 if run["recon_status"] == "complete" else CHECK_FAIL_EXIT_CODE
+
+
+def _run_replay(argv: Sequence[str]) -> int:
+    from pathlib import Path
+
+    from zlscan.config.presets import demo_config
+    from zlscan.replay.saved import replay_saved_window
+
+    p = argparse.ArgumentParser(prog="zlscan replay")
+    p.add_argument(
+        "--run", required=True, type=Path, help="directory from zlscan run --mode physical"
+    )
+    p.add_argument("--start-step", required=True, type=int)
+    p.add_argument("--steps", required=True, type=int)
+    p.add_argument("--out", required=True, type=Path)
+    args = p.parse_args(list(argv))
+    try:
+        replay_saved_window(args.run, args.out, demo_config(), args.start_step, args.steps)
+    except (OSError, ValueError) as exc:
+        print(f"回放失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"回放结果已写入 {args.out}")
+    return 0
 
 
 def _run_serve(argv: Sequence[str]) -> int:
@@ -161,7 +186,7 @@ def _run_serve(argv: Sequence[str]) -> int:
 
 
 HANDLERS = {"check": _run_check}
-ARG_HANDLERS = {"budget": _run_budget, "run": _run_run, "serve": _run_serve}
+ARG_HANDLERS = {"budget": _run_budget, "run": _run_run, "replay": _run_replay, "serve": _run_serve}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -173,7 +198,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--version", action="version", version=f"zlscan {__version__}")
     sub = parser.add_subparsers(dest="command", metavar="<command>")
     for cmd in COMMANDS:
-        sub.add_parser(cmd.name, help=cmd.summary, description=cmd.summary)
+        sub.add_parser(
+            cmd.name,
+            help=cmd.summary,
+            description=cmd.summary,
+            add_help=cmd.name not in ARG_HANDLERS,
+        )
     return parser
 
 

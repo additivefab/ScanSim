@@ -25,6 +25,7 @@ python3 -m venv .venv
 ```bash
 .venv/bin/zlscan run --mode digital --out digital_out
 .venv/bin/zlscan run --mode physical --lines 8 --out physical_out
+.venv/bin/zlscan replay --run physical_out --start-step 11000 --steps 100 --out replay_out
 .venv/bin/zlscan serve
 ```
 
