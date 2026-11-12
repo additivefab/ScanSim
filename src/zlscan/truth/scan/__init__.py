@@ -21,8 +21,10 @@ SPEC = ModuleSpec(
     equation="x = x0 + v_x (tau - tau_a) (1 + dg_f) + c3 (u^3) + off_f; y = y0 + v_y t; "
     "v_x = 2 f omega; line k starts at k / f_line + jitter_k",
     parameters={"facets": "1", "rpm": "rpm", "focal_m": "m", "pitch_x_m": "m", "pitch_y_m": "m"},
-    applicability="reflecting polygon with f-theta lens; speed ripple not modelled",
-    fidelity="L1", validation=["test_scan_geometry", "test_scan_sync_incoherent"],
+    applicability="unclamped reflecting polygon with f-theta lens; outside-field mapping is "
+                  "assumed extrapolation; no galvanometer servo or speed ripple",
+    fidelity="L1", validation=["test_scan_geometry", "test_scan_sync_incoherent",
+                              "test_physical_coordinate_continues_before_and_after_retained_window"],
 )  # fmt: skip
 
 PS = 10**12
@@ -46,6 +48,7 @@ class ScanConfig:
     sync_offset_ps: int = 7_000
     row_jitter_s: float = 0.0
     extra: dict = field(default_factory=dict)
+    legacy_clamped_coordinates: bool = False  # reproduce the obsolete V5 clipping bug explicitly
 
     @property
     def f_line(self) -> float:
@@ -98,7 +101,9 @@ def geometry(cfg: ScanConfig, t_s: np.ndarray, rng: CounterRng, domain: int):
     ta = cfg.window_start_s()
     inside = (tau >= ta) & (tau < ta + cfg.active_s)
     facet = k % cfg.facets
-    u = np.clip((tau - ta) / cfg.active_s, 0, 1)  # 0..1 across the window
+    u = (tau - ta) / cfg.active_s  # physical trajectory continues outside the active window
+    if cfg.legacy_clamped_coordinates:
+        u = np.clip(u, 0, 1)
     gain = np.ones_like(u)
     if cfg.facet_gain:
         gain = np.array(cfg.facet_gain)[facet]

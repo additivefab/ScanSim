@@ -29,6 +29,7 @@ class Scene:
     width_m: float
     height_m: float
     off_film_T: float = 1.0
+    legacy_nearest_boundary: bool = False  # explicit package-A nearest-edge extension
 
     @classmethod
     def from_density(cls, density: np.ndarray, width_m: float, height_m: float,
@@ -47,7 +48,7 @@ class Scene:
         inside = (np.asarray(x) >= 0) & (np.asarray(x) <= self.width_m)
         inside &= (np.asarray(y) >= 0) & (np.asarray(y) <= self.height_m)
         val = map_coordinates(self.transmittance_map, [fy, fx], order=1, mode="nearest")
-        return np.where(inside, val, self.off_film_T)
+        return val if self.legacy_nearest_boundary else np.where(inside, val, self.off_film_T)
 
 
 def uniform(density: float, width_m: float, height_m: float, n: int = 8) -> Scene:

@@ -31,7 +31,7 @@ from zlscan.truth import scan as scan_mod
 from zlscan.truth import source as src_mod
 from zlscan.truth.scene import Scene
 
-MODEL_VERSION = "chain-0.2"
+MODEL_VERSION = "chain-0.3"
 PROBE_NAMES = ("power_w", "t_eff", "current_a", "v_adc", "x_m", "line")
 
 
@@ -72,7 +72,7 @@ class ChainConfig:
         scenes = d.pop("scenes")
         d["scenes"] = {
             k: hashlib.sha256(np.ascontiguousarray(v["transmittance_map"]).tobytes()).hexdigest()
-            + f":{v['width_m']}:{v['height_m']}:{v['off_film_T']}"
+            + f":{v['width_m']}:{v['height_m']}:{v['off_film_T']}:{v['legacy_nearest_boundary']}"
             for k, v in scenes.items()
         }
         return hashlib.sha256(json.dumps(d, sort_keys=True, default=str).encode()).hexdigest()

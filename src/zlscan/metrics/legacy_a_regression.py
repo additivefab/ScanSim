@@ -43,7 +43,13 @@ def run_ideal_a_regression() -> IdealAResult:
         x_center_m=width / 2,
     )
     cfg.source = replace(cfg.source, gated=False)
-    cfg.scenes = {"main": Scene(reference["blurred_transmission"], width, height)}
+    # Package A sample_scene uses map_coordinates(mode="nearest") even in its guard.
+    # Preserve that explicit legacy scene boundary without clamping the physical trajectory.
+    cfg.scenes = {
+        "main": Scene(
+            reference["blurred_transmission"], width, height, legacy_nearest_boundary=True
+        )
+    }
     # Doubling the grid places all legacy midpoints and ADC edges on fine ticks.
     cfg.os = 2 * config["analog_oversample"]
     active_samples = nx * spp
