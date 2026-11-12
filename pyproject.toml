@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zlscan"
-version = "0.0.0"
+dynamic = ["version"]
 description = "Laser film-scanner simulation: optics to ADC to FPGA capture to reconstruction, with a timeline workbench"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -33,10 +33,14 @@ legacy = [
 [project.scripts]
 zlscan = "zlscan.cli:main"
 
+[tool.setuptools.dynamic]
+version = {attr = "zlscan.__version__"}
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
+"zlscan.api" = ["static/*.html"]
 "zlscan.evidence" = ["*.json"]
 "zlscan.hardware" = ["*.json"]
 "zlscan.report" = ["*.html"]

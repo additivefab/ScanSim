@@ -1,6 +1,6 @@
 # zlscan
 
-激光底片扫描仪仿真软件。已实现可行性预算、数字采集、单通道物理仿真与本地工作台。阶段 3 的剩余验收见 [开发进度](docs/dev/PROGRESS.md)。
+激光底片扫描仪仿真软件。已实现可行性预算、数字采集、物理仿真与本地工作台。阶段 3 的剩余验收见 [开发进度](docs/dev/PROGRESS.md)。
 
 **物理适用范围（P0）**：现有带噪 `demo`/`nominal` 没有固定的对数前输入响应，统计量依赖数值时间格，
 仅用于固定网格探索，不能用于高密度测量能力或实机精度判断。显式研究输入极点已实现，仍需统计收敛、
@@ -14,7 +14,7 @@
 
 ## 安装与自检
 
-需要 Python 3.11 及以上。
+需要 Python 3.11 及以上。详细平台说明、隔离 wheel 验证和离线锁使用见 [安装与复现](docs/install.md)。
 
 ```bash
 python3 -m venv .venv
@@ -51,7 +51,7 @@ python3 -m venv .venv
 
 本工程不代表任何实机性能、激光安全或检测合规结论。
 
-实测波形入口（当前仅 CSV 导入，不含参数辨识）：
+示波器波形 CSV 导入入口（可附候选观测模型）：
 `zlscan ident --csv capture.csv --metadata metadata.json --out imported_scope`。
 模板与同步/证据限制见 [导入说明](docs/reports/scope_measurement_import.md)。
 
