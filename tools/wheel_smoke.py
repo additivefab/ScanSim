@@ -139,6 +139,44 @@ def main() -> None:
     budget = json.loads((args.out / "budget/budget.json").read_text())
     sample = json.loads((args.out / "sample/run.json").read_text())
     assert budget["scenario_configuration"]["primary_hash"] == sample["config_hash"]
+    recording_config = args.out / "recording_config.json"
+    recording_config.write_text(
+        json.dumps(
+            dict(
+                format="zlscan.physical-recording/1",
+                model_version="chain-0.3",
+                preset="nominal",
+                chain={"detector": {"shot_noise": False}, "psf": {"nodes_x": 1, "nodes_y": 1}},
+                link={"latency_half_cycles": 25, "propagation_ps": 1500},
+                acquisition={"window_start": 2, "window_length": 13},
+                stages=[{"name": "model_disk", "capacity_bytes": 4096, "rate_Bps": 1e9}],
+                session_id=21,
+                run_id="installed_recording",
+                branch_id="main",
+                chunk_steps=1024,
+            )
+        )
+    )
+    command_file = args.out / "recording_commands.jsonl"
+    command_file.write_text('{"op":"lines","count":1}\n')
+    recording = args.out / "recording"
+    run(
+        [
+            "run",
+            "--mode",
+            "recording",
+            "--config",
+            str(recording_config),
+            "--commands",
+            str(command_file),
+            "--out",
+            str(recording),
+        ]
+    )
+    assert json.loads((recording / "run.json").read_text())["status"] == "paused"
+    command_file.write_text('{"op":"lines","count":1}\n{"op":"finish"}\n')
+    run(["run", "--mode", "recording", "--resume", str(recording), "--commands", str(command_file)])
+    assert json.loads((recording / "run.json").read_text())["status"] == "complete"
     from zlscan.engine.saved_service import saved_service
 
     with saved_service(args.out / "sample") as saved:

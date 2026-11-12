@@ -37,16 +37,19 @@ class SceneInput(BaseModel):
         return self
 
 
-class ScenarioInput(BaseModel):
+class PhysicsInput(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True, allow_inf_nan=False)
-    format: Literal["zlscan.research-scenario/1"]
     model_version: Literal[MODEL_VERSION]
     preset: Literal["demo", "nominal"]
-    lines: int = Field(gt=0)
     chain: dict[str, Any] = Field(default_factory=dict)
     scenes: dict[str, SceneInput] | None = None
     timeline: list[dict[str, Any]] | None = None
     secondary: dict[str, Any] | None = None
+
+
+class ScenarioInput(PhysicsInput):
+    format: Literal["zlscan.research-scenario/1"]
+    lines: int = Field(gt=0)
 
 
 @dataclass(frozen=True)
@@ -96,7 +99,7 @@ def _patch(cfg: ChainConfig, patch: dict) -> ChainConfig:
     return replace(cfg, **changes)
 
 
-def _validate(cfg: ChainConfig, lines: int) -> None:
+def _validate(cfg: ChainConfig, lines: int | None) -> None:
     sc, so, co, de, af, ad, ps = (
         getattr(cfg, k) for k in ["scan", "source", "collect", "detector", "afe", "adc", "psf"]
     )
@@ -174,7 +177,7 @@ def _validate(cfg: ChainConfig, lines: int) -> None:
         ):
             raise ValueError("timeline must be ordered, contiguous and reference known scenes")
         stop += phase.n_lines
-    if cfg.timeline and stop != lines:
+    if cfg.timeline and lines is not None and stop != lines:
         raise ValueError("timeline must cover exactly the configured lines")
     if any(start < 0 or count < 1 or power < 0 for start, count, power in cfg.injections):
         raise ValueError("invalid optical pulse")
@@ -186,6 +189,14 @@ def load_scenario(path: Path) -> LoadedScenario:
     raw = json.loads(original, object_pairs_hook=_pairs)
     canonical = json.dumps(raw, allow_nan=False)
     spec = ScenarioInput.model_validate_json(canonical, strict=True)
+    primary, secondary = resolve_physics(spec, original, path.parent, lines=spec.lines)
+    return LoadedScenario(spec, original, primary, secondary)
+
+
+def resolve_physics(
+    spec: PhysicsInput, original: bytes, directory: Path, *, lines: int | None
+) -> tuple[ChainConfig, ChainConfig | None]:
+    """Resolve the same explicit research physics for finite or unknown-length producers."""
     cfg = _patch(nominal_config() if spec.preset == "nominal" else demo_config(), spec.chain)
     if spec.scenes is not None:
         scenes = {}
@@ -198,7 +209,7 @@ def load_scenario(path: Path) -> LoadedScenario:
                     raise ValueError("density must be a nonempty nonnegative 2D array")
                 array = 10.0**-array
             else:
-                source = path.parent / row.transmittance_npy
+                source = directory / row.transmittance_npy
                 payload = source.read_bytes()
                 if hashlib.sha256(payload).hexdigest() != row.sha256:
                     raise ValueError("scene SHA mismatch")
@@ -230,10 +241,10 @@ def load_scenario(path: Path) -> LoadedScenario:
         "preset": spec.preset,
         "research_scenario_sha256": hashlib.sha256(original).hexdigest(),
     }
-    _validate(cfg, spec.lines)
+    _validate(cfg, lines)
     secondary = _patch(cfg, spec.secondary) if spec.secondary is not None else None
     if secondary is not None:
-        _validate(secondary, spec.lines)
+        _validate(secondary, lines)
         if (
             secondary.fs_hz != cfg.fs_hz
             or secondary.os != cfg.os
@@ -243,7 +254,7 @@ def load_scenario(path: Path) -> LoadedScenario:
             or (cfg.scan.row_jitter_s and secondary.seed != cfg.seed)
         ):
             raise ValueError("dual channels require identical clocks, scan and ADC encoding")
-    return LoadedScenario(spec, original, cfg, secondary)
+    return cfg, secondary
 
 
 def scenario_budget(loaded: LoadedScenario) -> dict:

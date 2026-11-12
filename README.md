@@ -85,3 +85,15 @@ zlscan serve --run scenario_run
 示例预算因未知吞吐/内存返回 4；超限预算返回 1 并保留诊断。
 可从 `scenario_run/inputs/resolved_scenario.json` 重跑，或用 replay 自动复用原配置。
 字段、双通道及参考标定语义见 `docs/reports/research_scenario.md`。
+
+
+未知终点物理录制（ASSUMED 研究模式）：
+
+```sh
+zlscan run --mode recording --config configs/physical_recording.json --commands first.jsonl --out recording_run
+zlscan run --mode recording --resume recording_run --commands next.jsonl
+```
+
+命令文件逐行写 JSON，如 `{"op":"lines","count":2}`；EOF 只暂停，
+`{"op":"finish"}` 才排空结束。未知尾部原位拒绝，可加 `--out recovered_run`
+从提交前缀分支并保留原件。协议、安全停止和资源范围见 `docs/reports/recording_cli.md`。

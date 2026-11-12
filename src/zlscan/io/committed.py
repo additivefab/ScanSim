@@ -155,9 +155,14 @@ class CommittedFile:
 
 def publish_checkpoint(directory: Path, data: bytes) -> Path:
     """Publish one root after its caller has fsynced all referenced output prefixes."""
-    path = directory / "checkpoint.json"
+    return publish_document(directory, "checkpoint.json", data)
+
+
+def publish_document(directory: Path, filename: str, data: bytes) -> Path:
+    """Atomically publish and fsync one internal document in an existing directory."""
+    path = directory / filename
     with tempfile.NamedTemporaryFile(
-        dir=directory, prefix="checkpoint-", suffix=".tmp", delete=False
+        dir=directory, prefix=f"{filename}-", suffix=".tmp", delete=False
     ) as stream:
         stream.write(data)
         stream.flush()

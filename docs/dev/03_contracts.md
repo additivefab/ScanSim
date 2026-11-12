@@ -514,3 +514,24 @@ calibration 允许单通道且显式以标准参考场景/时间线替代输入�
 
 运行另外保存可直接重跑的 `inputs/resolved_scenario.json`，其场景引用均指向目录内快照。
 calibration 下 lines 为每参考靶行数；预算仍解释为物理样片行数；请求与实际配置哈希分开。
+
+
+### S3-T11/S3-T14 未知终点物理录制入口（2026-11-13）
+
+`run --mode recording --config ... --commands -` 读取有界逐行 JSON 命令，
+配置为 `zlscan.physical-recording/1`：无总行数；物理字段与研究场景共用严格解析，
+ADC 链路/采集窗口/有限队列容量与速率必须显式给出，全部为 ASSUMED。
+支持 advance、逐行生成同步的 lines、sync、request、reset、start、checkpoint、finish。
+EOF 为暂停并提交原统一根，不冒充排空完成；finish 才执行 EOF 排空与 DONE。
+每个成功命令的确认必须在 raw/journal fsync 和统一根原子发布后输出。
+每次 advance 按固定 chunk_steps 切块，不预建整幅队列/同步表。
+输入长度、未来同步和控制历史有明确软件资源限额，超额拒绝，不静默遗忘历史。
+行号/样本身份仍受容器位宽限制，不称数学无限或实机长片验收。
+
+`--resume DIR` 从该目录保存的物理/数字配置和统一 checkpoint.json 续写，
+不再依赖外部配置源；锁和已提交前缀全部核验，未知尾部原位拒绝且不截断。
+`--resume DIR --out NEW` 显式从提交前缀分支，原件含尾部全部保留。
+失败中途不提交部分物理状态；上次有效根不覆盖，诊断非零，续作需重新恢复。
+SIGINT/SIGTERM 在生产块边界安全暂停；真实杀进程仍由旧提交根恢复。
+原始码流为 SIMULATED 可观测；控制/根/配置/日志为 ORACLE_ONLY。
+暂无探针迹线游标/成像后处理/工作台自动载入和跨时期密度重建接入，不关闭完整系统恢复门槛。

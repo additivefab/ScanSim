@@ -149,13 +149,42 @@ def _run_run(argv: Sequence[str]) -> int:
     from zlscan.engine.digital_run import run_digital
 
     p = argparse.ArgumentParser(prog="zlscan run")
-    p.add_argument("--mode", choices=["digital", "physical", "calibration"], required=True)
-    p.add_argument("--out", type=Path, default=Path("run_out"))
+    p.add_argument(
+        "--mode", choices=["digital", "physical", "calibration", "recording"], required=True
+    )
+    p.add_argument("--out", type=Path)
     p.add_argument("--lines", type=int)
     p.add_argument("--preset", choices=["demo", "nominal"])
     p.add_argument("--config", type=Path, help="versioned, assumed research scenario JSON")
     p.add_argument("--stream", action="store_true", help="stream two physical ADC channels")
+    p.add_argument("--resume", type=Path, help="resume a committed physical recording")
+    p.add_argument("--commands", help="recording JSONL path or - for stdin; EOF pauses")
     args = p.parse_args(list(argv))
+    if args.mode == "recording":
+        if args.lines is not None or args.preset is not None or args.stream:
+            p.error("recording uses its saved definition, not --lines/--preset/--stream")
+        if args.resume and args.config:
+            p.error("recording --resume uses preserved configuration; omit --config")
+        from contextlib import nullcontext
+
+        from zlscan.engine.recording_cli import run_recording
+
+        try:
+            source = (
+                open(args.commands, encoding="utf-8")
+                if args.commands and args.commands != "-"
+                else nullcontext(sys.stdin)
+            )
+            with source as commands:
+                return run_recording(
+                    args.config, args.resume, args.out, commands, sys.stdout, sys.stderr
+                )
+        except OSError as exc:
+            print(f"无法读取录制命令：{exc}", file=sys.stderr)
+            return CHECK_FAIL_EXIT_CODE
+    if args.resume is not None or args.commands is not None:
+        p.error("--resume/--commands require recording mode")
+    args.out = args.out or Path("run_out")
     if args.stream and args.mode != "physical":
         p.error("--stream requires physical mode")
     loaded = None
