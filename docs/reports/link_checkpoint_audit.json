@@ -1,0 +1,140 @@
+{
+  "seed": 20261112,
+  "cases": [
+    {
+      "edge": "rising",
+      "overflow_shift": -5,
+      "pending_samples": 13,
+      "unread_samples": 4,
+      "checkpoint_bytes": 2789,
+      "serialize_write_ms": 0.392875,
+      "resume_remaining_ms": 2.701459,
+      "samples_verified": 64,
+      "all_words_times_flags_identities_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_link_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/state_rising_-5.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/spec_rising_-5.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/resumed_rising_-5.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "rising",
+      "overflow_shift": 0,
+      "pending_samples": 13,
+      "unread_samples": 0,
+      "checkpoint_bytes": 2126,
+      "serialize_write_ms": 0.558792,
+      "resume_remaining_ms": 1.820375,
+      "samples_verified": 64,
+      "all_words_times_flags_identities_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_link_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/state_rising_0.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/spec_rising_0.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/resumed_rising_0.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "rising",
+      "overflow_shift": 5,
+      "pending_samples": 13,
+      "unread_samples": 4,
+      "checkpoint_bytes": 2816,
+      "serialize_write_ms": 0.557917,
+      "resume_remaining_ms": 1.959541,
+      "samples_verified": 64,
+      "all_words_times_flags_identities_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_link_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/state_rising_5.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/spec_rising_5.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/resumed_rising_5.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "falling",
+      "overflow_shift": -5,
+      "pending_samples": 14,
+      "unread_samples": 3,
+      "checkpoint_bytes": 2795,
+      "serialize_write_ms": 0.566,
+      "resume_remaining_ms": 2.052167,
+      "samples_verified": 64,
+      "all_words_times_flags_identities_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_link_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/state_falling_-5.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/spec_falling_-5.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/resumed_falling_-5.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "falling",
+      "overflow_shift": 0,
+      "pending_samples": 14,
+      "unread_samples": 0,
+      "checkpoint_bytes": 2241,
+      "serialize_write_ms": 0.48,
+      "resume_remaining_ms": 1.848458,
+      "samples_verified": 64,
+      "all_words_times_flags_identities_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_link_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/state_falling_0.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/spec_falling_0.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/resumed_falling_0.json"
+      ],
+      "child_returncode": 0
+    },
+    {
+      "edge": "falling",
+      "overflow_shift": 5,
+      "pending_samples": 14,
+      "unread_samples": 3,
+      "checkpoint_bytes": 2822,
+      "serialize_write_ms": 0.498458,
+      "resume_remaining_ms": 1.875625,
+      "samples_verified": 64,
+      "all_words_times_flags_identities_match": true,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_link_checkpoints.py",
+        "--resume",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/state_falling_5.json",
+        "--spec",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/spec_falling_5.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output/resumed_falling_5.json"
+      ],
+      "child_returncode": 0
+    }
+  ],
+  "passed": true,
+  "scope": "ADC link only; synthetic assumed clock/delays; no acquisition/control/writer state",
+  "timing_scope": "Save+write; read+restore+47 remaining inputs+pipeline drain. Excludes process startup and output JSON. Disk cache uncontrolled; no fsync."
+}

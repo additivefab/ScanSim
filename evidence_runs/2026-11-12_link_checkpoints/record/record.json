@@ -1,0 +1,88 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "ADC pipeline file checkpoint and fresh-process continuation",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T13:07:40.828036+00:00",
+ "finished_at": "2026-11-12T13:07:42.590859+00:00",
+ "code": {
+  "commit": "f284a0b46a358d87c96774036bcba13f805d5f14",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261112,
+ "inputs": {
+  "tools/audit_link_checkpoints.py": "b92c92d781d39f0f329d23fd942ee845bd669a51e802c218f7e7bb09efcbe34a",
+  "src/zlscan/adc_link/link.py": "4fbaf1084251c1c3e4137c6c8a90832140baee348cee7448ee97e58e7edee0af",
+  "src/zlscan/adc_link/stream.py": "305a8d5c610e9158658b0c990a1b55d8515a380dd61b74dba47bebce91e3ea60"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_link_checkpoints.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_link_checkpoints/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "fresh-process ADC pipeline cases",
+   "expected": 6,
+   "tolerance": null,
+   "actual": 6,
+   "passed": true
+  },
+  {
+   "quantity": "all words times flags identities match",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all child processes exit zero",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all checkpoints contain actual in-flight samples",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "cases include unread output",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "all source samples verified per case",
+   "expected": 64,
+   "tolerance": null,
+   "actual": 64,
+   "passed": true
+  }
+ ],
+ "notes": "Functional ADC link only, synthetic assumed rational clock and delays. Full words, decoded codes, four times, OFL/valid and source IDs compared to one batch, preserving source epochs. Timing excludes child startup/output JSON, includes 47 remaining inputs. Disk cache uncontrolled, no fsync durability or complete chain/RTL/hardware recovery claim."
+}
