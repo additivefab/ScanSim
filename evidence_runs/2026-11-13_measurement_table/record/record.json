@@ -1,0 +1,60 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Scalar measurement import uncertainty and fit-validation lineage gates",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T17:01:13.291633+00:00",
+ "finished_at": "2026-11-12T17:01:15.898252+00:00",
+ "code": {
+  "commit": "19dbc65272aa1cc44728f8655a621a3e75254149",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tests/unit/test_measurement_table.py": "66223a55dda2940b1694ff00a6c57f565a70ebd589d5fe36316098ccc4d00f9e",
+  "tests/unit/test_raw_measurement_import.py": "1ec29223c7d008013c87cdc5ceb1a8998aca3a5dc58689140772be9bce88e618",
+  "tests/unit/test_measurement_import.py": "bab1a891577704c5aec72187e13f947d5b67bc11010a58474ea22fddc8998aeb",
+  "tests/unit/test_cli.py": "c0fd7ecd2f9d2f6e499ae5284cefa10e6b6f7b60f8a10bc5a7c8204494c0aa88",
+  "docs/examples/measurement_table.csv": "87f0d23220a5524fa15067d1703030c3241d132220fe609a6e3398aa4340c282",
+  "docs/examples/table_metadata.json": "28ec712957e17fd2a7ce12e67af821aa6de93849978466d446e0edb004fdbbd0"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_measurement_table.py",
+    "tests/unit/test_raw_measurement_import.py",
+    "tests/unit/test_measurement_import.py",
+    "tests/unit/test_cli.py"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "synthetic import safeguard suite exit",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Synthetic fixtures only; no hardware observation. Tests cover SI conversion, null retention, uncertainty semantics, source hash verification and explicit fit/validation reuse. No-declared-reuse never establishes statistical independence or upgrades measured parameters. Full suite before commit:1211 passed/2 skipped; Icarus unavailable."
+}
