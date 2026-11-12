@@ -1,0 +1,57 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "ZLRAW snapshot import and declared provenance safeguards",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T16:54:26.365233+00:00",
+ "finished_at": "2026-11-12T16:54:28.946888+00:00",
+ "code": {
+  "commit": "bbf2f31233267f52289c80a6efe7908c12c66e02",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tests/unit/test_raw_measurement_import.py": "1ec29223c7d008013c87cdc5ceb1a8998aca3a5dc58689140772be9bce88e618",
+  "tests/unit/test_measurement_import.py": "bab1a891577704c5aec72187e13f947d5b67bc11010a58474ea22fddc8998aeb",
+  "tests/unit/test_cli.py": "c0fd7ecd2f9d2f6e499ae5284cefa10e6b6f7b60f8a10bc5a7c8204494c0aa88",
+  "docs/examples/raw_metadata.json": "233570ba3b82ce4bbd16486b66ad1aebe66438d606ba0118dc3ed1aaefb2e167"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_raw_measurement_import.py",
+    "tests/unit/test_measurement_import.py",
+    "tests/unit/test_cli.py"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "synthetic raw/scope/CLI safeguard suite exit",
+   "expected": 0,
+   "tolerance": null,
+   "actual": 0,
+   "passed": true
+  }
+ ],
+ "notes": "Synthetic fixtures only, including a fixture header marked MEASURED. No hardware evidence obtained. Checks preserve raw words and SHA256, epochs and source indices above 2^53, exclude CRC-bad blocks, refuse source/identity synchronization conflicts, retain unreadable diagnostics, bound preview rows, and never upgrade parameters. ZLRAW 0.1 remains draft, actual FPGA protocol not established. Full suite before commit:1191 passed/2 skipped; Icarus unavailable."
+}
