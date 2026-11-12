@@ -134,7 +134,7 @@ def from_legacy_a(flat: dict, seed: int = 1) -> tuple[ChainConfig, list[str]]:
 
 
 def from_legacy_b(grouped: dict, seed: int | None = None) -> tuple[ChainConfig, list[str]]:
-    """Package B's grouped configuration -> a chain configuration."""
+    """Convert package B's grouped configuration with continuous analogue state."""
     g = grouped
     cfg = demo_config(g["seed"] if seed is None else seed)
     sc, op, pm, an, ad = g["scan"], g["optics"], g["pmt"], g["analog"], g["adc"]
@@ -160,6 +160,5 @@ def from_legacy_b(grouped: dict, seed: int | None = None) -> tuple[ChainConfig, 
                             driver_offset_v=an["adc_driver_offset_V"],
                             aa_poles_hz=(an["aa_cutoff_hz"], an["aa_cutoff_hz"]))  # fmt: skip
     cfg.adc = adc.AdcConfig(ad["bits"], ad["vmin"], ad["vmax"])
-    cfg.legacy_reset_per_line = True
     cfg.evidence = {"all": "assumed (package B configuration)"}
     return cfg, list(LEGACY_B_NOT_MODELLED)

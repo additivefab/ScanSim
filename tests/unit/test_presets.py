@@ -33,6 +33,13 @@ def test_the_legacy_packages_configs_convert_and_list_what_is_dropped():
     assert cfg_b.fs_hz == 10_000_000 and cfg_b.afe.polarity == -1 and cfg_b.afe.v0 == 0.2
 
 
+def test_package_b_converter_preserves_analogue_history_across_lines():
+    legacy = json.loads((ROOT / "legacy/package_b/configs/demo_log.json").read_text())
+    cfg, _ = from_legacy_b(legacy)
+    assert cfg.afe.pole_hz > 0
+    assert not cfg.legacy_reset_per_line
+
+
 def test_legacy_reset_per_line_changes_the_result_and_default_does_not_reset():
     """When the scan fills the whole line the state at a line start is not a steady state."""
     from zlscan.config.presets import demo_config
