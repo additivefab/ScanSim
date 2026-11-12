@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
-import tempfile
 import threading
 from dataclasses import asdict
 from functools import wraps
@@ -16,7 +14,7 @@ from zlscan.adc_link.link import LinkConfig
 from zlscan.contracts.time import ClockDomain
 from zlscan.digital.acquisition import AcquisitionConfig, channel_mask
 from zlscan.engine.digital_pipeline import DigitalPipeline
-from zlscan.io.committed import CommittedFile
+from zlscan.io.committed import CommittedFile, publish_checkpoint
 from zlscan.io.observable_arrays import encode_arrays
 from zlscan.io.rawstream import FLAG_EPOCH_START, RawWriter
 from zlscan.transport.queues import StageSpec
@@ -236,23 +234,8 @@ class DigitalRecorder:
     @_serialized
     def save_checkpoint(self) -> Path:
         data = self.checkpoint()
-        path = self.directory / "checkpoint.json"
         try:
-            with tempfile.NamedTemporaryFile(
-                dir=self.directory, prefix="checkpoint-", suffix=".tmp", delete=False
-            ) as stream:
-                stream.write(data)
-                stream.flush()
-                os.fsync(stream.fileno())
-                temporary = stream.name
-            os.replace(temporary, path)
-            if os.name != "nt":
-                fd = os.open(self.directory, os.O_RDONLY)
-                try:
-                    os.fsync(fd)
-                finally:
-                    os.close(fd)
-            return path
+            return publish_checkpoint(self.directory, data)
         except Exception:
             self.failed = True
             raise

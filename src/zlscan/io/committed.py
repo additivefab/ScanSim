@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import tempfile
 from pathlib import Path
 from typing import BinaryIO
 
@@ -150,3 +151,23 @@ class CommittedFile:
                 target.close()
             if not transferred or target is not None:
                 stream.close()
+
+
+def publish_checkpoint(directory: Path, data: bytes) -> Path:
+    """Publish one root after its caller has fsynced all referenced output prefixes."""
+    path = directory / "checkpoint.json"
+    with tempfile.NamedTemporaryFile(
+        dir=directory, prefix="checkpoint-", suffix=".tmp", delete=False
+    ) as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+        temporary = stream.name
+    os.replace(temporary, path)
+    if os.name != "nt":
+        fd = os.open(directory, os.O_RDONLY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+    return path
