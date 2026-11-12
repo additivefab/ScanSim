@@ -72,3 +72,16 @@ python3 -m venv .venv
 已有单通道物理运行可通过 `zlscan serve --run physical_out` 只读打开；
 `replay` 默认复用保存的自定义配置。研究源码与交付 ADC 分开，未记录内容保留空缺。
 支持范围见 [已有运行工作台](docs/reports/saved_workbench.md)。
+
+
+版本化研究配置入口（全为假设，不代表硬件参数）：
+
+```sh
+zlscan budget --config configs/research_scenario.json --out scenario_budget
+zlscan run --mode physical --config configs/research_scenario.json --out scenario_run
+zlscan serve --run scenario_run
+```
+
+示例预算因未知吞吐/内存返回 4；超限预算返回 1 并保留诊断。
+可从 `scenario_run/inputs/resolved_scenario.json` 重跑，或用 replay 自动复用原配置。
+字段、双通道及参考标定语义见 `docs/reports/research_scenario.md`。

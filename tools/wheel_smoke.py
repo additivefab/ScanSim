@@ -57,6 +57,19 @@ def main() -> None:
     run(["run", "--mode", "digital", "--out", str(args.out / "digital")])
     digital = json.loads((args.out / "digital/run.json").read_text())
     assert digital["integrity"] == "complete" and digital["recon_status"] == "complete"
+    scenario = args.out / "research_scenario.json"
+    scenario.write_text(
+        json.dumps(
+            dict(
+                format="zlscan.research-scenario/1",
+                model_version="chain-0.3",
+                preset="nominal",
+                lines=4,
+            )
+        )
+    )
+    # The nominal preset exceeds its assumed clear-field anode limit; preserve exit 1.
+    run(["budget", "--config", str(scenario), "--out", str(args.out / "budget")], 1)
     run(
         [
             "run",
@@ -86,10 +99,8 @@ def main() -> None:
             "run",
             "--mode",
             "physical",
-            "--preset",
-            "nominal",
-            "--lines",
-            "4",
+            "--config",
+            str(scenario),
             "--out",
             str(args.out / "sample"),
         ]
@@ -125,6 +136,9 @@ def main() -> None:
         ]
     )
     assert (args.out / "image.html").is_file()
+    budget = json.loads((args.out / "budget/budget.json").read_text())
+    sample = json.loads((args.out / "sample/run.json").read_text())
+    assert budget["scenario_configuration"]["primary_hash"] == sample["config_hash"]
     from zlscan.engine.saved_service import saved_service
 
     with saved_service(args.out / "sample") as saved:

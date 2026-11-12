@@ -1,0 +1,24 @@
+{
+  "format": "zlscan.research-scenario/1",
+  "model_version": "chain-0.3",
+  "preset": "nominal",
+  "lines": 3,
+  "chain": {
+    "seed": 91,
+    "source": {"power_w": 0.000073},
+    "detector": {"shot_noise": false},
+    "psf": {"nodes_x": 3, "nodes_y": 3}
+  },
+  "scenes": {
+    "sample": {
+      "width_m": 0.08,
+      "height_m": 0.2,
+      "off_film_T": 1.0,
+      "density": [[0.0, 0.5, 1.0, 1.5], [0.0, 0.5, 1.0, 1.5]]
+    }
+  },
+  "timeline": [
+    {"name": "warmup", "first_line": 0, "n_lines": 1, "scene": "sample", "laser_on": false},
+    {"name": "sample", "first_line": 1, "n_lines": 2, "scene": "sample", "laser_on": true}
+  ]
+}

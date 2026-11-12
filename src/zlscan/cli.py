@@ -101,7 +101,21 @@ def _run_budget(argv: Sequence[str]) -> int:
     p.add_argument("--mode", choices=["research", "hardware_constrained"])
     p.add_argument("--out", type=Path, default=Path("budget_out"))
     args = p.parse_args(list(argv))
-    config = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
+    loaded = None
+    try:
+        config = json.loads(args.config.read_bytes()) if args.config else {}
+        if not isinstance(config, dict):
+            raise ValueError("budget configuration must be an object")
+        if config.get("format") == "zlscan.research-scenario/1":
+            from zlscan.engine.research_config import load_scenario, scenario_budget
+
+            loaded = load_scenario(args.config)
+            config = scenario_budget(loaded)
+        elif "format" in config:
+            raise ValueError("unsupported budget configuration format")
+    except (ValueError, OSError, TypeError) as exc:
+        print(f"配置拒绝：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
     if args.mode:
         config["mode"] = args.mode
     try:
@@ -111,6 +125,8 @@ def _run_budget(argv: Sequence[str]) -> int:
         for line in exc.problems:
             print(f"  - {line}", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
+    if loaded is not None:
+        result["scenario_configuration"] = loaded.provenance()
     j, h = write_outputs(result, args.out)
     states = [c["status"] for c in result["conclusions"]]
     print(
@@ -135,19 +151,43 @@ def _run_run(argv: Sequence[str]) -> int:
     p = argparse.ArgumentParser(prog="zlscan run")
     p.add_argument("--mode", choices=["digital", "physical", "calibration"], required=True)
     p.add_argument("--out", type=Path, default=Path("run_out"))
-    p.add_argument("--lines", type=int, default=8)
-    p.add_argument("--preset", choices=["demo", "nominal"], default="demo")
+    p.add_argument("--lines", type=int)
+    p.add_argument("--preset", choices=["demo", "nominal"])
+    p.add_argument("--config", type=Path, help="versioned, assumed research scenario JSON")
     p.add_argument("--stream", action="store_true", help="stream two physical ADC channels")
     args = p.parse_args(list(argv))
     if args.stream and args.mode != "physical":
         p.error("--stream requires physical mode")
+    loaded = None
+    if args.config:
+        if args.lines is not None or args.preset is not None or args.stream:
+            p.error("--config cannot be combined with --lines, --preset or --stream")
+        if args.mode == "digital":
+            p.error("research --config requires physical or calibration mode")
+        from zlscan.engine.research_config import load_scenario
+
+        try:
+            loaded = load_scenario(args.config)
+        except (ValueError, OSError, TypeError) as exc:
+            print(f"配置拒绝：{exc}", file=sys.stderr)
+            return CHECK_FAIL_EXIT_CODE
+        args.lines = loaded.document.lines
+        args.stream = loaded.secondary is not None
+        if args.mode == "calibration" and args.stream:
+            p.error("calibration scenario requires one channel")
+        if args.out.exists():
+            print("配置运行拒绝覆盖已有输出目录", file=sys.stderr)
+            return CHECK_FAIL_EXIT_CODE
+    else:
+        args.lines = args.lines if args.lines is not None else 8
     preset = nominal_config if args.preset == "nominal" else demo_config
+    primary = loaded.primary if loaded else preset()
     if args.mode == "calibration":
         from zlscan.experiment.calibration_scan import run_calibration_scan
 
         if args.lines < 2:
             p.error("calibration mode requires at least two lines per target")
-        run = run_calibration_scan(args.out, preset(), lines_per_target=args.lines)
+        run = run_calibration_scan(args.out, primary, lines_per_target=args.lines)
     elif args.mode == "physical":
         from zlscan.engine.physical_run import run_physical
 
@@ -156,13 +196,16 @@ def _run_run(argv: Sequence[str]) -> int:
         if args.stream:
             from zlscan.engine.stream_physical import stream_physical
 
-            primary = preset()
-            secondary = replace(primary, seed=primary.seed + 1)
+            secondary = loaded.secondary if loaded else replace(primary, seed=primary.seed + 1)
             run = stream_physical(args.out, primary, secondary, args.lines)
         else:
-            run = run_physical(args.out, preset(), args.lines, save_checkpoints=True)
+            run = run_physical(args.out, primary, args.lines, save_checkpoints=True)
     else:
         run = run_digital(args.out)
+    if loaded is not None:
+        from zlscan.engine.research_config import persist_scenario
+
+        run = persist_scenario(loaded, args.out, run, mode=args.mode)
     print(
         f"{run['mode']} 模式完成：重建 {run['recon_status']}，"
         f"完整性 {run['integrity']}，写入 {args.out}"
