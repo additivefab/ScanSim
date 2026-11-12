@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import re
 import time
 from contextlib import ExitStack
@@ -16,6 +15,7 @@ from zlscan.engine.chain import PROBE_NAMES
 from zlscan.engine.digital_pipeline import DigitalPipeline
 from zlscan.engine.physical_recording import PhysicalRecorder
 from zlscan.engine.recording_cli import read_definition
+from zlscan.io.committed import verify_committed_prefix as _prefix
 from zlscan.io.manifest import sha256_file
 from zlscan.io.rawstream import RawWriter, verify_raw_prefix
 
@@ -29,28 +29,6 @@ def _checksum(value, expected):
     body = {k: v for k, v in value.items() if k != "checksum"}
     if value.get("checksum") != PhysicalRecorder._hash(body):
         raise ValueError("recording component checksum differs")
-
-
-def _prefix(path, cursor):
-    count = int(cursor["offset"])
-    with path.open("rb") as stream:
-        first = os.fstat(stream.fileno())
-        if count < 0 or first.st_size < count:
-            raise ValueError("committed recording prefix is truncated")
-        digest = hashlib.sha256()
-        remaining = count
-        while remaining:
-            data = stream.read(min(1 << 20, remaining))
-            if not data:
-                raise ValueError("committed recording prefix became truncated")
-            digest.update(data)
-            remaining -= len(data)
-        last = path.stat()
-        if (first.st_dev, first.st_ino) != (last.st_dev, last.st_ino) or last.st_size < count:
-            raise ValueError("committed recording file was replaced")
-        if digest.hexdigest() != cursor["prefix_sha256"]:
-            raise ValueError("committed recording prefix SHA mismatch")
-        return last.st_size > count
 
 
 class RecordingReplay:

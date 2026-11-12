@@ -107,3 +107,8 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 
 需要窗口起点之前真实保存的 history 检查点；输出 ORACLE_ONLY，不补缺样或冒充交付码。
 控制感知、多通道/时期及提交前缀范围见 `docs/reports/recording_replay.md`。
+
+
+录制目录工作台：`zlscan serve --run recording_run`。每通道独立只读打开冻结提交；
+仪器视图保留实际交付的缺样/时期与捕获记录，研究视图按原控制历史重放。
+来源、查询限额与未验收项见 [冻结录制工作台](docs/reports/recording_workbench.md)。

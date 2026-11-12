@@ -78,3 +78,8 @@ ADC 源码 mmap 不等于全部状态内存有界：场景/摘要校验与检查
 `evidence_runs/2026-11-13_saved_workbench/record/`；旧 wheel 证据与其锁保留。
 这只是 macOS 15.7.6 / Python 3.14.7 / x86_64 的同机隔离短流程，
 未在新依赖集合下重跑全部测试；不是跨平台、浏览器或硬件验收。
+
+
+后续范围扩展（2026-11-13）：独立的 recording 目录布局已支持双通道冻结提交，
+见 `recording_workbench.md`。本报告上面的单通道限制仍指 physical 保存布局；
+不把新入口称作全部流式/跨时期成像恢复完成。

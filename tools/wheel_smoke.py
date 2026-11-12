@@ -198,6 +198,30 @@ def main() -> None:
     assert replay_metadata["checkpoint_step"] == 10000
     from zlscan.engine.saved_service import saved_service
 
+    recording_before = {
+        p.relative_to(recording).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in recording.rglob("*")
+        if p.is_file()
+    }
+    with saved_service(recording) as saved:
+        loaded = saved.runs["recording-c0"]
+        assert saved.manifest(loaded)["frozen_commit"]
+        delivered = saved.traces(loaded, "adc.code", 0, loaded.steps, 40, "instrument")
+        assert delivered["visibility"] == "OBSERVABLE" and delivered["missing_count"] > 0
+        from zlscan.io.rawstream import read_all
+
+        raw = read_all(recording / "raw.zlraw")
+        index = raw.blocks[-1].first_sample_index
+        line = saved.lineage(loaded, index, "instrument")
+        assert line["lineage"]["capture_time"] is not None
+        assert line["lineage"]["host_arrival_time"] is None and "model_lineage" not in line
+        replayed = saved.replay(loaded, 10200, 100, ["power_w"])
+        assert replayed["visibility"] == "ORACLE_ONLY" and replayed["status"] == "replayed"
+    assert recording_before == {
+        p.relative_to(recording).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in recording.rglob("*")
+        if p.is_file()
+    }
     with saved_service(args.out / "sample") as saved:
         loaded = saved.runs["saved"]
         assert saved.manifest(loaded)["loaded_from_saved"]

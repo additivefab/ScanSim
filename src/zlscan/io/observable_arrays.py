@@ -61,3 +61,51 @@ def decode_arrays(encoded: dict) -> dict[str, np.ndarray]:
         else:
             raise ValueError("observable array layout differs")
     return result
+
+
+def decode_sample(encoded: dict, index: int, expected_count: int) -> dict:
+    """Decode one whitelisted sample with a bounded inflater; never expose diagnostics."""
+    if type(expected_count) is not int or not 0 < expected_count <= 1_000_000:
+        raise ValueError("observable packet exceeds per-query sample budget")
+    if type(index) is not int or not 0 <= index < expected_count:
+        raise ValueError("observable sample outside packet")
+    if not isinstance(encoded, dict):
+        raise ValueError("observable sample vectors must be an object")
+    result = {}
+    for key, value in encoded.items():
+        if (
+            key not in INTEGER_KEYS | FLAG_KEYS
+            or not isinstance(value, dict)
+            or value.get("count") != expected_count
+            or type(value.get("count")) is not int
+            or not isinstance(value.get("data"), str)
+            or len(value["data"]) > 48 * (1 << 20)
+        ):
+            raise ValueError("invalid observable sample layout or input budget")
+        kind = value["kind"]
+        size = -(-expected_count // 8) if kind == "bits" else expected_count * 8
+        budget = (32 << 20) if kind == "decimal" else size
+        inflater = zlib.decompressobj()
+        try:
+            raw = inflater.decompress(base64.b64decode(value["data"], validate=True), budget + 1)
+        except (ValueError, zlib.error) as exc:
+            raise ValueError("invalid compressed observable sample") from exc
+        if (
+            len(raw) > budget
+            or not inflater.eof
+            or inflater.unused_data
+            or inflater.unconsumed_tail
+        ):
+            raise ValueError("observable compressed value exceeds declared layout")
+        if kind == "bits" and key in FLAG_KEYS and len(raw) == size:
+            result[key] = bool((raw[index // 8] >> (index % 8)) & 1)
+        elif kind == "i8" and key in INTEGER_KEYS and len(raw) == size:
+            result[key] = int(np.frombuffer(raw, dtype="<i8", count=1, offset=index * 8)[0])
+        elif kind == "decimal" and key in INTEGER_KEYS:
+            values = json.loads(raw)
+            if not isinstance(values, list) or len(values) != expected_count:
+                raise ValueError("observable decimal count differs")
+            result[key] = int(values[index])
+        else:
+            raise ValueError("observable sample encoding differs")
+    return result

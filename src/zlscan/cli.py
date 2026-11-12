@@ -582,7 +582,9 @@ def _run_serve(argv: Sequence[str]) -> int:
     p.add_argument("--lines", type=int, default=6)
     selection = p.add_mutually_exclusive_group()
     selection.add_argument("--images", type=Path, help="read-only reconstruction registry JSON")
-    selection.add_argument("--run", type=Path, help="read-only saved single-channel physical run")
+    selection.add_argument(
+        "--run", type=Path, help="read-only saved physical run or frozen recording"
+    )
     args = p.parse_args(list(argv))
     try:
         serve(args.port, args.lines, args.images, args.run)

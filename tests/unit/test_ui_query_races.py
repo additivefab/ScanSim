@@ -46,6 +46,11 @@ vm.runInContext(HELPERS,context);
   const oldRun=context.api('/state?step=4');
   context.runId='other';context.viewGeneration++;
   pending[9]();assert.equal(context.stale(await oldRun),true,'run selection rejects old replies');
+  const oldSample=context.api('/samples/2551/lineage');
+  const newSample=context.api('/samples/2560/lineage');
+  pending[11]();assert.equal(context.stale(await newSample),false);
+  pending[10]();assert.equal(context.stale(await oldSample),true,'latest selected sample wins');
+
 })().catch(error=>{console.error(error);process.exitCode=1});
 """
     import json

@@ -22,6 +22,12 @@ from zlscan.replay.replay import CheckpointStore
 @contextmanager
 def saved_service(directory: Path) -> Iterator[Service]:
     directory = directory.resolve()
+    if (directory / "definition.json").is_file() and (directory / "checkpoint.json").is_file():
+        from zlscan.engine.recording_service import recording_service
+
+        with recording_service(directory) as service:
+            yield service
+        return
     document = json.loads((directory / "run.json").read_text())
     if document.get("mode") != "physical" or not isinstance(document.get("fine_steps"), int):
         raise ValueError("saved workbench supports single-channel physical runs")
