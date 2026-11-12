@@ -1,0 +1,4516 @@
+{
+  "source_directory": "evidence_runs/2026-11-13_calibration_controls/output/run",
+  "source_report_sha256": "d0a2bd9e9aa96a91bb79175051eff8bd1bd71bfe16d92f53fb8cd6bdbf6e676d",
+  "source_raw_inputs": [
+    {
+      "path": "noiseless_floor_dark_r0_reference.zlraw",
+      "sha256": "44e68635d44bd0ebdae5cc6e1a78051a7146786ef95cf943353f9ebc4639b41d",
+      "case": "noiseless_floor_dark",
+      "role": "reference",
+      "replicate": 0
+    },
+    {
+      "path": "noiseless_floor_dark_r0_validation.zlraw",
+      "sha256": "713631dfc977dd9844dd1edd5e31b12ed739a13a05f44083ff71ab8e88264b95",
+      "case": "noiseless_floor_dark",
+      "role": "validation",
+      "replicate": 0
+    },
+    {
+      "path": "noiseless_additive_dark_r0_reference.zlraw",
+      "sha256": "05be2740680aa792957c0b207fc48d0228fa65ca2d826d3834e4a4f06895d539",
+      "case": "noiseless_additive_dark",
+      "role": "reference",
+      "replicate": 0
+    },
+    {
+      "path": "noiseless_additive_dark_r0_validation.zlraw",
+      "sha256": "3a00caaa1bcd706845db96a5581facc3555ab1ab6288368fe6dbf7b771b2c547",
+      "case": "noiseless_additive_dark",
+      "role": "validation",
+      "replicate": 0
+    },
+    {
+      "path": "noisy_floor_dark_r0_reference.zlraw",
+      "sha256": "9b09878b65afc16931a8d1e9e12c5fa35c46a4199d6f50d154bd7f8602fddd82",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 0
+    },
+    {
+      "path": "noisy_floor_dark_r0_validation.zlraw",
+      "sha256": "4d6ace3b1488448b06a251cfba73105fb19dca254496e4f08a84fef1dcf22cf8",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 0
+    },
+    {
+      "path": "noisy_floor_dark_r1_reference.zlraw",
+      "sha256": "83c86ba7362493c94b377ab4de346420a5c6cf9feb3069b1bbb0dbc24d2eee1d",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 1
+    },
+    {
+      "path": "noisy_floor_dark_r1_validation.zlraw",
+      "sha256": "37af7df01caf3cb416bfe0631a9e889038c779841c8a9ed7e0b085ac51537688",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 1
+    },
+    {
+      "path": "noisy_floor_dark_r2_reference.zlraw",
+      "sha256": "4f57946bb009769f0a1d9c4d342c3dd54775c03bea7bb0926e9b3c7a99c030e6",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 2
+    },
+    {
+      "path": "noisy_floor_dark_r2_validation.zlraw",
+      "sha256": "962639e6efba3856f970c63e54ab44ccdfb0a6b789a9ba12958fe0296f8393e4",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 2
+    },
+    {
+      "path": "noisy_floor_dark_r3_reference.zlraw",
+      "sha256": "fe3f85e0846eef01e7d6334f9b93b771bb51d1d328cd33b9377894e9be756705",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 3
+    },
+    {
+      "path": "noisy_floor_dark_r3_validation.zlraw",
+      "sha256": "2f6ca40337d73c124ccb5f8e1ac27f586593732aa4c73c1de2555139880f6625",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 3
+    },
+    {
+      "path": "noisy_floor_dark_r4_reference.zlraw",
+      "sha256": "b9b192d01873fec77dc3a4a05c43e90aeab9e360638dd4dcaaeb351012c25182",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 4
+    },
+    {
+      "path": "noisy_floor_dark_r4_validation.zlraw",
+      "sha256": "bb3ecd04340995af811b5c76ddc2d846bed07a377164e8c6a8c12f9ba531ba9f",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 4
+    },
+    {
+      "path": "noisy_floor_dark_r5_reference.zlraw",
+      "sha256": "8eb6628f36d73f33e34c2ced1178df7508b30b8f5eff3969bd6855af9297acb1",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 5
+    },
+    {
+      "path": "noisy_floor_dark_r5_validation.zlraw",
+      "sha256": "98756e7ed48b67b1c9ac93ad39e0ae1afa4ea40e6b9959c7a0c32c156f5f60ba",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 5
+    },
+    {
+      "path": "noisy_floor_dark_r6_reference.zlraw",
+      "sha256": "ce466a9fdc4db0515c4ecf3de884bd7397d8b83051da9a6771126e9419e6e338",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 6
+    },
+    {
+      "path": "noisy_floor_dark_r6_validation.zlraw",
+      "sha256": "53d7a1ed990298db385096fed0ce56e256d70c52f4a058a9f7777d6816df9c58",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 6
+    },
+    {
+      "path": "noisy_floor_dark_r7_reference.zlraw",
+      "sha256": "5328314837712cbd9101a69c9de78f450a351e436fe9d85315c2febfa33abbd9",
+      "case": "noisy_floor_dark",
+      "role": "reference",
+      "replicate": 7
+    },
+    {
+      "path": "noisy_floor_dark_r7_validation.zlraw",
+      "sha256": "7d50dfc01d66c88e753a56577d50157948cd5ca33cdf01cf262d2199ca965967",
+      "case": "noisy_floor_dark",
+      "role": "validation",
+      "replicate": 7
+    },
+    {
+      "path": "noisy_additive_dark_r0_reference.zlraw",
+      "sha256": "d5595341490574c645108294aa14bab9fd5f3a1474af1459451dbe358d0e1abd",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 0
+    },
+    {
+      "path": "noisy_additive_dark_r0_validation.zlraw",
+      "sha256": "ebaebaafd77e2843225c4e8cf850492cfa3b1dcace426a5c2d1976024bef3eb2",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 0
+    },
+    {
+      "path": "noisy_additive_dark_r1_reference.zlraw",
+      "sha256": "bde26d88f6a4b9948c924f4f9bf17f78882283e10586dcf300a1e4d81422e727",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 1
+    },
+    {
+      "path": "noisy_additive_dark_r1_validation.zlraw",
+      "sha256": "1b84f5245db0e2848272a2e212becd6deff24f1f7022433f3a5f1c7e68307894",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 1
+    },
+    {
+      "path": "noisy_additive_dark_r2_reference.zlraw",
+      "sha256": "51bb9c07821cf2420a46934276cc48b146235d1b1b9ba7b4e39074c3cf79cf26",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 2
+    },
+    {
+      "path": "noisy_additive_dark_r2_validation.zlraw",
+      "sha256": "88e3b54d3faf20deec8926e3e0d62264b7a0ba8fe29fd82c0bdc9a8631373235",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 2
+    },
+    {
+      "path": "noisy_additive_dark_r3_reference.zlraw",
+      "sha256": "6d47c08ea34bb7134103717bf4fb2f025696803d93ddc54b394a0d99697645d7",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 3
+    },
+    {
+      "path": "noisy_additive_dark_r3_validation.zlraw",
+      "sha256": "275a4eaa7120abb939dbf1a53662706fbed1c0ace696d22e109862d9dd1b52fd",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 3
+    },
+    {
+      "path": "noisy_additive_dark_r4_reference.zlraw",
+      "sha256": "7d56fa7d2c8d7258d7203ebacaf2e31031fc78388d30ac93e30e89438ea615da",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 4
+    },
+    {
+      "path": "noisy_additive_dark_r4_validation.zlraw",
+      "sha256": "8f323e1cd1a569669c0671651a20b2c7a6c56cd52f0314dcf4fefdcad1c30915",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 4
+    },
+    {
+      "path": "noisy_additive_dark_r5_reference.zlraw",
+      "sha256": "8f75c2fe8b2d1a65e729cf12beb1ac08467c2829b502544a02a23e4d5157aa94",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 5
+    },
+    {
+      "path": "noisy_additive_dark_r5_validation.zlraw",
+      "sha256": "6ccb459be7e105b63e72869671a2361de320a35a9afba6614e11db08b1c9c63a",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 5
+    },
+    {
+      "path": "noisy_additive_dark_r6_reference.zlraw",
+      "sha256": "52f35c59dae740a52897d2848b934c4fcfd42e81a42db7174acc9e1775f86570",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 6
+    },
+    {
+      "path": "noisy_additive_dark_r6_validation.zlraw",
+      "sha256": "2cacc4ef611bc5c9bdb40e3fd22a5e6d81b2abc8bbedd1e8810d672e0f2182cf",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 6
+    },
+    {
+      "path": "noisy_additive_dark_r7_reference.zlraw",
+      "sha256": "9f402676e21e3c23df8128572b6cbbcd73ef1c629eebc6b4f59c131424c81b8b",
+      "case": "noisy_additive_dark",
+      "role": "reference",
+      "replicate": 7
+    },
+    {
+      "path": "noisy_additive_dark_r7_validation.zlraw",
+      "sha256": "09e544ddf0bde72f927c31ce4d2241417f807566fc3eb228a7a627e156a2cb3b",
+      "case": "noisy_additive_dark",
+      "role": "validation",
+      "replicate": 7
+    }
+  ],
+  "evidence": "ASSUMED research protocol",
+  "records": [
+    {
+      "case": "noiseless_floor_dark",
+      "replicate": 0,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED deterministic ADC rounding +/-0.5 code; exact synthetic target ratios",
+      "code_half_width": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "valid_code_ranges": [
+        [
+          10320.0,
+          29045.0
+        ]
+      ],
+      "excluded_code_ranges": [],
+      "unidentifiable_edges": [
+        {
+          "reason": "dark is normalization only; no log interpolation from zero",
+          "code_range": [
+            9361.5,
+            10320.5
+          ]
+        }
+      ],
+      "calibration_sha256": "f64855dfb47bcb1cf2379161eed5c43f3354b0e4923527bc2fdfcf01e25fee90",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -1.1102230246251565e-16,
+          "rmse_od_valid_only": 1.1102230246251565e-16,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.316227766016838
+        },
+        {
+          "bias_od_valid_only": -0.00010874590502440995,
+          "rmse_od_valid_only": 0.00010874590502440995,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03163069583201761
+        },
+        {
+          "bias_od_valid_only": -0.00010874590501197545,
+          "rmse_od_valid_only": 0.00010874590501197547,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003163069583201672
+        },
+        {
+          "bias_od_valid_only": -0.0001087459051949402,
+          "rmse_od_valid_only": 0.0001087459051949402,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0003163069583203004
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.017106220400129546,
+          "rmse_od_valid_only": 0.017106220400129546,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.32893207174117217
+        },
+        {
+          "bias_od_valid_only": -0.050580172311178506,
+          "rmse_od_valid_only": 0.050580172311178506,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03552876998061206
+        },
+        {
+          "bias_od_valid_only": -0.07613509919971095,
+          "rmse_od_valid_only": 0.07613509919971095,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003768210012520646
+        },
+        {
+          "bias_od_valid_only": -0.01881698442915347,
+          "rmse_od_valid_only": 0.01881698442915347,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0003302303496938991
+        }
+      ]
+    },
+    {
+      "case": "noiseless_additive_dark",
+      "replicate": 0,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED deterministic ADC rounding +/-0.5 code; exact synthetic target ratios",
+      "code_half_width": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "valid_code_ranges": [
+        [
+          15195.0,
+          29047.0
+        ]
+      ],
+      "excluded_code_ranges": [],
+      "unidentifiable_edges": [
+        {
+          "reason": "dark is normalization only; no log interpolation from zero",
+          "code_range": [
+            15000.5,
+            15195.5
+          ]
+        }
+      ],
+      "calibration_sha256": "f80a2d50aec498698f7f2a105d4d6942065ce651644284d76aaae3b525a24f44",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": 0.0011654103409299843,
+          "rmse_od_valid_only": 0.0011654103409299843,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3153803201201431
+        },
+        {
+          "bias_od_valid_only": 0.009724797736274216,
+          "rmse_od_valid_only": 0.009724797736274216,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03092254301088082
+        },
+        {
+          "bias_od_valid_only": 0.070039440172041,
+          "rmse_od_valid_only": 0.070039440172041,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.002691290385035794
+        },
+        {
+          "bias_od_valid_only": 0.19902661748259343,
+          "rmse_od_valid_only": 0.19902661748259345,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00019997393038173605
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": 0.00010774049288031495,
+          "rmse_od_valid_only": 0.00010774049288031495,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31614932544021374
+        },
+        {
+          "bias_od_valid_only": 1.5590521870390006e-05,
+          "rmse_od_valid_only": 1.5590521870390006e-05,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.031621641411711095
+        },
+        {
+          "bias_od_valid_only": 1.1124221761527053e-05,
+          "rmse_od_valid_only": 1.1124221761527053e-05,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0031621966611483573
+        },
+        {
+          "bias_od_valid_only": -0.0004802856193970584,
+          "rmse_od_valid_only": 0.0004802856193970584,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00031657767527774135
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 0,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        15.381946629062405,
+        35.84377864440063,
+        81.49519607202976,
+        324.0986554865106,
+        1375.53968261014,
+        31.881176137529962
+      ],
+      "valid_code_ranges": [
+        [
+          9408.0,
+          29047.5
+        ]
+      ],
+      "excluded_code_ranges": [],
+      "unidentifiable_edges": [
+        {
+          "reason": "dark is normalization only; no log interpolation from zero",
+          "code_range": [
+            9361.5,
+            9439.88117613753
+          ]
+        }
+      ],
+      "calibration_sha256": "5b18e455a48d1b6f963dd1f091c4024ce29a93d54c51d8593aa742cccdea3cf1",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.003041108929096004,
+          "rmse_od_valid_only": 0.004519125282808946,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31845931422228924
+        },
+        {
+          "bias_od_valid_only": 0.00016066870018017002,
+          "rmse_od_valid_only": 0.009132515259698673,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03161807183168064
+        },
+        {
+          "bias_od_valid_only": -0.03383970969923302,
+          "rmse_od_valid_only": 0.04508005225846814,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003426375326091692
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.03775679309460478,
+          "rmse_od_valid_only": 0.03797226035872586,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.34496540591834923
+        },
+        {
+          "bias_od_valid_only": -0.107274335144975,
+          "rmse_od_valid_only": 0.10765391042175725,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.04049191528393994
+        },
+        {
+          "bias_od_valid_only": -0.16012388023666188,
+          "rmse_od_valid_only": 0.16328939895768493,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0045842729162211115
+        },
+        {
+          "bias_od_valid_only": 0.06685524723848113,
+          "rmse_od_valid_only": 0.08546693227361359,
+          "invalid_fraction": 0.95,
+          "valid_pixels": 16,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 304,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0002731833543857665
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 1,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        14.305638476971962,
+        26.724284139479863,
+        70.73808205069962,
+        258.74013773244474,
+        1025.2535122830836,
+        68.99996731854324
+      ],
+      "valid_code_ranges": [
+        [
+          9362.0,
+          29050.25
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9293.000032681457,
+          9430.999967318543
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9293.000032681457,
+            9430.999967318543
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "856e7d3037a931185fba751958befa719057b9f434bc39b0c3c38c98d54ff954",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.004008527212222462,
+          "rmse_od_valid_only": 0.004862588868451729,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31916645941423455
+        },
+        {
+          "bias_od_valid_only": -0.012941490806989997,
+          "rmse_od_valid_only": 0.014713823475576768,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0325835116047646
+        },
+        {
+          "bias_od_valid_only": 0.02375131187438066,
+          "rmse_od_valid_only": 0.04089228255179063,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0030027177621144577
+        },
+        {
+          "bias_od_valid_only": 0.053493488016306046,
+          "rmse_od_valid_only": 0.053493488016306046,
+          "invalid_fraction": 0.996875,
+          "valid_pixels": 1,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 319,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0002795802648640211
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.029594076839015316,
+          "rmse_od_valid_only": 0.029758261122371944,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3385363465026887
+        },
+        {
+          "bias_od_valid_only": -0.0841360594140482,
+          "rmse_od_valid_only": 0.08446628785156325,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03838841249347329
+        },
+        {
+          "bias_od_valid_only": -0.10860827565417622,
+          "rmse_od_valid_only": 0.11316260796143666,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0040715581312136245
+        },
+        {
+          "bias_od_valid_only": -0.07764689498242379,
+          "rmse_od_valid_only": 0.11127351833012217,
+          "invalid_fraction": 0.74375,
+          "valid_pixels": 82,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 238,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00038463654500989767
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 2,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        14.490575921775433,
+        38.95608838478491,
+        79.06202402189777,
+        312.45751356767016,
+        1377.551427961424,
+        70.06674430279125
+      ],
+      "valid_code_ranges": [
+        [
+          9365.0,
+          29045.5
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9294.93325569721,
+          9435.06674430279
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9294.93325569721,
+            9435.06674430279
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "6ad17da8ee51412df2fcf41d6eb65539794bd1087a3735e4d0d25942f4392dfe",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.003494472742382483,
+          "rmse_od_valid_only": 0.005205433290939353,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.318795065815386
+        },
+        {
+          "bias_od_valid_only": -0.0009126080380728186,
+          "rmse_od_valid_only": 0.012383989836437116,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.031702017566373655
+        },
+        {
+          "bias_od_valid_only": -0.024062071713953366,
+          "rmse_od_valid_only": 0.04428352461766181,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0033545669699557913
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.03621272338998124,
+          "rmse_od_valid_only": 0.03640983286706836,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3437393149240747
+        },
+        {
+          "bias_od_valid_only": -0.10291111344841068,
+          "rmse_od_valid_only": 0.10361998175342892,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.04009390375409355
+        },
+        {
+          "bias_od_valid_only": -0.1480584234382789,
+          "rmse_od_valid_only": 0.15287882178959938,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.004463838583083553
+        },
+        {
+          "bias_od_valid_only": -0.01283608100281503,
+          "rmse_od_valid_only": 0.08537274652694228,
+          "invalid_fraction": 0.853125,
+          "valid_pixels": 47,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 273,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00033176220448430675
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 3,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        12.518858072346905,
+        38.66203897951489,
+        73.1569245260051,
+        321.7672354991292,
+        1276.901106371507,
+        68.99996731854324
+      ],
+      "valid_code_ranges": [
+        [
+          9362.0,
+          29045.25
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9293.000032681457,
+          9430.999967318543
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9293.000032681457,
+            9430.999967318543
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "ab9de924b39c484eb64083c5e5282511e6f7e1ede823775857b6f83838760409",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.006646878367559931,
+          "rmse_od_valid_only": 0.007707194184588428,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3211178473791515
+        },
+        {
+          "bias_od_valid_only": -0.006444074779186312,
+          "rmse_od_valid_only": 0.012434645773230776,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0321050914216798
+        },
+        {
+          "bias_od_valid_only": 0.001860887641026769,
+          "rmse_od_valid_only": 0.03713642531914394,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0031602481388657124
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.03311293054671706,
+          "rmse_od_valid_only": 0.033368565496120904,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.34129703060396016
+        },
+        {
+          "bias_od_valid_only": -0.09404531273698484,
+          "rmse_od_valid_only": 0.09462764774647114,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.039279980378305906
+        },
+        {
+          "bias_od_valid_only": -0.12823228045470375,
+          "rmse_od_valid_only": 0.13334238630506196,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.004263533592662108
+        },
+        {
+          "bias_od_valid_only": 0.10231888166079356,
+          "rmse_od_valid_only": 0.10272981577819763,
+          "invalid_fraction": 0.971875,
+          "valid_pixels": 9,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 311,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0002499071568139333
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 4,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        14.95563201802335,
+        38.93655417852481,
+        75.81255866977094,
+        285.77320798414263,
+        1355.7653691317048,
+        68.99996731854324
+      ],
+      "valid_code_ranges": [
+        [
+          9362.0,
+          29043.0
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9293.000032681457,
+          9430.999967318543
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9293.000032681457,
+            9430.999967318543
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "b54b88ee4bc77b4d7cd04dae057e35a196a2965d06bd60ec8af545260a88a0e1",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": 0.00019825073482403806,
+          "rmse_od_valid_only": 0.0023533327998947412,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31608804904565446
+        },
+        {
+          "bias_od_valid_only": 0.02000892066189618,
+          "rmse_od_valid_only": 0.0232840283058749,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.030210287750310615
+        },
+        {
+          "bias_od_valid_only": -0.024825620184300394,
+          "rmse_od_valid_only": 0.044243394754601845,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003359752252655402
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.038114105473754524,
+          "rmse_od_valid_only": 0.03828240618992506,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.34524618057565043
+        },
+        {
+          "bias_od_valid_only": -0.10529115135025166,
+          "rmse_od_valid_only": 0.10588642482463208,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.04031219742114504
+        },
+        {
+          "bias_od_valid_only": -0.1592071780812105,
+          "rmse_od_valid_only": 0.16405259229988742,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.004580696996383105
+        },
+        {
+          "bias_od_valid_only": 0.04220278857968918,
+          "rmse_od_valid_only": 0.042496015659818295,
+          "invalid_fraction": 0.9875,
+          "valid_pixels": 4,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 316,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.000286962922565683
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 5,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        15.082269604521265,
+        31.360889977892388,
+        71.50026700727997,
+        262.14471158377376,
+        1328.8738689067097,
+        70.55366290818408
+      ],
+      "valid_code_ranges": [
+        [
+          9367.0,
+          29038.5
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9296.446337091817,
+          9437.553662908183
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9296.446337091817,
+            9437.553662908183
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "cb4680a53acdf9fed71ee0d0f6a2f32627f80d7e97f20bf3b92b6f3791800fee",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -9.766668612581214e-05,
+          "rmse_od_valid_only": 0.003120210057839254,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3163070504454204
+        },
+        {
+          "bias_od_valid_only": 0.013451734921721154,
+          "rmse_od_valid_only": 0.018874815488637155,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03067240857834904
+        },
+        {
+          "bias_od_valid_only": -0.042106639293459105,
+          "rmse_od_valid_only": 0.05116544965916118,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003491970383567025
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.038404369402873915,
+          "rmse_od_valid_only": 0.03854499773934441,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.34547518906764413
+        },
+        {
+          "bias_od_valid_only": -0.11542393584216967,
+          "rmse_od_valid_only": 0.11607618269194314,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0412663785287258
+        },
+        {
+          "bias_od_valid_only": -0.17703646143725388,
+          "rmse_od_valid_only": 0.17989402081825845,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.004766495795578602
+        },
+        {
+          "bias_od_valid_only": -0.1825944242919918,
+          "rmse_od_valid_only": 0.1838728129005169,
+          "invalid_fraction": 0.953125,
+          "valid_pixels": 15,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 305,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0004820947654792081
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 6,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        13.399454154002346,
+        37.86674557199858,
+        75.05108557267006,
+        315.47553692497985,
+        1036.275979146487,
+        67.65268217518724
+      ],
+      "valid_code_ranges": [
+        [
+          9384.0,
+          29039.0
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9316.347317824813,
+          9451.652682175187
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9316.347317824813,
+            9451.652682175187
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "ffa43a58d2a4838fb1b4b4c2a9767eba15178509c498a68795a8a3cbc08be2e9",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.002271570801340176,
+          "rmse_od_valid_only": 0.0031451561945286775,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31789011045206406
+        },
+        {
+          "bias_od_valid_only": 0.0075558919087690135,
+          "rmse_od_valid_only": 0.015049894082221611,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.031091209036859045
+        },
+        {
+          "bias_od_valid_only": -0.059026184864146146,
+          "rmse_od_valid_only": 0.0694773207815494,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003635640578611823
+        },
+        {
+          "bias_od_valid_only": -0.1601376301646491,
+          "rmse_od_valid_only": 0.1602411294795987,
+          "invalid_fraction": 0.990625,
+          "valid_pixels": 3,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 317,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0004572732272610375
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.046741621803081196,
+          "rmse_od_valid_only": 0.04688324054488384,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3521736742060101
+        },
+        {
+          "bias_od_valid_only": -0.13153876075485252,
+          "rmse_od_valid_only": 0.1321846628133552,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.04282859245454921
+        },
+        {
+          "bias_od_valid_only": -0.1897642548969209,
+          "rmse_od_valid_only": 0.19448855301955845,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.004918873091663864
+        },
+        {
+          "bias_od_valid_only": -0.035896009771868624,
+          "rmse_od_valid_only": 0.13607843623054106,
+          "invalid_fraction": 0.771875,
+          "valid_pixels": 73,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 247,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0003581544011638776
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "replicate": 7,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        0.5,
+        15.455958026543966,
+        38.24657197956471,
+        81.95599273173625,
+        314.9949707272908,
+        1366.1694713273941,
+        69.40124515805299
+      ],
+      "valid_code_ranges": [
+        [
+          9363.0,
+          29042.5
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          9293.598754841947,
+          9432.401245158053
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            9293.598754841947,
+            9432.401245158053
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        }
+      ],
+      "calibration_sha256": "b184add16da1fcc2e61eba08c0f42afb56573180fee4c552eddac930e3ffd091",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.0035264860353855483,
+          "rmse_od_valid_only": 0.005312187830755195,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31881934983731713
+        },
+        {
+          "bias_od_valid_only": -0.008761267436842668,
+          "rmse_od_valid_only": 0.012867151112556586,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03227475586624677
+        },
+        {
+          "bias_od_valid_only": -0.00900045141245904,
+          "rmse_od_valid_only": 0.03766860394349927,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0032398730189415062
+        },
+        {
+          "bias_od_valid_only": -0.06807277720211836,
+          "rmse_od_valid_only": 0.0691635847612299,
+          "invalid_fraction": 0.965625,
+          "valid_pixels": 11,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 309,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00037003624535634545
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.03616025769727965,
+          "rmse_od_valid_only": 0.03640640416693181,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.34370101518975676
+        },
+        {
+          "bias_od_valid_only": -0.107182086062478,
+          "rmse_od_valid_only": 0.10759279419775228,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.04048395862321446
+        },
+        {
+          "bias_od_valid_only": -0.13477697460916613,
+          "rmse_od_valid_only": 0.1398679241540219,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.004328853127799154
+        },
+        {
+          "bias_od_valid_only": 0.03812372998467032,
+          "rmse_od_valid_only": 0.10008876392092601,
+          "invalid_fraction": 0.678125,
+          "valid_pixels": 103,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 217,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00029669518107588153
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 0,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        573.5079201883977,
+        21.258094245603946,
+        25.552771516845414,
+        123.63997291122324,
+        316.94797020495633,
+        981.3293009046524,
+        1395.277138049854
+      ],
+      "valid_code_ranges": [
+        [
+          16330.0,
+          29049.0
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          13067.222861950146,
+          17311.329300904654
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13067.222861950146,
+            15857.777138049854
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        },
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13067.222861950146,
+            17311.329300904654
+          ],
+          "signal_bracket": [
+            0.0001,
+            0.001
+          ]
+        }
+      ],
+      "calibration_sha256": "0d10c64c63aebf3353c85dcd61b55d7606962f6321ab81ad17cf405ba0929a6b",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.003178268837705233,
+          "rmse_od_valid_only": 0.00481255926118757,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3185615161175472
+        },
+        {
+          "bias_od_valid_only": -0.0027263185744810783,
+          "rmse_od_valid_only": 0.009731071317934683,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03182923478362408
+        },
+        {
+          "bias_od_valid_only": 0.008343162341607258,
+          "rmse_od_valid_only": 0.008429758432653036,
+          "invalid_fraction": 0.99375,
+          "valid_pixels": 2,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 318,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0031021194011436534
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 277,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.0009076649393858513,
+          "rmse_od_valid_only": 0.004699371280595072,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3169072088077566
+        },
+        {
+          "bias_od_valid_only": 0.007575292724258939,
+          "rmse_od_valid_only": 0.012931966870293084,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03108498313133113
+        },
+        {
+          "bias_od_valid_only": 0.005573599313244168,
+          "rmse_od_valid_only": 0.044413021745477586,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0031380488677157357
+        },
+        {
+          "bias_od_valid_only": -0.2771375492421795,
+          "rmse_od_valid_only": 0.325746655575439,
+          "invalid_fraction": 0.99375,
+          "valid_pixels": 2,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 290,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 266,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0006457104306475995
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 1,
+      "status": "unidentifiable",
+      "reason": "unidentifiable observed transfer: reference centres are not monotonic; no silent correction",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        552.9153333378885,
+        16.93564652785787,
+        27.154950187650766,
+        123.95645931215444,
+        304.4102044505783,
+        942.2548778499038,
+        1430.1226448240443
+      ],
+      "diagnostics": {
+        "groups": [
+          {
+            "signal": 0.0,
+            "code": 14661.0,
+            "code_bounds": [
+              14108.084666662111,
+              15213.915333337889
+            ],
+            "signal_bounds": [
+              0.0,
+              0.0
+            ],
+            "source_indices": [
+              0
+            ]
+          },
+          {
+            "signal": 0.0001,
+            "code": 14532.0,
+            "code_bounds": [
+              13101.877355175955,
+              15962.122644824045
+            ],
+            "signal_bounds": [
+              0.0001,
+              0.0001
+            ],
+            "source_indices": [
+              6
+            ]
+          },
+          {
+            "signal": 0.001,
+            "code": 16451.0,
+            "code_bounds": [
+              15508.745122150096,
+              17393.254877849904
+            ],
+            "signal_bounds": [
+              0.001,
+              0.001
+            ],
+            "source_indices": [
+              5
+            ]
+          },
+          {
+            "signal": 0.01,
+            "code": 19912.5,
+            "code_bounds": [
+              19608.089795549422,
+              20216.910204450578
+            ],
+            "signal_bounds": [
+              0.01,
+              0.01
+            ],
+            "source_indices": [
+              4
+            ]
+          },
+          {
+            "signal": 0.1,
+            "code": 24372.5,
+            "code_bounds": [
+              24248.543540687846,
+              24496.456459312154
+            ],
+            "signal_bounds": [
+              0.1,
+              0.1
+            ],
+            "source_indices": [
+              3
+            ]
+          },
+          {
+            "signal": 1.0,
+            "code": 29051.5,
+            "code_bounds": [
+              29023.84504981235,
+              29078.15495018765
+            ],
+            "signal_bounds": [
+              1.0,
+              1.0
+            ],
+            "source_indices": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "observed_validation": [
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": 0.010551454603025307,
+          "rmse_od_valid_only": 0.011332594401232533,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3086513846416879
+        },
+        {
+          "bias_od_valid_only": 0.03929738133692471,
+          "rmse_od_valid_only": 0.0400160246629348,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.028891371976282866
+        },
+        {
+          "bias_od_valid_only": 0.034392580681316884,
+          "rmse_od_valid_only": 0.04983930227488032,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.002931570223892738
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 293,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 308,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 2,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        572.8055807095735,
+        21.24019268937999,
+        24.38737467437835,
+        80.23095342168756,
+        338.23810764649244,
+        984.0035992079261,
+        1452.6935252787423
+      ],
+      "valid_code_ranges": [
+        [
+          16289.0,
+          29040.0
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          13410.806474721257,
+          17273.003599207925
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13410.806474721257,
+            16316.193525278743
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        },
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13410.806474721257,
+            17273.003599207925
+          ],
+          "signal_bracket": [
+            0.0001,
+            0.001
+          ]
+        }
+      ],
+      "calibration_sha256": "04c4983a14e84ef738147bba10d8fb351d66310cafe0921225b43b873ca71d07",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": -0.006668711858951964,
+          "rmse_od_valid_only": 0.00788342870674313,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3211360452362772
+        },
+        {
+          "bias_od_valid_only": 0.007150106555304252,
+          "rmse_od_valid_only": 0.014251616510652128,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03111902401487961
+        },
+        {
+          "bias_od_valid_only": 0.10069502736228364,
+          "rmse_od_valid_only": 0.10070701755571942,
+          "invalid_fraction": 0.9875,
+          "valid_pixels": 4,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 316,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0025078857796034595
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 296,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": 0.0023730719341400162,
+          "rmse_od_valid_only": 0.004839672260008343,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31451938081838565
+        },
+        {
+          "bias_od_valid_only": 0.01521322522159102,
+          "rmse_od_valid_only": 0.01984696128831173,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.030547421213860337
+        },
+        {
+          "bias_od_valid_only": 0.0015322757821981858,
+          "rmse_od_valid_only": 0.04237160720724863,
+          "invalid_fraction": 0.006249999999999978,
+          "valid_pixels": 318,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 2,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0031662577857553284
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 264,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 300,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 3,
+      "status": "unidentifiable",
+      "reason": "unidentifiable observed transfer: reference centres are not monotonic; no silent correction",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        593.4298919077618,
+        21.24019268937999,
+        27.070770341012928,
+        122.21264501708576,
+        223.6611445873609,
+        777.904140301736,
+        1420.5403115824902
+      ],
+      "diagnostics": {
+        "groups": [
+          {
+            "signal": 0.0,
+            "code": 14535.0,
+            "code_bounds": [
+              13941.570108092239,
+              15128.429891907761
+            ],
+            "signal_bounds": [
+              0.0,
+              0.0
+            ],
+            "source_indices": [
+              0
+            ]
+          },
+          {
+            "signal": 0.0001,
+            "code": 14510.5,
+            "code_bounds": [
+              13089.95968841751,
+              15931.04031158249
+            ],
+            "signal_bounds": [
+              0.0001,
+              0.0001
+            ],
+            "source_indices": [
+              6
+            ]
+          },
+          {
+            "signal": 0.001,
+            "code": 15943.0,
+            "code_bounds": [
+              15165.095859698264,
+              16720.904140301736
+            ],
+            "signal_bounds": [
+              0.001,
+              0.001
+            ],
+            "source_indices": [
+              5
+            ]
+          },
+          {
+            "signal": 0.01,
+            "code": 19677.0,
+            "code_bounds": [
+              19453.33885541264,
+              19900.66114458736
+            ],
+            "signal_bounds": [
+              0.01,
+              0.01
+            ],
+            "source_indices": [
+              4
+            ]
+          },
+          {
+            "signal": 0.1,
+            "code": 24391.0,
+            "code_bounds": [
+              24268.787354982913,
+              24513.212645017087
+            ],
+            "signal_bounds": [
+              0.1,
+              0.1
+            ],
+            "source_indices": [
+              3
+            ]
+          },
+          {
+            "signal": 1.0,
+            "code": 29041.5,
+            "code_bounds": [
+              29011.92922965899,
+              29066.07077034101
+            ],
+            "signal_bounds": [
+              1.0,
+              1.0
+            ],
+            "source_indices": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "observed_validation": [
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.011397885334661496,
+          "rmse_od_valid_only": 0.012219429950790575,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.32465361676650384
+        },
+        {
+          "bias_od_valid_only": -0.03033554782008312,
+          "rmse_od_valid_only": 0.03261042374682612,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03392346396564586
+        },
+        {
+          "bias_od_valid_only": -0.06473875193359627,
+          "rmse_od_valid_only": 0.07475127334354449,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0036842137862964815
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 303,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 315,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 4,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        412.73517926426786,
+        18.12896368607136,
+        26.00650467645533,
+        124.30504073752682,
+        340.8729747233541,
+        973.3095100426485,
+        1231.9994139409926
+      ],
+      "valid_code_ranges": [
+        [
+          16205.5,
+          29051.75
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          13880.264820735732,
+          17178.809510042647
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13880.264820735732,
+            16422.999413940994
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        },
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13959.000586059008,
+            17178.809510042647
+          ],
+          "signal_bracket": [
+            0.0001,
+            0.001
+          ]
+        }
+      ],
+      "calibration_sha256": "ac61b70bed5035af4099512aaaae577c716cfeac05815f5b7bc6c45f37761aec",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": 0.0023191646768194914,
+          "rmse_od_valid_only": 0.004631862078161207,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3145569933889414
+        },
+        {
+          "bias_od_valid_only": 0.008041904242431636,
+          "rmse_od_valid_only": 0.012338880439191494,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03104978048242571
+        },
+        {
+          "bias_od_valid_only": 0.019474447726659072,
+          "rmse_od_valid_only": 0.021762814645073854,
+          "invalid_fraction": 0.96875,
+          "valid_pixels": 10,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 310,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.00302436251787514
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 219,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": 0.0032346862848565013,
+          "rmse_od_valid_only": 0.00570694334708574,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.313899565419855
+        },
+        {
+          "bias_od_valid_only": 0.005196474119814252,
+          "rmse_od_valid_only": 0.011290503380362103,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03125495318943011
+        },
+        {
+          "bias_od_valid_only": -0.003372944310778253,
+          "rmse_od_valid_only": 0.032902468773326844,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003195887510302848
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 266,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 293,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 5,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        541.2058189589496,
+        20.306297701934593,
+        28.839707320711994,
+        113.11786273700638,
+        336.8869776084664,
+        919.7025066021916,
+        1294.7715604367993
+      ],
+      "valid_code_ranges": [
+        [
+          16489.0,
+          29042.0
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          13835.728439563201,
+          17408.702506602192
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13835.728439563201,
+            16425.2715604368
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        },
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13835.728439563201,
+            17408.702506602192
+          ],
+          "signal_bracket": [
+            0.0001,
+            0.001
+          ]
+        }
+      ],
+      "calibration_sha256": "45bd52e88fed83ad77871dbe2df803c472479d5f1c3b314ff35b8661cdb38dbc",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": 0.0031511099226590317,
+          "rmse_od_valid_only": 0.005595800916787871,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3139593731960807
+        },
+        {
+          "bias_od_valid_only": 0.018440178132126117,
+          "rmse_od_valid_only": 0.020958364238205296,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.030316132935472855
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 318,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": 0.004817061492008683,
+          "rmse_od_valid_only": 0.0072670678682879705,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3127641393381735
+        },
+        {
+          "bias_od_valid_only": 0.024194359442483677,
+          "rmse_od_valid_only": 0.026307095557135562,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.02991774522522747
+        },
+        {
+          "bias_od_valid_only": 0.026798934058867095,
+          "rmse_od_valid_only": 0.05099477697343221,
+          "invalid_fraction": 0.059374999999999956,
+          "valid_pixels": 301,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 19,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0029875401507784482
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 287,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 314,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 6,
+      "status": "supported",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        593.1022468621753,
+        21.078394536233013,
+        27.070770341012928,
+        104.54580095673238,
+        306.5706042158599,
+        855.2712761445831,
+        1439.9569161215836
+      ],
+      "valid_code_ranges": [
+        [
+          16009.5,
+          29041.0
+        ]
+      ],
+      "excluded_code_ranges": [
+        [
+          13463.043083878416,
+          16864.771276144584
+        ]
+      ],
+      "unidentifiable_edges": [
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13463.043083878416,
+            16342.956916121584
+          ],
+          "signal_bracket": [
+            0.0,
+            0.0001
+          ]
+        },
+        {
+          "reason": "overlapping code uncertainty",
+          "code_range": [
+            13463.043083878416,
+            16864.771276144584
+          ],
+          "signal_bracket": [
+            0.0001,
+            0.001
+          ]
+        }
+      ],
+      "calibration_sha256": "b8068300bb80e44b905cd76109d59a594d9013fd661a039e409ddce3e3b70149",
+      "observed_validation": [
+        {
+          "bias_od_valid_only": 0.005817821898766946,
+          "rmse_od_valid_only": 0.006454754035242096,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31202628888434214
+        },
+        {
+          "bias_od_valid_only": 0.014067976870475183,
+          "rmse_od_valid_only": 0.01869155240533074,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.030627133939355834
+        },
+        {
+          "bias_od_valid_only": 0.0006112692048791882,
+          "rmse_od_valid_only": 0.03323591753088206,
+          "invalid_fraction": 0.890625,
+          "valid_pixels": 35,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 285,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.003167199092778653
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 185,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": -0.0016586515872755426,
+          "rmse_od_valid_only": 0.004299721303138474,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.31745105109027916
+        },
+        {
+          "bias_od_valid_only": -0.013614355970084372,
+          "rmse_od_valid_only": 0.01715885987401891,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.03263921188118067
+        },
+        {
+          "bias_od_valid_only": -0.03063164054310496,
+          "rmse_od_valid_only": 0.056590458292484075,
+          "invalid_fraction": 0.059374999999999956,
+          "valid_pixels": 301,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 17,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 2,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0034141343011393076
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 271,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 316,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "replicate": 7,
+      "status": "unidentifiable",
+      "reason": "unidentifiable observed transfer: reference centres are not monotonic; no silent correction",
+      "uncertainty_source": "ASSUMED normal approximation for each reference statistic; dispersion from independent other reference captures, not SEM; Bonferroni t multiplier; minimum +/-0.5 code for quantization. Not per-sample noise or pixel confidence.",
+      "code_half_width": [
+        533.8656115132885,
+        16.595310820280574,
+        28.866075058627302,
+        121.55725257155453,
+        340.28436777566435,
+        831.024934954371,
+        1206.077354541936
+      ],
+      "diagnostics": {
+        "groups": [
+          {
+            "signal": 0.0,
+            "code": 14686.0,
+            "code_bounds": [
+              14152.134388486711,
+              15219.865611513289
+            ],
+            "signal_bounds": [
+              0.0,
+              0.0
+            ],
+            "source_indices": [
+              0
+            ]
+          },
+          {
+            "signal": 0.0001,
+            "code": 14247.0,
+            "code_bounds": [
+              13040.922645458064,
+              15453.077354541936
+            ],
+            "signal_bounds": [
+              0.0001,
+              0.0001
+            ],
+            "source_indices": [
+              6
+            ]
+          },
+          {
+            "signal": 0.001,
+            "code": 16590.5,
+            "code_bounds": [
+              15759.47506504563,
+              17421.52493495437
+            ],
+            "signal_bounds": [
+              0.001,
+              0.001
+            ],
+            "source_indices": [
+              5
+            ]
+          },
+          {
+            "signal": 0.01,
+            "code": 19812.5,
+            "code_bounds": [
+              19472.215632224335,
+              20152.784367775665
+            ],
+            "signal_bounds": [
+              0.01,
+              0.01
+            ],
+            "source_indices": [
+              4
+            ]
+          },
+          {
+            "signal": 0.1,
+            "code": 24363.0,
+            "code_bounds": [
+              24241.442747428446,
+              24484.557252571554
+            ],
+            "signal_bounds": [
+              0.1,
+              0.1
+            ],
+            "source_indices": [
+              3
+            ]
+          },
+          {
+            "signal": 1.0,
+            "code": 29042.0,
+            "code_bounds": [
+              29018.133924941372,
+              29075.866075058628
+            ],
+            "signal_bounds": [
+              1.0,
+              1.0
+            ],
+            "source_indices": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "observed_validation": [
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        },
+        {
+          "bias_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "status": "calibration_unidentifiable"
+        }
+      ],
+      "log_diagnostic_validation": [
+        {
+          "bias_od_valid_only": 0.010290813582954254,
+          "rmse_od_valid_only": 0.011108537545698287,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.3088370037396658
+        },
+        {
+          "bias_od_valid_only": 0.027602055418261308,
+          "rmse_od_valid_only": 0.030658303781312814,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.029689435296516898
+        },
+        {
+          "bias_od_valid_only": 0.03899892396688434,
+          "rmse_od_valid_only": 0.050160434341127304,
+          "invalid_fraction": 0.0,
+          "valid_pixels": 320,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 0,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 0,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": 0.0028983783201095457
+        },
+        {
+          "bias_od_valid_only": null,
+          "rmse_od_valid_only": null,
+          "invalid_fraction": 1.0,
+          "valid_pixels": 0,
+          "total_pixels": 320,
+          "invalid_reason_counts": {
+            "NONPOSITIVE_TRANSMITTANCE": 270,
+            "WHITE_REFERENCE_INVALID": 0,
+            "OUTSIDE_CALIBRATION": 320,
+            "ADC_SATURATED": 0,
+            "FRONT_END_CLIPPED": 0,
+            "MISSING_SAMPLE": 0,
+            "RESAMPLING_SUPPORT": 0,
+            "CALIBRATION_MISMATCH": 0,
+            "FACET_UNRESOLVED": 0
+          },
+          "mean_transmittance_valid_only": null
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "case": "noiseless_floor_dark",
+      "method": "log_diagnostic_candidate",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.017106220400129546,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.050580172311178506,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.07613509919971095,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.01881698442915347,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noiseless_floor_dark",
+      "method": "observed_monotonic",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -1.1102230246251565e-16,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.00010874590502440995,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.00010874590501197545,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.0001087459051949402,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noiseless_additive_dark",
+      "method": "log_diagnostic_candidate",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 0.00010774049288031495,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 1.5590521870390006e-05,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 1.1124221761527053e-05,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.0004802856193970584,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noiseless_additive_dark",
+      "method": "observed_monotonic",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 0.0011654103409299843,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 0.009724797736274216,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 0.070039440172041,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": 0.19902661748259343,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 1,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "method": "log_diagnostic_candidate",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": -0.03701210978091346,
+            "ci": [
+              -0.04113165652267279,
+              -0.03289256303915413
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": -0.10597534434427133,
+            "ci": [
+              -0.11769261990950712,
+              -0.09425806877903554
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": -0.1507259661010465,
+            "ci": [
+              -0.17288521562431733,
+              -0.12856671657777566
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": -0.0074340953231831295,
+            "ci": [
+              -0.08389635790292443,
+              0.06902816725655816
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.8636718750000001,
+            "ci": [
+              0.38351047934003973,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noisy_floor_dark",
+      "method": "observed_monotonic",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": -0.002861057504911047,
+            "ci": [
+              -0.0046999980103531866,
+              -0.0010221169994689078
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": 0.00151472189143434,
+            "ci": [
+              -0.007999922837369512,
+              0.011029366620238191
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": -0.020906059706517953,
+            "ci": [
+              -0.042682919041162365,
+              0.0008707996281264556
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 3,
+            "mean": -0.05823897311682047,
+            "ci": [
+              -0.32442556053074784,
+              0.2079476142971069
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.994140625,
+            "ci": [
+              0.5139792293400396,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "method": "log_diagnostic_candidate",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": 0.0021628607544577337,
+            "ci": [
+              -0.0037705813304439585,
+              0.008096302839359425
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": 0.009391110559145802,
+            "ci": [
+              -0.009587558160605537,
+              0.02836977927889714
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.0,
+            "ci": [
+              0.0,
+              0.48016139565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 8,
+            "mean": 0.0010691221268788985,
+            "ci": [
+              -0.02821207252482261,
+              0.030350316778580407
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.015624999999999986,
+            "ci": [
+              0.0,
+              0.49578639565996035
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 1,
+            "mean": -0.2771375492421795,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.99921875,
+            "ci": [
+              0.5190573543400396,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    },
+    {
+      "case": "noisy_additive_dark",
+      "method": "observed_monotonic",
+      "held_out": [
+        {
+          "expected_density": 0.5,
+          "bias_od_valid_only": {
+            "n": 5,
+            "mean": 0.00028822316031765444,
+            "ci": [
+              -0.006022094135134748,
+              0.006598540455770058
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.375,
+            "ci": [
+              0.0,
+              0.8551613956599604
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 1.5,
+          "bias_od_valid_only": {
+            "n": 5,
+            "mean": 0.008994769445171222,
+            "ci": [
+              -0.0009511028868974588,
+              0.018940641777239905
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.375,
+            "ci": [
+              0.0,
+              0.8551613956599604
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 2.5,
+          "bias_od_valid_only": {
+            "n": 4,
+            "mean": 0.03228097665885729,
+            "ci": [
+              -0.04133196473587335,
+              0.10589391805358793
+            ]
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 0.980078125,
+            "ci": [
+              0.49991672934003967,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        },
+        {
+          "expected_density": 3.5,
+          "bias_od_valid_only": {
+            "n": 0,
+            "mean": null,
+            "ci": null
+          },
+          "invalid_fraction": {
+            "n": 8,
+            "mean": 1.0,
+            "ci": [
+              0.5198386043400396,
+              1.0
+            ],
+            "method": "bounded Hoeffding"
+          }
+        }
+      ]
+    }
+  ],
+  "source_inputs_unchanged": true,
+  "high_density_capability": "not_validated",
+  "scope": "Same reference statistics and held-out data as prior controls. Only references estimate uncertainty; validation labels enter after reconstruction. Reference uncertainty uses a declared normal approximation, not pixel confidence. Log results are prior diagnostic candidates. No model selection or device certification."
+}

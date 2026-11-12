@@ -81,3 +81,7 @@ D=3.5 有噪声加性暗例仅 1/8 次重复有有效像素，残差 −0.27714 
 逐例数值见 `calibration_controls_audit.json`；正式记录
 `evidence_runs/2026-11-13_calibration_controls/record/`。该记录通过的是数据可复现与拒绝合同，
 不是定量密度能力。默认 P0 限定和阶段 3–7 的未完成门槛继续保留。
+
+
+后续观测表已实现并用相同 raw 独立检验，见 `observed_monotonic_transfer.md`。
+它避免指定 log(T+d) 族，但稀疏参考的中间点可能更差，仍需密参考与独立验证，不能回溯地把本报告案例改成通过。
