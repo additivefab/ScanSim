@@ -1,0 +1,647 @@
+{
+  "passed": true,
+  "seed": [
+    1,
+    31
+  ],
+  "cases": [
+    {
+      "edge": "rising",
+      "stalled": false,
+      "abrupt_exit": false,
+      "committed_raw_blocks_at_checkpoint": 2,
+      "adc_pending_samples": 13,
+      "unfinished_window_samples": 2,
+      "queued_payloads": 0,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 7847,
+      "publish_ms": 3.484916,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": true,
+      "original_fault_files_preserved": false,
+      "crash_returncode": null,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_rising_0_0",
+        "--edge",
+        "rising"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "4f553ef14f739a38ffd8e7a7d5ed32bceb6a55dfb535f4a6119e3b6ece79ebe0",
+        "events.jsonl": "4d7bda9cc1bc6afecbc440eb52e4cc1d9fdd30c0f10e317eb52c7ecd78e7f5e8",
+        "checkpoint.json": "0995bf65eee40f7e8d30c0b114cdae50d0e112a10773c0549857630fdd82c954"
+      },
+      "read_restore_ms": 7.084459,
+      "read_restore_continue_commit_ms": 26.77775,
+      "summary": {
+        "written_blocks": 5,
+        "lost_blocks": 0,
+        "retained_samples_per_channel": 52,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "rising",
+      "stalled": false,
+      "abrupt_exit": true,
+      "committed_raw_blocks_at_checkpoint": 2,
+      "adc_pending_samples": 13,
+      "unfinished_window_samples": 2,
+      "queued_payloads": 0,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 7847,
+      "publish_ms": 3.029958,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": false,
+      "original_fault_files_preserved": true,
+      "crash_returncode": 86,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_rising_0_1",
+        "--edge",
+        "rising",
+        "--branch",
+        "evidence_runs/2026-11-12_physical_recording/output/branch_rising_0_1"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "4f553ef14f739a38ffd8e7a7d5ed32bceb6a55dfb535f4a6119e3b6ece79ebe0",
+        "events.jsonl": "4d7bda9cc1bc6afecbc440eb52e4cc1d9fdd30c0f10e317eb52c7ecd78e7f5e8",
+        "checkpoint.json": "0995bf65eee40f7e8d30c0b114cdae50d0e112a10773c0549857630fdd82c954"
+      },
+      "read_restore_ms": 7.576,
+      "read_restore_continue_commit_ms": 26.77775,
+      "summary": {
+        "written_blocks": 5,
+        "lost_blocks": 0,
+        "retained_samples_per_channel": 52,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "rising",
+      "stalled": true,
+      "abrupt_exit": false,
+      "committed_raw_blocks_at_checkpoint": 1,
+      "adc_pending_samples": 13,
+      "unfinished_window_samples": 2,
+      "queued_payloads": 1,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 9608,
+      "publish_ms": 4.072584,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": true,
+      "original_fault_files_preserved": false,
+      "crash_returncode": null,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_rising_1_0",
+        "--edge",
+        "rising",
+        "--stalled"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "5385861477cfe16a5175c392154ee461510767b2c462dabdccfd457a75215103",
+        "events.jsonl": "30729486ab2712194bcba74dc3e02270765ebbad09fedcceaeecc6ccdb8a2e1e",
+        "checkpoint.json": "e835106f29e260b14aed2563fa465105671536fe926b6304fc5353b990460ced"
+      },
+      "read_restore_ms": 7.353958,
+      "read_restore_continue_commit_ms": 26.474542,
+      "summary": {
+        "written_blocks": 4,
+        "lost_blocks": 1,
+        "retained_samples_per_channel": 49,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "rising",
+      "stalled": true,
+      "abrupt_exit": true,
+      "committed_raw_blocks_at_checkpoint": 1,
+      "adc_pending_samples": 13,
+      "unfinished_window_samples": 2,
+      "queued_payloads": 1,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 9608,
+      "publish_ms": 3.302167,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": false,
+      "original_fault_files_preserved": true,
+      "crash_returncode": 86,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_rising_1_1",
+        "--edge",
+        "rising",
+        "--stalled",
+        "--branch",
+        "evidence_runs/2026-11-12_physical_recording/output/branch_rising_1_1"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "5385861477cfe16a5175c392154ee461510767b2c462dabdccfd457a75215103",
+        "events.jsonl": "30729486ab2712194bcba74dc3e02270765ebbad09fedcceaeecc6ccdb8a2e1e",
+        "checkpoint.json": "e835106f29e260b14aed2563fa465105671536fe926b6304fc5353b990460ced"
+      },
+      "read_restore_ms": 9.544959,
+      "read_restore_continue_commit_ms": 34.778959,
+      "summary": {
+        "written_blocks": 4,
+        "lost_blocks": 1,
+        "retained_samples_per_channel": 49,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "falling",
+      "stalled": false,
+      "abrupt_exit": false,
+      "committed_raw_blocks_at_checkpoint": 2,
+      "adc_pending_samples": 14,
+      "unfinished_window_samples": 1,
+      "queued_payloads": 0,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 7870,
+      "publish_ms": 3.222625,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": true,
+      "original_fault_files_preserved": false,
+      "crash_returncode": null,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_falling_0_0",
+        "--edge",
+        "falling"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "22b38476c9988bb441be43a9381a7ed8b72965ddefe9108d67ec27d4c1842a3f",
+        "events.jsonl": "429e9c9a7b3f844bff5010551de85ad3639b9e0bdd1e2ac1d41bdd37a41d935b",
+        "checkpoint.json": "79fcb37f0cd0c3043decfd2dcfff0dfad76d7a1b3814194a36de2dccace9fb3e"
+      },
+      "read_restore_ms": 6.822375,
+      "read_restore_continue_commit_ms": 29.584084,
+      "summary": {
+        "written_blocks": 5,
+        "lost_blocks": 0,
+        "retained_samples_per_channel": 52,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "falling",
+      "stalled": false,
+      "abrupt_exit": true,
+      "committed_raw_blocks_at_checkpoint": 2,
+      "adc_pending_samples": 14,
+      "unfinished_window_samples": 1,
+      "queued_payloads": 0,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 7870,
+      "publish_ms": 3.246916,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": false,
+      "original_fault_files_preserved": true,
+      "crash_returncode": 86,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_falling_0_1",
+        "--edge",
+        "falling",
+        "--branch",
+        "evidence_runs/2026-11-12_physical_recording/output/branch_falling_0_1"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "22b38476c9988bb441be43a9381a7ed8b72965ddefe9108d67ec27d4c1842a3f",
+        "events.jsonl": "429e9c9a7b3f844bff5010551de85ad3639b9e0bdd1e2ac1d41bdd37a41d935b",
+        "checkpoint.json": "79fcb37f0cd0c3043decfd2dcfff0dfad76d7a1b3814194a36de2dccace9fb3e"
+      },
+      "read_restore_ms": 9.140375,
+      "read_restore_continue_commit_ms": 29.628709,
+      "summary": {
+        "written_blocks": 5,
+        "lost_blocks": 0,
+        "retained_samples_per_channel": 52,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "falling",
+      "stalled": true,
+      "abrupt_exit": false,
+      "committed_raw_blocks_at_checkpoint": 1,
+      "adc_pending_samples": 14,
+      "unfinished_window_samples": 1,
+      "queued_payloads": 1,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 9631,
+      "publish_ms": 4.062125,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": true,
+      "original_fault_files_preserved": false,
+      "crash_returncode": null,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_falling_1_0",
+        "--edge",
+        "falling",
+        "--stalled"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "161da7674c9b1aaccade119f7e03c3f1817a0a66333e0570f0a874efb7c0cc46",
+        "events.jsonl": "4879a3fe052dde6cf0ce5cda9caa89fcfbc671c92f554e172410c6c6a6c45b31",
+        "checkpoint.json": "7a5953930c6acbe092f9d1d8bf5ac509a0c68e7e034f44473d02f7b427559557"
+      },
+      "read_restore_ms": 6.889209,
+      "read_restore_continue_commit_ms": 25.763875,
+      "summary": {
+        "written_blocks": 4,
+        "lost_blocks": 1,
+        "retained_samples_per_channel": 49,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "edge": "falling",
+      "stalled": true,
+      "abrupt_exit": true,
+      "committed_raw_blocks_at_checkpoint": 1,
+      "adc_pending_samples": 14,
+      "unfinished_window_samples": 1,
+      "queued_payloads": 1,
+      "future_physical_commands": 1,
+      "checkpoint_bytes": 9631,
+      "publish_ms": 3.557041,
+      "raw_journal_root_and_summary_match": true,
+      "same_inode_in_place": false,
+      "original_fault_files_preserved": true,
+      "crash_returncode": 86,
+      "child_returncode": 0,
+      "child_command": [
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_physical_recording.py",
+        "--resume",
+        "evidence_runs/2026-11-12_physical_recording/output/actual_falling_1_1",
+        "--edge",
+        "falling",
+        "--stalled",
+        "--branch",
+        "evidence_runs/2026-11-12_physical_recording/output/branch_falling_1_1"
+      ],
+      "final_sha256": {
+        "raw.zlraw": "161da7674c9b1aaccade119f7e03c3f1817a0a66333e0570f0a874efb7c0cc46",
+        "events.jsonl": "4879a3fe052dde6cf0ce5cda9caa89fcfbc671c92f554e172410c6c6a6c45b31",
+        "checkpoint.json": "7a5953930c6acbe092f9d1d8bf5ac509a0c68e7e034f44473d02f7b427559557"
+      },
+      "read_restore_ms": 8.016625,
+      "read_restore_continue_commit_ms": 27.521958,
+      "summary": {
+        "written_blocks": 4,
+        "lost_blocks": 1,
+        "retained_samples_per_channel": 49,
+        "closed": true,
+        "failed": false,
+        "fine_step": "791",
+        "control_state": "done",
+        "applied_commands": 2,
+        "physical_applicability": [
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          },
+          {
+            "status": "limited_research_model",
+            "high_density_capability": "not_validated",
+            "stochastic_log_status": "assumed_fixed_response_requires_statistical_convergence",
+            "input_response_hz": 70000,
+            "trajectory_status": "unclamped_f_theta_with_assumed_extrapolation",
+            "input_response_evidence": "assumed",
+            "dt_over_response_tau": 0.10995574287564275,
+            "finite_grid_to_continuous_current_variance_ratio": 0.9989936945165823,
+            "limitations": [
+              "one assumed input pole is a research candidate, not a measured PMT/electrical response",
+              "PMT anode limit is a warning only, not saturation or recovery physics",
+              "polygon scanner, not a closed-loop galvanometer",
+              "collection model does not establish local coating-defect response",
+              "assumed parameters do not establish hardware capability"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "scope": "Assumed noisy dual-channel model with explicit pre-log response. Actual analog/control/digital/file-root restore and append. Logical control reset preserves physical parameters/history and digital in-flight data. Excludes hardware reset, power loss, measured readbacks, trace-file cursors and CLI/UI.",
+  "timing_scope": "Root fsync/atomic publication; new-process read/restore; continuation adds 450 fine steps per channel, logical reset/start, EOF/drain and fsync/publication. Excludes process startup. Disk cache uncontrolled."
+}

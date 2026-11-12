@@ -1,0 +1,97 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Unified physical/control/digital/file-root recovery and preserved-tail continuation",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T14:57:08.022248+00:00",
+ "finished_at": "2026-11-12T14:57:26.024050+00:00",
+ "code": {
+  "commit": "344405936547189667858a0e6de655261aa6388d",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": [
+  1,
+  31
+ ],
+ "inputs": {
+  "tools/audit_physical_recording.py": "cfa9518f967de46d595c8b83657ea44e6e84b3dbc437010f45de7207cf77242e",
+  "src/zlscan/engine/physical_recording.py": "5fa093b2be4bc25a6f3581414d6d1440bf7c686204425d037eaedfce0a92c9f7",
+  "src/zlscan/engine/chain.py": "71fdd8c37c431e6dbad56bb712f5cb7d773b786acbe05fadd1cff401d132fb15",
+  "src/zlscan/engine/digital_recording.py": "b1e14cc9cd7ea6eb967963979f0490531ac3ee492a4db192244319cab89a551c",
+  "src/zlscan/control/state.py": "e6fd67df2cd5ae21cc9424adaf32f13458cbad87c39b20ea2360952ffc5ebd25",
+  "src/zlscan/io/committed.py": "af26cd513843d05978b4acf09f62be335100ab292cc66aed41b41e5eb9c4f0d4",
+  "src/zlscan/config/presets.py": "71617cedf203aea281604bf58d20f98abc04a46c616fe459260ca1c32d25f92d",
+  "src/zlscan/truth/detector/__init__.py": "c8743ccaa3d4e2bdd3bbfec2a7751ea39c74c2172be69507331595db55b49aa5",
+  "tests/unit/test_physical_recording.py": "609fe1f7b0ede7db35411d1ad20bcaa5380aacdea1cf50136cad5cab340f3f35"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_physical_recording.py",
+    "--out",
+    "evidence_runs/2026-11-12_physical_recording/output"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "cases",
+   "expected": 8,
+   "tolerance": null,
+   "actual": 8,
+   "passed": true
+  },
+  {
+   "quantity": "files_root_summary_equal",
+   "expected": 8,
+   "tolerance": null,
+   "actual": 8,
+   "passed": true
+  },
+  {
+   "quantity": "busy_state_with_committed_prefix",
+   "expected": 8,
+   "tolerance": null,
+   "actual": 8,
+   "passed": true
+  },
+  {
+   "quantity": "queued_payload_in_stalled_cases",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "abrupt_exit_86_originals_preserved",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "same_inode_in_place",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  }
+ ],
+ "notes": "Assumed noisy dual-channel model with explicit pre-log response. Actual analog/control/digital/file-root restore and append. Logical control reset preserves physical parameters/history and digital in-flight data. Excludes hardware reset, power loss, measured readbacks, trace-file cursors and CLI/UI. Root fsync/atomic publication; new-process read/restore; continuation adds 450 fine steps per channel, logical reset/start, EOF/drain and fsync/publication. Excludes process startup. Disk cache uncontrolled. Read/restore timing includes reconstruction of the assumed configurations. Identical producer boundaries; no physical capability or grid-convergence claim."
+}
