@@ -1,0 +1,85 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "64-bit RTL identities, near-boundary reset and packet-loss wrapping",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T11:44:33.313448+00:00",
+ "finished_at": "2026-11-12T11:44:35.798508+00:00",
+ "code": {
+  "commit": "faae1800551bbffc18cc024acf5195dc06cfaf3d",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 12,
+ "inputs": {
+  "cosim/rtl/scanner_capture.sv": "5e1712e4fe9f27d5a9f53ddc5a71d1af4718d461f20a2bbd6487b8793276e653",
+  "cosim/rtl/tb_counter_reset.sv": "4cf6086c4102136aa5519a3b687ceef41c9ea83972fe61e2767f8b9ef989c25b",
+  "cosim/rtl/tag_delay.sv": "a5efa95bd9f6e14bc2b2ac6477a4e624b5a9ac4c1736b81fe41297460c70923f",
+  "cosim/rtl/tb_scanner_capture.sv": "36546e2b15ec147a215368c4c4f516f598a3ae06ebd76595af798318dfc96fca",
+  "cosim/rtl/adc_stream_fifo.sv": "723fc10f413cf09c1d3d8b1ba3765395abc7686d6a408db81e2b5b8d94e9404a"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "zlscan",
+    "cosim",
+    "--iverilog",
+    "/tmp/zlscan-simtools.IgxZSB/local/bin/iverilog",
+    "--vvp",
+    "/tmp/zlscan-simtools.IgxZSB/local/bin/vvp",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_rtl_counter64/output"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_capture_cosim.py"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "all functional RTL comparisons",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "sample index width",
+   "expected": 64,
+   "tolerance": null,
+   "actual": 64,
+   "passed": true
+  },
+  {
+   "quantity": "counter reset while busy",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Functional component and host-container tests; not downloaded or measured hardware."
+}
