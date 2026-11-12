@@ -106,6 +106,15 @@ class StreamLink:
             or source.epoch < 0
         ):
             raise ValueError("source index and epoch must be integers with index >= 0")
+        if (
+            not isinstance(source.run_id, str)
+            or not isinstance(source.branch_id, str)
+            or type(source.session_id) is not int
+            or source.session_id < 0
+        ):
+            raise ValueError(
+                "source identity needs run/branch strings and a nonnegative session integer"
+            )
         identity = (source.run_id, source.branch_id, source.session_id)
         if self.identity is not None and identity != self.identity:
             raise ValueError("source run/branch/session identity cannot change in a link")

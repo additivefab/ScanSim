@@ -21,6 +21,7 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from fractions import Fraction
 from pathlib import Path
+from typing import NamedTuple
 
 PS_PER_S = 10**12
 FOREVER = 10**18
@@ -104,6 +105,22 @@ def finish_time(start: int, work_ps: int, stalls: tuple[tuple[int, int], ...]) -
     return t + remaining
 
 
+class _Event(NamedTuple):
+    tick: int
+    sequence: int
+    kind: str
+    stage: int
+    item: Item
+
+    def __lt__(self, other):
+        # Match batch semantics even when a future arrival is submitted after a finish was queued.
+        return (self.tick, self.kind == "finish", self.sequence) < (
+            other.tick,
+            other.kind == "finish",
+            other.sequence,
+        )
+
+
 class _Stage:
     def __init__(self, spec: StageSpec) -> None:
         self.spec = spec
@@ -130,7 +147,7 @@ class TransportSimulation:
     This is the transport component, not an atomic ADC/acquisition/disk checkpoint.
     """
 
-    FORMAT = "zlscan-transport-checkpoint/1"
+    FORMAT = "zlscan-transport-checkpoint/2"
 
     def __init__(self, stages: list[StageSpec], items: list[Item] | None = None) -> None:
         if not stages or len({s.name for s in stages}) != len(stages):
@@ -155,7 +172,7 @@ class TransportSimulation:
                     )
         self.stages = [_Stage(deepcopy(spec)) for spec in stages]
         self._result = TransportResult(stats=[s.stats for s in self.stages])
-        self.events: list[tuple[int, int, str, int, Item]] = []
+        self.events: list[_Event] = []
         self.counter = 0
         self.watermark: int | None = None
         self.max_item_id: int | None = None
@@ -181,7 +198,7 @@ class TransportSimulation:
             self.max_item_id = max(ids)
 
     def _push(self, tick: int, kind: str, index: int, item: Item) -> None:
-        heapq.heappush(self.events, (tick, self.counter, kind, index, item))
+        heapq.heappush(self.events, _Event(tick, self.counter, kind, index, item))
         self.counter += 1
 
     def _lose(self, layer: str, reason: str, item: Item, tick: int) -> None:
@@ -347,7 +364,7 @@ class TransportSimulation:
         restored.counter, restored.watermark = state["counter"], state["watermark"]
         restored.max_item_id = state["max_item_id"]
         restored.events = [
-            (tick, order, kind, index, Item(**item))
+            _Event(tick, order, kind, index, Item(**item))
             for tick, order, kind, index, item in state["events"]
         ]
         for stage, saved in zip(restored.stages, state["stages"], strict=True):

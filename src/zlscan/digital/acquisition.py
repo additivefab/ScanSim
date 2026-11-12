@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from zlscan.adc.patterns import ConvertedSamples
-from zlscan.contracts.time import ClockDomain, Tick
+from zlscan.contracts.time import CaptureClock, ClockDomain, Tick
 from zlscan.io.rawstream import (
     FLAG_EPOCH_START,
     FLAG_LINE_END,
@@ -46,6 +46,11 @@ class AcquisitionConfigError(ValueError):
 
 
 def validate(cfg: AcquisitionConfig) -> None:
+    if any(
+        type(getattr(cfg, key)) is not int
+        for key in ("window_start", "window_length", "sync_latency_cycles")
+    ):
+        raise AcquisitionConfigError("window and synchronizer counts must be integers")
     if cfg.window_start < 0 or cfg.window_length <= 0:
         raise AcquisitionConfigError("window_start must be >= 0 and window_length > 0")
     if cfg.sync_latency_cycles < 0:
@@ -79,7 +84,7 @@ class AcquisitionResult:
     skipped_lines: list[tuple[int, str]] = field(default_factory=list)
 
 
-def _first_edge_at_or_after(domain: ClockDomain, tick: Tick) -> int:
+def _first_edge_at_or_after(domain: ClockDomain | CaptureClock, tick: Tick) -> int:
     c = domain.count_at(tick)
     return c if domain.tick_of(c) == tick else c + 1
 

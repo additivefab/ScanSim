@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from zlscan.adc.patterns import ConvertedSamples
-from zlscan.contracts.time import ClockDomain
+from zlscan.contracts.time import CaptureClock, ClockDomain
 
 
 @dataclass(frozen=True)
@@ -175,18 +175,11 @@ def _pipeline_times(
 
 def _capture_grid(t_pin: np.ndarray, d: ClockDomain, cfg: LinkConfig) -> np.ndarray:
     """First exact rational rising/falling edge at or after arrival, rounded only once."""
-    edge = int(cfg.capture_edge == "falling")
+    clock = CaptureClock(d, edge=cfg.capture_edge, phase_ticks=cfg.dco_phase_ps)
     out = np.empty_like(t_pin)
     bounds = np.iinfo(np.int64)
     for i, t in enumerate(t_pin):
-        base = int(t) - cfg.dco_phase_ps - d.phase_ticks
-        numerator = 2 * base * d.freq_num - edge * d._numerator
-        count = -(-numerator // (2 * d._numerator))
-        tick = (
-            d.phase_ticks
-            + cfg.dco_phase_ps
-            + ((2 * count + edge) * d._numerator) // (2 * d.freq_num)
-        )
+        tick = clock.tick_of(clock.first_at(int(t)))
         if not bounds.min <= tick <= bounds.max:
             raise LinkConfigError("capture timestamp exceeds signed 64-bit Tick range")
         out[i] = tick

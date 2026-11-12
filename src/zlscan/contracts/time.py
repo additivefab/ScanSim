@@ -45,6 +45,38 @@ class ClockDomain:
         return -((-(t + 1) * self.freq_num) // self._numerator) - 1
 
 
+@dataclass(frozen=True)
+class CaptureClock:
+    """Rising/falling capture edges of a declared domain; counts are not source sample IDs."""
+
+    domain: ClockDomain
+    edge: str = "rising"
+    phase_ticks: int = 0
+
+    def __post_init__(self) -> None:
+        if self.edge not in {"rising", "falling"} or type(self.phase_ticks) is not int:
+            raise ValueError("capture clock needs rising/falling and integer phase")
+
+    def tick_of(self, count: int) -> Tick:
+        half_count = 2 * count + int(self.edge == "falling")
+        return (
+            self.domain.phase_ticks
+            + self.phase_ticks
+            + half_count * self.domain._numerator // (2 * self.domain.freq_num)
+        )
+
+    def first_at(self, tick: Tick) -> int:
+        base = tick - self.domain.phase_ticks - self.phase_ticks
+        numerator = (
+            2 * base * self.domain.freq_num - int(self.edge == "falling") * self.domain._numerator
+        )
+        return -(-numerator // (2 * self.domain._numerator))
+
+    def count_at(self, tick: Tick) -> int:
+        # floor(edge) <= tick iff exact edge < tick+1.
+        return self.first_at(tick + 1) - 1
+
+
 class PhaseAccumulator:
     """Incremental form of ``ClockDomain.tick_of`` using only integer addition.
 

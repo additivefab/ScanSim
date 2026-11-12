@@ -187,3 +187,17 @@ def test_result_and_drained_snapshots_cannot_mutate_live_queues():
     result.delivered.clear()
     result.in_flight.clear()
     assert engine.checkpoint() == before
+
+
+def test_equal_time_arrivals_and_completions_are_invariant_to_submission_chunks():
+    from zlscan.transport.queues import TransportSimulation
+
+    stages = [StageSpec("rx", 1, 1e12)]
+    items = [Item(0, 1, 0, 1, 0, 1, 0), Item(1, 1, 0, 1, 1, 1, 1)]
+    expected = simulate(items, stages)
+    assert [loss.item_id for loss in expected.losses] == [1]
+    engine = TransportSimulation(stages, [items[0]])
+    engine.advance(0)
+    engine.schedule([items[1]])
+    engine.advance()
+    assert engine.result() == expected
