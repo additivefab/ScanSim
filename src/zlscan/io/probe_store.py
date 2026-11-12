@@ -338,8 +338,18 @@ class TraceReader:
         self.state, self.policy, self.channels = validate_checkpoint(state)
         self.step = int(self.state["step"])
         for row in _entries(self.directory, self.state):
+            path = _shard(self.directory, row)
+            with h5py.File(path, "r") as file:
+                self._binding(file, row)
             _shard(self.directory, row)
         self.unchanged()
+
+    def _binding(self, file, row):
+        if file.attrs["header"] != json.dumps(self.state["header"], sort_keys=True) or (
+            file.attrs["start"],
+            file.attrs["end"],
+        ) != (str(row["start"]), str(row["end"])):
+            raise ValueError("probe shard binding differs")
 
     def unchanged(self):
         tail = verify_committed_prefix(self.directory / "index.jsonl", self.state["index"])
@@ -350,7 +360,7 @@ class TraceReader:
         )
         return tail or orphan
 
-    def _rows(self, channel, probe, start, end, level):
+    def _rows(self, channel, probe, start, end, level, raw_block=1):
         key = f"{channel}/{probe}"
         if key not in self.state["pending"]:
             raise ValueError("unknown recorded probe or channel")
@@ -360,12 +370,12 @@ class TraceReader:
             if row["end"] <= start or candidate_start >= end:
                 continue
             path = _shard(self.directory, row)
+            if level != "raw" and row["end"] // size == row["start"] // size:
+                # Header binding was checked at registration; keep both content hashes.
+                _shard(self.directory, row)
+                continue
             with h5py.File(path, "r") as file:
-                if file.attrs["header"] != json.dumps(self.state["header"], sort_keys=True) or (
-                    file.attrs["start"],
-                    file.attrs["end"],
-                ) != (str(row["start"]), str(row["end"])):
-                    raise ValueError("probe shard binding differs")
+                self._binding(file, row)
                 group = file[key]
                 if level == "raw":
                     data = group["raw"]
@@ -375,17 +385,26 @@ class TraceReader:
                     lo, hi = max(start, row["start"]), min(end, row["end"])
                     for first in range(lo, hi, 4096):
                         values = data[first - row["start"] : min(hi, first + 4096) - row["start"]]
-                        for offset, val in enumerate(values):
-                            if not np.isfinite(val):
-                                raise ValueError("nonfinite raw probe")
+                        if not np.isfinite(values).all():
+                            raise ValueError("nonfinite raw probe")
+                        offset = 0
+                        while offset < len(values):
+                            position = first + offset
+                            stop = min(
+                                first + len(values),
+                                start + ((position - start) // raw_block + 1) * raw_block,
+                            )
+                            part = values[offset : stop - first]
+                            # argmin/argmax retain the first equal extremum, including ±0.
                             yield [
-                                first + offset,
-                                1,
-                                float(val),
-                                float(val),
-                                float(val),
-                                float(val),
+                                position,
+                                len(part),
+                                float(part[part.argmin()]),
+                                float(part[part.argmax()]),
+                                float(part[0]),
+                                float(part[-1]),
                             ]
+                            offset = stop - first
                 elif str(level) in group:
                     data = group[str(level)]
                     n = len(data["start"])
@@ -451,7 +470,7 @@ class TraceReader:
             block = size * max(1, -(-row_count // width))
         # Bucket numbering follows actual support, not the requested edge.
         buckets = {}
-        for row in self._rows(channel, probe, lo, hi, level):
+        for row in self._rows(channel, probe, lo, hi, level, raw_block=block):
             bucket = (row[0] - lo) // block
             buckets[bucket] = _merge(buckets.get(bucket), row)
         verify_committed_prefix(self.directory / "index.jsonl", self.state["index"])
