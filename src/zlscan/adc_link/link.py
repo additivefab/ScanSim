@@ -50,6 +50,10 @@ class LinkOutput:
     channels: tuple[int, ...]  # channel on each bus, bus order
     domain: ClockDomain
     config: LinkConfig = field(default_factory=LinkConfig)
+    run_id: str = "run"
+    branch_id: str = "main"
+    session_id: int = 1
+    overflow_valid: np.ndarray | None = None
 
 
 class LinkConfigError(ValueError):
@@ -57,6 +61,16 @@ class LinkConfigError(ValueError):
 
 
 def check_config(cfg: LinkConfig, mode: str = "research") -> None:
+    if type(cfg.bits) is not int or not 1 <= cfg.bits <= 16:
+        raise LinkConfigError("link bits must be an integer in 1..16")
+    if cfg.capture_edge not in {"rising", "falling"}:
+        raise LinkConfigError("capture_edge must be rising or falling")
+    for name in ("latency_half_cycles", "propagation_ps"):
+        value = getattr(cfg, name)
+        if value is not None and (type(value) is not int or value < 0):
+            raise LinkConfigError(f"{name} must be a nonnegative integer or unknown")
+    if type(cfg.overflow_offset_cycles) is not int or type(cfg.dco_phase_ps) is not int:
+        raise LinkConfigError("overflow offset and DCO phase must be integers")
     if sorted(cfg.resolved_bit_map()) != list(range(cfg.bits)):
         raise LinkConfigError("bit_map must be a permutation of the data bits")
     if cfg.coding not in ("offset_binary", "twos_complement"):
@@ -111,25 +125,71 @@ def transmit(src: ConvertedSamples, cfg: LinkConfig, mode: str = "research") -> 
     elif shift < 0 and n > -shift:
         overflow[:shift] = saturated[-shift:]
 
+    valid = np.zeros(n, dtype=bool)
+    if shift >= 0:
+        valid[min(n, shift) :] = True
+    else:
+        valid[: max(0, n + shift)] = True
+
     d = src.domain
     t_sample = src.sample_times()
-    half = np.int64((d._numerator * (cfg.latency_half_cycles or 0)) // (2 * d.freq_num))
-    t_out = t_sample + half
-    t_pin = t_out + np.int64(cfg.propagation_ps or 0)
-    period2 = d._numerator / d.freq_num / 2  # half period in ps (float only for the grid origin)
-    grid = _capture_grid(t_pin, d, cfg, period2)
+    t_out = _pipeline_times(t_sample, d, src.first_index, cfg.latency_half_cycles or 0)
+    t_pin = _shift_times(t_out, cfg.propagation_ps or 0)
+    grid = _capture_grid(t_pin, d, cfg)
     return LinkOutput(words, overflow, t_sample, t_out, t_pin, grid, src.first_index,
-                      src.epoch, tuple(channels), d, cfg)  # fmt: skip
+                      src.epoch, tuple(channels), d, cfg,
+                      src.run_id, src.branch_id, src.session_id, valid)  # fmt: skip
 
 
-def _capture_grid(t_pin: np.ndarray, d: ClockDomain, cfg: LinkConfig, half: float) -> np.ndarray:
-    """First capture edge at or after the data arrives (integer arithmetic on the clock grid)."""
-    offset = cfg.dco_phase_ps + (round(half) if cfg.capture_edge == "falling" else 0)
+def _shift_times(times: np.ndarray, delay: int) -> np.ndarray:
+    bounds = np.iinfo(np.int64)
+    if not bounds.min <= delay <= bounds.max or (
+        len(times)
+        and (int(times.min()) + delay < bounds.min or int(times.max()) + delay > bounds.max)
+    ):
+        raise LinkConfigError("link timestamp exceeds signed 64-bit Tick range")
+    return times + np.int64(delay)
+
+
+def _pipeline_times(
+    times: np.ndarray, domain: ClockDomain, first: int, half_cycles: int
+) -> np.ndarray:
+    delay, remainder = divmod(domain._numerator * half_cycles, 2 * domain.freq_num)
+    output = _shift_times(times, delay)
+    if remainder:
+        # Round the complete edge once; adding two rounded intervals can be one ps early.
+        correction = np.fromiter(
+            (
+                (2 * ((first + i) * domain._numerator % domain.freq_num) + remainder)
+                // (2 * domain.freq_num)
+                for i in range(len(times))
+            ),
+            dtype=np.int64,
+            count=len(times),
+        )
+        if np.any((output == np.iinfo(np.int64).max) & (correction != 0)):
+            raise LinkConfigError("link timestamp exceeds signed 64-bit Tick range")
+        output += correction
+    return output
+
+
+def _capture_grid(t_pin: np.ndarray, d: ClockDomain, cfg: LinkConfig) -> np.ndarray:
+    """First exact rational rising/falling edge at or after arrival, rounded only once."""
+    edge = int(cfg.capture_edge == "falling")
     out = np.empty_like(t_pin)
+    bounds = np.iinfo(np.int64)
     for i, t in enumerate(t_pin):
-        base = int(t) - offset - d.phase_ticks
-        k = -((-base * d.freq_num) // d._numerator)  # ceil(base / period)
-        out[i] = d.tick_of(k) + offset
+        base = int(t) - cfg.dco_phase_ps - d.phase_ticks
+        numerator = 2 * base * d.freq_num - edge * d._numerator
+        count = -(-numerator // (2 * d._numerator))
+        tick = (
+            d.phase_ticks
+            + cfg.dco_phase_ps
+            + ((2 * count + edge) * d._numerator) // (2 * d.freq_num)
+        )
+        if not bounds.min <= tick <= bounds.max:
+            raise LinkConfigError("capture timestamp exceeds signed 64-bit Tick range")
+        out[i] = tick
     return out
 
 
@@ -146,10 +206,22 @@ def receive(
     order = sorted(range(len(rx_channels)), key=lambda j: rx_channels[j])
     codes = codes[:, order]
     channels = tuple(sorted(rx_channels))
-    ofl = out.overflow
-    if rx_overflow_offset_cycles:
-        ofl = np.roll(ofl, -rx_overflow_offset_cycles)
+    if type(rx_overflow_offset_cycles) is not int:
+        raise LinkConfigError("receiver overflow offset must be an integer")
+    ofl = out.overflow.copy()
+    valid = out.overflow_valid.copy() if out.overflow_valid is not None else np.ones(len(ofl), bool)
+    shift = rx_overflow_offset_cycles
+    if shift:
+        ofl, valid = np.zeros_like(ofl), np.zeros_like(valid)
+        start, stop = max(0, -shift), min(len(ofl), len(ofl) - shift)
+        if stop > start:
+            ofl[start:stop] = out.overflow[start + shift : stop + shift]
+            source_valid = (
+                out.overflow_valid if out.overflow_valid is not None else np.ones(len(ofl), bool)
+            )
+            valid[start:stop] = source_valid[start + shift : stop + shift]
     return ConvertedSamples(
         codes.astype(np.uint16), channels, out.first_index, out.epoch, out.domain, rx.bits,
-        meta={"overflow": ofl, "capture_time": out.capture_time},
+        run_id=out.run_id, branch_id=out.branch_id, session_id=out.session_id,
+        meta={"overflow": ofl, "overflow_valid": valid, "capture_time": out.capture_time},
     )  # fmt: skip
