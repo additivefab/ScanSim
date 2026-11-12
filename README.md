@@ -1,6 +1,6 @@
 # zlscan
 
-激光底片扫描仪仿真软件。当前处于阶段 0（仓库骨架、基线冻结、数据合同），尚无物理模型。
+激光底片扫描仪仿真软件。已实现可行性预算、数字采集、单通道物理仿真与本地工作台。阶段 3 的剩余验收见 [开发进度](docs/dev/PROGRESS.md)。
 
 - 开发方案：`docs/plan/仿真软件开发方案_V5.0.md`
 - 给编码代理的规则：`AGENTS.md`（Claude Code 经 `CLAUDE.md` 读取同一份）
@@ -20,6 +20,14 @@ python3 -m venv .venv
 .venv/bin/zlscan --help
 ```
 
-未实现的子命令会以非零状态退出，并提示计划在哪个阶段实现。
+## 运行仿真
+
+```bash
+.venv/bin/zlscan run --mode digital --out digital_out
+.venv/bin/zlscan run --mode physical --lines 8 --out physical_out
+.venv/bin/zlscan serve
+```
+
+运行目录包含 `observable/raw.zlraw`、完整性报告和离线工作台 `viewer.html`。当前重建输出为采集码值图与无效掩膜。已标定的光学密度图属于阶段 4。
 
 本工程不代表任何实机性能、激光安全或检测合规结论。

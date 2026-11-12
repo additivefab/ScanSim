@@ -9,8 +9,8 @@
 | 当前阶段 | 阶段 3（门槛待完成） |
 | 进行中的任务 | S3-T11：写盘修复已通过测试，100 × 1000 复跑进行中 |
 | 下一个任务 | 完成阶段 3 的剩余核查 |
-| 代码 | 仓库骨架：33 个包目录、`cli.py`（13 个子命令，均未实现）、`io/manifest.py`、`contracts/param.py`、`evidence/{records,legacy_runner,sim_tools}.py`、`evidence/parameters.json`（95 条参数）、`evidence/forbidden_defaults.json`（17 条）、337 项测试（其中 40 项遗留回归，约 38 秒）；`hardware/`（引脚表、接线规则、画像门槛、原理图解析）；`zlscan check` 已实现；`legacy/` 已冻结（230 个文件，72.5 MB） |
-| git | 已初始化（分支 main），仅本地，无远端；作者身份是临时的，见 DECISIONS.md Q011 |
+| 代码 | `check`、`budget`、`run`（数字与物理）、`serve` 已实现。检查点与回放可通过库和工作台使用。已冻结包 A、包 B 与审查包作为回归基线 |
+| git | 本地分支 main，无远端。提交身份由本机自动推断，见 DECISIONS.md Q011 |
 | 最近一次全量测试 | 2026-11-11 `pytest -q`：775 通过，约 57 秒（含 40 项遗留回归）；`ruff check` 与 `ruff format --check` 干净 |
 
 ## 阶段总览
@@ -33,7 +33,7 @@
 | S3-T01 引擎 | 完成 | `engine/rng.py` 计数器型随机数（分块无关，D025）；`engine/filters.py` 精确递推一阶低通（状态可分块可检查点）；`engine/chain.py` 以绝对细步推进整条链，检查点 = JSON（步号、滤波器状态、最近电压、模型版本、配置哈希），配置不同即拒绝恢复 |
 | S3-T02 窗口与时间线 | 完成 | 光学窗口/底片掩膜（场景与片外规则）/数字窗口（阶段 2）/输出区域分开配置；`Phase` 时间线（暗、白、靶、样片）同一状态连续；**片外照明改变窗口起点处的前端状态**有测试。时间线测试较弱（只比较各行码值的相对大小） |
 | S3-T03..T09 物理模块 | 完成（L1） | `truth/{scene,source,scan,psf,collect,detector,afe,adc}`，每个有 `ModuleSpec`。检测器泊松+伽马（逆变换）、均值与方差符合理论；低计数不用高斯；AFE 对数/线性、极性、固定与电流相关带宽（后者是包 A 的写法，慢）；ADC 饱和单独成标志，抖动用后向斜率近似。**未实现**：PMT 带宽极点（配置了就报 NotImplementedError）、转速波动、步进送片的 L2 查表、眩光（阶段 5） |
-| S3-T10 预设与旧结果 | **部分** | `config/presets.py`：`demo`、`legacy_dc_config`、`from_legacy_a/b` 转换器（列出未带过来的字段）、`legacy_reset_per_line` 显式开关（默认关）。稳态 ADC 码与包 A、包 B 的交叉比对数据**逐位一致**（3 个密度档）。**包 A/B 的 RMSE 没有复现**：需要阶段 4 的重建，且随机数序列已变，见 Q013 |
+| S3-T10 预设与旧结果 | **部分** | `config/presets.py`：`demo`、`legacy_dc_config`、`from_legacy_a/b` 转换器（列出未带过来的字段）、`legacy_reset_per_line` 显式开关（默认关）。稳态 ADC 码与包 A、包 B 的交叉比对数据**逐位一致**（3 个密度档）。包 B 理想预设的 1,024 个 ADC 码逐位一致，模型已知参数评价的 RMSE 与交付值一致（2026-11-12）；包 A 与带噪动态预设的整图指标仍待复现，见 Q013 |
 | S3-T11 `zlscan run` 物理模式与性能 | **部分** | `zlscan run --mode physical` 一条命令产出运行目录；`stream_raw` 流式写盘，内存不随行数增长（4 行 2.8 MB，16 与 64 行都约 4.0 MB）。性能：端到端约 6.1e4 细步/秒；4000×5000 与 7000×8600 **没有运行**，外推分别约 4.5 与 3.1 小时，**未达**假设的 900 秒目标（`docs/reports/stage3_performance.md`、`evidence_runs/stage3_performance/`，结论 fail） |
 | S3-T12 信号注册与探针 | 完成 | `telemetry/registry.py`：只有 ADC 码是 OBSERVABLE，其余为 ORACLE_ONLY；开关探针/改记录策略后码流逐位不变（测试） |
 | S3-T13 迹线与摘要 | 完成 | `trace/recorder.py`：选定探针建 min/max/first/last 金字塔；单细步脉冲在粗视图仍是该块最大值，均值降采样会掩盖它（测试对比）；标志事件有索引 |
@@ -44,7 +44,7 @@
 
 | 门槛项 | 结果 |
 |---|---|
-| 旧行为：两个旧预设复现旧结果 | **未满足**：只复现了稳态 ADC 码；RMSE 等未复现，原因与待定容差见 Q013 |
+| 旧行为：两个旧预设复现旧结果 | **部分满足**：三个稳态 ADC 码档与两包逐位一致；包 B 理想预设的完整码流与 RMSE 一致。包 A 与带噪动态预设的整图指标待核查，见 Q013 |
 | 新模型：分块一致、检查点一致、重放一致、观察无扰动、噪声统计、收敛 | 通过：均有测试（`test_chain.py`、`test_engine_primitives.py`、`test_observability_stack.py`、`test_truth_modules.py`）。收敛：整链在平滑输入下随细步缩小误差单调下降，约一阶（受射束折返处的扭结限制）；对未平滑的栅格边沿/门控边沿不单调，是离散化本身的性质，已在测试注释说明 |
 | 片外、跨行、跨标定阶段的历史不丢失 | 片外与跨行：通过（测试）。跨标定阶段：只有时间线的粗略测试，标定本身属阶段 4 |
 | 性能场景跑通并记录 | **未满足**：实际跑完的是缩小场景（流式 400 行×40 像素，54 秒，内存峰值 4.0 MB，文件完整）；两个目标幅面未运行，外推未达标（Q014） |
