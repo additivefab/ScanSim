@@ -68,8 +68,14 @@ def test_w03_lineage_has_four_distinct_ordered_timestamps(server):
     port, _ = server
     _, lin = get(port, "/runs/demo/samples/100/lineage")
     x = lin["lineage"]
-    assert x["sample_time"] < x["adc_output_time"] < x["pin_arrival_time"] <= x["capture_time"]
-    assert x["sample_index"] == 100
+    assert (
+        int(x["sample_time"])
+        < int(x["adc_output_time"])
+        < int(x["pin_arrival_time"])
+        <= int(x["capture_time"])
+    )
+    assert x["sample_index"] == "100"
+    assert x["host_arrival_time"] is None
 
 
 def test_w04_an_unrecorded_signal_is_marked_not_drawn(server):

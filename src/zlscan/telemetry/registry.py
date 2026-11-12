@@ -20,7 +20,9 @@ def _decl(cfg: ChainConfig, sid: str, comp: str, domain: str, quantity: str, uni
         quantity=quantity, unit=unit, value_type="vector", origin=Origin.SIMULATED,
         visibility=visible, derivation=Derivation.INFERRED, parameter_evidence=evidence,
         model_id=f"truth.{comp}", model_version=MODEL_VERSION, clock_domain=cfg.domain_id,
-        native_step_policy=f"fine step 1/(fs*{cfg.os})", display_interpolation="none",
+        native_step_policy=("ADC sample period 1/fs" if sid == "adc.code"
+                            else f"fine step 1/(fs*{cfg.os})"),
+        display_interpolation="hold" if sid == "adc.code" else "none",
         recording_policy=policy,  # type: ignore[arg-type]
     )  # fmt: skip
 

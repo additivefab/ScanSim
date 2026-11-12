@@ -27,8 +27,10 @@ import numpy as np
 from zlscan.causality.lineage import sample_lineage
 from zlscan.contracts.events import Visibility
 from zlscan.contracts.query import QueryStatus
+from zlscan.contracts.time import ClockDomain
 from zlscan.replay.replay import replay_window
 from zlscan.telemetry.registry import PROBE_TO_SIGNAL, chain_signals
+from zlscan.trace.window import raw_window, summary_window, validate_window
 
 STATIC = Path(__file__).parent / "static"
 
@@ -67,6 +69,7 @@ class Service:
         return {"status": QueryStatus.EXACT_RECORD, "run_id": r.run_id, "parent": r.parent,
                 "session_id": r.session_id, "epoch": r.epoch, "steps": r.steps,
                 "fine_step_ps": round(1e12 / (c.fs_hz * c.os)), "fs_hz": c.fs_hz, "os": c.os,
+                "fine_step_period_ps": {"numerator": "1000000000000", "denominator": str(c.fs_hz * c.os)},
                 "samples": int(len(r.codes)), "config_hash": c.hash(), "origin": "SIMULATED",
                 "evidence": c.evidence, "checkpoint_interval_steps": r.store.interval_steps,
                 "physical_applicability": r.meta.get("physical_applicability"),
@@ -87,10 +90,44 @@ class Service:
     def traces(
         self, r: Run, signal: str, start: int, end: int, pixel_width: int, view: str = "research"
     ) -> dict:
+        validate_window(start, end, pixel_width)
+        requested = [start, end]
+        start, end = max(0, start), min(end, r.steps)
+        if end <= start:
+            return {
+                "status": QueryStatus.NOT_COMPUTED,
+                "signal": signal,
+                "requested_window": requested,
+                "reason": "window is outside the computed run",
+            }
         if signal == "adc.code":
-            lo, hi = max(start // r.cfg.os, 0), min(-(-end // r.cfg.os), len(r.codes))
-            return {"status": QueryStatus.EXACT_RECORD, "signal": signal, "level": "raw",
-                    "unit_step": "sample", "start": lo, "values": r.codes[lo:hi].tolist()}  # fmt: skip
+            lo, hi = start // r.cfg.os, min(-(-end // r.cfg.os), len(r.codes))
+            result = raw_window(r.codes, lo, hi, pixel_width)
+            if "start" not in result:
+                return {**result, "signal": signal, "requested_window": requested}
+            clock = (
+                r.link.domain if r.link is not None else ClockDomain(r.cfg.domain_id, r.cfg.fs_hz)
+            )
+            origin = r.link.first_index if r.link is not None else 0
+            result.update(
+                signal=signal,
+                unit_step="sample",
+                requested_window=requested,
+                first_step=result["start"] * r.cfg.os,
+                block_steps=result["block_size"] * r.cfg.os,
+                display_interpolation="hold",
+                sample_time={
+                    "clock_domain": clock.id,
+                    "first_sample_index": str(origin + lo),
+                    "first_tick_ps": str(clock.tick_of(origin + lo)),
+                    "last_tick_ps": str(clock.tick_of(origin + hi - 1)),
+                    "period_ps": {
+                        "numerator": str(10**12 * clock.freq_den),
+                        "denominator": str(clock.freq_num),
+                    },
+                },
+            )
+            return result
         if view == "instrument":
             return {"status": QueryStatus.NOT_RECORDED, "reason": "private simulation trace"}
         probe = next((p for p, s in PROBE_TO_SIGNAL.items() if s == signal), None)
@@ -103,17 +140,11 @@ class Service:
         if probe not in r.pyramids:
             return {"status": QueryStatus.NOT_RECORDED, "signal": signal,
                     "reason": "not recorded; ask for a replay-window", "recorded": False}  # fmt: skip
-        pyr = r.pyramids[probe]
-        level = pyr.choose_level(end - start, pixel_width)
-        if level < 0:
-            return {"status": QueryStatus.NOT_RECORDED, "signal": signal,
-                    "reason": "window is finer than the summaries; replay it"}  # fmt: skip
-        size = pyr.block_size(level)
-        lo, hi = start // size, -(-end // size)
-        return {"status": QueryStatus.SUMMARY_ONLY, "signal": signal, "level": level,
-                "block_steps": size, "first_block": lo,
-                "columns": ["min", "max", "first", "last"],
-                "values": pyr.levels[level][lo:hi].tolist()}  # fmt: skip
+        result = summary_window(r.pyramids[probe], start, end, pixel_width)
+        result.update(signal=signal, requested_window=requested, display_interpolation="none")
+        if "start" in result:
+            result.update(first_step=result["start"], block_steps=result["block_size"])
+        return result
 
     def state(self, r: Run, tick_step: int, probes: set[str], view: str = "research") -> dict:
         if view == "instrument":
@@ -146,8 +177,29 @@ class Service:
         i = index - r.link.first_index
         if not 0 <= i < len(r.codes):
             return {"status": QueryStatus.NOT_RECORDED, "reason": "sample outside the run"}
-        return {"status": QueryStatus.EXACT_RECORD,
-                "lineage": sample_lineage(r.link, i, ["rx", "net"], None)}  # fmt: skip
+        lineage = sample_lineage(r.link, i, ["rx", "net"], None)
+        for time_field in (
+            "sample_index",
+            "sample_time",
+            "adc_output_time",
+            "pin_arrival_time",
+            "capture_time",
+        ):
+            lineage[time_field] = str(lineage[time_field])
+        lineage.update(
+            host_arrival_time=None,
+            host_arrival_status="not_recorded",
+            sample_identity={
+                "run_id": r.run_id,
+                "branch_id": r.run_id,
+                "session_id": r.session_id,
+                "epoch": r.epoch,
+                "clock_domain": r.link.domain.id,
+                "channel": r.link.channels[0],
+                "sample_index": str(index),
+            },
+        )
+        return {"status": QueryStatus.EXACT_RECORD, "lineage": lineage}
 
     def replay(self, r: Run, start: int, n: int, probes: list[str], view: str = "research") -> dict:
         res = replay_window(r.cfg, r.store, start, n, set(probes) if view == "research" else set())
