@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass
 
 import numpy as np
@@ -100,6 +101,30 @@ def _sample_transmittance(codes: np.ndarray, flags: np.ndarray, transfer: _Trans
     return transmittance
 
 
+def _contributions(
+    x: np.ndarray,
+    y: np.ndarray | float,
+    grid: Grid,
+    transmittance: np.ndarray,
+    row_flags: np.ndarray,
+) -> Iterator[tuple[np.ndarray, ...]]:
+    """Yield the nonzero bilinear neighbors in deterministic accumulation order."""
+    u = (x - grid.origin_x_m) / grid.pitch_x_m - 0.5
+    v = (np.broadcast_to(y, x.shape) - grid.origin_y_m) / grid.pitch_y_m - 0.5
+    inside = (u > -1) & (u < grid.width) & (v > -1) & (v < grid.height)
+    u, v = u[inside], v[inside]
+    sample_t = transmittance[inside]
+    reasons = row_flags[inside]
+    ix, iy = np.floor(u).astype(int), np.floor(v).astype(int)
+    for dy in (0, 1):
+        for dx in (0, 1):
+            px, py = ix + dx, iy + dy
+            weight = (1 - np.abs(px - u)) * (1 - np.abs(py - v))
+            used = (px >= 0) & (px < grid.width) & (py >= 0) & (py < grid.height) & (weight > 0)
+            if np.any(used):
+                yield px[used], py[used], weight[used], sample_t[used], reasons[used]
+
+
 def reconstruct_density(
     codes: np.ndarray,
     x_m: np.ndarray,
@@ -144,22 +169,13 @@ def reconstruct_density(
         transmittance = _sample_transmittance(codes[row], row_flags, transfer)
         if row_gain is not None:
             transmittance /= row_gain[row]
-        u = (x[row] - grid.origin_x_m) / grid.pitch_x_m - 0.5
-        v = (y[row] - grid.origin_y_m) / grid.pitch_y_m - 0.5
-        inside = (u > -1) & (u < grid.width) & (v > -1) & (v < grid.height)
-        u, v = u[inside], v[inside]
-        sample_t = transmittance[inside]
-        reasons = row_flags[inside]
-        ix, iy = np.floor(u).astype(int), np.floor(v).astype(int)
-        for dy in (0, 1):
-            for dx in (0, 1):
-                px, py = ix + dx, iy + dy
-                weight = (1 - np.abs(px - u)) * (1 - np.abs(py - v))
-                used = (px >= 0) & (px < grid.width) & (py >= 0) & (py < grid.height) & (weight > 0)
-                np.bitwise_or.at(pixel_flags, (py[used], px[used]), reasons[used])
-                valid = used & (reasons == 0) & np.isfinite(sample_t)
-                np.add.at(support, (py[valid], px[valid]), weight[valid])
-                np.add.at(total, (py[valid], px[valid]), weight[valid] * sample_t[valid])
+        for px, py, weight, sample_t, reasons in _contributions(
+            x[row], y[row], grid, transmittance, row_flags
+        ):
+            np.bitwise_or.at(pixel_flags, (py, px), reasons)
+            valid = (reasons == 0) & np.isfinite(sample_t)
+            np.add.at(support, (py[valid], px[valid]), weight[valid])
+            np.add.at(total, (py[valid], px[valid]), weight[valid] * sample_t[valid])
 
     pixel_flags[support < min_support] |= int(InvalidFlag.RESAMPLING_SUPPORT)
     valid = pixel_flags == 0

@@ -80,3 +80,61 @@ def test_incompatible_binding_is_refused_before_reconstruction():
             Binding(simulation_hash="different"),
             channel=0,
         )
+
+
+def test_disk_splat_matches_batch_with_nonmonotone_rows(tmp_path):
+    from zlscan.recon.disk_density import DiskDensity
+
+    cal = calibration()
+    grid = Grid(3, 4, 1, 1)
+    codes = np.array([[10, 20], [10, 17], [21, 12], [20, 14]])
+    x = np.array([[0.6, 1.2], [0.25, 1.4], [1.3, 2.6], [0.8, 2.4]])
+    y = np.array([2.9, 0.7, 2.2, 1.3])
+    flags = np.zeros_like(codes, dtype=np.uint16)
+    flags[3, 0] = int(InvalidFlag.ADC_SATURATED)
+    gains = np.array([1, 1.3, 0.8, 1])
+    expected = reconstruct_density(
+        codes,
+        x,
+        np.broadcast_to(y[:, None], codes.shape),
+        grid,
+        cal,
+        cal.binds_to,
+        channel=0,
+        sample_flags=flags,
+        row_gain=gains,
+    )
+
+    output = tmp_path / "output"
+    with (tmp_path / "rows.bin").open("w+b") as scratch:
+        disk = DiskDensity(scratch, grid, cal, 0, codes.shape[1])
+        for index in range(len(y)):
+            disk.add(codes[index], flags[index].copy(), x[index], y[index], gains[index])
+        assert disk.write(tmp_path, output) == expected.valid_fraction
+    with np.load(output / "density.npz") as actual:
+        for name in actual.files:
+            np.testing.assert_array_equal(actual[name], getattr(expected, name))
+
+
+def test_headerless_reconstruction_streams_signed_words(tmp_path):
+    from zlscan.contracts.calibration import CaptureDescription
+    from zlscan.io.manifest import sha256_file
+    from zlscan.recon.capture import reconstruct_capture
+
+    cal = calibration()
+    raw = tmp_path / "signed.bin"
+    np.bitwise_xor(np.array([10, 20], dtype="<u2"), np.uint16(0x8000)).tofile(raw)
+    capture = CaptureDescription(raw_sha256=sha256_file(raw), binding=cal.binds_to, lines=1)
+    out = tmp_path / "image"
+    summary = reconstruct_capture(
+        raw,
+        capture,
+        cal,
+        Grid(2, 1, 1, 1),
+        out,
+        headerless_spp=1,
+        coding="twos_complement",
+    )
+    assert summary["storage"] == "row-streamed disk scratch"
+    with np.load(out / "density.npz") as result:
+        np.testing.assert_allclose(result["transmittance"], [[0.09 / 0.99, 1]])

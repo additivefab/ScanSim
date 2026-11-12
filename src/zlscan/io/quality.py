@@ -1,6 +1,7 @@
 """Project capture-bound observable quality ranges onto delivered sample positions."""
 
 from collections import defaultdict
+from collections.abc import Iterator
 from pathlib import Path
 
 import numpy as np
@@ -9,7 +10,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from zlscan.contracts.events import Derivation, Event
 from zlscan.contracts.flags import InvalidFlag
 from zlscan.contracts.verdict import Verdict
-from zlscan.io.rawstream import FLAG_LINE_START, ReadResult
+from zlscan.io.rawstream import FLAG_LINE_START, BlockInfo, ReadResult
 
 _FLAGS = {
     "adc_saturated": InvalidFlag.ADC_SATURATED,
@@ -33,10 +34,15 @@ class QualityLog(BaseModel):
     ranges: list[QualityRange]
 
 
-def apply_quality_log(
-    path: Path, raw_sha256: str, raw: ReadResult, channel: int, flags: np.ndarray
-) -> None:
-    """Set sample flags in place, preserving any loss already detected by the raw reader."""
+def quality_spans(
+    path: Path,
+    raw_sha256: str,
+    raw: ReadResult,
+    channel: int,
+    lines: int,
+    width: int,
+) -> Iterator[tuple[BlockInfo, int, int, int]]:
+    """Yield validated quality spans as half-open column indices in acquired rows."""
     log = QualityLog.model_validate_json(path.read_bytes())
     session = raw.session
     if session is None or log.raw_sha256 != raw_sha256:
@@ -74,11 +80,11 @@ def apply_quality_log(
         if (
             channel not in block.channels
             or not block.flags & FLAG_LINE_START
-            or not 0 <= block.line_number < flags.shape[0]
+            or not 0 <= block.line_number < lines
         ):
             continue
         first = block.first_sample_index
-        end = first + min(block.sample_count, flags.shape[1])
+        end = first + min(block.sample_count, width)
         key = (block.epoch, block.clock_domain)
         if key not in pending:
             continue
@@ -92,4 +98,12 @@ def apply_quality_log(
         for lo, hi, reason in active[key]:
             start, stop = max(lo, first), min(hi, end)
             if start < stop:
-                flags[block.line_number, start - first : stop - first] |= reason
+                yield block, start - first, stop - first, reason
+
+
+def apply_quality_log(
+    path: Path, raw_sha256: str, raw: ReadResult, channel: int, flags: np.ndarray
+) -> None:
+    """Set sample flags in place, preserving any loss already detected by the raw reader."""
+    for block, start, stop, reason in quality_spans(path, raw_sha256, raw, channel, *flags.shape):
+        flags[block.line_number, start:stop] |= reason
