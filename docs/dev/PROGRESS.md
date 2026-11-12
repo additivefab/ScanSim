@@ -7,7 +7,7 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S3-T16/T13 有界波形查询、精确时间元数据和请求竞争修正已通过回归；正在记录真实 HTTP 载荷/时延，P0 限制及阶段 3–7 目标保留 |
+| 进行中的任务 | S3-T16/T13 有界查询及正式 HTTP 载荷/时延记录完成；接续 S4-T09 HTTP 成像联动，P0 限制及阶段 3–7 目标保留 |
 | 下一个任务 | 按阶段表补齐阶段 3/4 的工作台与指标验收；阶段 5/6 依赖分别记录，阶段 7 继续性能、比较及交付 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
@@ -172,6 +172,8 @@
 ```
 
 ### 2026-11-12  Codex（完整工作台评审与有界查询）
+
+- 正式 HTTP 记录绑定干净提交 `e9a13a2`：每种查询 20 次。15,000 ADC 样本总览为 31 桶、1657–1658 B；60,000 模拟细步总览为 31 桶、2002–2003 B；细窗 4 原始码。后续请求 P95 分别 1.087/0.784/0.767 ms，仅为本机 HTTP 正文读取与 JSON 解码，不包括浏览器绘制、仿真或重放。记录位于 `evidence_runs/2026-11-12_bounded_trace_http/record/`；可读结果另存 `docs/reports/bounded_trace_http_benchmark.json`。浏览器禁用，视觉和完整交互验收未执行。
 
 - 用户新增 V4.1 设计评审原文已冻结于 `docs/inputs/workbench_design_review_20261111.txt`。逐项映射 T01–T14 到当前实现与缺口，见 `docs/reports/workbench_review_crosswalk.md`。它是 V5 的补充验收，不把原型浏览器检查或器件示例作为本工程验证。
 - S3-T13/T16：新增 `trace/window.py`，ADC 粗视图最多 pixel_width 个 min/max/first/last/count 桶，细视图最多 2×pixel_width 原始点；模拟摘要也有硬上限。支撑范围、边缘摘要超出窗口与未记录状态明确返回。修正负窗口、越界和非法显示宽度。

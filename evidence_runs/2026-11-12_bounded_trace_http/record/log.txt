@@ -1,0 +1,1 @@
+HTTP benchmark written: /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_bounded_trace_http/output/benchmark.json; no rendering or full UI latency claim

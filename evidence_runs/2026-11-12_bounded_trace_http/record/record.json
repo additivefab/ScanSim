@@ -1,0 +1,79 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Bounded real HTTP trace payloads and local request latency",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T12:19:53.948509+00:00",
+ "finished_at": "2026-11-12T12:19:54.232594+00:00",
+ "code": {
+  "commit": "e9a13a2219c83ac0c803bf86eb2df53f2e169ea4",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 1,
+ "inputs": {
+  "tools/benchmark_trace_queries.py": "23ef258eb675153023912d9056473e1b6e1c007279bbdcdcf3506b6175163444",
+  "src/zlscan/trace/window.py": "46416c9e342ace3772bdedeb879a0e3d06544bd4128c1dfec73ed8f336080795",
+  "src/zlscan/api/server.py": "bfadc1f5e768652bff3f9c23898d45c5f64e13468e00a5773970b5e510e7feac",
+  "source_manifest.json": "30c15600fc28ecf809845021a2819a10acb13ddd537f5475139dcfc6edb2ef1c"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/benchmark_trace_queries.py",
+    "--port",
+    "18765",
+    "--repeats",
+    "20",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-12_bounded_trace_http/output/benchmark.json"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "ADC overview rows within width",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "analogue overview rows within width",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "ADC detail is exact",
+   "expected": "exact_record",
+   "tolerance": null,
+   "actual": "exact_record",
+   "passed": true
+  },
+  {
+   "quantity": "source remains SIMULATED",
+   "expected": "SIMULATED",
+   "tolerance": null,
+   "actual": "SIMULATED",
+   "passed": true
+  }
+ ],
+ "notes": "Server session 21213 is live, started with python -u -m zlscan serve --port 18765 --lines 6 from the same working tree. Run manifest is hashed. In-memory data, no response cache, OS disk cache uncontrolled. No rendering/visual/P95 UI claim; browser disabled by Work settings."
+}
