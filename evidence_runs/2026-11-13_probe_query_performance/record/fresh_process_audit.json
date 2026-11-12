@@ -1,0 +1,132 @@
+{
+  "code": {
+    "commit": "00a74de157d4fc2359435384acd25e028f9835c5",
+    "dirty": false
+  },
+  "baseline_commit": "4f9c946845008776eb92bafbab93336b1f52558e",
+  "baseline_sha256": "9862f0f5f7220e6d24724a6ab5d284f4bc083884052ec8ddbb10605374427f32",
+  "current_sha256": "cff28344c2b08e326d7ec4a4395c2e18809828720311c880d8ec66e0fc0632de",
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "scope": "same service and frozen source, only probe reader swapped; query excludes registration, HTTP/JSON/network/browser; OS caches/background load uncontrolled; no response cache",
+  "repeats": 1,
+  "policies": {
+    "raw": {
+      "source_files": 137,
+      "source_unchanged": true,
+      "reader_registration": {
+        "baseline": {
+          "milliseconds": [
+            32.87058400019305,
+            33.13383299973793,
+            33.052540999051416
+          ],
+          "median_ms": 33.052540999051416
+        },
+        "current": {
+          "milliseconds": [
+            110.05862500314834,
+            104.1356249988894,
+            107.31125000165775
+          ],
+          "median_ms": 107.31125000165775
+        }
+      },
+      "timings": {
+        "overview": {
+          "baseline": {
+            "milliseconds": [
+              200.8415000018431
+            ],
+            "median_ms": 200.8415000018431
+          },
+          "current": {
+            "milliseconds": [
+              168.6504999997851
+            ],
+            "median_ms": 168.6504999997851
+          }
+        },
+        "fine": {
+          "baseline": {
+            "milliseconds": [
+              30.663041998195695
+            ],
+            "median_ms": 30.663041998195695
+          },
+          "current": {
+            "milliseconds": [
+              26.133709001442185
+            ],
+            "median_ms": 26.133709001442185
+          }
+        }
+      }
+    },
+    "summary": {
+      "source_files": 137,
+      "source_unchanged": true,
+      "reader_registration": {
+        "baseline": {
+          "milliseconds": [
+            29.86941700146417,
+            29.157583001506282,
+            28.74520800105529
+          ],
+          "median_ms": 29.157583001506282
+        },
+        "current": {
+          "milliseconds": [
+            96.98570799810113,
+            97.55720899920561,
+            100.1797089993488
+          ],
+          "median_ms": 97.55720899920561
+        }
+      },
+      "timings": {
+        "overview": {
+          "baseline": {
+            "milliseconds": [
+              124.39679199815146
+            ],
+            "median_ms": 124.39679199815146
+          },
+          "current": {
+            "milliseconds": [
+              80.35183399988455
+            ],
+            "median_ms": 80.35183399988455
+          }
+        },
+        "fine": {
+          "baseline": {
+            "milliseconds": [
+              26.31233400097699
+            ],
+            "median_ms": 26.31233400097699
+          },
+          "current": {
+            "milliseconds": [
+              25.781124997592997
+            ],
+            "median_ms": 25.781124997592997
+          }
+        }
+      }
+    }
+  },
+  "identical_responses": 32
+}

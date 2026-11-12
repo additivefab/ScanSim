@@ -1,0 +1,57 @@
+{
+  "started_at": "2026-11-12T21:58:28.343257+00:00",
+  "code": {
+    "commit": "06ad47c295d70249568f6302039e3482a8eb3be2",
+    "dirty": false
+  },
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "matplotlib": "3.11.2",
+      "tifffile": "2026.11.8",
+      "pillow": "13.0.0",
+      "pydantic": "2.14.3",
+      "h5py": "3.16.0"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_probe_queries.py",
+        "--out",
+        "evidence_runs/2026-11-13_probe_query_performance/output/formal",
+        "--repeats",
+        "20"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_probe_queries.py",
+        "--out",
+        "evidence_runs/2026-11-13_probe_query_performance/output/formal_verify",
+        "--repeats",
+        "1",
+        "--compare",
+        "evidence_runs/2026-11-13_probe_query_performance/output/formal"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "tools/audit_wheel_install.py",
+        "--out",
+        "evidence_runs/2026-11-13_probe_query_performance/output/wheel_formal"
+      ],
+      "returncode": 0
+    }
+  ],
+  "finished_at": "2026-11-12T22:00:39.246657+00:00"
+}

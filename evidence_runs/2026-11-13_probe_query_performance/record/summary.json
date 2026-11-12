@@ -1,0 +1,39 @@
+{
+  "commit": "00a74de157d4fc2359435384acd25e028f9835c5",
+  "wheel_sha256": "5ddb3ec39b2c26646dda838305ba23b92c858be1dc0a696b458e6bc9e8792e3e",
+  "responses": 32,
+  "policies": {
+    "raw": {
+      "queries": {
+        "overview": {
+          "baseline": 155.81664599994838,
+          "current": 127.51070849844837
+        },
+        "fine": {
+          "baseline": 16.61756300018169,
+          "current": 15.624937501343084
+        }
+      },
+      "registration": {
+        "baseline": 33.219417000509566,
+        "current": 110.79162500027451
+      }
+    },
+    "summary": {
+      "queries": {
+        "overview": {
+          "baseline": 124.59308299912664,
+          "current": 83.31833350166562
+        },
+        "fine": {
+          "baseline": 26.235916498990264,
+          "current": 25.941062000129023
+        }
+      },
+      "registration": {
+        "baseline": 29.116166002495447,
+        "current": 104.73745900162612
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+         69778 function calls (69662 primitive calls) in 0.167 seconds
+
+   Ordered by: cumulative time
+   List reduced from 139 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.167    0.167 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/engine/recording_service.py:130(traces)
+        1    0.000    0.000    0.160    0.160 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:449(query)
+      135    0.006    0.000    0.159    0.001 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:363(_rows)
+      232    0.001    0.000    0.067    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:146(_shard)
+      246    0.001    0.000    0.067    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/manifest.py:32(sha256_file)
+      254    0.054    0.000    0.054    0.000 {method 'update' of '_hashlib.HASH' objects}
+      116    0.003    0.000    0.035    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:347(_binding)
+      580    0.001    0.000    0.023    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/group.py:405(__getitem__)
+      580    0.012    0.000    0.022    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/group.py:409(_get)
+      348    0.014    0.000    0.019    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/attrs.py:51(__getitem__)
+      232    0.002    0.000    0.017    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/files.py:371(__init__)
+      348    0.001    0.000    0.011    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/files.py:280(attrs)
+      116    0.008    0.000    0.009    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/files.py:212(make_fid)
+      255    0.000    0.000    0.009    0.000 /usr/local/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py:763(open)
+      255    0.004    0.000    0.008    0.000 {built-in method _io.open}
+      116    0.002    0.000    0.008    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/dataset.py:853(__getitem__)
+     3016    0.003    0.000    0.007    0.000 /usr/local/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/weakref.py:138(__setitem__)
+        2    0.000    0.000    0.007    0.003 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/engine/recording_service.py:42(_check)
+        2    0.000    0.000    0.007    0.003 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/engine/recording_replay.py:113(validate_prefixes)
+      116    0.000    0.000    0.007    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/files.py:635(__exit__)
+      116    0.006    0.000    0.006    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/files.py:611(close)
+        2    0.000    0.000    0.005    0.002 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:354(unchanged)
+      379    0.000    0.000    0.004    0.000 /usr/local/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py:190(__fspath__)
+      236    0.000    0.000    0.004    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:356(<genexpr>)
+      381    0.001    0.000    0.004    0.000 /usr/local/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py:251(__str__)
+      116    0.002    0.000    0.003    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/dataset.py:604(_fast_reader)
+      500    0.003    0.000    0.003    0.000 {method 'read' of '_io.BufferedReader' objects}
+      240    0.001    0.000    0.003    0.000 /usr/local/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py:341(drive)
+      117    0.001    0.000    0.003    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/src/zlscan/io/probe_store.py:118(_entries)
+      116    0.002    0.000    0.003    0.000 /Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/lib/python3.14/site-packages/h5py/_hl/files.py:114(make_fapl)
+
+

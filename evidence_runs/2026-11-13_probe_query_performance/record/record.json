@@ -1,0 +1,156 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Result-preserving probe overview query optimization",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-12T22:03:53.717094+00:00",
+ "finished_at": "2026-11-12T22:06:07.368747+00:00",
+ "code": {
+  "commit": "00a74de157d4fc2359435384acd25e028f9835c5",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "primary": 3,
+  "secondary": 31
+ },
+ "inputs": {
+  "src/zlscan/io/probe_store.py": "cff28344c2b08e326d7ec4a4395c2e18809828720311c880d8ec66e0fc0632de",
+  "tests/unit/test_probe_query_performance.py": "00644a6df79fc362803efae12f6c8cd9ec395a529bdc1aa28f83ed96884fc036",
+  "tools/audit_probe_queries.py": "bb3fbedc74cb30d689ce11d367c4b4775419102bbdd9c4a2df3ba89b56e2562b",
+  "tools/wheel_smoke.py": "c02d97f894a5b8ff85ade74df558937c9cf12ec57b44a5ec285291f44765d0d2",
+  "evidence_runs/2026-11-13_probe_query_performance/output/formal_final/audit.json": "51a9f34ac9f6f8836209b9dd6140262813e7224a7ecacb7c906047945e70cfa8",
+  "evidence_runs/2026-11-13_probe_query_performance/output/formal_final/responses.json": "bc306db68131ef8ad8da0c7edfb4cd8b72eea3dc5c1449504bc7e46c72e77de1",
+  "evidence_runs/2026-11-13_probe_query_performance/output/formal_final/baseline_probe_store.py": "9862f0f5f7220e6d24724a6ab5d284f4bc083884052ec8ddbb10605374427f32",
+  "evidence_runs/2026-11-13_probe_query_performance/output/formal_verify_final/audit.json": "974c21ec302c7cc59edf7bc4923269d917eff81cf4f88c6c29b6eeaabfe09ebc",
+  "evidence_runs/2026-11-13_probe_query_performance/output/wheel_final/audit.json": "f58cb1eaf2df24375bb1542f5699eaf050b288e3775d04e6d9ddff45aea817fb",
+  "evidence_runs/2026-11-13_probe_query_performance/output/wheel_final/requirements.lock": "0771480d9b6d84d3a17ebaa2c168a906b57bf2d783911aba250a6a555b385896",
+  "evidence_runs/2026-11-13_probe_query_performance/output/wheel_final/source_manifest.json": "95379881e75680972c38d28df80848571f8cc4df814d7d98ef0c7b4424279b8c",
+  "evidence_runs/2026-11-13_probe_query_performance/output/wheel_final/wheelhouse_manifest.json": "e590623fa5907a38d47b12f040f5b096e67105a8a366074d48f338707ed7fcc7",
+  "evidence_runs/2026-11-13_probe_recording/record/raw/source_manifest.json": "308752a61ad87ba2dfd99de93350d7e0a0d73e9bfc4aa8f3221de6b6cf5ab862",
+  "evidence_runs/2026-11-13_probe_recording/record/raw/source.tar.gz": "9c7030223167ca3b2616ef6e20e3f857a17c9708bdf3af8ef3be7e16f105e6d0",
+  "evidence_runs/2026-11-13_probe_recording/record/summary/source_manifest.json": "2af04c9be01ebae0b3c9aafc554c8a64de153b1c4892a75e9f475144056de093",
+  "evidence_runs/2026-11-13_probe_recording/record/summary/source.tar.gz": "5c3e87f45f77de156c2e81d2256acf688cab7fb8fad8f6ffe4244af9783c2a12"
+ },
+ "commands": [
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_probe_queries.py",
+    "--out",
+    "evidence_runs/2026-11-13_probe_query_performance/output/formal_final",
+    "--repeats",
+    "20"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_probe_queries.py",
+    "--out",
+    "evidence_runs/2026-11-13_probe_query_performance/output/formal_verify_final",
+    "--repeats",
+    "1",
+    "--compare",
+    "evidence_runs/2026-11-13_probe_query_performance/output/formal_final"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    ".venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "evidence_runs/2026-11-13_probe_query_performance/output/wheel_final"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "clean implementation",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "same implementation audit",
+   "expected": "00a74de157d4fc2359435384acd25e028f9835c5",
+   "tolerance": null,
+   "actual": "00a74de157d4fc2359435384acd25e028f9835c5",
+   "passed": true
+  },
+  {
+   "quantity": "exact old/current responses",
+   "expected": 32,
+   "tolerance": null,
+   "actual": 32,
+   "passed": true
+  },
+  {
+   "quantity": "fresh-process exact responses",
+   "expected": 32,
+   "tolerance": null,
+   "actual": 32,
+   "passed": true
+  },
+  {
+   "quantity": "fresh-process response equality",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "wheel same code",
+   "expected": "00a74de157d4fc2359435384acd25e028f9835c5",
+   "tolerance": null,
+   "actual": "00a74de157d4fc2359435384acd25e028f9835c5",
+   "passed": true
+  },
+  {
+   "quantity": "wheel clean",
+   "expected": false,
+   "tolerance": null,
+   "actual": false,
+   "passed": true
+  },
+  {
+   "quantity": "locked installed distributions",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "raw source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "summary source unchanged",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Same-host simulated sources. Only probe reader swapped within same service; other src modules checked unchanged. 20 alternating-order paired query repetitions, reader registration measured separately 3 times after queries; OS caches/background load uncontrolled, no response cache. Descriptive timings are not latency acceptance, HTTP, browser, hardware, full-frame or stage7 three-benchmark completion. Registration does more header checking and may cost more. Full developer pytest 1382 passed/2 Icarus skips (153.74 s) is separate from installed dependency short flows; no installed full-suite claim. Both complete source payload archives remain in prior tracked probe_recording record and are SHA-pinned here."
+}
