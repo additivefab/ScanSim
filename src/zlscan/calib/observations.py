@@ -12,6 +12,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from zlscan.calib.delay import fit_synchronous_response
+from zlscan.calib.facet_targets import fit_observed_targets
 from zlscan.calib.radiometric import fit_log_transfer
 from zlscan.contracts.calibration import Binding, CalibItem, CalibrationHeader, Provenance
 from zlscan.contracts.events import Event
@@ -78,6 +79,7 @@ def calibration_from_scan(
     fit_transfer: bool = False,
     timing_path: Path | None = None,
     quality_path: Path | None = None,
+    facet_path: Path | None = None,
 ) -> CalibrationHeader:
     """Create empirical code-domain references from a complete calibration scan."""
     protocol = ScanProtocol.model_validate_json(protocol_path.read_bytes())
@@ -105,10 +107,12 @@ def calibration_from_scan(
     if image.status != "complete":
         raise ValueError("calibration capture has missing or invalid samples")
 
+    channel_flags = dict.fromkeys(image.codes, image.invalid)
     if quality_path is not None:
         for channel in image.codes:
             flags = image.invalid.copy()
             apply_quality_log(quality_path, protocol.raw_sha256, raw, channel, flags)
+            channel_flags[channel] = flags
             for target in protocol.targets:
                 used = target.name in {"dark", "white"} or (fit_transfer and target.name == "wedge")
                 if used and flags[target.first_line : target.first_line + target.lines].any():
@@ -173,7 +177,23 @@ def calibration_from_scan(
         sources["timing_sha256"] = sha256_file(timing_path)
     if quality_path is not None:
         sources["quality_sha256"] = sha256_file(quality_path)
-    source_ids = ":".join(sources.values()) if timing_path or quality_path else protocol_sha256
+    if facet_path is not None:
+        grid = by_name.get("grid")
+        if grid is None:
+            raise ValueError("facet calibration requires a grid target scan")
+        slanted = by_name.get("slanted_line")
+        grid_lines = range(grid.first_line, grid.first_line + grid.lines)
+        slanted_lines = (
+            range(slanted.first_line, slanted.first_line + slanted.lines) if slanted else range(0)
+        )
+        items["facet_geometry"] = CalibItem(
+            value=fit_observed_targets(
+                facet_path, raw, protocol.raw_sha256, channel_flags, grid_lines, slanted_lines
+            ),
+            method="observed grid landmarks grouped by observable facet phase",
+        )
+        sources["facet_sha256"] = sha256_file(facet_path)
+    source_ids = ":".join(sources.values()) if len(sources) > 2 else protocol_sha256
     provenance = Provenance(protocol.origin)
     calibration = CalibrationHeader(
         format_version=1,

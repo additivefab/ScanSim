@@ -7,6 +7,8 @@ from pathlib import Path
 import numpy as np
 
 from zlscan.contracts.calibration import CalibrationHeader, CaptureDescription
+from zlscan.contracts.flags import InvalidFlag
+from zlscan.io.facet_timing import FacetTiming, GeometryModel, observed_phases
 from zlscan.io.line_image import reconstruct
 from zlscan.io.manifest import sha256_file
 from zlscan.io.quality import apply_quality_log
@@ -25,10 +27,16 @@ def reconstruct_capture(
     headerless_spp: int | None = None,
     coding: str = "offset_binary",
     quality_path: Path | None = None,
+    facet_path: Path | None = None,
 ) -> dict:
     """Reconstruct using declared uniform coordinates and preserve missing line positions."""
     if sha256_file(raw_path) != capture.raw_sha256:
         raise ValueError("capture SHA-256 does not match its description")
+    geometry = calibration.items.get("facet_geometry")
+    if geometry is not None and geometry.status != "ok":
+        geometry = None
+    if (geometry is None) != (facet_path is None):
+        raise ValueError("facet geometry and capture facet timing must be supplied together")
     offset_samples = 0.0
     delay = calibration.items.get("delay")
     if delay is not None and delay.status == "ok":
@@ -37,8 +45,8 @@ def reconstruct_capture(
     else:
         delay = None
     if headerless_spp is not None:
-        if quality_path is not None:
-            raise ValueError("quality event projection requires ZLRAW sample identities")
+        if quality_path is not None or facet_path is not None:
+            raise ValueError("quality and facet events require ZLRAW sample identities")
         if delay is not None:
             raise ValueError("headerless capture requires a clock declaration for calibrated delay")
 
@@ -78,7 +86,7 @@ def reconstruct_capture(
         codes, flags = image.codes[channel], image.invalid
         if quality_path is not None:
             apply_quality_log(quality_path, capture.raw_sha256, raw, channel, flags)
-        if delay is not None:
+        if delay is not None and geometry is None:
             domains = {block.clock_domain for block in raw.blocks if channel in block.channels}
             clocks = [clock for clock in session.clock_domains if clock["id"] in domains]
             if len(clocks) != 1:
@@ -93,10 +101,31 @@ def reconstruct_capture(
     height_m = grid.height * grid.pitch_y_m
     x = grid.origin_x_m + (np.arange(cols) + 0.5 - offset_samples) / cols * width_m
     y = grid.origin_y_m + (np.arange(capture.lines) + 0.5) / capture.lines * height_m
+    coordinate_source = "declared uniform capture coordinates"
+    x, y = np.broadcast_to(x, codes.shape), np.broadcast_to(y[:, None], codes.shape)
+    if geometry is not None:
+        timing = FacetTiming.model_validate_json(facet_path.read_bytes())
+        model = GeometryModel.model_validate(geometry.value)
+        if timing.policy != model.policy or session.windows != model.window:
+            raise ValueError("capture facet policy or sample window does not match its calibration")
+        phases = observed_phases(timing, raw, capture.raw_sha256, capture.lines)
+        coordinate_source = "observable facet timing and calibrated target coordinates"
+        x, y = x.copy(), y.copy()
+        u = 2 * (np.arange(cols) + 0.5) / cols - 1
+        for row, phase in enumerate(phases):
+            fit = model.facets.get(str(phase))
+            if fit is None:
+                flags[row] |= int(InvalidFlag.FACET_UNRESOLVED)
+                continue
+            a, b, c = fit.x_coefficients_m
+            lo, hi = fit.support_u
+            x[row] = np.where((u >= lo) & (u <= hi), a + b * u + c * u**3, np.nan)
+            if fit.y_offset_m is not None:
+                y[row] += fit.y_offset_m
     result = reconstruct_density(
         codes,
-        np.broadcast_to(x, codes.shape),
-        np.broadcast_to(y[:, None], codes.shape),
+        x,
+        y,
         grid,
         calibration,
         capture.binding,
@@ -118,7 +147,7 @@ def reconstruct_capture(
         "unit": "OD",
         "calibration_id": result.calibration_id,
         "calibration_provenance": calibration.provenance.value,
-        "coordinate_source": "declared uniform capture coordinates",
+        "coordinate_source": coordinate_source,
         "delay_offset_samples": offset_samples,
         "support": "positive bilinear weight within one grid pitch per axis",
         "minimum_support_weight": 0.5,
@@ -126,6 +155,8 @@ def reconstruct_capture(
         "grid": asdict(grid),
         "raw_sha256": capture.raw_sha256,
     }
+    if facet_path is not None:
+        manifest["facet_timing_sha256"] = sha256_file(facet_path)
     if quality_path is not None:
         manifest["quality_sha256"] = sha256_file(quality_path)
     (output / "run.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

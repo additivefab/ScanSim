@@ -26,7 +26,7 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
     if density.shape != (grid["height"], grid["width"]) or flags.shape != density.shape:
         raise ValueError("image shape does not match its grid")
     lineage = None
-    if raw_path is not None:
+    if raw_path is not None and not run.get("facet_timing_sha256"):
         if sha256_file(raw_path) != run["raw_sha256"]:
             raise ValueError("lineage capture does not match the reconstruction SHA-256")
         raw = read_all(raw_path)

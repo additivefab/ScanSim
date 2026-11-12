@@ -18,3 +18,4 @@ class InvalidFlag(IntFlag):
     MISSING_SAMPLE = 1 << 5
     RESAMPLING_SUPPORT = 1 << 6
     CALIBRATION_MISMATCH = 1 << 7
+    FACET_UNRESOLVED = 1 << 8

@@ -171,6 +171,7 @@ def _run_calibrate(argv: Sequence[str]) -> int:
     p.add_argument("--protocol", required=True, type=Path)
     p.add_argument("--timing", type=Path, help="synchronized injection observation JSON")
     p.add_argument("--quality", type=Path, help="observable quality event JSON")
+    p.add_argument("--facets", type=Path, help="observable facet timing and calibration landmarks")
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
     try:
@@ -180,6 +181,7 @@ def _run_calibrate(argv: Sequence[str]) -> int:
             fit_transfer=True,
             timing_path=args.timing,
             quality_path=args.quality,
+            facet_path=args.facets,
         )
         args.out.mkdir(parents=True)
         save_calibration(args.out / "calibration.json", cal)
@@ -216,6 +218,7 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
     p.add_argument("--channel", type=int, default=0)
     p.add_argument("--headerless-spp", type=int)
     p.add_argument("--quality", type=Path, help="observable quality event JSON")
+    p.add_argument("--facets", type=Path, help="observable facet timing and calibration landmarks")
     p.add_argument(
         "--coding", choices=["offset_binary", "twos_complement"], default="offset_binary"
     )
@@ -234,6 +237,7 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
             headerless_spp=args.headerless_spp,
             coding=args.coding,
             quality_path=args.quality,
+            facet_path=args.facets,
         )
     except (OSError, ValueError) as exc:
         print(f"重建失败：{exc}", file=sys.stderr)

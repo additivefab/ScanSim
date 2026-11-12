@@ -181,6 +181,12 @@ items（每项带 value、uncertainty、valid_range、method）:
 
 标定和重建的 `--quality` 接受 `{"raw_sha256": "...", "ranges": [{"event": {...}, "samples": 1}]}`。事件须可观测且携带 `related_sample`。样本数默认 1，范围从源样本序号起算。事件按会话、时期、时钟域及通道匹配到保留窗口，并按位合并饱和、限幅和丢样原因。标定遇到暗场、白场或用于拟合的阶梯内有无效样本时拒绝本次拟合。重建保留各原因并输出 NaN。输入码流与事件文件的校验值随结果保存。
 
+逐面几何由 `calibrate --facets` 接入。文件包含 `timing`、`channel` 和 `grid`，可附 `slanted` 与 `slanted_dx_dy`。每个靶点记录采集行号 `line`、观测 ADC 窗内位置 `sample_column`（可为小数）以及已知靶标的 `target_x_m`。斜线靶的参考 x 取该行名义 y 对应的靶标位置。由操作者或上游检测器定位样本，标定程序按协议靶区、质量掩膜及同步证据核对后拟合。
+
+`timing` 包含 `raw_sha256`、`policy` 和 `lines`。策略记录 `facets`、`period_ticks`、`tolerance_ticks` 与 `phase_reference`。每行提供 `line`、可观测的 `line_sync` 传感器事件 `sync`，以及可选的 `facet_index` 传感器事件 `anchor`。锚点须与同行同步绑定，时间相同，能力与策略的相位参考相同，`payload.phase` 为该参考的相位编号。缺行、超差或换时期后，需新锚点才能恢复相位。事件同步刻度换算到首个保留样本进行核对。
+
+`reconstruct --facets` 接收样片自身的 `timing` 对象。标定中的采集窗及策略必须匹配。扫描向按逐面三次曲线计算，曲线只在标定靶点覆盖范围内有效。无相位或对应模型时置位 8（`FACET_UNRESOLVED`）。无可辨识斜线时保留声明的名义行坐标。逐面映射以原始 ADC 时间为自变量，已包含同一采集条件下的固定偏移，使用时不重复叠加独立延迟。
+
 ## 7. 随机数
 
 - 白噪声与局部事件：密钥为（种子、物理源标识、时钟域、样本或细步序号），用计数器型生成器（`numpy.random.Philox` 或等价物）按块生成。同一序号永远得到同一随机数，与分块、重放、并行度无关。

@@ -239,3 +239,95 @@ def test_cli_reconstruction_is_isolated_and_sensitive_to_observed_light(tmp_path
     )
     assert main(calibrate_args) == 1
     assert "invalid or unobservable quality event" in capsys.readouterr().err
+
+    policy = {
+        "facets": 2,
+        "period_ticks": 2_500_000_000,
+        "tolerance_ticks": 1,
+        "phase_reference": "fixture/facet_index",
+    }
+
+    def timing_for(path, digest, missing=(), anchors=(0,)):
+        raw = read_all(path)
+        window = raw.session.windows
+        rows = []
+        for line in raw.blocks:
+            n = line.line_number
+            if n in missing:
+                continue
+            sample = (
+                line.first_sample_index - window["window_start"] - window["sync_latency_cycles"]
+            )
+            sync = {
+                "kind": "line_sync",
+                "origin": "SIMULATED",
+                "visibility": "OBSERVABLE",
+                "derivation": "SENSOR",
+                "capability_ref": "fixture/line_sync",
+                "clock_domain": 1,
+                "count": sample,
+                "tick": sample * 1_000_000,
+                "session_id": 1,
+                "epoch": 0,
+            }
+            row = {"line": n, "sync": sync}
+            if n in anchors:
+                row["anchor"] = {
+                    **sync,
+                    "kind": "facet_index",
+                    "capability_ref": "fixture/facet_index",
+                    "payload": {"phase": n % 2},
+                }
+            rows.append(row)
+        return {"raw_sha256": digest, "policy": policy, "lines": rows}
+
+    timing_ref = timing_for(reference_raw, protocol["raw_sha256"])
+    width = read_all(reference_raw).session.windows["window_length"]
+    grid_points = []
+    for row in (16, 17):
+        for column in (10, width // 3, width // 2, width - 12):
+            u = 2 * (column + 0.5) / width - 1
+            grid_points.append(
+                {
+                    "line": row,
+                    "sample_column": column,
+                    "target_x_m": 0.04 + 0.04 * u + (0.0003 if row == 16 else -0.0004) * u**3,
+                }
+            )
+    facets = tmp_path / "facets.json"
+    facets.write_text(json.dumps({"timing": timing_ref, "channel": 0, "grid": grid_points}))
+    mapped_cal = tmp_path / "mapped-calibration"
+    assert (
+        main(
+            [
+                "calibrate",
+                "--raw",
+                str(reference_raw),
+                "--protocol",
+                str(reference_obs / "scan_protocol.json"),
+                "--facets",
+                str(facets),
+                "--out",
+                str(mapped_cal),
+            ]
+        )
+        == 0
+    )
+    mapping = json.loads((mapped_cal / "calibration.json").read_text())["items"]["facet_geometry"]
+    assert mapping["value"]["facets"]["0"]["x_coefficients_m"][2] == pytest.approx(0.0003)
+    assert mapping["value"]["facets"]["1"]["x_coefficients_m"][2] == pytest.approx(-0.0004)
+    assert mapping["value"]["facets"]["1"]["y_offset_m"] is None
+
+    observed_timing = tmp_path / "facet-timing.json"
+    observed_timing.write_text(
+        json.dumps(timing_for(raw_path, capture["raw_sha256"], missing=(1,), anchors=(0, 3)))
+    )
+    mapped = tmp_path / "mapped-reconstruction"
+    reconstructed = reconstruct(
+        bright, mapped, mapped_cal, extra=("--facets", str(observed_timing))
+    )
+    with np.load(mapped / "density.npz") as data:
+        unresolved = (data["flags"] & int(InvalidFlag.FACET_UNRESOLVED)) != 0
+        assert unresolved[1:3].all() and not unresolved[[0, 3]].any()
+    assert np.isnan(reconstructed[1:3]).all()
+    assert np.isfinite(reconstructed[[0, 3]]).any()

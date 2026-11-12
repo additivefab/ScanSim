@@ -2,45 +2,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 from dataclasses import dataclass
 
 import numpy as np
 
-
-def infer_facet_phase(
-    sync_ticks: np.ndarray,
-    facets: int,
-    period_ticks: int,
-    tolerance_ticks: int,
-    *,
-    anchors: Mapping[int, int] | None = None,
-) -> np.ndarray:
-    """Use indexed reference observations to lock; never infer phase across a missing sync."""
-    ticks = np.asarray(sync_ticks)
-    if (
-        ticks.ndim != 1
-        or not np.issubdtype(ticks.dtype, np.signedinteger)
-        or np.any(np.diff(ticks) <= 0)
-        or facets < 1
-        or period_ticks <= 0
-        or not 0 <= tolerance_ticks < period_ticks / 2
-    ):
-        raise ValueError("invalid line synchronization observations or tracking parameters")
-    anchors = anchors or {}
-    if any(
-        not 0 <= index < len(ticks) or not 0 <= phase < facets for index, phase in anchors.items()
-    ):
-        raise ValueError("facet anchor lies outside the capture or facet range")
-    phases = np.full(len(ticks), -1, dtype=np.int64)
-    for index, tick in enumerate(ticks):
-        if index in anchors:
-            phases[index] = anchors[index]
-        elif index and phases[index - 1] >= 0:
-            gap = tick - ticks[index - 1]
-            if abs(gap - period_ticks) <= tolerance_ticks:
-                phases[index] = (phases[index - 1] + 1) % facets
-    return phases
+from zlscan.io.facet_timing import infer_facet_phase as infer_facet_phase
 
 
 @dataclass(frozen=True)
