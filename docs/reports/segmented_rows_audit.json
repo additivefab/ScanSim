@@ -1,0 +1,55 @@
+{
+  "origin": "SIMULATED",
+  "fixture": "analytic static unchanged binding, not physical model validation",
+  "http_responses": 28,
+  "max_density_error_od": 0.00010211787113267867,
+  "criterion_od": 0.002,
+  "split_blocks": 2,
+  "source_epochs": [
+    0,
+    1
+  ],
+  "gap_positions": 2,
+  "unplaced_blocks": 1,
+  "code_commit": "3f42972bc6c7e31927f3071e4e2da424682113a9",
+  "installed": {
+    "source_commit": "3f42972bc6c7e31927f3071e4e2da424682113a9",
+    "all_snapshot_blobs_verified": true,
+    "assets": 5,
+    "locked_distributions": 20,
+    "wheel_sha256": "2069f82c4c9b8c95178ad6d9b404fa187db1bafe142f6a543b8e9322130d91c2",
+    "cached_dependencies_verified": true,
+    "network_index_resolution": "failed; cached locked dependencies used",
+    "scope": "same host offline install"
+  },
+  "array_comparison": {
+    "equal_arrays": [
+      "split/density",
+      "split/transmittance",
+      "split/flags",
+      "split/support_weight",
+      "gap/density",
+      "gap/transmittance",
+      "gap/flags",
+      "gap/support_weight",
+      "orphan/density",
+      "orphan/transmittance",
+      "orphan/flags",
+      "orphan/support_weight"
+    ],
+    "equal_nan": true,
+    "scope": "same-host isolated installed package, not browser/cross-platform/hardware"
+  },
+  "archive": {
+    "files": 457,
+    "every_member_sha256_matches_original": true,
+    "archive_sha256": "d861c614619c803e3e8f43deb9e5e165e122122f0c0267399779fe66bd4c2198",
+    "archive_size_bytes": 1783802
+  },
+  "pytest": {
+    "passed": 1440,
+    "skipped": 2,
+    "seconds": 179.22,
+    "rtl": "not_executed: Icarus unavailable"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "code_commit": "3f42972bc6c7e31927f3071e4e2da424682113a9",
+  "commands": [
+    {
+      "command": "git -c http.proxy=http://127.0.0.1:7897 -c http.version=HTTP/1.1 ls-remote origin refs/heads/main",
+      "returncode": 0
+    },
+    {
+      "command": "git -c http.proxy=http://127.0.0.1:7897 -c http.version=HTTP/1.1 fetch origin",
+      "returncode": 0
+    },
+    {
+      "command": "git -c http.proxy=http://127.0.0.1:7897 -c http.version=HTTP/1.1 push origin main",
+      "returncode": 128
+    }
+  ],
+  "last_verified_remote": "352e8c125a020a95599a6f2079ecdaecdf923863",
+  "publication": "not confirmed"
+}

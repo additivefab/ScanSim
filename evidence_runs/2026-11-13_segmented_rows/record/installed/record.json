@@ -1,0 +1,94 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "isolated installed segmented source provenance",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T01:03:05.779165+00:00",
+ "finished_at": "2026-11-13T01:04:09.311694+00:00",
+ "code": {
+  "commit": "3f42972bc6c7e31927f3071e4e2da424682113a9",
+  "dirty": false,
+  "basis": "built source snapshot checked against every committed git blob"
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "evidence_runs/2026-11-13_segmented_rows/output/installed/source_manifest.json": "8a3b4025dc2082707df0813fcdbf6cb40aef4f2d1dc34f94d408429d4fb084af",
+  "evidence_runs/2026-11-13_segmented_rows/output/wheel-offline/requirements.lock": "dcef42f1693e376636668247a2fe68f274376a9de59abcdf22469dc3dfb59670",
+  "evidence_runs/2026-11-13_segmented_rows/output/installed_comparison.json": "d781a78f5bdc78ec4f33bd3ce1bf55fca8fdb51899241557373ca583c1d8dbac",
+  "evidence_runs/2026-11-13_segmented_rows/output/wheel-offline/wheel/zlscan-0.1.0.dev0-py3-none-any.whl": "2069f82c4c9b8c95178ad6d9b404fa187db1bafe142f6a543b8e9322130d91c2"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/segmented-offline-s6sre9g2/runtime/bin/python",
+    "-I",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_segmented_rows.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_segmented_rows/output/installed"
+   ],
+   "returncode": 0,
+   "stdout": "observable calibration, epoch-split reconstruction and pixel provenance passed\n",
+   "stderr": ""
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/segmented-offline-s6sre9g2/runtime/bin/python",
+    "-I",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_segmented_rows.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_segmented_rows/output/installed",
+    "--verify"
+   ],
+   "returncode": 0,
+   "stdout": "fresh-process image, source epochs and HTTP bytes match\n",
+   "stderr": ""
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/segmented-offline-s6sre9g2/runtime/bin/python",
+    "-I",
+    "-c",
+    "import json,zlscan;from zlscan.evidence.records import environment_info;from pathlib import Path;import sys;assert Path(zlscan.__file__).resolve().is_relative_to(Path(sys.prefix).resolve());assert sys.flags.isolated;print(json.dumps(dict(environment=environment_info(),module=zlscan.__file__,prefix=sys.prefix)))"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "HTTP responses and fresh-process exact bytes",
+   "expected": 28,
+   "tolerance": null,
+   "actual": 28,
+   "passed": true
+  },
+  {
+   "quantity": "developer and installed arrays equal including NaN",
+   "expected": 12,
+   "tolerance": null,
+   "actual": 12,
+   "passed": true
+  },
+  {
+   "quantity": "synthetic density error below .002 OD",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Both build/download network failures retained. Current wheel built during second attempt; 19 previous cached dependencies SHA256 verified, total 20 distributions installed offline with --require-hashes. Installed prefix checked with -I. Same host only; no full pytest repeated in installed environment, browser or hardware acceptance."
+}

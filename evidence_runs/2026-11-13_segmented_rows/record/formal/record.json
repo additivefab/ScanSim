@@ -1,0 +1,91 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "observable segmented row software pipeline",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T00:59:41.310249+00:00",
+ "finished_at": "2026-11-13T00:59:48.187148+00:00",
+ "code": {
+  "commit": "3f42972bc6c7e31927f3071e4e2da424682113a9",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": null,
+ "inputs": {
+  "tools/audit_segmented_rows.py": "b1d0e5224759ae65c58575160dc4e48ff172a29e076c46bdb89732e454c250d8",
+  "evidence_runs/2026-11-13_segmented_rows/output/formal-02/source_manifest.json": "4109de16ee134dca7ca85e15cac86ddce164e0af9925455572824c5afe07c928",
+  "evidence_runs/2026-11-13_segmented_rows/output/formal-02/common_calibration.json": "b599fecf4cb1f78155fdb2429c1701df8913aed4ab82cd239ccaa8195df5efd4"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_segmented_rows.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_segmented_rows/output/formal-02"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_segmented_rows.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_segmented_rows/output/formal-02",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "HTTP responses and exact fresh-process bytes",
+   "expected": 28,
+   "tolerance": null,
+   "actual": 28,
+   "passed": true
+  },
+  {
+   "quantity": "density error below explicit synthetic .002 OD criterion",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "source epochs equal [0,1]",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "original gap positions",
+   "expected": 2,
+   "tolerance": null,
+   "actual": 2,
+   "passed": true
+  },
+  {
+   "quantity": "unplaced orphan block",
+   "expected": 1,
+   "tolerance": null,
+   "actual": 1,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED analytic static fixture. Both epochs have actual fitted observable references with exactly equal items. Inner orphan/narrow-epoch CLI exit 1 is expected and checked. No browser or measured hardware acceptance."
+}

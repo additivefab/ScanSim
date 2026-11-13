@@ -1,0 +1,3 @@
+observable calibration, epoch-split reconstruction and pixel provenance passed
+
+fresh-process image, source epochs and HTTP bytes match
