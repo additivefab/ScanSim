@@ -1,0 +1,10 @@
+{
+  "format": "zlscan.stage7-software-acceptance/1",
+  "source_commit": "1ead19fd81c7726bc812a3db6a5c8b503de1026e",
+  "selected_tests": 47,
+  "pytest_seconds": 5.73,
+  "ruff": "passed",
+  "scope": "sweep/compare/CLI/evidence-record unit paths",
+  "stage7_complete": false,
+  "unclosed": ["performance pair", "measurement/browser acceptance", "full external tool/license lock", "S7-T03 residual report"]
+}
