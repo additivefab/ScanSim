@@ -142,3 +142,5 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 带原源校验的同步计数与条件时基辨识见 [说明](docs/reports/timing_identification.md)。
 
 最新模块安装、后端/运行双锁与重复 wheel 构建见 [安装核验](docs/reports/latest_install.md)。
+
+三平台与 Python 3.11/3.14 的 CI 配置及实际运行边界见 [CI 核验](docs/reports/cross_platform_ci.md)。

@@ -112,6 +112,8 @@
 
 | D072 | S7-T05 wheel 审计新增 build/runtime 双 wheelhouse 与摘要清单，后端在独立 venv 按三包哈希锁离线安装；两份跟踪源码副本重复构建并比较 wheel 字节 | 前轮网络解析反复 TLS 失败，只锁运行依赖不能重建后端；新增固定提交 blob/全 Python 模块检查，已装包实际执行 static/dynamic/timing/segmented 的 CLI/新进程回读。旧项目 wheel 明确排除，必须重建当前项目；仍不把 CPython/ensurepip/pip/OS 或跨平台视为完整锁定，不升级浏览器或实机验收 | S7-T05，2026-11-13 |
 
+| D073 | S7-T05 CI 采用三平台×Python 3.11/3.14，官方 Actions 固定实际 release commit；先完整源测试再重复构建/隔离安装，失败与实际依赖信息始终上传 | 本机 venv 无法证明其它 OS/版本；云端 runner 保留冻结文件行尾，UTF-8/Agg 模式明确登记。只从既有离线包提取跨平台纯 Python 后端三包，运行 wheels 在各目标上在线解析，再按各自新锁离线审计。固定标签不是 OS/CPython/pip 全锁。平台信号差异须从真实失败/实际机制注明，不能跳过后声称能力通过；实际 run/job/JUnit/工件判定 CI 结果 | S7-T05，2026-11-13 |
+
 ## 二、待用户决定
 
 遇到下列事项先问用户。问之前继续做不依赖它的部分。

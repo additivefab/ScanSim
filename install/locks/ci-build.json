@@ -1,0 +1,6 @@
+{
+  "format": "zlscan.ci-build-input/1",
+  "bundle": "install/bundles/scansim-macos-x86_64-cpython314-631c542.tar.gz",
+  "sha256": "a397d019cc6822007b67cebfaaf25fdc794391bc6cd441db32e190a771f42932",
+  "prefix": "scansim-macos-x86_64-cpython314-631c542"
+}

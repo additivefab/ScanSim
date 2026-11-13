@@ -40,6 +40,8 @@
 
 2026-11-13：S7-T05 新增 build/runtime 双哈希清单的离线安装路径、固定提交 blob/全 Python 模块检查及两份独立源码副本的重复 wheel 字节比较。已装包还执行 dynamic/timing/segmented 的实际 CLI 与新进程回读。当前为同机验证，另一台机器/其他 OS、CPython/pip/外部工具完整锁及许可/CI 门槛仍保留，见 `docs/reports/latest_install.md`。
 
+2026-11-13：新增六目标 CI（Linux/Windows/macOS×Python3.11/3.14），固定官方 Actions 提交、完整测试/JUnit 与各目标独立 wheel 安装/回读工件；当前状态必须以真实 workflow run/job 及工件判定，不能因文件存在而记通过。见 `docs/reports/cross_platform_ci.md`。
+
 ## 阶段门槛
 
 - [ ] 文档里的每一项"已支持"都有对应测试。

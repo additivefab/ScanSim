@@ -7,11 +7,11 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S7-T05 最新离线双锁包/正式与解包验证已发布；阶段 3–7 其余门槛继续 |
+| 进行中的任务 | S7-T05 CI 三平台 × Python 3.11/3.14 的实际回归与安装验证进行中 |
 | 下一个任务 | CI/平台兼容性与阶段 3/4 剩余软件门槛；继续多工作点标定及几何/辐射辨识，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1485 通过、2 跳过，185.32 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1490 通过、2 跳过，181.70 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
 
@@ -39,6 +39,11 @@
 - 网络恢复后已正常快进推送，实际核对 `origin/main = ea3845366281f06fafde9710f538adc1e3e42e29`，与当时本地 HEAD 一致；包含上轮 `05dea2e`/`7d4c0e6`/`30c90ef` 和本轮 `d08e4b7`/`ea38453`。这是已确认的发布批次，之后提交仍需以实际 ls-remote 核对，不把旧交接文字当当前远端状态。
 - 之前的 TLS/连接失败已保留为历史：当时普通 HTTPS 与 GitHub 连接器均失败。没有改系统/仓库代理、TLS 校验或 Git 历史；恢复后单次 Git 请求使用 macOS 已有本地代理完成 fetch/push/ls-remote。用户推送授权继续有效，无需再次确认。
 - 两轮代码/证据与配套锁均已发布；同机安装、开发全量、模型重放和实机/浏览器/跨平台验收仍严格分开，阶段 3–7 其它门槛未完成。
+
+## 本轮 S7-T05 三平台 CI
+
+- 新增 Linux/Windows/macOS × Python3.11/3.14 六目标，官方 checkout/setup-python/upload-artifact 固定实际 release commit，内容只读、失败不互相取消、工件总尝试上传并区分 run attempt。runner 关闭行尾转换、UTF-8/Agg 模式登记；Linux 安装 Icarus。helper 保留真实命令/退出码/日志/JUnit/环境，各目标解析运行 wheels 后离线双锁构建/安装，后端只取已验证包中的跨平台三包。见 D073、`docs/reports/cross_platform_ci.md`。
+- 仓库 Actions API 为 enabled=true / allowed_actions=all，初始运行数0。GitHub 连接器 Unknown tool，已配置 gh 通过现有 SOCKS 访问成功，未改仓库策略。合同红灯为 helper 缺失，15 项定向 通过（1.61 s）；完整本机 1490 通过/2 跳过（181.70 s），Ruff/297 文件格式通过。本机结果不能替代云端矩阵，首个真实运行及后续平台故障须保留并逐项处理。
 
 ## 本轮 S7-T05 最新包与离线双锁
 

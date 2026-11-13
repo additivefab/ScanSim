@@ -710,3 +710,20 @@ wheel 审计新增可选成对的 build/runtime wheelhouse 与摘要清单输入
 安装在仓库外新 venv，执行 -I 导入路径检查、原短流程/HTTP，以及 static、dynamic、timing
 和 segmented 的实际 CLI/新进程回读。声明同机隔离，不借此升级另一台机器/跨平台/
 浏览器或实机门槛。后端三包哈希锁不等于 CPython、ensurepip/pip、OS/外部工具的完整锁。
+
+## 跨平台 CI 证据补充（S7-T05）
+
+矩阵包含 ubuntu/windows/macos GitHub-hosted 最新标签与 Python 3.11/3.14 六个目标，
+分别记录实际 OS/架构/完整 Python 与包版本，不把 latest 标签当环境锁。
+第三方 Actions 固定到实际核查的 release commit，工作流只有内容读取权限。
+所有目标执行 Ruff、完整 pytest/JUnit、固定后端三包的 wheel 构建/重复字节检查，
+各自在线解析当前平台运行 wheels 后按新哈希锁离线安装并执行全部安装审计。
+不将 macOS wheelhouse 用于其它平台。失败命令须退出非零并留下日志/运行元数据；
+artifact 上传始终尝试，缺失 artifact 不能当作检查通过。
+
+云端 runner 在 checkout 前显式关闭自动行尾转换以保留冻结资料原字节，此设置仅限
+一次性 runner；用户本机 Git 配置不改。测试环境显式 UTF-8 与 Agg 非交互绘图模式。
+Windows 的进程终止/控制台事件不等同 POSIX 信号；若对应测试只能在 POSIX 执行，
+必须列出实际跳过原因，并保留 Windows 自身可用的 EOF 暂停/恢复验证，不能把跳过
+写成 Windows 信号能力通过。远端判定以指定提交 run/job 的实际结论、JUnit 和安装
+审计工件为准，不以存在工作流文件或本机模拟作为成功依据。
