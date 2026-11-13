@@ -77,7 +77,8 @@ def make_case(root, mode):
                 ),
                 indent=2,
             )
-            + "\n"
+            + "\n",
+            encoding="utf-8",
         )
         frame = dict(
             format="zlscan.sync-observations/1",
@@ -100,7 +101,7 @@ def make_case(root, mode):
             edges=edges,
         )
         path = root / f"edges-{k}.json"
-        path.write_text(json.dumps(frame, indent=2) + "\n")
+        path.write_text(json.dumps(frame, indent=2) + "\n", encoding="utf-8")
         captures.append(
             dict(
                 name=f"acquisition-{k}",
@@ -127,7 +128,7 @@ def make_case(root, mode):
         validation_max_abs_residual_ps=200.0,
         captures=captures,
     )
-    (root / "config.json").write_text(json.dumps(cfg, indent=2) + "\n")
+    (root / "config.json").write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
 
 
 def verify(root):
@@ -137,7 +138,7 @@ def verify(root):
         config = folder / "config.json"
         r = identify_timing_files(TimingFitConfig.model_validate_json(config.read_bytes()), folder)
         r["config_sha256"] = sha256_file(config)
-        assert r == json.loads((folder / "result/run.json").read_text()), mode
+        assert r == json.loads((folder / "result/run.json").read_text(encoding="utf-8")), mode
         assert not r["parameter_upgrades"] and not r["hard_acceptance_eligible"]
         results[mode] = r
     nominal = results["nominal"]
@@ -159,7 +160,7 @@ def verify(root):
     assert results["mismatch"]["facet_period_fit"] == nominal["facet_period_fit"]
     assert results["mismatch"]["validation"]["status"] == "mismatch"
     assert results["reuse"]["status"] == "rejected"
-    manifest = json.loads((root / "sources.json").read_text())
+    manifest = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     for rel, digest in manifest.items():
         assert sha256_file(root / rel) == digest, rel
     return dict(
@@ -185,7 +186,7 @@ def main():
     args = p.parse_args()
     root = args.out.resolve()
     if args.verify:
-        assert verify(root) == json.loads((root / "audit.json").read_text())
+        assert verify(root) == json.loads((root / "audit.json").read_text(encoding="utf-8"))
         print("six timing CLI results recomputed exactly; original sources unchanged")
         return
     root.mkdir(parents=True, exist_ok=False)
@@ -194,7 +195,7 @@ def main():
     manifest = {
         str(p.relative_to(root)): sha256_file(p) for p in sorted(root.rglob("*")) if p.is_file()
     }
-    (root / "sources.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (root / "sources.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     commands = []
     for mode in MODES:
         argv = [
@@ -207,14 +208,14 @@ def main():
             "--out",
             str(root / mode / "result"),
         ]
-        r = subprocess.run(argv, capture_output=True, text=True)
-        (root / (mode + ".stdout")).write_text(r.stdout)
-        (root / (mode + ".stderr")).write_text(r.stderr)
+        r = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8")
+        (root / (mode + ".stdout")).write_text(r.stdout, encoding="utf-8")
+        (root / (mode + ".stderr")).write_text(r.stderr, encoding="utf-8")
         expected = 0 if mode in ("nominal", "missing") else 1
         commands.append(dict(argv=argv, returncode=r.returncode, expected_returncode=expected))
-        (root / "commands.json").write_text(json.dumps(commands, indent=2) + "\n")
+        (root / "commands.json").write_text(json.dumps(commands, indent=2) + "\n", encoding="utf-8")
         assert r.returncode == expected, r.stdout + r.stderr
-    (root / "audit.json").write_text(json.dumps(verify(root), indent=2) + "\n")
+    (root / "audit.json").write_text(json.dumps(verify(root), indent=2) + "\n", encoding="utf-8")
     print("observable timing, missing edges, phase/rank/validation/reuse gates passed")
 
 

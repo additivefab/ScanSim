@@ -31,7 +31,7 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
         plan_path = directory / "lineage.json"
         if sha256_file(plan_path) != run["lineage_sha256"]:
             raise ValueError("image lineage does not match reconstruction SHA-256")
-        lineage_plan = json.loads(plan_path.read_text())
+        lineage_plan = json.loads(plan_path.read_text(encoding="utf-8"))
         if (
             lineage_plan.get("format") not in {"zlscan-image-lineage/1", "zlscan-image-lineage/2"}
             or lineage_plan["raw_sha256"] != run["raw_sha256"]

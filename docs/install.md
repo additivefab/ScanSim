@@ -22,6 +22,8 @@ python3 -m venv .venv
 Windows（命令未在 Windows 实跑）：
 
 ```powershell
+$env:PYTHONUTF8 = "1"
+$env:PYTHONIOENCODING = "utf-8"
 py -3.11 -m venv .venv
 .venv\Scripts\python.exe -m pip install -e ".[dev,legacy,ident]"
 .venv\Scripts\zlscan.exe --version
@@ -118,3 +120,8 @@ offline_env/bin/python -m pip check
 该包绑定源码点 631c542；复现相同 wheel 字节需相同源码点、SOURCE_DATE_EPOCH 和已记录
 构建环境。后续文档提交或其它源码点的重建会产生自己的配套锁，不复用此 wheel 的摘要。
 旧 reference 锁仍保留为历史；新锁为 install/locks/ 中带 631c542 的 build/runtime-ident 文件。
+
+Windows 升级前先关闭旧录制写入进程。D074 将强制锁移至文件保留区域，
+历史文件格式不变，但旧、新版本的活跃写入器不能混用；完成关闭后可按检查点恢复。
+JSON/HTML 工件使用 UTF-8，安装审计继续保留 -I；上面的 UTF-8 环境也用于
+子 CLI 的文本输出，不应依赖系统代码页。

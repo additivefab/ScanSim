@@ -50,7 +50,7 @@ def save_config_bundle(directory: Path, cfg: ChainConfig) -> str:
         config=data,
     )
     path = directory / "config.json"
-    path.write_text(json.dumps(document, allow_nan=False, indent=2) + "\n")
+    path.write_text(json.dumps(document, allow_nan=False, indent=2) + "\n", encoding="utf-8")
     return sha256_file(path)
 
 
@@ -68,7 +68,7 @@ def config_bundle(directory: Path, expected_sha: str) -> Iterator[ChainConfig]:
     path = directory / "config.json"
     if sha256_file(path) != expected_sha:
         raise ValueError("configuration SHA mismatch")
-    d = json.loads(path.read_text())
+    d = json.loads(path.read_text(encoding="utf-8"))
     if (
         d.get("format") != "zlscan.chain-bundle/1"
         or d.get("visibility") != "ORACLE_ONLY"

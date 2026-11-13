@@ -28,7 +28,7 @@ def saved_service(directory: Path) -> Iterator[Service]:
         with recording_service(directory) as service:
             yield service
         return
-    document = json.loads((directory / "run.json").read_text())
+    document = json.loads((directory / "run.json").read_text(encoding="utf-8"))
     if document.get("mode") != "physical" or not isinstance(document.get("fine_steps"), int):
         raise ValueError("saved workbench supports single-channel physical runs")
     marker = document.get("workbench")
@@ -52,7 +52,7 @@ def saved_service(directory: Path) -> Iterator[Service]:
                     != marker["observable_sha256"][name]
                 ):
                     raise ValueError("observable metadata hash mismatch")
-        capture = json.loads((directory / "observable/capture.json").read_text())
+        capture = json.loads((directory / "observable/capture.json").read_text(encoding="utf-8"))
         if Binding.model_validate(capture["binding"]) != simulation_binding(cfg):
             raise ValueError("capture binding does not match saved configuration")
         if sha256_file(raw) != capture["raw_sha256"]:
@@ -79,7 +79,7 @@ def saved_service(directory: Path) -> Iterator[Service]:
                     raise ValueError("saved mmap artifact changed after registration")
             delivered.unchanged()
 
-        losses = json.loads((directory / "observable/losses.json").read_text())
+        losses = json.loads((directory / "observable/losses.json").read_text(encoding="utf-8"))
         losses = [
             {
                 "first": x["first_sample_index"],
@@ -111,7 +111,7 @@ def saved_service(directory: Path) -> Iterator[Service]:
             file = directory / "truth/link_lineage.json"
             if sha256_file(file) != marker["link_lineage_sha256"]:
                 raise ValueError("saved lineage hash mismatch")
-            linked = json.loads(file.read_text())
+            linked = json.loads(file.read_text(encoding="utf-8"))
             if linked.get("visibility") != "ORACLE_ONLY" or linked.get("origin") != "SIMULATED":
                 raise ValueError("saved lineage is not a simulated reference")
             link_records = {int(x["sample_index"]): x for x in linked["records"]}

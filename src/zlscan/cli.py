@@ -543,7 +543,7 @@ def _run_replay(argv: Sequence[str]) -> int:
         mode = (
             "physical_recording"
             if (args.run / "definition.json").is_file() and (args.run / "checkpoint.json").is_file()
-            else json.loads((args.run / "run.json").read_text()).get("mode")
+            else json.loads((args.run / "run.json").read_text(encoding="utf-8")).get("mode")
         )
         if mode == "physical_recording":
             if args.preset:
@@ -653,7 +653,7 @@ def _run_ident(argv: Sequence[str]) -> int:
             result["config_sha256"] = hashlib.sha256(blob).hexdigest()
             args.out.mkdir(parents=True, exist_ok=False)
             (args.out / "run.json").write_text(
-                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n"
+                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n", encoding="utf-8"
             )
             write_timing_residuals(result, args.out / "timing_residuals.svg")
         except (OSError, ValueError) as exc:
@@ -687,7 +687,7 @@ def _run_ident(argv: Sequence[str]) -> int:
             result["config_sha256"] = hashlib.sha256(blob).hexdigest()
             args.out.mkdir(parents=True, exist_ok=False)
             (args.out / "run.json").write_text(
-                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n"
+                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n", encoding="utf-8"
             )
             write_dynamic_residuals(result, args.out / "dynamic_residuals.svg")
         except (OSError, ValueError) as exc:

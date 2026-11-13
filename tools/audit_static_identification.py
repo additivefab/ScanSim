@@ -31,7 +31,9 @@ def build_case(directory: Path, name: str) -> tuple[Path, Path, Path]:
             if name == "collinear" and role == "validation":
                 inputs = [1.0, 2.0]
             raw = directory / f"{key}.json"
-            raw.write_text(json.dumps(dict(origin="SYNTHETIC", input_v=inputs, output_v=y)))
+            raw.write_text(
+                json.dumps(dict(origin="SYNTHETIC", input_v=inputs, output_v=y)), encoding="utf-8"
+            )
             sha = sha256_file(raw)
             sources.append(dict(path=raw.name, sha256=sha))
             ids = {}
@@ -66,7 +68,8 @@ def build_case(directory: Path, name: str) -> tuple[Path, Path, Path]:
     metadata.write_text(
         TableMetadata(
             source_kind="synthetic", device="synthetic generator", source_files=sources
-        ).model_dump_json()
+        ).model_dump_json(),
+        encoding="utf-8",
     )
     config = directory / "static.json"
     config.write_text(
@@ -80,7 +83,8 @@ def build_case(directory: Path, name: str) -> tuple[Path, Path, Path]:
             assumption_source="synthetic conditional regression formula audit",
             observations=observations,
             validation_max_abs_residual_si=0.1,
-        ).model_dump_json()
+        ).model_dump_json(),
+        encoding="utf-8",
     )
     return table, metadata, config
 
@@ -108,11 +112,13 @@ def run(output: Path) -> dict:
             "--out",
             str(directory / "result"),
         ]
-        p = subprocess.run(argv, capture_output=True, text=True)
-        (directory / "cli.log").write_text(p.stdout + p.stderr)
+        p = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8")
+        (directory / "cli.log").write_text(p.stdout + p.stderr, encoding="utf-8")
         assert p.returncode == (0 if name == "compatible" else 1), p.stderr
         assert inputs == {k: sha256_file(directory / k) for k in inputs}
-        report = json.loads((directory / "result/run.json").read_text())["static_identification"]
+        report = json.loads((directory / "result/run.json").read_text(encoding="utf-8"))[
+            "static_identification"
+        ]
         assert report["status"] == (
             "partially_identifiable" if name == "collinear" else "identified"
         )
@@ -138,12 +144,14 @@ def run(output: Path) -> dict:
             input_sha256=inputs,
         )
     assert summary["compatible"]["parameters"] == summary["mismatch"]["parameters"]
-    (output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
+    (output / "summary.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     return summary
 
 
 def verify(output: Path) -> None:
-    summary = json.loads((output / "summary.json").read_text())
+    summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
     for name, case in summary.items():
         directory = output / name
         assert case["input_sha256"] == {k: sha256_file(directory / k) for k in case["input_sha256"]}
@@ -152,7 +160,9 @@ def verify(output: Path) -> None:
         table = import_measurement_table(base / "measurements.csv", meta, base)
         cfg = StaticFitConfig.model_validate_json((base / "static.json").read_bytes())
         actual = identify_static(table, cfg)
-        saved = json.loads((directory / "result/run.json").read_text())["static_identification"]
+        saved = json.loads((directory / "result/run.json").read_text(encoding="utf-8"))[
+            "static_identification"
+        ]
         assert actual == saved, f"{name}: fresh process analysis differs"
     print("Three synthetic cases re-read exactly; original input hashes unchanged")
 

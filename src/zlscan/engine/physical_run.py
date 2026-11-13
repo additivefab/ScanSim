@@ -120,7 +120,7 @@ def run_physical(
         },
         "checkpoints": {p.stem: sha256_file(p) for p in (out / "truth/checkpoints").glob("*.json")},
     }
-    (out / "run.json").write_text(json.dumps(run, indent=2) + "\n")
+    (out / "run.json").write_text(json.dumps(run, indent=2) + "\n", encoding="utf-8")
     return run
 
 

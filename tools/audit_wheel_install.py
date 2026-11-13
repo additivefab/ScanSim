@@ -38,7 +38,7 @@ def normalized(name: str) -> str:
 
 def validate_wheelhouse(house: Path, manifest: Path, *, skip_project=False) -> dict:
     """Validate bytes and wheel metadata before any package installation."""
-    value = json.loads(manifest.read_text())
+    value = json.loads(manifest.read_text(encoding="utf-8"))
     if not isinstance(value, dict) or not value:
         raise ValueError("wheelhouse manifest must be a nonempty object")
     checked = {}
@@ -82,14 +82,15 @@ def write_lock(path: Path, packages: dict, *, project_extra=False) -> None:
             f"=={item['version']} --hash=sha256:{item['sha256']}"
             for name, item in sorted(packages.items())
         )
-        + "\n"
+        + "\n",
+        encoding="utf-8",
     )
 
 
 def verify_commit_snapshot(source: Path, snapshot: Path, commit: str) -> None:
     """Bind copied bytes to the fixed commit rather than a later working-tree observation."""
     algorithm = subprocess.check_output(
-        ["git", "rev-parse", "--show-object-format"], cwd=source, text=True
+        ["git", "rev-parse", "--show-object-format"], cwd=source, text=True, encoding="utf-8"
     ).strip()
     tree = subprocess.check_output(["git", "ls-tree", "-r", "-z", commit], cwd=source)
     for entry in filter(None, tree.split(b"\0")):
@@ -168,29 +169,39 @@ def audit(
     env = dict(os.environ)
     for key in ["PYTHONPATH", "PYTHONHOME", "VIRTUAL_ENV"]:
         env.pop(key, None)
-    env.update(PYTHONNOUSERSITE="1", PIP_DISABLE_PIP_VERSION_CHECK="1")
+    env.update(
+        PYTHONNOUSERSITE="1",
+        PIP_DISABLE_PIP_VERSION_CHECK="1",
+        PYTHONUTF8="1",
+        PYTHONIOENCODING="utf-8",
+    )
     if offline:
         env["PIP_NO_INDEX"] = "1"
     commands = []
-    (output / "work_dir.txt").write_text(str(work) + "\n")
+    (output / "work_dir.txt").write_text(str(work) + "\n", encoding="utf-8")
 
     def command(label: str, argv: list[str], cwd: Path = work) -> None:
         print(f"wheel audit: {label}", flush=True)
-        p = subprocess.run(argv, cwd=cwd, env=env, capture_output=True, text=True)
-        (output / f"{label}.log").write_text(p.stdout + p.stderr)
+        p = subprocess.run(argv, cwd=cwd, env=env, capture_output=True, text=True, encoding="utf-8")
+        (output / f"{label}.log").write_text(p.stdout + p.stderr, encoding="utf-8")
         commands.append(dict(label=label, argv=argv, returncode=p.returncode))
         (output / "progress.json").write_text(
-            json.dumps(dict(work_dir=str(work), commands=commands), indent=2) + "\n"
+            json.dumps(dict(work_dir=str(work), commands=commands), indent=2) + "\n",
+            encoding="utf-8",
         )
         if p.returncode:
             raise RuntimeError(f"{label} failed ({p.returncode}); see {output / (label + '.log')}")
 
-    commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=source, text=True).strip()
+    commit = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=source, text=True, encoding="utf-8"
+    ).strip()
     dirty = bool(
-        subprocess.check_output(["git", "status", "--porcelain"], cwd=source, text=True).strip()
+        subprocess.check_output(
+            ["git", "status", "--porcelain"], cwd=source, text=True, encoding="utf-8"
+        ).strip()
     )
     epoch = subprocess.check_output(
-        ["git", "show", "-s", "--format=%ct", "HEAD"], cwd=source, text=True
+        ["git", "show", "-s", "--format=%ct", "HEAD"], cwd=source, text=True, encoding="utf-8"
     ).strip()
     env["SOURCE_DATE_EPOCH"] = epoch
     snapshot = work / "source-snapshot"
@@ -202,10 +213,12 @@ def audit(
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source / name, destination)
         manifest[name] = sha(destination)
-    (output / "source_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (output / "source_manifest.json").write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+    )
     if not dirty:
         verify_commit_snapshot(source, snapshot, commit)
-    tree = ast.parse((snapshot / "src/zlscan/__init__.py").read_text())
+    tree = ast.parse((snapshot / "src/zlscan/__init__.py").read_text(encoding="utf-8"))
     version = next(
         ast.literal_eval(n.value)
         for n in tree.body
@@ -225,7 +238,7 @@ def audit(
             if p.is_file()
         },
     )
-    (output / "expected.json").write_text(json.dumps(expected, indent=2) + "\n")
+    (output / "expected.json").write_text(json.dumps(expected, indent=2) + "\n", encoding="utf-8")
     builder = sys.executable
     if offline:
         write_lock(output / "build.lock", build_inputs)
@@ -347,9 +360,12 @@ def audit(
     lock.write_text(
         "# Runtime + ident only, for the accompanying wheel-install audit's exact target.\n"
         + "\n".join(lines)
-        + "\n"
+        + "\n",
+        encoding="utf-8",
     )
-    (output / "wheelhouse_manifest.json").write_text(json.dumps(locked, indent=2) + "\n")
+    (output / "wheelhouse_manifest.json").write_text(
+        json.dumps(locked, indent=2) + "\n", encoding="utf-8"
+    )
     prefix = work / "runtime"
     command("venv", [sys.executable, "-m", "venv", str(prefix)])
     python = prefix / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
@@ -408,7 +424,7 @@ def audit(
         shutil.copyfile(target / "audit.json", output / (feature + ".json"))
     for relative, digest in manifest.items():
         assert sha(snapshot / relative) == digest, relative
-    smoke = json.loads((work / "smoke/smoke.json").read_text())
+    smoke = json.loads((work / "smoke/smoke.json").read_text(encoding="utf-8"))
     summary = dict(
         format="zlscan.wheel-install-audit/1",
         source=dict(commit=commit, dirty=dirty),
@@ -431,7 +447,9 @@ def audit(
     shutil.copyfile(wheel, output / wheel.name)
     shutil.copyfile(work / "smoke/smoke.json", output / "smoke.json")
     shutil.copyfile(work / "static_cases/summary.json", output / "static_cases.json")
-    (output / "audit.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
+    (output / "audit.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(
         json.dumps(
             dict(

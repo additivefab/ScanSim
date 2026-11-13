@@ -357,8 +357,10 @@ def persist_scenario(loaded: LoadedScenario, out: Path, run: dict, *, mode: str)
         for i, (name, scene) in enumerate(loaded.primary.scenes.items())
     }
     resolved = inputs / "resolved_scenario.json"
-    resolved.write_text(json.dumps(recipe, indent=2, allow_nan=False) + "\n")
+    resolved.write_text(json.dumps(recipe, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     marker["resolved_scenario_sha256"] = hashlib.sha256(resolved.read_bytes()).hexdigest()
     run["scenario_configuration"] = marker
-    (out / "run.json").write_text(json.dumps(run, indent=2, allow_nan=False) + "\n")
+    (out / "run.json").write_text(
+        json.dumps(run, indent=2, allow_nan=False) + "\n", encoding="utf-8"
+    )
     return run

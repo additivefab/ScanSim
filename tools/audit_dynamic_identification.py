@@ -59,7 +59,7 @@ def sources(root):
             ],
         )
         meta = root / f"metadata-{i}.json"
-        meta.write_text(json.dumps(metadata, indent=2) + "\n")
+        meta.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
         experiments.append(
             dict(
                 name=f"case-{i}",
@@ -100,7 +100,7 @@ def verify(root):
     results = {}
     for name in ("nominal", "mismatch", "flat", "reused"):
         path = root / (name + ".json")
-        saved = json.loads((root / name / "run.json").read_text())
+        saved = json.loads((root / name / "run.json").read_text(encoding="utf-8"))
         current = identify_dynamic_files(
             DynamicFitConfig.model_validate_json(path.read_bytes()), root
         )
@@ -123,7 +123,7 @@ def verify(root):
     assert results["mismatch"]["validation"]["status"] == "mismatch"
     assert results["flat"]["directions"]["rise"]["tau_s"] is None
     assert results["reused"]["status"] == "rejected"
-    manifest = json.loads((root / "sources.json").read_text())
+    manifest = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     for rel, digest in manifest.items():
         assert sha256_file(root / rel) == digest, rel
     return dict(
@@ -149,7 +149,7 @@ def main():
     args = p.parse_args()
     root = args.out.resolve()
     if args.verify:
-        assert verify(root) == json.loads((root / "audit.json").read_text())
+        assert verify(root) == json.loads((root / "audit.json").read_text(encoding="utf-8"))
         print("all four CLI results independently recomputed; sources unchanged")
         return
     root.mkdir(parents=True, exist_ok=False)
@@ -177,9 +177,9 @@ def main():
     )
     configs["reused"] = reused
     for name, value in configs.items():
-        (root / (name + ".json")).write_text(json.dumps(value, indent=2) + "\n")
+        (root / (name + ".json")).write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
     manifest = {p.name: sha256_file(p) for p in sorted(root.iterdir()) if p.is_file()}
-    (root / "sources.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (root / "sources.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     commands = []
     for name in configs:
         argv = [
@@ -192,14 +192,14 @@ def main():
             "--out",
             str(root / name),
         ]
-        result = subprocess.run(argv, capture_output=True, text=True)
-        (root / (name + ".stdout")).write_text(result.stdout)
-        (root / (name + ".stderr")).write_text(result.stderr)
+        result = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8")
+        (root / (name + ".stdout")).write_text(result.stdout, encoding="utf-8")
+        (root / (name + ".stderr")).write_text(result.stderr, encoding="utf-8")
         expected = 0 if name == "nominal" else 1
         commands.append(dict(argv=argv, returncode=result.returncode, expected_returncode=expected))
-        (root / "commands.json").write_text(json.dumps(commands, indent=2) + "\n")
+        (root / "commands.json").write_text(json.dumps(commands, indent=2) + "\n", encoding="utf-8")
         assert result.returncode == expected, result.stdout + result.stderr
-    (root / "audit.json").write_text(json.dumps(verify(root), indent=2) + "\n")
+    (root / "audit.json").write_text(json.dumps(verify(root), indent=2) + "\n", encoding="utf-8")
     print("dynamic CLI, independent holdout, flat and reuse gates passed")
 
 

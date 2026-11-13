@@ -361,6 +361,8 @@ def replay_recording(source: Path, output: Path, start: int, steps: int, probes:
             **{k: v for k, v in result.items() if k not in {"metadata", "final_states"}},
         )
         (output / "final_states.json").write_text(
-            json.dumps(result["final_states"], indent=2) + "\n"
+            json.dumps(result["final_states"], indent=2) + "\n", encoding="utf-8"
         )
-        (output / "run.json").write_text(json.dumps(result["metadata"], indent=2) + "\n")
+        (output / "run.json").write_text(
+            json.dumps(result["metadata"], indent=2) + "\n", encoding="utf-8"
+        )

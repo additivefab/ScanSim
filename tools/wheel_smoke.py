@@ -27,7 +27,7 @@ def main() -> None:
     from zlscan.api.server import make_server
     from zlscan.engine.run_service import demo_service
 
-    expected = json.loads(args.expected.read_text())
+    expected = json.loads(args.expected.read_text(encoding="utf-8"))
     prefix = Path(sys.prefix).resolve()
     module = Path(zlscan.__file__).resolve()
     assert prefix == args.prefix.resolve() and module.is_relative_to(prefix)
@@ -44,7 +44,7 @@ def main() -> None:
     commands = []
 
     def run(arguments: list[str], code: int = 0) -> None:
-        p = subprocess.run([str(cli), *arguments], capture_output=True, text=True)
+        p = subprocess.run([str(cli), *arguments], capture_output=True, text=True, encoding="utf-8")
         commands.append(
             dict(arguments=arguments, returncode=p.returncode, stdout=p.stdout, stderr=p.stderr)
         )
@@ -55,7 +55,7 @@ def main() -> None:
     run(["--help"])
     run(["check"], 4)  # Unknown hardware stays unresolved after installation.
     run(["run", "--mode", "digital", "--out", str(args.out / "digital")])
-    digital = json.loads((args.out / "digital/run.json").read_text())
+    digital = json.loads((args.out / "digital/run.json").read_text(encoding="utf-8"))
     assert digital["integrity"] == "complete" and digital["recon_status"] == "complete"
     scenario = args.out / "research_scenario.json"
     scenario.write_text(
@@ -66,7 +66,8 @@ def main() -> None:
                 preset="nominal",
                 lines=4,
             )
-        )
+        ),
+        encoding="utf-8",
     )
     # The nominal preset exceeds its assumed clear-field anode limit; preserve exit 1.
     run(["budget", "--config", str(scenario), "--out", str(args.out / "budget")], 1)
@@ -136,8 +137,8 @@ def main() -> None:
         ]
     )
     assert (args.out / "image.html").is_file()
-    budget = json.loads((args.out / "budget/budget.json").read_text())
-    sample = json.loads((args.out / "sample/run.json").read_text())
+    budget = json.loads((args.out / "budget/budget.json").read_text(encoding="utf-8"))
+    sample = json.loads((args.out / "sample/run.json").read_text(encoding="utf-8"))
     assert budget["scenario_configuration"]["primary_hash"] == sample["config_hash"]
     recording_config = args.out / "recording_config.json"
     recording_config.write_text(
@@ -157,10 +158,11 @@ def main() -> None:
                 branch_id="main",
                 chunk_steps=1024,
             )
-        )
+        ),
+        encoding="utf-8",
     )
     command_file = args.out / "recording_commands.jsonl"
-    command_file.write_text('{"op":"lines","count":1}\n')
+    command_file.write_text('{"op":"lines","count":1}\n', encoding="utf-8")
     recording = args.out / "recording"
     run(
         [
@@ -175,10 +177,10 @@ def main() -> None:
             str(recording),
         ]
     )
-    assert json.loads((recording / "run.json").read_text())["status"] == "paused"
-    command_file.write_text('{"op":"lines","count":1}\n{"op":"finish"}\n')
+    assert json.loads((recording / "run.json").read_text(encoding="utf-8"))["status"] == "paused"
+    command_file.write_text('{"op":"lines","count":1}\n{"op":"finish"}\n', encoding="utf-8")
     run(["run", "--mode", "recording", "--resume", str(recording), "--commands", str(command_file)])
-    assert json.loads((recording / "run.json").read_text())["status"] == "complete"
+    assert json.loads((recording / "run.json").read_text(encoding="utf-8"))["status"] == "complete"
     recording_replay = args.out / "recording_replay"
     run(
         [
@@ -195,7 +197,7 @@ def main() -> None:
             str(recording_replay),
         ]
     )
-    replay_metadata = json.loads((recording_replay / "run.json").read_text())
+    replay_metadata = json.loads((recording_replay / "run.json").read_text(encoding="utf-8"))
     assert replay_metadata["visibility"] == "ORACLE_ONLY"
     assert replay_metadata["checkpoint_step"] == 10000
     from zlscan.engine.saved_service import saved_service
@@ -281,7 +283,9 @@ def main() -> None:
         hardware_check="unresolved",
         scope="same-host isolated wheel smoke only; no browser or hardware acceptance",
     )
-    (args.out / "smoke.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
+    (args.out / "smoke.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(
         json.dumps(
             dict(

@@ -138,7 +138,9 @@ def _create(directory, path):
 def read_definition(source, stack):
     """Load immutable model/runtime inputs without opening an append writer."""
     data = (source / "definition.json").read_bytes()
-    if hashlib.sha256(data).hexdigest() != (source / "definition.sha256").read_text():
+    if hashlib.sha256(data).hexdigest() != (source / "definition.sha256").read_text(
+        encoding="utf-8"
+    ):
         raise ValueError("recording definition SHA mismatch")
     definition = _json(data)
     if (

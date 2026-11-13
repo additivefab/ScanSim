@@ -256,3 +256,31 @@ def test_cli_replay_uses_saved_custom_configuration_without_preset(tmp_path):
         == 1
     )
     assert not (tmp_path / "bad").exists()
+
+
+def test_saved_utf8_artifacts_load_under_non_utf8_default(tmp_path, monkeypatch):
+    """Emulate a legacy Windows text default; the real saved artifact stays UTF-8."""
+    from pathlib import Path
+
+    cfg = demo_config(seed=23)
+    source = tmp_path / "含中文的保存运行"
+    run_physical(source, cfg, 2, save_checkpoints=True)
+    run_path = source / "run.json"
+    document = json.loads(run_path.read_text(encoding="utf-8"))
+    document["portability_test_label"] = "中文运行记录"
+    run_path.write_text(json.dumps(document, ensure_ascii=False), encoding="utf-8")
+    before = hashes(source)
+    original = Path.open
+
+    def legacy_default_open(self, mode="r", buffering=-1, encoding=None, errors=None, newline=None):
+        if "b" not in mode and encoding in (None, "locale"):
+            encoding = "cp1252"
+        return original(self, mode, buffering, encoding, errors, newline)
+
+    with monkeypatch.context() as scoped:
+        scoped.setattr(Path, "open", legacy_default_open)
+        with saved_service(source) as service:
+            run = service.runs["saved"]
+            assert run.cfg.hash() == cfg.hash()
+            assert service.manifest(run)["loaded_from_saved"]
+    assert hashes(source) == before

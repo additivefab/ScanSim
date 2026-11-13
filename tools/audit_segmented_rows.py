@@ -107,7 +107,9 @@ def references(root, run):
             grid_line_x_fraction=[],
             slanted_line_x_fractions=[0.2, 0.8],
         )
-        (folder / "protocol.json").write_text(json.dumps(protocol, indent=2) + "\n")
+        (folder / "protocol.json").write_text(
+            json.dumps(protocol, indent=2) + "\n", encoding="utf-8"
+        )
         run(
             f"calibrate-{epoch}",
             [
@@ -198,10 +200,12 @@ def verify(root, readback=False):
         assert artifact.tile(0, 0)["density"][0] == [None] * 24
     path = root / "responses.json"
     if readback:
-        (root / "readback_responses.json").write_text(json.dumps(responses, indent=2) + "\n")
-        assert responses == json.loads(path.read_text())
+        (root / "readback_responses.json").write_text(
+            json.dumps(responses, indent=2) + "\n", encoding="utf-8"
+        )
+        assert responses == json.loads(path.read_text(encoding="utf-8"))
     else:
-        path.write_text(json.dumps(responses, indent=2) + "\n")
+        path.write_text(json.dumps(responses, indent=2) + "\n", encoding="utf-8")
     return dict(
         origin="SIMULATED",
         fixture="analytic static unchanged binding, not physical model validation",
@@ -231,9 +235,9 @@ def main():
     args = parser.parse_args()
     root = args.out.resolve()
     if args.verify:
-        expected_sources = json.loads((root / "source_manifest.json").read_text())
+        expected_sources = json.loads((root / "source_manifest.json").read_text(encoding="utf-8"))
         assert frozen_sources(root) == expected_sources
-        assert verify(root, True) == json.loads((root / "audit.json").read_text())
+        assert verify(root, True) == json.loads((root / "audit.json").read_text(encoding="utf-8"))
         assert frozen_sources(root) == expected_sources
         print("fresh-process image, source epochs and HTTP bytes match")
         return
@@ -242,11 +246,11 @@ def main():
 
     def run(name, arguments, expected=0):
         argv = [sys.executable, "-m", "zlscan", *arguments]
-        result = subprocess.run(argv, capture_output=True, text=True)
-        (root / (name + ".stdout")).write_text(result.stdout)
-        (root / (name + ".stderr")).write_text(result.stderr)
+        result = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8")
+        (root / (name + ".stdout")).write_text(result.stdout, encoding="utf-8")
+        (root / (name + ".stderr")).write_text(result.stderr, encoding="utf-8")
         receipts.append(dict(argv=argv, returncode=result.returncode, expected_returncode=expected))
-        (root / "commands.json").write_text(json.dumps(receipts, indent=2) + "\n")
+        (root / "commands.json").write_text(json.dumps(receipts, indent=2) + "\n", encoding="utf-8")
         assert result.returncode == expected, result.stderr
 
     references(root, run)
@@ -290,7 +294,7 @@ def main():
         raw = root / "producer/raw.zlraw" if name == "split" else root / (name + ".zlraw")
         capture = CaptureDescription(raw_sha256=sha256_file(raw), binding=binding((0, 1)), lines=1)
         description = root / (name + "_capture.json")
-        description.write_text(capture.model_dump_json(indent=2) + "\n")
+        description.write_text(capture.model_dump_json(indent=2) + "\n", encoding="utf-8")
         run(
             name,
             [
@@ -343,8 +347,10 @@ def main():
             str(root / "image.html"),
         ],
     )
-    (root / "audit.json").write_text(json.dumps(verify(root), indent=2) + "\n")
-    (root / "source_manifest.json").write_text(json.dumps(frozen_sources(root), indent=2) + "\n")
+    (root / "audit.json").write_text(json.dumps(verify(root), indent=2) + "\n", encoding="utf-8")
+    (root / "source_manifest.json").write_text(
+        json.dumps(frozen_sources(root), indent=2) + "\n", encoding="utf-8"
+    )
     print("observable calibration, epoch-split reconstruction and pixel provenance passed")
 
 

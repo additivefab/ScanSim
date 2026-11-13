@@ -118,6 +118,8 @@
 
 | D075 | Windows PDF 合同显式选择已安装 Poppler 的绝对路径，并在 pytest 前保留版本与 bbox 提取日志 | 第二轮 Windows 原生测试仅剩四个 PDF setup 错误，安装 Poppler 不等于实际命令选中了它；Git Bash/PATH 的推断待新运行核对。CI 用 GITHUB_ENV 的 SCANSIM_PDFTOTEXT 传入 FullName，手动 review 与合同共享该选择，失败显示原始 stderr，禁止跳过/放宽 PDF 断言 | S7-T05，2026-11-13 |
 
+| D076 | 文件 JSON/HTML 与安装审计管道显式使用 UTF-8，保留 -I 隔离及非 UTF-8 默认下的回归 | 第三轮 Windows 全 pytest 已通过，但隔离 smoke 忽略 PYTHONUTF8 后用 cp1252 解码 UTF-8 失败；补齐源内17个默认文本 I/O 与六个安装驱动的文件/管道编码。审计子 CLI 通过明确的 UTF8 环境输出，隔离父进程仍保留 -I。非 UTF-8 默认回归是模拟编码条件，Windows 原生结果另以新 run 判定；原始失败不覆盖，不改变数值与未知参数 | S7-T05，2026-11-13 |
+
 ## 二、待用户决定
 
 遇到下列事项先问用户。问之前继续做不依赖它的部分。

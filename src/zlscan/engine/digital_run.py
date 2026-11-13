@@ -124,7 +124,8 @@ def run_from_source(out: Path, src, syncs: list[int], cfg: dict[str, Any], prese
         (truth / "link_lineage.json").write_text(
             json.dumps(
                 {"visibility": "ORACLE_ONLY", "origin": "SIMULATED", "records": digital["lineage"]}
-            )
+            ),
+            encoding="utf-8",
         )
     (out / "viewer.html").write_text(
         build_viewer(load_parameters(), [], run, digital), encoding="utf-8"
