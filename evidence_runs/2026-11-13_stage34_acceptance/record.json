@@ -1,0 +1,11 @@
+{
+  "format": "zlscan.stage34-software-acceptance/1",
+  "source_commit": "f10ab51e535ecd512b7a141e6bd5eba147f6ab00",
+  "selected_tests": 148,
+  "pytest_seconds": 46.93,
+  "ruff": "passed",
+  "format_files": 313,
+  "scope": "software-only stage 3/4 regression and report cross-check",
+  "stage34_complete": false,
+  "unclosed": ["performance target", "browser workbench acceptance", "full standard experiment/error decomposition", "hardware/measurement dependent gates"]
+}
