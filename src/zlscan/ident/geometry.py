@@ -262,7 +262,7 @@ def identify_geometry_files(config: GeometryFitConfig, directory: Path) -> dict:
         anchor_epochs = {
             b.line_number: b.epoch for b in channel_raw.blocks if b.flags & FLAG_LINE_START
         }
-        width = session.windows["window_length"]
+        width = session.windows.get("window_length")
         if type(width) is not int or width <= 0:
             raise ValueError("geometry window length must be positive integer")
         layout = line_layout(raw.blocks, obs.channel, width)

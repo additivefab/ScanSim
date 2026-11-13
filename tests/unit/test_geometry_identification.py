@@ -377,3 +377,38 @@ def test_same_row_new_epoch_cannot_borrow_phase(tmp_path):
     assert excluded
     assert all(p["capture"] == "scan-0" and p["line"] == 0 for p in excluded)
     assert any(p["sample_column"] > 50 for p in excluded)
+
+
+def test_missing_window_length_is_controlled_rejection(tmp_path):
+    from zlscan.io.rawstream import read_all
+
+    config = fixture(tmp_path)
+
+    def remove_window(doc):
+        original = read_all(tmp_path / doc["raw_path"])
+        session = original.session.model_copy(deep=True)
+        session.windows.pop("window_length")
+        path = tmp_path / "missing-window.zlraw"
+        with RawWriter(path, session) as writer:
+            for block, segment in zip(original.blocks, original.segments, strict=True):
+                writer.write_block(
+                    epoch=block.epoch,
+                    channel_mask=1,
+                    clock_domain=block.clock_domain,
+                    first_sample_index=block.first_sample_index,
+                    samples=segment.samples,
+                    flags=block.flags,
+                    line_number=block.line_number,
+                )
+        digest = sha256_file(path)
+        doc.update(raw_path=path.name, raw_sha256=digest)
+        doc["timing"]["raw_sha256"] = digest
+        cap_path = tmp_path / doc["capture_path"]
+        cap = json.loads(cap_path.read_bytes())
+        cap["raw_sha256"] = digest
+        cap_path.write_text(json.dumps(cap), encoding="utf-8")
+        doc["capture_sha256"] = sha256_file(cap_path)
+
+    edit(tmp_path, config, 0, remove_window)
+    with pytest.raises(ValueError, match="window length"):
+        run(tmp_path, config)
