@@ -36,6 +36,7 @@ COMMANDS: tuple[Command, ...] = (
     Command("run", "run a simulation and write a run directory", 2),
     Command("sweep", "parameter sweep over independent runs", 7),
     Command("calibrate", "estimate a calibration file from calibration scans", 4),
+    Command("calibration-set", "bundle explicit working-point calibrations without rebinding", 4),
     Command("reconstruct", "reconstruct an image from a raw stream and a calibration file", 4),
     Command("metrics", "evaluate image quality against the simulation truth", 4),
     Command("ident", "import measurements and identify parameters", 6),
@@ -301,6 +302,34 @@ def _run_calibrate(argv: Sequence[str]) -> int:
         print("参考传递拟合未满足协议容差；已保存诊断，重建将拒绝该通道", file=sys.stderr)
         return CHECK_FAIL_EXIT_CODE
     print(f"标定文件已写入 {args.out}")
+    return 0
+
+
+def _run_calibration_set(argv: Sequence[str]) -> int:
+    from pathlib import Path
+
+    from zlscan.calib.file import load_calibration
+    from zlscan.contracts.calibration import CalibrationHeader, CalibrationSet
+
+    parser = argparse.ArgumentParser(prog="zlscan calibration-set")
+    parser.add_argument("--id", required=True)
+    parser.add_argument("--calibration", action="append", required=True, type=Path)
+    parser.add_argument("--out", required=True, type=Path)
+    args = parser.parse_args(list(argv))
+    try:
+        calibrations = [load_calibration(path) for path in args.calibration]
+        if any(not isinstance(cal, CalibrationHeader) for cal in calibrations):
+            raise ValueError("calibration-set inputs must be individual calibration headers")
+        if any(not cal.accepted_for_reconstruction() for cal in calibrations):
+            raise ValueError("MODEL calibration is disabled")
+        collection = CalibrationSet(calibration_set_id=args.id, calibrations=calibrations)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        with args.out.open("x", encoding="utf-8") as stream:
+            stream.write(collection.model_dump_json(indent=2) + "\n")
+    except (OSError, ValueError) as exc:
+        print(f"标定集合失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+    print(f"标定集合已写入 {args.out}")
     return 0
 
 
@@ -776,6 +805,7 @@ ARG_HANDLERS = {
     "budget": _run_budget,
     "run": _run_run,
     "calibrate": _run_calibrate,
+    "calibration-set": _run_calibration_set,
     "reconstruct": _run_reconstruct,
     "metrics": _run_metrics,
     "report": _run_report,

@@ -147,7 +147,7 @@ class Module(Protocol):
 
 ## 8. 命令行
 
-`zlscan budget | check | run | sweep | calibrate | reconstruct | metrics | ident | compare | report | cosim | replay | serve`
+`zlscan budget | check | run | sweep | calibrate | calibration-set | reconstruct | metrics | ident | compare | report | cosim | replay | serve`
 
 每个子命令随对应阶段实现；未实现的子命令给出明确的"尚未实现"提示并返回非零状态，不得静默成功。
 

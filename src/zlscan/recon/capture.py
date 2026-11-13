@@ -9,7 +9,12 @@ from pathlib import Path
 
 import numpy as np
 
-from zlscan.contracts.calibration import CalibrationHeader, CaptureDescription, require_applicable
+from zlscan.contracts.calibration import (
+    CalibrationHeader,
+    CalibrationSet,
+    CaptureDescription,
+    require_applicable,
+)
 from zlscan.contracts.flags import InvalidFlag
 from zlscan.io.facet_timing import FacetTiming, GeometryModel, observed_phases
 from zlscan.io.line_layout import line_layout, source_record
@@ -25,7 +30,9 @@ def _validate_capture(raw: ReadResult, capture: CaptureDescription) -> SessionHe
     if raw.fatal or session is None:
         raise ValueError("capture ZLRAW is unreadable")
     binding = capture.binding
-    if (session.origin == "SIMULATED") != (binding.simulation_hash is not None):
+    if capture.version == 1 and (session.origin == "SIMULATED") != (
+        binding.simulation_hash is not None
+    ):
         raise ValueError("capture origin and binding do not match")
     if session.channel_roles != binding.channel_roles:
         raise ValueError("capture channel roles do not match its description")
@@ -45,7 +52,7 @@ def _validate_capture(raw: ReadResult, capture: CaptureDescription) -> SessionHe
 def reconstruct_capture(
     raw_path: Path,
     capture: CaptureDescription,
-    calibration: CalibrationHeader,
+    calibration: CalibrationHeader | CalibrationSet,
     grid: Grid,
     output: Path,
     *,
@@ -56,6 +63,21 @@ def reconstruct_capture(
     facet_path: Path | None = None,
 ) -> dict:
     """Process only observed sample rows and write the density and mask from disk scratch."""
+    if isinstance(calibration, CalibrationSet) or capture.version == 2:
+        from zlscan.recon.epoch_capture import reconstruct_epoch_capture
+
+        if headerless_spp is not None:
+            raise ValueError("epoch calibration selection requires ZLRAW sample identities")
+        return reconstruct_epoch_capture(
+            raw_path,
+            capture,
+            calibration,
+            grid,
+            output,
+            channel=channel,
+            quality_path=quality_path,
+            facet_path=facet_path,
+        )
     require_applicable(calibration, capture.binding)
     if sha256_file(raw_path) != capture.raw_sha256:
         raise ValueError("capture SHA-256 does not match its description")
@@ -254,6 +276,8 @@ def reconstruct_capture(
                             :, block.channels.index(channel)
                         ]
                         row_flags[offset : offset + count] = 0
+                        if model is not None and block.epoch != delivered[block.line_number].epoch:
+                            row_flags[offset : offset + count] |= int(InvalidFlag.FACET_UNRESOLVED)
                     while span is not None and span[0].seq == block.seq:
                         _, start, stop, reason = span
                         if offset is not None:

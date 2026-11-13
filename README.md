@@ -144,3 +144,18 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 最新模块安装、后端/运行双锁与重复 wheel 构建见 [安装核验](docs/reports/latest_install.md)。
 
 三平台与 Python 3.11/3.14 的 CI 配置及实际运行边界见 [CI 核验](docs/reports/cross_platform_ci.md)。
+
+### 多工作点标定集合
+
+两份标定须分别由自身参考扫描生成，并保留正确时期/增益/hash绑定；集合命令不改绑定。
+
+```bash
+.venv/bin/zlscan calibration-set --id scan-points \
+  --calibration low/calibration.json --calibration high/calibration.json --out points.json
+.venv/bin/zlscan reconstruct --raw sample.zlraw --capture capture-v2.json \
+  --calibration points.json --columns 24 --pitch-x-m 1 --pitch-y-m 1 --out image
+```
+
+`capture-v2.json` 明确提供逐时期 `epoch_bindings`；缺失或多匹配均拒绝。
+逐段先线性化再合并，谱系v3返回真实段的标定ID与坐标映射。跨时期缺少新逐面
+锚点的段保留 `FACET_UNRESOLVED`。完整字段见 `docs/dev/03_contracts.md`。

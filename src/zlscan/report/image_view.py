@@ -33,7 +33,8 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
             raise ValueError("image lineage does not match reconstruction SHA-256")
         lineage_plan = json.loads(plan_path.read_text(encoding="utf-8"))
         if (
-            lineage_plan.get("format") not in {"zlscan-image-lineage/1", "zlscan-image-lineage/2"}
+            lineage_plan.get("format")
+            not in {"zlscan-image-lineage/1", "zlscan-image-lineage/2", "zlscan-image-lineage/3"}
             or lineage_plan["raw_sha256"] != run["raw_sha256"]
             or lineage_plan["calibration_id"] != run["calibration_id"]
             or lineage_plan["grid"] != run["grid"]
@@ -58,7 +59,10 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
                 for block in raw.blocks
             },
         }
-        if lineage_plan is not None and lineage_plan["format"] == "zlscan-image-lineage/2":
+        if lineage_plan is not None and lineage_plan["format"] in {
+            "zlscan-image-lineage/2",
+            "zlscan-image-lineage/3",
+        }:
             lineage = None  # The legacy one-block-per-line shortcut cannot describe segments.
     return {
         "label": directory.name,

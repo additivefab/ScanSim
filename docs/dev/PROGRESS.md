@@ -7,13 +7,15 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | 本轮 S7-T05 六目标 CI 与干净机器安装验证完成；阶段3–7总体目标仍进行中 |
+| 进行中的任务 | S4-T01 多工作点标定软件路径本机通过；固定源码安装与跨平台验证待执行 |
 | 下一个任务 | S4-T01 多工作点标定集与时期绑定；继续阶段3/4剩余软件验收及几何/辐射辨识，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1495 通过、2 跳过，201.56 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1520 通过、2 跳过，194.33 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
+
+- **当前 S4-T01 批次待发布**：标定集合/捕获v2/谱系v3、逐段辐射与几何/延迟、完整时期绑定比较和公开 calibration-set CLI 已实现。215项定向与全量1520通过/2跳过（194.33s），Ruff/301文件格式通过。开发态 wheel 审计151模块/5资源、双源重复构建与所有安装命令（含新增 epoch_calibrations）通过，dirty=true，不当作固定提交审计。开发样例最大误差8.059218123823708e-05 OD为合成假设，非实机。原件在本轮 evidence_runs/output，报告docs/reports/epoch_calibrations.md；下一步固定提交、正常推送、跟踪新六目标CI并逐工件归档。旧stash04da348不动。
 
 - **CI 证据批次已发布**：`71bff8813af4f3713fdf0be95f1dda47212e4c95` 已正常快进推送，实际远端 main 与当时本地 HEAD 相同；六目标验证源码为6083281，四轮24原工件及全部归档已随该提交发布。完整回执在 `evidence_runs/2026-11-13_cross_platform_ci/record/publication/verified_batch.json`。本条与回执属于后续文档提交，继续正常推送核对；工作区当时干净，stash04da348未动。
 

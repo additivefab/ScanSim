@@ -413,7 +413,12 @@ def audit(
         "static_verify",
         [str(python), "-I", str(work / "static_audit.py"), "--verify", str(work / "static_cases")],
     )
-    for feature in ("dynamic_identification", "timing_identification", "segmented_rows"):
+    for feature in (
+        "dynamic_identification",
+        "timing_identification",
+        "segmented_rows",
+        "epoch_calibrations",
+    ):
         driver = work / (feature + "_audit.py")
         shutil.copyfile(snapshot / "tools" / ("audit_" + feature + ".py"), driver)
         target = work / feature

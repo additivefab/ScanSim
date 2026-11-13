@@ -11,7 +11,7 @@ from zipfile import ZipFile
 
 import numpy as np
 
-from zlscan.contracts.calibration import Binding
+from zlscan.contracts.calibration import Binding, CaptureDescription
 from zlscan.contracts.flags import InvalidFlag
 from zlscan.contracts.time import ClockDomain
 from zlscan.io.manifest import sha256_file
@@ -39,9 +39,16 @@ class ImageArtifact:
             expected_calibration_id is not None
             and expected_calibration_id != self.run["calibration_id"]
         )
+        self.expected_binding_scope = "not_requested"
         if expected_binding is not None:
-            wanted = Binding.model_validate(expected_binding).model_dump(mode="json")
-            self.mismatch |= wanted != self.run.get("capture_binding")
+            if "version" in expected_binding or "epoch_bindings" in expected_binding:
+                wanted = CaptureDescription.model_validate(expected_binding).model_dump(mode="json")
+                self.mismatch |= wanted != self.run.get("capture_description")
+                self.expected_binding_scope = "capture_description"
+            else:
+                wanted = Binding.model_validate(expected_binding).model_dump(mode="json")
+                self.mismatch |= wanted != self.run.get("capture_binding")
+                self.expected_binding_scope = "common_binding"
         self.expected_binding = expected_binding
         self.expected_calibration_id = expected_calibration_id
         paths = [directory / "run.json", directory / "density.npz"]
@@ -54,7 +61,12 @@ class ImageArtifact:
                 raise ValueError("lineage SHA-256 does not match reconstruction")
             self.plan = json.loads(plan_path.read_text(encoding="utf-8"))
             if (
-                self.plan.get("format") not in {"zlscan-image-lineage/1", "zlscan-image-lineage/2"}
+                self.plan.get("format")
+                not in {
+                    "zlscan-image-lineage/1",
+                    "zlscan-image-lineage/2",
+                    "zlscan-image-lineage/3",
+                }
                 or self.plan["raw_sha256"] != self.run["raw_sha256"]
                 or self.plan["calibration_id"] != self.run["calibration_id"]
                 or self.plan["grid"] != self.grid
@@ -72,7 +84,7 @@ class ImageArtifact:
         self.lines = self.plan["lines"] if self.plan else []
         self.delivered = []
         for row in self.lines:
-            version2 = self.plan["format"] == "zlscan-image-lineage/2"
+            version2 = self.plan["format"] in {"zlscan-image-lineage/2", "zlscan-image-lineage/3"}
             if version2 != ("segments" in row) or (version2 and "source" in row):
                 raise ValueError("image lineage row version differs")
             parts = self._parts(row)
@@ -80,6 +92,18 @@ class ImageArtifact:
             previous_end = 0
             for part in parts:
                 source, offset = part["source"], part["column_offset"]
+                if self.plan["format"] == "zlscan-image-lineage/3":
+                    if (
+                        self.plan.get("epoch_calibrations") != self.run.get("epoch_calibrations")
+                        or part.get("calibration_id")
+                        != self.plan["epoch_calibrations"].get(str(source["epoch"]))
+                        or not isinstance(part.get("mapping"), str)
+                        or not part["mapping"].startswith(f"epoch_{source['epoch']}:")
+                        or part["mapping"] not in self.plan["mappings"]
+                        or not isinstance(part.get("y_m"), (int, float))
+                        or not np.isfinite(part["y_m"])
+                    ):
+                        raise ValueError("epoch lineage calibration or mapping differs")
                 if (
                     type(source["sample_count"]) is not int
                     or source["sample_count"] <= 0
@@ -91,7 +115,7 @@ class ImageArtifact:
                             type(offset) is not int
                             or offset < 0
                             or offset + source["sample_count"]
-                            > len(self.plan["mappings"][row["mapping"]])
+                            > len(self.plan["mappings"][part.get("mapping", row["mapping"])])
                         )
                     )
                 ):
@@ -108,7 +132,7 @@ class ImageArtifact:
                             "image lineage segment offset disagrees with source anchor"
                         )
                     previous_end = offset + source["sample_count"]
-                self.delivered.append({**row, "source": source, "column_offset": offset})
+                self.delivered.append({**row, **part, "source": source, "column_offset": offset})
         self.first_sample = min(
             (int(r["source"]["first_sample_index"]) for r in self.delivered), default=0
         )
@@ -196,6 +220,16 @@ class ImageArtifact:
             "grid": self.grid,
             "calibration_id": self.run["calibration_id"],
             "calibration_provenance": self.run["calibration_provenance"],
+            **(
+                {
+                    "epoch_calibrations": self.run["epoch_calibrations"],
+                    "capture_description": self.run["capture_description"],
+                    "expected_binding_scope": self.expected_binding_scope,
+                    "calibration_document_sha256": self.run["calibration_document_sha256"],
+                }
+                if "epoch_calibrations" in self.run
+                else {}
+            ),
             "calibration_status": "CALIBRATION_MISMATCH"
             if self.mismatch
             else "compatible_at_reconstruction",
@@ -249,6 +283,8 @@ class ImageArtifact:
                 "status": "not_computed" if self.mismatch else "not_recorded",
                 "reason": "CALIBRATION_MISMATCH" if self.mismatch else "lineage was not recorded",
             }
+        if self.plan["format"] == "zlscan-image-lineage/3":
+            return self._epoch_pixel_lineage(row, col)
         flags = int(self.arrays["flags"][row, col])
         support = float(self.arrays["support_weight"][row, col])
         samples, missing = [], []
@@ -306,6 +342,73 @@ class ImageArtifact:
             if flags == 0
             else "geometric support candidates; invalid pixel",
         }
+
+    def _epoch_pixel_lineage(self, row: int, col: int) -> dict:
+        flags = int(self.arrays["flags"][row, col])
+        support = float(self.arrays["support_weight"][row, col])
+        g = self.grid
+        samples, missing = [], []
+
+        def weights(mapping, y):
+            wy = 1 - abs(row - ((y - g["origin_y_m"]) / g["pitch_y_m"] - 0.5))
+            x = self.mappings[mapping]
+            u = (x - g["origin_x_m"]) / g["pitch_x_m"] - 0.5
+            return np.maximum(wy, 0) * np.maximum(1 - np.abs(col - u), 0)
+
+        for line in self.lines:
+            placed = set()
+            for part in line["segments"]:
+                source, offset = part["source"], part["column_offset"]
+                if offset is None:
+                    continue
+                placed.update(range(offset, offset + source["sample_count"]))
+                values = weights(part["mapping"], part["y_m"])
+                for index in range(offset, offset + source["sample_count"]):
+                    weight = float(values[index])
+                    if not np.isfinite(weight) or weight <= 0:
+                        continue
+                    sample = int(source["first_sample_index"]) + index - offset
+                    clock = self.clocks[source["clock_domain"]]
+                    samples.append(
+                        dict(
+                            session_id=self.plan["session_id"],
+                            epoch=source["epoch"],
+                            clock_domain=source["clock_domain"],
+                            channel=self.plan["channel"],
+                            sample_index=str(sample),
+                            sample_time_ticks=str(clock.tick_of(sample)),
+                            line=line["line"],
+                            column=index,
+                            calibration_id=part["calibration_id"],
+                            weight=weight,
+                            normalized_weight=weight / support
+                            if flags == 0 and support > 0
+                            else None,
+                        )
+                    )
+            default = weights(line["mapping"], line["y_m"])
+            if any(
+                int(i) not in placed for i in np.flatnonzero(np.isfinite(default) & (default > 0))
+            ):
+                missing.append(line["line"])
+        times = [int(s["sample_time_ticks"]) for s in samples]
+        epochs = sorted({s["epoch"] for s in samples})
+        return dict(
+            status="exact_record",
+            row=row,
+            column=col,
+            flags=flags,
+            samples=samples,
+            epochs=epochs,
+            mixed_epoch=len(epochs) > 1,
+            calibration_id=self.run["calibration_id"],
+            calibration_ids=sorted({s["calibration_id"] for s in samples}),
+            missing_lines=missing,
+            sample_time_range_ticks=[str(min(times)), str(max(times))] if times else None,
+            meaning="linear-domain reconstruction weights"
+            if flags == 0
+            else "geometric support candidates; invalid pixel",
+        )
 
     def state(self, offset: int) -> dict:
         self._unchanged()

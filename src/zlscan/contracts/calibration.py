@@ -11,7 +11,7 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_serializer, model_validator
 
 
 class Provenance(StrEnum):
@@ -40,15 +40,76 @@ class Binding(BaseModel):
         return self
 
 
+class EpochBinding(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    epoch: int = Field(strict=True, ge=0, le=2**32 - 1)
+    binding: Binding
+
+    @model_validator(mode="after")
+    def _single_epoch(self) -> EpochBinding:
+        if self.binding.epoch_range != (self.epoch, self.epoch):
+            raise ValueError("epoch binding must cover exactly its declared epoch")
+        return self
+
+
 class CaptureDescription(BaseModel):
     """Operator-declared capture extent and identity, bound to a specific raw file."""
 
     model_config = ConfigDict(extra="forbid")
 
-    version: Literal[1] = 1
+    version: Literal[1, 2] = 1
     raw_sha256: str
     binding: Binding
     lines: int = Field(gt=0)
+    epoch_bindings: list[EpochBinding] = []
+
+    @model_validator(mode="after")
+    def _epoch_bindings(self) -> CaptureDescription:
+        if self.version == 1:
+            if self.epoch_bindings:
+                raise ValueError("capture version 1 has one common binding")
+            return self
+        if not self.epoch_bindings:
+            raise ValueError("capture version 2 requires explicit epoch bindings")
+        epochs = set()
+        for entry in self.epoch_bindings:
+            if entry.epoch in epochs:
+                raise ValueError("duplicate capture epoch binding")
+            epochs.add(entry.epoch)
+            if not self.binding.epoch_range[0] <= entry.epoch <= self.binding.epoch_range[1]:
+                raise ValueError("epoch binding is outside the capture extent")
+            for field in (
+                "hardware_hash",
+                "wiring_rev",
+                "firmware_hash",
+                "register_dump_hash",
+                "channel_roles",
+            ):
+                if getattr(entry.binding, field) != getattr(self.binding, field):
+                    raise ValueError("epoch binding differs from the single-session identity")
+        return self
+
+    @model_serializer(mode="wrap")
+    def _original_v1_shape(self, handler):
+        document = handler(self)
+        if self.version == 1:
+            document.pop("epoch_bindings", None)
+        else:
+            document["epoch_bindings"] = sorted(
+                document["epoch_bindings"], key=lambda e: e["epoch"]
+            )
+        return document
+
+    def binding_for_epoch(self, epoch: int) -> Binding:
+        if not self.binding.epoch_range[0] <= epoch <= self.binding.epoch_range[1]:
+            raise ValueError("epoch is outside the declared capture extent")
+        if self.version == 1:
+            return self.binding.model_copy(update={"epoch_range": (epoch, epoch)})
+        found = [e.binding for e in self.epoch_bindings if e.epoch == epoch]
+        if len(found) != 1:
+            raise ValueError("observed epoch requires exactly one capture binding")
+        return found[0]
 
 
 class CalibItem(BaseModel):
@@ -184,3 +245,53 @@ def require_reference_consistency(transfer: dict) -> None:
         "not_assessed",
     }:
         raise ValueError("radiometric reference fit is failed or has an unsupported assessment")
+
+
+class CalibrationSet(BaseModel):
+    """Self-contained, explicit candidate calibrations; selection never uses truth."""
+
+    model_config = ConfigDict(extra="forbid")
+    format: Literal["zlscan.calibration-set/1"] = "zlscan.calibration-set/1"
+    calibration_set_id: str = Field(min_length=1)
+    calibrations: list[CalibrationHeader] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _unique_ids(self) -> CalibrationSet:
+        ids = [cal.calibration_id for cal in self.calibrations]
+        if any(not name for name in ids) or len(set(ids)) != len(ids):
+            raise ValueError("calibration set IDs must be nonempty and unique")
+        for cal in self.calibrations:
+            check_version(cal)
+        return self
+
+
+def resolve_calibrations(
+    calibration: CalibrationHeader | CalibrationSet,
+    capture: CaptureDescription,
+    epochs: list[int],
+) -> dict[int, CalibrationHeader]:
+    """Every observed epoch gets exactly one fully compatible, non-MODEL header."""
+    capture = CaptureDescription.model_validate(capture.model_dump(mode="json"))
+    if isinstance(calibration, CalibrationSet):
+        collection = CalibrationSet.model_validate(calibration.model_dump(mode="json"))
+        candidates = collection.calibrations
+    else:
+        candidates = [CalibrationHeader.model_validate(calibration.model_dump(mode="json"))]
+    if any(cal.provenance is Provenance.MODEL for cal in candidates):
+        raise ValueError("MODEL calibration is disabled in reconstruction sets")
+    result = {}
+    for epoch in sorted(set(epochs)):
+        binding = capture.binding_for_epoch(epoch)
+        matches = []
+        for cal in candidates:
+            try:
+                require_applicable(cal, binding)
+            except ValueError:
+                continue
+            matches.append(cal)
+        if len(matches) != 1:
+            raise ValueError(
+                f"epoch {epoch} requires exactly one applicable calibration; got {len(matches)}"
+            )
+        result[epoch] = matches[0]
+    return result
