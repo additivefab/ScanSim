@@ -607,8 +607,13 @@ def _run_ident(argv: Sequence[str]) -> int:
     from zlscan.observation.scope import ScopeObserverConfig
     from zlscan.report.static_identification import write_static_residuals
 
-    p = argparse.ArgumentParser(prog="zlscan ident", description="观测导入与显式分区静态线性辨识")
+    p = argparse.ArgumentParser(prog="zlscan ident", description="观测导入与显式分区静态/动态辨识")
     source = p.add_mutually_exclusive_group(required=True)
+    source.add_argument(
+        "--dynamic-fit",
+        type=Path,
+        help="explicit multi-capture observed step-response identification JSON",
+    )
     source.add_argument("--csv", type=Path)
     source.add_argument("--table", type=Path, help="标量测量模板 CSV")
     source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
@@ -618,9 +623,45 @@ def _run_ident(argv: Sequence[str]) -> int:
     p.add_argument("--model-waveform", type=Path, help="model CSV: time_s,voltage_v")
     p.add_argument("--observer", type=Path, help="explicit candidate scope response JSON")
     p.add_argument("--observe-channel", help="one voltage channel for nominal residuals")
-    p.add_argument("--metadata", required=True, type=Path)
+    p.add_argument("--metadata", type=Path)
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
+    if args.dynamic_fit is None and args.metadata is None:
+        p.error("--metadata is required for --csv/--table/--raw")
+    if args.dynamic_fit is not None:
+        if any(
+            (
+                args.metadata,
+                args.static_fit,
+                args.model_waveform,
+                args.observer,
+                args.observe_channel,
+            )
+        ):
+            p.error("--dynamic-fit uses only its explicit per-capture declarations")
+        from zlscan.ident.dynamic import DynamicFitConfig, identify_dynamic_files
+        from zlscan.report.dynamic_identification import write_dynamic_residuals
+
+        try:
+            blob = args.dynamic_fit.read_bytes()
+            config = DynamicFitConfig.model_validate_json(blob)
+            result = identify_dynamic_files(config, args.dynamic_fit.parent)
+            result["config_sha256"] = hashlib.sha256(blob).hexdigest()
+            args.out.mkdir(parents=True, exist_ok=False)
+            (args.out / "run.json").write_text(
+                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n"
+            )
+            write_dynamic_residuals(result, args.out / "dynamic_residuals.svg")
+        except (OSError, ValueError) as exc:
+            print(f"动态辨识失败：{exc}", file=sys.stderr)
+            return CHECK_FAIL_EXIT_CODE
+        print(f"动态观测辨识已写入 {args.out}；不自动升级实测证据")
+        return (
+            0
+            if result["status"] == "identified"
+            and result["validation"]["status"] not in {"mismatch", "unidentifiable"}
+            else CHECK_FAIL_EXIT_CODE
+        )
     observation_args = [args.model_waveform, args.observer, args.observe_channel]
     if any(observation_args) and (not all(observation_args) or args.csv is None):
         p.error("--model-waveform/--observer/--observe-channel require each other and --csv")
