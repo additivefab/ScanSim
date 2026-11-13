@@ -155,6 +155,11 @@ class Module(Protocol):
 复用捕获绑定校验与逐段样本定位，不导入正向链或真值。公共入口为ident的
 `--geometry-fit`，残差由 `report/geometry_identification.py` 输出；不自动升级标定。
 
+`ident/radiometry.py` 复用Scope CSV观测导入，`ident/conditional_linear.py` 提供小矩阵
+加权条件SVD/可辨识预测及归一化设计凸包支持检查。公共入口ident --radiometry-fit，
+报告由 `report/radiometric_identification.py` 输出。只接线性观测，不导入truth或正向链，
+不自动写证据参数或标定文件。
+
 
 2026-11-13：持久研究探针文件格式由 `io/probe_store.py` 管理，engine 在同一生产边界
 连接 Chain 输出及统一根；trace 仍只负责摘要/显示计算，不为文件提交扩宽导入白名单。

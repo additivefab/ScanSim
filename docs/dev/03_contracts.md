@@ -682,6 +682,54 @@ validation 不参与选 tau、基线、幅度、区间或模型。其基线与�
 没有验证或没有容差不记通过；结果始终 MODEL_ESTIMATE，不升级实测参数、不生成生产标定。
 缺元数据/采样不一致/非 DC/未补偿探针/非有限量/不明来源拒绝辨识，仍可由原导入器查看。
 
+## 条件辐射辨识补充（S6-T03，D082）
+
+`zlscan.radiometry-fit-config/1`：response_unit=A或V、linear_response_ref、
+instrument_settings_ref、surround_definition_ref、assumption_source、confidence_level、rank_rtol，
+input_handling=`conditional_on_declared_optical_controls`、
+noise_model=`iid_gaussian_linear_variance_in_mean_response`、max_abs_lag1_correlation、
+max_half_mean_shift_sigma，以及可选预定validation_max_abs_mean_residual_si和
+validation_max_variance_ratio（>1）。experiments最多64项、名称唯一、至少一个fit。
+
+逐项声明name、csv、metadata、source_sha256、metadata_sha256、partition（fit/validation）、
+channel、window_s、light_on、incident_power_w、target_transmittance、surround_transmittance、
+mean_standard_uncertainty_si、uncertainty_source、controls_source、quality_source及相同的
+instrument_settings_ref。透射率0–1、功率非负、均值标准不确定度为正，数值有限。
+路径相对配置文件。metadata复用完整ScopeMetadata；单一DC、已补偿导出单位的线性通道，
+同设备/测点/采样间隔/带宽/探头倍率，源类型明确，原CSV及元数据摘要都核对。
+声明线性响应来源不能替代线性化或饱和验证；对数ADC码、OD和AC电压不得直接当线性读数。
+
+每窗口至少16个已交付样本，必须位于原时间范围；只按浮点舍入量处理数值边界，
+时钟声明容差不得扩大信号窗口。大绝对时间精度不够时要求重新导出相对时间。
+报告实际样本索引范围和时间范围。同一原CSV、元数据、采集身份及同分区可有多个
+不重叠窗口；任何重复样本、同采集多源别名、跨fit/validation复用均拒绝。
+这不证明窗口之间或不同采集之间的实际物理独立性，不作跨捕获同步声明。
+
+均值模型 `y=b0+q*(s+P*g_direct*T+P*g_glare*S)`，q为显式遮光状态。
+g为输出A/W或V/W组合，s为输出等效开光常数项，不是已测杂散光功率。
+仅有均匀场时g_direct/g_glare不可分，没有遮光时b0/s不可分；秩亏参数为null，
+报告支持组合/零空间，不把最小范数代表解当唯一物理值。拟合只使用fit分区。
+已知声明的均值sigma下给出条件边际Gaussian区间、协方差与相关性。
+可辨识非负g的眩光比使用delta-method区间，不夹紧区间，也不称真实PSF宽度。
+
+每窗口采样方差及其chi-square区间条件于iid Gaussian假设；lag1/半窗均值差门禁
+只能发现一部分违背，不能建立该假设。fit假设失败不拟合模型；仅validation失败
+保留完全相同的fit结果、标记验证rejected_assumptions，不作有效验证推断。
+方差候选 `var=v_ref+k*(拟合均值-reference_mean)`，reference_mean取fit预测均值最小值，
+不是假定硬件零点。以样本方差乘sqrt(2/(n-1))作为plug-in权重作条件矩拟合，
+区间和chi-square尾量为名义Gaussian近似，不是精确联合ML或均值/噪声联合置信区间。
+均值预测误差、光学控制/仪器/共用证书误差不传播。候选要求v_ref>0、k>=0，
+光学耦合及开光常数项非负；超约束估计值保留原负数并报告不可接受候选，不夹成0。
+不从该候选推断Fano因子、PMT增益、读出/暗噪声分量或PSD，也不证明os步长等价。
+
+预测须位于归一化fit设计凸包及可辨识空间，噪声仅在fit均值范围内。
+HiGHS可行性容差在报告中明确，是软件数值容差。留出设计须覆盖已辨识方向；
+仅均匀场留出不能验证分离的眩光增益。预定均值残差/方差比标准是声明准则，不是
+联合统计验收区域。缺匹配/假设失败/失配/不全辨识/方向缺覆盖返回非零并保留报告。
+源/格式失配在创建输出前拒绝，已有输出不覆盖。
+输出 `zlscan.radiometric-identification/1` 为MODEL_ESTIMATE、parameter_upgrades=[]、
+hard_acceptance_eligible=false；保留原始声明、摘要和不可用原因，不写全局证据或标定。
+
 ## 观测几何辨识补充（S6-T03，D081）
 
 `zlscan.geometry-fit-config/1` 声明confidence_level、rank_rtol、assumption_source，

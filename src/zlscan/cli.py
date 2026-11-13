@@ -649,6 +649,11 @@ def _run_ident(argv: Sequence[str]) -> int:
     source.add_argument(
         "--geometry-fit", type=Path, help="hash-bound grid/slanted landmark identification JSON"
     )
+    source.add_argument(
+        "--radiometry-fit",
+        type=Path,
+        help="linear response, glare/stray and sampled-noise identification JSON",
+    )
     source.add_argument("--csv", type=Path)
     source.add_argument("--table", type=Path, help="标量测量模板 CSV")
     source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
@@ -663,9 +668,50 @@ def _run_ident(argv: Sequence[str]) -> int:
     args = p.parse_args(list(argv))
     if all(
         value is None
-        for value in (args.dynamic_fit, args.timing_fit, args.geometry_fit, args.metadata)
+        for value in (
+            args.dynamic_fit,
+            args.timing_fit,
+            args.geometry_fit,
+            args.radiometry_fit,
+            args.metadata,
+        )
     ):
         p.error("--metadata is required for --csv/--table/--raw")
+    if args.radiometry_fit is not None:
+        if any(
+            (
+                args.metadata,
+                args.static_fit,
+                args.model_waveform,
+                args.observer,
+                args.observe_channel,
+            )
+        ):
+            p.error("--radiometry-fit uses only its explicit experiment declarations")
+        from zlscan.ident.radiometry import RadiometryFitConfig, identify_radiometry_files
+        from zlscan.report.radiometric_identification import write_radiometry_residuals
+
+        try:
+            blob = args.radiometry_fit.read_bytes()
+            config = RadiometryFitConfig.model_validate_json(blob)
+            result = identify_radiometry_files(config, args.radiometry_fit.parent)
+            result["config_sha256"] = hashlib.sha256(blob).hexdigest()
+            args.out.mkdir(parents=True, exist_ok=False)
+            (args.out / "run.json").write_text(
+                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n", encoding="utf-8"
+            )
+            write_radiometry_residuals(result, args.out / "radiometry_residuals.svg")
+        except (OSError, ValueError) as exc:
+            print(f"辐射辨识失败：{exc}", file=sys.stderr)
+            return CHECK_FAIL_EXIT_CODE
+        print(f"条件辐射辨识已写入 {args.out}；不自动升级实测证据")
+        return (
+            0
+            if result["status"] == "identified"
+            and result["validation"]["status"]
+            not in {"mismatch", "unidentifiable", "incomplete_coverage", "rejected_assumptions"}
+            else CHECK_FAIL_EXIT_CODE
+        )
     if args.geometry_fit is not None:
         if any(
             (

@@ -420,6 +420,7 @@ def audit(
         "epoch_calibrations",
         "recording_capture",
         "geometry_identification",
+        "radiometric_identification",
     ):
         driver = work / (feature + "_audit.py")
         shutil.copyfile(snapshot / "tools" / ("audit_" + feature + ".py"), driver)
