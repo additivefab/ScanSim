@@ -235,6 +235,7 @@ def main() -> None:
             "recording_capture",
             "geometry_identification",
             "radiometric_identification",
+            "glare_candidate",
         ):
             shutil.copytree(work / "wheel-work" / name, examples / name)
         shutil.copyfile(manifest, out / "build_manifest.json")

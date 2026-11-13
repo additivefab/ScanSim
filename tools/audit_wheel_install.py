@@ -421,6 +421,7 @@ def audit(
         "recording_capture",
         "geometry_identification",
         "radiometric_identification",
+        "glare_candidate",
     ):
         driver = work / (feature + "_audit.py")
         shutil.copyfile(snapshot / "tools" / ("audit_" + feature + ".py"), driver)
