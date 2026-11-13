@@ -1,0 +1,78 @@
+{
+  "format": "zlscan.publication-receipt/1",
+  "verified_at": "2026-11-13T06:13:03.268712+00:00",
+  "published_evidence_commit": "deb4ddf50489a160b29ebd6e57fd939bd1c25f18",
+  "ci_source_commit": "085e914f33170a5822bbae28d1b35d7badfdba12",
+  "ci_run_id": 43373222408,
+  "ci_successful_jobs": 6,
+  "remote_heads": {
+    "refs/heads/main": "deb4ddf50489a160b29ebd6e57fd939bd1c25f18"
+  },
+  "remote_matches_local": true,
+  "worktree_clean_at_verification": true,
+  "original_stash_preserved": true,
+  "code_unchanged_since_ci": true,
+  "post_ci_changed_paths": [
+    "docs/dev/PROGRESS.md",
+    "docs/dev/stages/stage4.md",
+    "docs/install.md",
+    "docs/reports/cross_platform_ci.md",
+    "docs/reports/epoch_calibrations.md",
+    "evidence_runs/2026-11-13_epoch_calibrations/record.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/README.md",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/current_wave.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/current_wave.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/current_wave_members.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/developer_changed_source.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/developer_install.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/developer_install.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/developer_source.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/fixed_acceptance.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/fixed_install.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/fixed_install.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/fixed_wave.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/fixed_wave.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/fixed_wave_members.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/formal_install.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/formal_install.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/initial_functional_acceptance.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/local_runs.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/local_runs.tar.gz",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/publication/checkout_cleanup.json",
+    "evidence_runs/2026-11-13_epoch_calibrations/record/publication/source_verified.json"
+  ],
+  "push": {
+    "argv": [
+      "git",
+      "-c",
+      "http.proxy=socks5h://127.0.0.1:7897",
+      "-c",
+      "http.version=HTTP/1.1",
+      "-c",
+      "credential.helper=",
+      "-c",
+      "credential.helper=!gh auth git-credential",
+      "push",
+      "origin",
+      "main"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "To https://github.com/additivefab/ScanSim.git\n   085e914..deb4ddf  main -> main\n"
+  },
+  "read_refs": {
+    "argv": [
+      "git",
+      "-c",
+      "http.proxy=socks5h://127.0.0.1:7897",
+      "-c",
+      "http.version=HTTP/1.1",
+      "ls-remote",
+      "--heads",
+      "origin"
+    ],
+    "returncode": 0,
+    "stdout": "deb4ddf50489a160b29ebd6e57fd939bd1c25f18\trefs/heads/main\n",
+    "stderr": ""
+  }
+}
