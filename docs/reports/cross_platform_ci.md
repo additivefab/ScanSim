@@ -1,5 +1,14 @@
 # 三平台与最低/当前 Python CI（S7-T05）
 
+## 最新提交回执：六目标通过
+
+2026-11-13，提交 `fb335171fa5cd34872c89313c8701ab80662ea48` 的
+[run 43443963677](https://github.com/additivefab/ScanSim/actions/runs/43443963677)
+已结束且整体 `success`。Ubuntu、macOS、Windows 各 Python 3.11/3.14 共六个 job
+均为 `success`，包含完整测试与隔离 wheel 审计。原始 GitHub API 回执保存在
+`evidence_runs/2026-11-13_cross_platform_ci/record/fb33517_acceptance.json`。
+这次 CI 只确认软件矩阵和安装路径，不改变硬件、浏览器或实测来源门槛。
+
 后续多工作点批次：085e914的六目标安装/资源与元数据验证已完成，见
 [新批次报告](epoch_calibrations.md)。本文件下方保留6083281基线及早期平台修复历史。
 
