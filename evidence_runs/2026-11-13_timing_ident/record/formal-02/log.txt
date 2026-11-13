@@ -1,0 +1,3 @@
+observable timing, missing edges, phase/rank/validation/reuse gates passed
+
+six timing CLI results recomputed exactly; original sources unchanged

@@ -1,0 +1,90 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "conditional counter-tagged timing software identification",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T01:41:05.073067+00:00",
+ "finished_at": "2026-11-13T01:41:20.803224+00:00",
+ "code": {
+  "commit": "69a49c5ca639f3c1039c0c8250a3acf6f28cd0ad",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261113,
+ "inputs": {
+  "evidence_runs/2026-11-13_timing_ident/output/formal-02/sources.json": "8507384a8453d6b65a67fc7312f8e6be8834bda0e7458c80b9c8844dbe9cba22",
+  "tools/audit_timing_identification.py": "976c4eda5453151993223c747802ebc72a2ecf5e58e03c98c603d3880e08182a"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_timing_identification.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_timing_ident/output/formal-02"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_timing_identification.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_timing_ident/output/formal-02",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "actual CLI cases and independent recomputation",
+   "expected": 6,
+   "tolerance": null,
+   "actual": 6,
+   "passed": true
+  },
+  {
+   "quantity": "source files unchanged",
+   "expected": 42,
+   "tolerance": null,
+   "actual": 42,
+   "passed": true
+  },
+  {
+   "quantity": "facet error below explicit 100 ps criterion",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "heldout below explicit 200 ps criterion",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "no parameter upgrades",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Synthetic large integer timestamps with rounded Gaussian input errors. No actual measurements or interval coverage claim; settings and extraction declarations not physical verification. Negative no-phase/cycle-only/mismatch/reuse CLI exits 1 verified by outer driver. Independent fresh process recomputes all six run JSONs exactly."
+}

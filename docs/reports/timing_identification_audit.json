@@ -1,0 +1,31 @@
+{
+  "source_kind": "synthetic",
+  "seed": 20261113,
+  "cli_cases": 6,
+  "source_files_unchanged": 42,
+  "facet_periods_ps": [
+    999999.5961543705,
+    1100001.4250000003,
+    899999.0965642097
+  ],
+  "max_facet_period_error_ps": 1.4250000002793968,
+  "criterion_error_ps": 100,
+  "heldout_max_abs_residual_ps": 65.3902527242899,
+  "criterion_heldout_ps": 200,
+  "original_tick_ps": "1152921504606846994",
+  "real_measurements_obtained": false,
+  "parameter_upgrades": [],
+  "code_commit": "69a49c5ca639f3c1039c0c8250a3acf6f28cd0ad",
+  "full_pytest": {
+    "passed": 1480,
+    "skipped": 2,
+    "seconds": 180.15
+  },
+  "archive": {
+    "files": 249,
+    "all_original_member_sha256_verified": true,
+    "archive_sha256": "d05fbffbbf238bf9f6e9425ac55a92ab61718734267a4185fb71597f347efba4"
+  },
+  "old_ordinary_output_byte_parity": true,
+  "latest_wheel_for_dynamic_timing": "not_executed"
+}
