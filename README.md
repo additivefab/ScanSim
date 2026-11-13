@@ -138,3 +138,5 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 分段 ZLRAW 续包、缺口与跨时期像素来源见 [核验说明](docs/reports/segmented_rows.md)。
 
 显式阶跃的条件动态辨识与独立留出接口见 [说明](docs/reports/dynamic_identification.md)。
+
+带原源校验的同步计数与条件时基辨识见 [说明](docs/reports/timing_identification.md)。

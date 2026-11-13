@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Optional static/dynamic-identification residual figure export.
+# Optional static/dynamic/timing-identification residual figure export.
 ident = ["matplotlib>=3.8"]
 dev = [
     "pytest>=8",

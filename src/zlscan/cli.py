@@ -614,6 +614,9 @@ def _run_ident(argv: Sequence[str]) -> int:
         type=Path,
         help="explicit multi-capture observed step-response identification JSON",
     )
+    source.add_argument(
+        "--timing-fit", type=Path, help="observable counter-tagged timing identification JSON"
+    )
     source.add_argument("--csv", type=Path)
     source.add_argument("--table", type=Path, help="标量测量模板 CSV")
     source.add_argument("--raw", type=Path, help="ZLRAW 0.1 草案；未知 FPGA 格式不支持")
@@ -626,8 +629,43 @@ def _run_ident(argv: Sequence[str]) -> int:
     p.add_argument("--metadata", type=Path)
     p.add_argument("--out", required=True, type=Path)
     args = p.parse_args(list(argv))
-    if args.dynamic_fit is None and args.metadata is None:
+    if args.dynamic_fit is None and args.timing_fit is None and args.metadata is None:
         p.error("--metadata is required for --csv/--table/--raw")
+    if args.timing_fit is not None:
+        if any(
+            (
+                args.dynamic_fit,
+                args.metadata,
+                args.static_fit,
+                args.model_waveform,
+                args.observer,
+                args.observe_channel,
+            )
+        ):
+            p.error("--timing-fit uses only its explicit capture declarations")
+        from zlscan.ident.timing import TimingFitConfig, identify_timing_files
+        from zlscan.report.timing_identification import write_timing_residuals
+
+        try:
+            blob = args.timing_fit.read_bytes()
+            config = TimingFitConfig.model_validate_json(blob)
+            result = identify_timing_files(config, args.timing_fit.parent)
+            result["config_sha256"] = hashlib.sha256(blob).hexdigest()
+            args.out.mkdir(parents=True, exist_ok=False)
+            (args.out / "run.json").write_text(
+                json.dumps(result, ensure_ascii=False, allow_nan=False) + "\n"
+            )
+            write_timing_residuals(result, args.out / "timing_residuals.svg")
+        except (OSError, ValueError) as exc:
+            print(f"时基辨识失败：{exc}", file=sys.stderr)
+            return CHECK_FAIL_EXIT_CODE
+        print(f"观测时基辨识已写入 {args.out}；不自动升级实测证据")
+        return (
+            0
+            if result["status"] == "identified"
+            and result["validation"]["status"] not in {"mismatch", "unidentifiable"}
+            else CHECK_FAIL_EXIT_CODE
+        )
     if args.dynamic_fit is not None:
         if any(
             (
