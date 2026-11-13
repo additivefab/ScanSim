@@ -89,5 +89,8 @@
     "captured test pattern with channel mapping",
     "measured clock/data timing and acquisition session identity",
     "verified schematic-to-populated-board continuity"
-  ]
+  ],
+  "text_extract_archive": "/Users/yuxinghua/.cache/scansim-ad9268-audit/text_extracts.tar.gz",
+  "text_extract_archive_sha256": "213714ef19a280551624be698efb5eb5da1a99230f037741ac96e414d9fb448d",
+  "text_extract_members_verified": true
 }
