@@ -82,6 +82,17 @@ def test_w01_all_views_use_the_same_run_epoch_and_step(server):
     assert set(st["values"]) == {"pmt.power_w", "afe.v_adc"}
 
 
+def test_components_use_the_same_demo_cursor_and_instrument_cannot_access_them(server):
+    port, _ = server
+    code, frame = get(port, "/runs/demo/components?step=7")
+    assert code == 200 and frame["step"] == "7" and frame["run_id"] == "demo"
+    adc = next(n for n in frame["nodes"] if n["id"] == "adc")
+    assert adc["sample_index"] == "1" and adc["held"]
+    assert int(adc["sample_tick_ps"]) < int(frame["tick_ps"])
+    assert get(port, "/runs/demo/components?step=7&view=instrument")[1]["status"] == "not_recorded"
+    assert get(port, "/runs/demo/components?step=-1")[0] == 400
+
+
 def test_w02_repeated_queries_return_the_same_record(server):
     port, _ = server
     a = get(port, "/runs/demo/state?step=7777&probes=current_a")[1]
@@ -195,7 +206,10 @@ def test_the_page_is_served_and_makes_no_external_request(server):
 def test_w13_the_page_layout_is_fluid():
     html = Path(STATIC / "index.html").read_text(encoding="utf-8")
     assert "@media (max-width:900px)" in html and "min-width:0" in html
-    assert not re.search(r"width:\s*\d{4,}px", html)
+    fixed_width = r"(?<![-\w])width:\s*\d{4,}px"
+    assert re.search(fixed_width, "width:1200px")
+    assert not re.search(fixed_width, "@media(max-width:1000px)")
+    assert not re.search(fixed_width, html)
 
 
 def test_w08_a_stalled_link_shows_up_with_layer_and_sample_range(server):

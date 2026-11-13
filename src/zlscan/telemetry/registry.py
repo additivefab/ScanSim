@@ -36,10 +36,21 @@ def chain_signals(cfg: ChainConfig) -> list[SignalDecl]:
         _decl(cfg, "pmt.current_a", "detector", "analog", "anode current", "A", o, "summary"),
         _decl(cfg, "afe.v_adc", "afe", "analog", "voltage at the ADC input", "V", o, "summary"),
         _decl(cfg, "adc.code", "adc", "digital", "ADC code", "1", v, "full"),
+        _decl(cfg, "scan.y_m", "scan", "mechanical", "film feed position", "m", o, "on_demand"),
+        _decl(cfg, "scan.facet", "scan", "mechanical", "polygon facet", "1", o, "on_demand"),
+        _decl(
+            cfg, "scan.active", "scan", "digital", "geometric active window", "1", o, "on_demand"
+        ),
+        _decl(
+            cfg, "source.power_w", "source", "optical", "laser output power", "W", o, "on_demand"
+        ),
+        _decl(cfg, "source.gate", "source", "digital", "laser gate", "1", o, "on_demand"),
     ]
 
 
 PROBE_TO_SIGNAL = {
     "x_m": "scan.x_m", "t_eff": "film.t_eff", "power_w": "pmt.power_w",
     "current_a": "pmt.current_a", "v_adc": "afe.v_adc",
+    "y_m": "scan.y_m", "facet": "scan.facet", "scan_active": "scan.active",
+    "laser_power_w": "source.power_w", "laser_gate": "source.gate",
 }  # fmt: skip

@@ -15,6 +15,7 @@ from zlscan.engine.validity import physical_applicability
 from zlscan.io.committed_adc import CommittedADC
 from zlscan.io.model_quality import GRIDS
 from zlscan.replay.replay import CheckpointStore
+from zlscan.telemetry.components import COMPONENT_PROBES, component_frame
 from zlscan.telemetry.registry import PROBE_TO_SIGNAL, chain_signals
 from zlscan.trace.window import raw_window, validate_window
 
@@ -79,6 +80,7 @@ class RecordingService(Service):
             frozen_commit=True,
             digital_history_recorded=self.snapshot.history_reader is not None,
             exact_tick_cursor=True,
+            component_view_available=True,
             tick_start_ps=str(self.snapshot.current.fine_clock.tick_of(0)),
             tick_end_ps=str(self.snapshot.current.fine_clock.tick_of(r.steps)),
             fine_clock_phase_ps=str(self.snapshot.current.fine_clock.phase_ticks),
@@ -228,6 +230,41 @@ class RecordingService(Service):
             checkpoint_step=result["metadata"]["checkpoint_step"],
             values={PROBE_TO_SIGNAL[p]: float(result[p][0, col]) for p in wanted},
         )
+
+    def components(self, r, step, view="research"):
+        self._check()
+        if view == "instrument":
+            return dict(status="not_recorded", reason="component model is research only")
+        if type(step) is not int or not 0 <= step < r.steps:
+            raise ValueError("component cursor outside committed recording")
+        start = step // r.cfg.os * r.cfg.os
+        try:
+            base, _ = self.snapshot._nearest(start)
+        except ValueError as exc:
+            if str(exc).startswith("no recorded checkpoint"):
+                return dict(status="not_recorded", reason=str(exc))
+            raise
+        if step - base.step + 1 > MAX_WINDOW_STEPS:
+            return dict(status="not_computed", reason="component replay exceeds 1000000 fine steps")
+        model = self._model(start, step - start + 1, COMPONENT_PROBES)
+        if "metadata" not in model:
+            return model
+        col = list(self.snapshot.current.channels).index(r.meta["channel"])
+        values = {key: model[key][-1, col].item() for key in COMPONENT_PROBES}
+        result = component_frame(
+            r.cfg,
+            step,
+            values,
+            int(model["codes"][0, col]),
+            start // r.cfg.os,
+            self.snapshot.current.controller.epoch_at(
+                self.snapshot.current.fine_clock.tick_of(step)
+            ).id,
+            sample_epoch=int(model["epochs"][0]),
+        )
+        result.update(run_id=r.run_id, source_root_sha256=model["metadata"]["source_root_sha256"])
+        self._check()
+        return result
 
     def digital_state(self, r, tick, view="research"):
         self._check()

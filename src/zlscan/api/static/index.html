@@ -12,6 +12,11 @@ main{display:grid;grid-template-columns:260px minmax(0,1fr);gap:10px;padding:10p
 aside,section{background:#fff;border:1px solid #d5dbe1;border-radius:6px;padding:10px;min-width:0}
 canvas{width:100%;max-width:100%;height:90px;background:#fafbfc;border:1px solid #d5dbe1}
 .waveform{position:relative}.cursor-line{position:absolute;top:0;height:90px;border-left:1px solid #bd4b28;pointer-events:none;display:none}
+.component-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,1fr);gap:12px}
+@media(max-width:1000px){.component-grid{grid-template-columns:minmax(0,1fr)}}
+#optical-scene{width:100%;height:auto;background:#fafbfc;border:1px solid #d5dbe1}
+#component-nodes{display:flex;flex-wrap:wrap;gap:7px}.component-node{flex:1 1 145px;text-align:left;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #bdc8d2;background:#f8fafc;border-radius:5px;padding:8px}
+.component-node[aria-pressed=true]{border:2px solid #2a6fb0}.occupancy{height:5px;background:#d5e4ee;margin-top:4px}.occupancy div{height:100%;background:#2a6fb0}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}
 .badge{display:inline-block;padding:0 8px;border:1px solid #b9c2cc;border-radius:10px;font-size:12px}
 .nodata{color:#7b8794}.oracle{color:#a12622;font-weight:600}
@@ -35,6 +40,14 @@ button{font:inherit;padding:2px 10px}label{display:block}
 <span id="readout"></span></div><div id="plots"></div>
 <div id="exact-cursor" class="row" hidden><label>精确游标（整数 ps） <input id="cursor-ps" inputmode="numeric" style="width:19em;max-width:100%"></label><button id="cursor-go">定位</button></div>
 <pre id="digital-info" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+<section id="components" hidden><h2>同时刻组件观察</h2>
+<p>功能示意，距离不代表实际光程，不是光线追迹；光点只标位置，不代表光斑尺寸。没有独立推进的动画。内部量为模型重放，实机不可见。</p>
+<div id="component-status" class="nodata" aria-live="polite"></div>
+<div class="component-grid"><div><h3>光路与底片坐标</h3>
+<svg id="optical-scene" viewBox="0 0 640 260" role="img" aria-label="同游标的光路功能示意和底片坐标"></svg>
+<div id="beam-state"></div></div><div><h3>信号与数字链 · 点击节点选择探针</h3><div id="component-nodes"></div></div></div>
+<p>对数板输出、主放输出、载板输入与实际光程：未取得；ADC 输入模型电压单列。</p>
+<pre id="component-detail" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre></section>
 <section id="imaging" hidden><h2>密度与质量掩膜</h2>
 <div class="row"><label><input type="checkbox" id="mask-view"> 显示无效原因掩膜</label>
 <label>瓦片列 <input id="tile-x" type="number" min="0" value="0" style="width:5em"></label>
@@ -45,11 +58,12 @@ button{font:inherit;padding:2px 10px}label{display:block}
 <script>
 (function(){
 var base=location.pathname.replace(/\/$/,''),runId='demo',manifest=null,view='research',
-    win={start:0,end:1},reqSeq=0,sel={},lastApplied={},latestIssued={},viewGeneration=0,cursorGeneration=0,cursorTick=null,imageGeneration=0,imageMeta=null,selectedPixel=null;
+    win={start:0,end:1},reqSeq=0,sel={},lastApplied={},latestIssued={},viewGeneration=0,cursorGeneration=0,cursorTick=null,imageGeneration=0,imageMeta=null,selectedPixel=null,
+    physicalFrame=null,digitalFrame=null,selectedComponent='laser',componentTick=null;
 function api(path,opts,targetRun){var n=++reqSeq,requestedView=view,generation=viewGeneration,requestRun=targetRun||runId,
     route=path.split('?')[0],query=new URLSearchParams(path.split('?')[1]||''),
     slot=requestRun+':'+route.replace(/(\/tiles\/0|\/pixels)\/\d+\/\d+(\/lineage)?$/, '$1').replace(/^\/samples\/\d+\/lineage$/, '/samples/lineage')+(route==='/traces'?':'+query.get('signal'):''),sep=path.indexOf('?')<0?'?':'&';
-  var cursorEpoch=(route==='/state'||route==='/digital-state'||/^\/samples\/\d+\/lineage$/.test(route))?cursorGeneration:null;
+  var cursorEpoch=(route==='/state'||route==='/digital-state'||route==='/components'||/^\/samples\/\d+\/lineage$/.test(route))?cursorGeneration:null;
   latestIssued[slot]=n;
   return fetch('/runs/'+requestRun+path+sep+'req='+n+'&view='+requestedView,opts).then(function(r){return r.json()})
     .catch(function(error){return {error:'网络请求失败：'+String(error)}})
@@ -60,6 +74,8 @@ function load(){
   api('/manifest').then(function(m){if(stale(m))return;manifest=m;var timeline=m.timeline_available!==false;win={start:0,end:timeline?Math.min(m.steps,Number.MAX_SAFE_INTEGER):1};
     imageMeta=m.image||null;if(imageMeta)sel['adc.code']=true;selectedPixel=null;cursorTick=null;cursorGeneration++;
     document.getElementById('exact-cursor').hidden=!m.exact_tick_cursor;
+    document.getElementById('components').hidden=!m.component_view_available;
+    if(m.component_view_available)clearComponents(null,'等待游标');
     document.getElementById('digital-info').textContent='';document.getElementById('sample-info').textContent='';document.getElementById('imaging').hidden=!imageMeta;
     document.getElementById('m-origin').textContent='来源：'+m.origin+(m.loaded_from_saved?' · 已保存运行（只读）':'');
     document.getElementById('branch').disabled=!!imageMeta||!!m.read_only||view==='instrument';
@@ -163,6 +179,7 @@ function paint(cv,b){var g=cv.getContext('2d'),w=cv.width,h=cv.height,v=b.values
 function moveCursor(){if(!manifest||manifest.timeline_available===false)return;var s=parseInt(document.getElementById('cursor').value,10);
   if(manifest.exact_tick_cursor){setTick(String(stepTick(BigInt(s))));return}
   cursorGeneration++;
+  if(manifest.component_view_available)requestComponents(BigInt(s),String(stepTick(BigInt(s))),true);
   var period=manifest&&manifest.fine_step_period_ps;
   document.getElementById('readout').textContent=(manifest.cursor_unit==='sample'?'相对样本 ':'细步 ')+s+(period?
     ' · 模型时刻 '+(BigInt(s)*BigInt(period.numerator)/BigInt(period.denominator))+' ps · 模型步长 '+period.numerator+'/'+period.denominator+' ps':' · 模型时间未取得');
@@ -184,10 +201,12 @@ function queryCursor(){
   var tick=BigInt(cursorTick),step=tickStep(tick),onGrid=stepTick(step)===tick;
   document.getElementById('readout').textContent=cursorTick+' ps · '+(onGrid?'细步 '+step:'两细步之间，前一细步 '+step);
   document.getElementById('info').textContent=onGrid?'物理探针查询中':'时刻位于模型细步之间；物理瞬时探针未计算';
+  if(manifest.component_view_available)requestComponents(step,cursorTick,onGrid);
   if(onGrid)api('/state?step='+step+'&probes=power_w').then(function(b){if(stale(b))return;
     document.getElementById('info').textContent=(b.error||b.status)+' · '+(b.values?JSON.stringify(b.values):(b.reason||''))});
   document.getElementById('digital-info').textContent='数字状态查询中';
-  api('/digital-state?tick='+cursorTick).then(function(b){if(stale(b))return;document.getElementById('digital-info').textContent=digitalText(b)});
+  api('/digital-state?tick='+cursorTick).then(function(b){if(stale(b))return;document.getElementById('digital-info').textContent=digitalText(b);
+    if(manifest.component_view_available){digitalFrame=b;renderComponents()}});
   paintCursors(tick);
 }
 function digitalText(b){
@@ -202,6 +221,63 @@ function paintCursors(tick){
   var lo=stepTick(BigInt(win.start)),hi=stepTick(BigInt(win.end)),inside=tick>=lo&&tick<hi,
       ratio=inside?Number((tick-lo)*1000000n/(hi-lo))/10000:0;
   document.querySelectorAll('.cursor-line').forEach(function(line){line.style.display=inside?'block':'none';line.style.left=ratio+'%'})
+}
+function componentGeometry(g){
+  if(!g||![g.x_m,g.y_m,g.film_width_m,g.film_height_m].every(function(x){return x!==null&&Number.isFinite(x)})||g.film_width_m<=0||g.film_height_m<=0)return null;
+  var xmin=Math.min(0,g.x_m),xmax=Math.max(g.film_width_m,g.x_m),ymin=Math.min(0,g.y_m),ymax=Math.max(g.film_height_m,g.y_m),
+      x=function(value){return 30+580*(value-xmin)/(xmax-xmin)},y=function(value){return 225-130*(value-ymin)/(ymax-ymin)};
+  return {x:g.x_m,y:g.y_m,beamX:x(g.x_m),beamY:y(g.y_m),filmX:x(0),filmY:y(g.film_height_m),
+    width:x(g.film_width_m)-x(0),height:y(0)-y(g.film_height_m)};
+}
+function svgPart(parent,name,attributes,text){
+  var element=document.createElementNS('http://www.w3.org/2000/svg',name);
+  Object.keys(attributes).forEach(function(key){element.setAttribute(key,String(attributes[key]))});
+  if(text!==undefined)element.textContent=text;parent.appendChild(element);return element;
+}
+function clearComponents(tick,reason){
+  componentTick=tick;physicalFrame=null;digitalFrame=null;
+  document.getElementById('component-status').textContent=(tick===null?'':tick+' ps · ')+reason;
+  document.getElementById('optical-scene').textContent='';document.getElementById('beam-state').textContent=reason;
+  document.getElementById('component-nodes').textContent='';document.getElementById('component-detail').textContent='';
+}
+function requestComponents(step,tick,onGrid){
+  clearComponents(tick,onGrid?'组件查询中':'细步之间：物理组件未计算，数字状态仍按精确 ps 查询');
+  if(!onGrid){renderComponents();return}
+  api('/components?step='+step).then(function(b){if(stale(b))return;physicalFrame=b;renderComponents()});
+}
+function renderComponents(){
+  var panel=document.getElementById('component-nodes'),svg=document.getElementById('optical-scene');panel.textContent='';svg.textContent='';
+  var frame=physicalFrame,valid=frame&&frame.status==='replayed'&&frame.tick_ps===componentTick,
+      digital=digitalFrame&&digitalFrame.status==='replayed'&&digitalFrame.tick_ps===componentTick?digitalFrame:null;
+  document.getElementById('component-status').textContent=(componentTick===null?'':componentTick+' ps · ')+(valid?'物理模型重放，当前时期 '+frame.epoch:(frame?(frame.error||frame.reason||frame.status):'物理组件未计算'))+(digital?' · 数字模型重放':' · 数字状态未取得');
+  function card(id,title,text,detail,signal,bytes,capacity){
+    var button=document.createElement('button');button.className='component-node';button.type='button';button.setAttribute('aria-pressed',String(selectedComponent===id));
+    button.textContent=title+'\n'+text;button.onclick=function(){selectedComponent=id;
+      document.getElementById('component-detail').textContent=componentTick+' ps\n'+JSON.stringify(detail,null,2);
+      if(signal&&view==='research'){sel[signal]=true;listSignals()}else renderComponents()};
+    if(bytes!==undefined&&capacity!==undefined&&capacity!==null&&BigInt(capacity)>0n){
+      var bar=document.createElement('div');bar.className='occupancy';var fill=document.createElement('div');
+      fill.style.width=Number(BigInt(bytes)*1000n/BigInt(capacity))/10+'%';bar.appendChild(fill);button.appendChild(bar)}
+    panel.appendChild(button);if(selectedComponent===id)document.getElementById('component-detail').textContent=componentTick+' ps\n'+JSON.stringify(detail,null,2);
+  }
+  if(valid){
+    frame.nodes.forEach(function(node){card(node.id,node.title,node.status==='replayed'?String(node.value)+' '+node.unit+(node.sample_index!==undefined?' · 源样本 '+node.sample_index+' / 时期 '+node.epoch+' / '+node.sample_tick_ps+' ps'+(node.held?'（保持）':''):''):'未计算',
+      {node:node,visibility:frame.visibility,parameter_evidence:frame.parameter_evidence,source_root_sha256:frame.source_root_sha256||null},node.status==='replayed'?node.signal_id:null)});
+    var g=frame.geometry,p=componentGeometry(g);
+    if(p){
+      svgPart(svg,'rect',{x:p.filmX,y:p.filmY,width:p.width,height:p.height,fill:'#dce7df',stroke:'#567664'});
+      svgPart(svg,'path',{d:'M35 35 L160 35 L'+p.beamX+' '+p.beamY+' L600 35',fill:'none',stroke:g.laser_gate?'#c05830':'#a5adb5','stroke-dasharray':g.laser_gate?'none':'5 5'});
+      svgPart(svg,'circle',{cx:p.beamX,cy:p.beamY,r:4,fill:g.laser_gate?'#c05830':'#77838d'});
+      svgPart(svg,'text',{x:20,y:22,'font-size':13},'光源');svgPart(svg,'text',{x:110,y:22,'font-size':13},'面号 '+g.facet+' · 姿态未建模');
+      svgPart(svg,'text',{x:550,y:22,'font-size':13},'PMT');svgPart(svg,'text',{x:25,y:250,'font-size':12},'底片坐标自动适配；片外位置不夹紧；功能连接不表示光程');
+    }
+    document.getElementById('beam-state').textContent='x='+g.x_m+' m，y='+g.y_m+' m · 行 '+g.line+' · 扫描窗 '+(g.scan_active?'内':'外')+' · 激光门 '+(g.laser_gate?'开':'关')+' · 场景 '+g.film_width_m+'×'+g.film_height_m+' m';
+  }else document.getElementById('beam-state').textContent='光斑位置未计算/未记录；不显示旧位置';
+  if(digital){
+    card('capture','FPGA 采集窗',digital.acquisition.active?'行 '+digital.acquisition.active.line_number+' · 已保留 '+digital.acquisition.active.retained_rows+' 行 · 源时期 '+digital.acquisition.active.epochs.join(','):'无活动窗口',digital.acquisition);
+    card('link','ADC 接收链','捕获计数 '+digital.link.capture_count+' · 实际在途 '+digital.link.in_flight_rows+' · 未来预生成 '+digital.link.prefetched_future_rows,digital.link);
+    digital.transport.stages.forEach(function(stage,i){card('queue-'+i,stage.name,stage.resident_bytes+'/'+stage.capacity_bytes+' B · 排队 '+stage.queued_packets+' · 溢出 '+stage.overflow_count,stage,null,stage.resident_bytes,stage.capacity_bytes)});
+  }else card('capture','FPGA / 队列','未记录/未计算',digitalFrame||{status:'not_recorded'});
 }
 function showImages(){
   var generation=++imageGeneration,panels=document.getElementById('image-panels');panels.textContent='';
@@ -267,6 +343,7 @@ function loadRunChoices(){
 }
 document.getElementById('run-select').onchange=function(){runId=this.value;viewGeneration++;cursorGeneration++;cursorTick=null;imageGeneration++;sel={};manifest=null;imageMeta=null;
   ['signals','plots','info','events','image-panels','pixel-info','sample-info','digital-info'].forEach(function(id){document.getElementById(id).textContent=''});
+  clearComponents(null,'运行切换，等待新游标');document.getElementById('components').hidden=true;
   document.getElementById('imaging').hidden=true;document.getElementById('cursor').max=0;load()};
 document.getElementById('compare-select').onchange=showImages;
 document.getElementById('mask-view').onchange=showImages;
@@ -282,6 +359,7 @@ document.querySelectorAll('input[name=view]').forEach(function(i){i.addEventList
   document.getElementById('info').textContent='';
   document.getElementById('sample-info').textContent='';
   document.getElementById('digital-info').textContent='';
+  if(manifest&&manifest.component_view_available)clearComponents(null,'视图切换，等待新游标');
   document.getElementById('branch').disabled=!!(manifest&&(manifest.image||manifest.read_only))||view==='instrument';
   document.getElementById('replay').disabled=!!(manifest&&(manifest.image||manifest.timeline_available===false||(manifest.read_only&&view==='instrument')));
   if(manifest){listSignals();showImages()}else load()})});

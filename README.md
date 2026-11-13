@@ -127,5 +127,10 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 在途/未来预生成行、采集窗口与队列摘要。源时间范围外（包括 EOF 后排空）明确拒绝；
 旧记录没有历史时不补造。事件按钮与 ADC 样本选择共用游标，细步间不冒充精确物理探针。
 见 [原始数字操作历史](docs/reports/producer_history.md)。
+
+研究工作台现有同游标二维光路/场景坐标与信号、数字链节点；点击节点打开原值详情或
+选择相应波形。`components?step=115` 返回原模型细步的组件帧，ADC 保持值带自己的
+采样时刻与源时期。示意图不代表光程/光斑尺寸，未知实际测点保持为空。
+见 [组件视图](docs/reports/component_views.md)；浏览器视觉与实机验收仍待完成。
 前端削顶/PMT 超限在细步网格，ADC 饱和在源 ADC 网格；仅研究视图可见。
 见 [事件来源与恢复规则](docs/reports/model_quality_events.md)。

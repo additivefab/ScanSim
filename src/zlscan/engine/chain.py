@@ -32,7 +32,22 @@ from zlscan.truth import source as src_mod
 from zlscan.truth.scene import Scene
 
 MODEL_VERSION = "chain-0.3"
-PROBE_NAMES = ("power_w", "t_eff", "current_a", "v_adc", "x_m", "line")
+PROBE_NAMES = (
+    "power_w",
+    "t_eff",
+    "current_a",
+    "v_adc",
+    "x_m",
+    "line",
+    "y_m",
+    "facet",
+    "scan_active",
+    "laser_power_w",
+    "laser_gate",
+    "scene_evaluated",
+    "film_width_m",
+    "film_height_m",
+)
 
 
 @dataclass(frozen=True)
@@ -144,10 +159,17 @@ class Chain:
 
         t_eff = np.ones(n)
         laser_on = np.ones(n, dtype=bool)
+        bounds = {
+            key: np.empty(n) for key in ("film_width_m", "film_height_m") if key in self.probe_names
+        }
         for line in np.unique(k):
             m = k == line
             ph = self._phase(int(line))
             laser_on[m] = ph.laser_on
+            if bounds:
+                scene = cfg.scenes.get(ph.scene)
+                for key, array in bounds.items():
+                    array[m] = getattr(scene, key.removeprefix("film_"), np.nan)
             if ph.laser_on:
                 scene = cfg.scenes[ph.scene]
                 t_eff[m] = psf_mod.effective_transmittance(scene.lookup, cfg.psf, x[m], y[m])
@@ -190,7 +212,9 @@ class Chain:
                 "pmt_over_limit": over.copy(),
             }
         values = {"power_w": power, "t_eff": t_eff, "current_a": current, "v_adc": v,
-                  "x_m": x, "line": k}  # fmt: skip
+                  "x_m": x, "line": k, "y_m": y, "facet": facet, "scan_active": inside,
+                  "laser_power_w": p0, "laser_gate": lit, "scene_evaluated": laser_on,
+                  **bounds}  # fmt: skip
         for name in self.probe_names:
             out.probes[name] = values[name].copy()
             for obs in self.observers:

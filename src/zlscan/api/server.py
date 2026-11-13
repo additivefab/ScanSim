@@ -30,6 +30,7 @@ from zlscan.contracts.query import QueryStatus
 from zlscan.contracts.time import ClockDomain
 from zlscan.io.image_artifact import ImageArtifact
 from zlscan.replay.replay import replay_window
+from zlscan.telemetry.components import COMPONENT_PROBES, component_frame
 from zlscan.telemetry.registry import PROBE_TO_SIGNAL, chain_signals
 from zlscan.trace.window import raw_window, summary_window, validate_window
 
@@ -99,6 +100,7 @@ class Service:
                 "fine_step_ps": round(1e12 / (c.fs_hz * c.os)), "fs_hz": c.fs_hz, "os": c.os,
                 "fine_step_period_ps": {"numerator": "1000000000000", "denominator": str(c.fs_hz * c.os)},
                 "samples": int(len(r.codes)), "config_hash": c.hash(), "origin": "SIMULATED",
+                "component_view_available": True,
                 "evidence": c.evidence, "checkpoint_interval_steps": r.store.interval_steps,
                 "physical_applicability": r.meta.get("physical_applicability"),
                 "recorded_probes": sorted(r.recorded),
@@ -242,6 +244,34 @@ class Service:
         return {"status": QueryStatus.REPLAYED, "step": tick_step, "run_id": r.run_id,
                 "epoch": r.epoch, "checkpoint_step": res.checkpoint_step,
                 "values": {PROBE_TO_SIGNAL[k]: float(v[0]) for k, v in res.out.probes.items()}}  # fmt: skip
+
+    def components(self, r, step, view="research"):
+        if isinstance(r, ImageRun) or view == "instrument":
+            return dict(status="not_recorded", reason="component model is research only")
+        if r.meta.get("validate_saved"):
+            r.meta["validate_saved"]()
+        if type(step) is not int or not 0 <= step < r.steps:
+            raise ValueError("component cursor outside run")
+        if not r.store.blobs:
+            return dict(status="not_recorded", reason="model checkpoints unavailable")
+        start = step // r.cfg.os * r.cfg.os
+        try:
+            base = r.store.nearest(start)
+        except LookupError:
+            return dict(
+                status="not_recorded", reason="model checkpoint before source edge unavailable"
+            )
+        if step - base + 1 > 1_000_000:
+            return dict(status="not_computed", reason="component replay exceeds 1000000 fine steps")
+        replay = replay_window(r.cfg, r.store, start, step - start + 1, COMPONENT_PROBES)
+        values = {key: replay.out.probes[key][-1].item() for key in COMPONENT_PROBES}
+        result = component_frame(
+            r.cfg, step, values, int(replay.out.codes[0]), start // r.cfg.os, r.epoch
+        )
+        result.update(run_id=r.run_id, checkpoint_step=str(base))
+        if r.meta.get("validate_saved"):
+            r.meta["validate_saved"]()
+        return result
 
     def digital_state(self, r, tick, view="research") -> dict:
         return dict(status="not_recorded", reason="original digital producer history unavailable")
@@ -440,6 +470,8 @@ def _handler(service: Service):
                     if str(tick) != q["tick"] or not -(2**63) <= tick < 2**63:
                         raise ValueError("tick must be a canonical signed integer ps")
                     body = service.digital_state(run, tick, view)
+                elif what == "components":
+                    body = service.components(run, int(q["step"]), view)
                 elif what == "traces":
                     body = service.traces(run, q["signal"], int(q["start"]), int(q["end"]),
                                           int(q.get("pixel_width", 800)), view)  # fmt: skip

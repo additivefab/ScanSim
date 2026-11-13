@@ -279,7 +279,7 @@ class RecordingReplay:
             result[flag] = np.empty((samples, len(channels)), dtype=bool)
         for probe in probes:
             result[probe] = np.empty(
-                (steps, len(channels)), dtype=np.int64 if probe == "line" else float
+                (steps, len(channels)), dtype=np.int64 if probe in {"line", "facet"} else float
             )
         while restored.step < end:
             while cursor < len(plan) and int(plan[cursor]["effective_step"]) <= restored.step:
