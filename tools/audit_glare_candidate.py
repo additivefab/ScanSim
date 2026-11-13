@@ -1,9 +1,13 @@
 """Synthetic open/close effect audit for the default-off wide-tail glare candidate."""
 
 from __future__ import annotations
-import argparse, json, hashlib
+
+import argparse
+import json
 from pathlib import Path
+
 import numpy as np
+
 from zlscan.truth.psf import PsfConfig, effective_transmittance
 from zlscan.truth.scene import edge, uniform
 
