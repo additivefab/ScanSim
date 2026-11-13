@@ -1,0 +1,99 @@
+{
+  "initial_and_fixed": {
+    "initial": {
+      "source_commit": "151053d2abb2275ccf1029032aff341c68ed3b14",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-mobofh9c/runtime/bin/python",
+        "-I",
+        "-X",
+        "utf8",
+        "-m",
+        "zlscan",
+        "ident",
+        "--geometry-fit",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_geometry_ident/output/installed_missing_window/fit.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_geometry_ident/output/installed_missing_window/initial_result"
+      ],
+      "exit_code": 1,
+      "no_output_created": true,
+      "traceback": true
+    },
+    "fixed": {
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "argv": [
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-ps5qa8ye/runtime/bin/python",
+        "-I",
+        "-X",
+        "utf8",
+        "-m",
+        "zlscan",
+        "ident",
+        "--geometry-fit",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_geometry_ident/output/installed_missing_window/fit.json",
+        "--out",
+        "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_geometry_ident/output/installed_missing_window/fixed_result"
+      ],
+      "exit_code": 1,
+      "no_output_created": true,
+      "traceback": false
+    }
+  },
+  "archive": "installed_missing_window.tar.gz",
+  "sha256": "7f233e6b76c09158c1d575039c8de27f8e6cbcbbe9c8612d1933fcccffb4db40",
+  "files": {
+    "capture-0.json": {
+      "size": 317,
+      "sha256": "48f2bba72a3fa0eaf116ddd426a91bf9a926723f7c675fb25d2fdd5e1f44a3fc"
+    },
+    "capture-1.json": {
+      "size": 293,
+      "sha256": "4f39f480dec5f892f028805db8b5512c090aaf6f2c7828debeb48d87daf844ec"
+    },
+    "fit.json": {
+      "size": 641,
+      "sha256": "a01cb28ae06f109f1fe4bc0b65a79b90814e9c2e97ac99f8b96c7839ede81716"
+    },
+    "fixed.stderr": {
+      "size": 69,
+      "sha256": "f3845461cef6cf82769e798cb0b871faf21ca0ff254838bab9d795ca74734aa6"
+    },
+    "fixed.stdout": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "initial.stderr": {
+      "size": 1055,
+      "sha256": "7c01be0735aea8e5f9e20f2e14cff24a68ed3e43aa1fd9b5650173d243146454"
+    },
+    "initial.stdout": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "missing-window.zlraw": {
+      "size": 1521,
+      "sha256": "46d1058a4a4ee627c69600d99f435dc7e1a54736078654befc7477a7316793b3"
+    },
+    "observations-0.json": {
+      "size": 9501,
+      "sha256": "12bebd918152e2be733bef21d4148c5d04d1ebab8f1c0bff1a6a4a50133d9259"
+    },
+    "observations-1.json": {
+      "size": 9492,
+      "sha256": "4c52bbfd125514439f39d2a55aaedd25675305bc0d80c494ac06fadaa36e89e4"
+    },
+    "raw-0.zlraw": {
+      "size": 1541,
+      "sha256": "0cc6af4c97d1c49f48e6d0cace6c7d183f9b9873a90e0ce26b8fc4e5b7c3a1d9"
+    },
+    "raw-1.zlraw": {
+      "size": 1541,
+      "sha256": "8804ccf8e0d0ba602e2f266670e20ed4a79d734599c775d3500e9bcaeb85beb6"
+    },
+    "receipt.json": {
+      "size": 1380,
+      "sha256": "5eaedb58d35b7e1bc0695f8f3554e78f2c8a52f40c619d1ce81970ffe3d0a13b"
+    }
+  },
+  "verified_member_bytes": true
+}

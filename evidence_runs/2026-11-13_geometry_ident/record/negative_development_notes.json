@@ -1,0 +1,13 @@
+{
+  "type": "transcribed development observations, not original pytest logs",
+  "observations": [
+    "Initial red collection failed because geometry module was absent before implementation.",
+    "Validation-invariance assertion initially compared changed holdout rows as well as fitted outputs; corrected to compare fit state only.",
+    "A JSON finiteness check initially lacked its import after an earlier Ruff unused-import cleanup; import restored and regressions rerun.",
+    "Cross-epoch test data initially lacked required EPOCH_START flag and was correctly rejected by raw parser; fixture corrected.",
+    "First public-CLI audit input duplicated grid/slanted sample positions and was correctly rejected; invalid inputs and stderr archived.",
+    "Second public-CLI audit assumed failure exit 2; actual documented CHECK_FAIL_EXIT_CODE is 1. Original partial reports archived, expectation corrected without changing production exit behavior.",
+    "The initial source passed its tested functional paths but omitted malformed window metadata. A new red test reproduced KeyError; .get plus the existing typed ValueError gate fixes it. Original 7 input files and red log preserved. Fixed full suite passed 1550/2; 12 same-host valid report files stayed byte-identical."
+  ],
+  "acceptance": "Full tests/Ruff and final four CLI cases subsequently passed; measured and browser acceptance not claimed"
+}

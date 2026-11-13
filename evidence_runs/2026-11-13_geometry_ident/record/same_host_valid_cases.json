@@ -1,0 +1,19 @@
+{
+  "initial_source": "151053d2abb2275ccf1029032aff341c68ed3b14",
+  "fixed_source": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+  "scope": "12 valid-case report/figure files, same host only",
+  "files": {
+    "geometry_identification/identified/run.json": "388eb8391852e7866a5c9de229499aed20ce6551d7e07bbe2f71df43911af3de",
+    "geometry_identification/identified/geometry_residuals.svg": "d2f63df0e01ef1c8a98a062ae2309067254d79c0b0f7fcfbe7c312dd8c8f33fb",
+    "geometry_identification/identified/geometry_residuals.png": "bb2587b5f41296794140a77b51dbfc2aa961dc9c6a25e522a482e8862237534e",
+    "geometry_identification/grid_only/run.json": "dbdfe30543972c1adaaa998c0efb4f52d541d9356876ef660bca8ca1712df635",
+    "geometry_identification/grid_only/geometry_residuals.svg": "96d16e72951352e7f3e31df8c8c4c139f1034fd0e340854ae28b53b2740ebf54",
+    "geometry_identification/grid_only/geometry_residuals.png": "860143300fc8bad92221a15a06523d56f58f46371c3535cc30878fc6b486c122",
+    "geometry_identification/mismatch/run.json": "9d19e02310c24d607f82252c50438c6fe6dbfb80ee171b443202bdf35e202d16",
+    "geometry_identification/mismatch/geometry_residuals.svg": "b75c5bc94a5c471eb203b0300262922fe60d27f9389185e18a328aa65ab4f910",
+    "geometry_identification/mismatch/geometry_residuals.png": "aac30e448947094448671c3bb45072da68cd0012832bca7abea3ebd6f6cc99db",
+    "geometry_identification/no_anchor/run.json": "45f5ed6fb2a8bc943381340c305e537cdbc8caa90cc88a7940b8687820cabb97",
+    "geometry_identification/no_anchor/geometry_residuals.svg": "a8d464b65b88a6870cde45764489571b92d2dc40cc4b08ef48bb7f8b0efb0d70",
+    "geometry_identification/no_anchor/geometry_residuals.png": "eec532b793de00b98cfbd60c8ca539e8a114204b385f658c3970d41564841fda"
+  }
+}

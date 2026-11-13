@@ -1,0 +1,36 @@
+{
+  "format": "zlscan.geometry-identification-evidence/1",
+  "initial_source_commit": "151053d2abb2275ccf1029032aff341c68ed3b14",
+  "fixed_source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+  "initial_ci_run": 43382792071,
+  "fixed_ci_run": 43384107947,
+  "initial_functional_ci_passed": true,
+  "fixed_ci_all_six_targets_passed": true,
+  "local_full_tests": {
+    "passed": 1550,
+    "skipped": 2,
+    "seconds": 185.22
+  },
+  "local_ruff": "passed",
+  "local_format_files": 308,
+  "installed_commands_per_target": 26,
+  "python_modules": 154,
+  "assets": 5,
+  "actual_measurements_obtained": false,
+  "parameter_upgrades": [],
+  "ci_original_zip_files": 12,
+  "ci_internal_file_entries": 6092,
+  "local_archived_member_entries": 307,
+  "same_host_unchanged_valid_report_files": 12,
+  "initial_missing_window_failure_reproduced": true,
+  "fixed_installed_cli_controlled_rejection": true,
+  "source_checkout_removed_only_after_clean_verification": true,
+  "scope": "conditional software geometry and interface validation; not complete stages 3-7, physical independence, browser or hardware acceptance",
+  "remaining": [
+    "radiometric identification",
+    "actual M06/M08 independent measurements",
+    "remaining stage 3/4 gates",
+    "browser acceptance",
+    "remaining stages 5-7 gates"
+  ]
+}

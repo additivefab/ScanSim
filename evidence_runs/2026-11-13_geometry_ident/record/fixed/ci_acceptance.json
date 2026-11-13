@@ -1,0 +1,349 @@
+{
+  "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+  "run_id": 43384107947,
+  "results": [
+    {
+      "artifact": {
+        "id": 14018491282,
+        "node_id": "MDg6QXJ0aWZhY3QxNDAxODQ5MTI4Mg==",
+        "name": "scansim-windows-latest-py3.11-attempt1",
+        "size_in_bytes": 3604971,
+        "url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018491282",
+        "archive_download_url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018491282/zip",
+        "expired": false,
+        "digest": "sha256:bb79c07d9dfc6cd25c58a7373d66d2a113fe8931898e6bd9cb9d7c3decd81c99",
+        "created_at": "2026-11-13T07:20:10Z",
+        "updated_at": "2026-11-13T07:20:10Z",
+        "expires_at": "2026-11-16T07:20:08Z",
+        "workflow_run": {
+          "id": 43384107947,
+          "repository_id": 1455171809,
+          "head_repository_id": 1455171809,
+          "head_branch": "main",
+          "head_sha": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e"
+        }
+      },
+      "tests": {
+        "tests": 1552,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 4
+      },
+      "passed": 1548,
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "commands": 26,
+      "recording_capture": {
+        "format": "zlscan.recording-capture-audit/1",
+        "origin": "SIMULATED",
+        "actual_measurements_obtained": false,
+        "capture_sha256": "122af2da5abfa2704457fd649a7dc7cc9c9fbdffcb9e869d85d0bc3915fe1b53",
+        "raw_sha256": "5b5e7fca0ef7df8cf048ea1c506de732fb20de474bfe8a27adba3775961d34bd",
+        "exported_epochs": [
+          0,
+          1,
+          2
+        ],
+        "logical_reset_preserves_settings": true,
+        "continuous_resume_branch_identical": true,
+        "scope": "public recording CLI and file readback; not physical accuracy"
+      },
+      "geometry": {
+        "format": "zlscan.geometry-identification-audit/1",
+        "cases": 4,
+        "maximum_error_standard_uncertainties": 1.5584459599658445,
+        "actual_measurements_obtained": false,
+        "parameter_upgrades": [],
+        "scope": "synthetic conditional geometry; not measured target extraction or hardware"
+      },
+      "zip_verified": true,
+      "executed_recording_capture_tests": 6,
+      "executed_geometry_tests": 19
+    },
+    {
+      "artifact": {
+        "id": 14018326484,
+        "node_id": "MDg6QXJ0aWZhY3QxNDAxODMyNjQ4NA==",
+        "name": "scansim-macos-latest-py3.14-attempt1",
+        "size_in_bytes": 3599033,
+        "url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018326484",
+        "archive_download_url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018326484/zip",
+        "expired": false,
+        "digest": "sha256:e87cfa7ae930e9938f3438944c07c14f8d23e5629afbbcbca51fcda94a8b4545",
+        "created_at": "2026-11-13T07:21:20Z",
+        "updated_at": "2026-11-13T07:21:20Z",
+        "expires_at": "2026-11-16T07:21:18Z",
+        "workflow_run": {
+          "id": 43384107947,
+          "repository_id": 1455171809,
+          "head_repository_id": 1455171809,
+          "head_branch": "main",
+          "head_sha": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e"
+        }
+      },
+      "tests": {
+        "tests": 1552,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 2
+      },
+      "passed": 1550,
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "commands": 26,
+      "recording_capture": {
+        "format": "zlscan.recording-capture-audit/1",
+        "origin": "SIMULATED",
+        "actual_measurements_obtained": false,
+        "capture_sha256": "122af2da5abfa2704457fd649a7dc7cc9c9fbdffcb9e869d85d0bc3915fe1b53",
+        "raw_sha256": "5b5e7fca0ef7df8cf048ea1c506de732fb20de474bfe8a27adba3775961d34bd",
+        "exported_epochs": [
+          0,
+          1,
+          2
+        ],
+        "logical_reset_preserves_settings": true,
+        "continuous_resume_branch_identical": true,
+        "scope": "public recording CLI and file readback; not physical accuracy"
+      },
+      "geometry": {
+        "format": "zlscan.geometry-identification-audit/1",
+        "cases": 4,
+        "maximum_error_standard_uncertainties": 1.5584459601489928,
+        "actual_measurements_obtained": false,
+        "parameter_upgrades": [],
+        "scope": "synthetic conditional geometry; not measured target extraction or hardware"
+      },
+      "zip_verified": true,
+      "executed_recording_capture_tests": 6,
+      "executed_geometry_tests": 19
+    },
+    {
+      "artifact": {
+        "id": 14018207202,
+        "node_id": "MDg6QXJ0aWZhY3QxNDAxODIwNzIwMg==",
+        "name": "scansim-macos-latest-py3.11-attempt1",
+        "size_in_bytes": 3599388,
+        "url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018207202",
+        "archive_download_url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018207202/zip",
+        "expired": false,
+        "digest": "sha256:c8d73ebaf8d54654390a0d9901e2855fa060b50445a82ef2171e055f748ff189",
+        "created_at": "2026-11-13T07:22:34Z",
+        "updated_at": "2026-11-13T07:22:34Z",
+        "expires_at": "2026-11-16T07:22:31Z",
+        "workflow_run": {
+          "id": 43384107947,
+          "repository_id": 1455171809,
+          "head_repository_id": 1455171809,
+          "head_branch": "main",
+          "head_sha": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e"
+        }
+      },
+      "tests": {
+        "tests": 1552,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 2
+      },
+      "passed": 1550,
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "commands": 26,
+      "recording_capture": {
+        "format": "zlscan.recording-capture-audit/1",
+        "origin": "SIMULATED",
+        "actual_measurements_obtained": false,
+        "capture_sha256": "122af2da5abfa2704457fd649a7dc7cc9c9fbdffcb9e869d85d0bc3915fe1b53",
+        "raw_sha256": "5b5e7fca0ef7df8cf048ea1c506de732fb20de474bfe8a27adba3775961d34bd",
+        "exported_epochs": [
+          0,
+          1,
+          2
+        ],
+        "logical_reset_preserves_settings": true,
+        "continuous_resume_branch_identical": true,
+        "scope": "public recording CLI and file readback; not physical accuracy"
+      },
+      "geometry": {
+        "format": "zlscan.geometry-identification-audit/1",
+        "cases": 4,
+        "maximum_error_standard_uncertainties": 1.5584459601489928,
+        "actual_measurements_obtained": false,
+        "parameter_upgrades": [],
+        "scope": "synthetic conditional geometry; not measured target extraction or hardware"
+      },
+      "zip_verified": true,
+      "executed_recording_capture_tests": 6,
+      "executed_geometry_tests": 19
+    },
+    {
+      "artifact": {
+        "id": 14018185870,
+        "node_id": "MDg6QXJ0aWZhY3QxNDAxODE4NTg3MA==",
+        "name": "scansim-ubuntu-latest-py3.11-attempt1",
+        "size_in_bytes": 3740321,
+        "url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018185870",
+        "archive_download_url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14018185870/zip",
+        "expired": false,
+        "digest": "sha256:98e2669ce7aff86e0841c640f7073322661ccfda3d4321872096c1bd3a848f2f",
+        "created_at": "2026-11-13T07:15:48Z",
+        "updated_at": "2026-11-13T07:15:48Z",
+        "expires_at": "2026-11-16T07:15:47Z",
+        "workflow_run": {
+          "id": 43384107947,
+          "repository_id": 1455171809,
+          "head_repository_id": 1455171809,
+          "head_branch": "main",
+          "head_sha": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e"
+        }
+      },
+      "tests": {
+        "tests": 1552,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "passed": 1552,
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "commands": 26,
+      "recording_capture": {
+        "format": "zlscan.recording-capture-audit/1",
+        "origin": "SIMULATED",
+        "actual_measurements_obtained": false,
+        "capture_sha256": "122af2da5abfa2704457fd649a7dc7cc9c9fbdffcb9e869d85d0bc3915fe1b53",
+        "raw_sha256": "5b5e7fca0ef7df8cf048ea1c506de732fb20de474bfe8a27adba3775961d34bd",
+        "exported_epochs": [
+          0,
+          1,
+          2
+        ],
+        "logical_reset_preserves_settings": true,
+        "continuous_resume_branch_identical": true,
+        "scope": "public recording CLI and file readback; not physical accuracy"
+      },
+      "geometry": {
+        "format": "zlscan.geometry-identification-audit/1",
+        "cases": 4,
+        "maximum_error_standard_uncertainties": 1.5584459599658445,
+        "actual_measurements_obtained": false,
+        "parameter_upgrades": [],
+        "scope": "synthetic conditional geometry; not measured target extraction or hardware"
+      },
+      "zip_verified": true,
+      "executed_recording_capture_tests": 6,
+      "executed_geometry_tests": 19
+    },
+    {
+      "artifact": {
+        "id": 14017877599,
+        "node_id": "MDg6QXJ0aWZhY3QxNDAxNzg3NzU5OQ==",
+        "name": "scansim-ubuntu-latest-py3.14-attempt1",
+        "size_in_bytes": 3738431,
+        "url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14017877599",
+        "archive_download_url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14017877599/zip",
+        "expired": false,
+        "digest": "sha256:363a60b3328d742b87c36209d98313184a8eff5ec411fa37039a25f22d9fc644",
+        "created_at": "2026-11-13T07:17:33Z",
+        "updated_at": "2026-11-13T07:17:33Z",
+        "expires_at": "2026-11-16T07:17:31Z",
+        "workflow_run": {
+          "id": 43384107947,
+          "repository_id": 1455171809,
+          "head_repository_id": 1455171809,
+          "head_branch": "main",
+          "head_sha": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e"
+        }
+      },
+      "tests": {
+        "tests": 1552,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "passed": 1552,
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "commands": 26,
+      "recording_capture": {
+        "format": "zlscan.recording-capture-audit/1",
+        "origin": "SIMULATED",
+        "actual_measurements_obtained": false,
+        "capture_sha256": "122af2da5abfa2704457fd649a7dc7cc9c9fbdffcb9e869d85d0bc3915fe1b53",
+        "raw_sha256": "5b5e7fca0ef7df8cf048ea1c506de732fb20de474bfe8a27adba3775961d34bd",
+        "exported_epochs": [
+          0,
+          1,
+          2
+        ],
+        "logical_reset_preserves_settings": true,
+        "continuous_resume_branch_identical": true,
+        "scope": "public recording CLI and file readback; not physical accuracy"
+      },
+      "geometry": {
+        "format": "zlscan.geometry-identification-audit/1",
+        "cases": 4,
+        "maximum_error_standard_uncertainties": 1.5584459598756473,
+        "actual_measurements_obtained": false,
+        "parameter_upgrades": [],
+        "scope": "synthetic conditional geometry; not measured target extraction or hardware"
+      },
+      "zip_verified": true,
+      "executed_recording_capture_tests": 6,
+      "executed_geometry_tests": 19
+    },
+    {
+      "artifact": {
+        "id": 14017779620,
+        "node_id": "MDg6QXJ0aWZhY3QxNDAxNzc3OTYyMA==",
+        "name": "scansim-windows-latest-py3.14-attempt1",
+        "size_in_bytes": 3611345,
+        "url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14017779620",
+        "archive_download_url": "https://api.github.com/repos/additivefab/ScanSim/actions/artifacts/14017779620/zip",
+        "expired": false,
+        "digest": "sha256:305cbbdee6b234fd97e66294a3d12dd0d4f59353c55729f3a22af0b969ab223f",
+        "created_at": "2026-11-13T07:20:26Z",
+        "updated_at": "2026-11-13T07:20:26Z",
+        "expires_at": "2026-11-16T07:20:25Z",
+        "workflow_run": {
+          "id": 43384107947,
+          "repository_id": 1455171809,
+          "head_repository_id": 1455171809,
+          "head_branch": "main",
+          "head_sha": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e"
+        }
+      },
+      "tests": {
+        "tests": 1552,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 4
+      },
+      "passed": 1548,
+      "source_commit": "6eeefdbd1c3c5fbd3fd9a98b5136027fdfad884e",
+      "commands": 26,
+      "recording_capture": {
+        "format": "zlscan.recording-capture-audit/1",
+        "origin": "SIMULATED",
+        "actual_measurements_obtained": false,
+        "capture_sha256": "122af2da5abfa2704457fd649a7dc7cc9c9fbdffcb9e869d85d0bc3915fe1b53",
+        "raw_sha256": "5b5e7fca0ef7df8cf048ea1c506de732fb20de474bfe8a27adba3775961d34bd",
+        "exported_epochs": [
+          0,
+          1,
+          2
+        ],
+        "logical_reset_preserves_settings": true,
+        "continuous_resume_branch_identical": true,
+        "scope": "public recording CLI and file readback; not physical accuracy"
+      },
+      "geometry": {
+        "format": "zlscan.geometry-identification-audit/1",
+        "cases": 4,
+        "maximum_error_standard_uncertainties": 1.5584459598756473,
+        "actual_measurements_obtained": false,
+        "parameter_upgrades": [],
+        "scope": "synthetic conditional geometry; not measured target extraction or hardware"
+      },
+      "zip_verified": true,
+      "executed_recording_capture_tests": 6,
+      "executed_geometry_tests": 19
+    }
+  ],
+  "scope": "actual configured six-target software CI; not browser or hardware acceptance"
+}

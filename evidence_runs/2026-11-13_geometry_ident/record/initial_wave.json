@@ -1,0 +1,49 @@
+{
+  "source_commit": "151053d2abb2275ccf1029032aff341c68ed3b14",
+  "scope": "initial functional CI, before missing-window rejection regression",
+  "archive": "initial_wave.tar.gz",
+  "sha256": "4cbf7b1fed51868a3395e99b29505dfe43c21fdefdf254188f8767aa1a47b496",
+  "verified_member_bytes": true,
+  "files": {
+    "ci/14016739802.zip": {
+      "size": 3599204,
+      "sha256": "6929aec33fb8cba59a2995f38537054a72216a0c673ba06dfbf36390dc791441"
+    },
+    "ci/14016869765.zip": {
+      "size": 3599115,
+      "sha256": "5af560cd3f0c1bf04c84986fdd9ab523a410bafa1374d9ca484e3b674defe229"
+    },
+    "ci/14016929239.zip": {
+      "size": 3611027,
+      "sha256": "cfb668561213755dfd486261ac46881c19680f944c43395cf1604c2e34f8df94"
+    },
+    "ci/14017153202.zip": {
+      "size": 3741046,
+      "sha256": "c1205f98742354293bd72a2984e9dffd0144f380964e023dd129cc48c741e722"
+    },
+    "ci/14017398168.zip": {
+      "size": 3605031,
+      "sha256": "d7cff64c514dc41c82fa0bc264da22392d5568e43138e48022ffb1b5bd1de53a"
+    },
+    "ci/14017856170.zip": {
+      "size": 3735456,
+      "sha256": "0893701118cb335c6d84db2c6161250f3d17dd3e601f5b28259d4a8020536074"
+    },
+    "ci/artifacts.json": {
+      "size": 4261,
+      "sha256": "4bbb8b4d64e549db2fbc0d908ad3130ae3e051427c2f8794d88927b4a1e09e26"
+    },
+    "ci/jobs.json": {
+      "size": 18854,
+      "sha256": "2ebf174e23cbe3c28f2bbde1a59688fb0223eae1ccd29c6483fcc55faebce6e8"
+    },
+    "ci/run.json": {
+      "size": 12214,
+      "sha256": "2d75c40c664dedac30980b96986e57f06b573c4d4480f017f6a99aaf687e1c22"
+    },
+    "verify_ci.py": {
+      "size": 6210,
+      "sha256": "666da8f348821ac104bc9a9a5b6b863d6b253666b8d855de737549d0341bcee5"
+    }
+  }
+}
