@@ -1,0 +1,61 @@
+{
+  "format": "zlscan-stage34-software-gate/1",
+  "scope": "replayable software evidence only; no browser, hardware, or measured-source acceptance",
+  "status": "pass",
+  "criteria": [
+    {
+      "name": "performance:4000x5000",
+      "passed": true,
+      "detail": "wall_s=861.7966813340026; integrity=complete; lost_blocks=0"
+    },
+    {
+      "name": "performance:7000x8600",
+      "passed": true,
+      "detail": "wall_s=771.8218599590036; integrity=complete; lost_blocks=0"
+    },
+    {
+      "name": "factorial:2^3 cases",
+      "passed": true,
+      "detail": "cases=8; common_pixels=288; invalid_total=0"
+    },
+    {
+      "name": "pair:independent edge alignment",
+      "passed": true,
+      "detail": "demo_log: shift=2.00631627103121; uncorrected=0.16716666468704544; edge=0.01521576230851189; ad9268_50m_5x: shift=2.0933100750504536; uncorrected=0.18960184633068178; edge=0.027394450629991567"
+    },
+    {
+      "name": "nominal:quality summary",
+      "passed": true,
+      "detail": "valid_pixels=288; wedge_steps=4"
+    }
+  ],
+  "performance": {
+    "4000x5000": {
+      "lines": 5008,
+      "fine_steps_per_channel": 1001600000,
+      "integrity": "complete",
+      "recon_status": "complete",
+      "lost_blocks": 0,
+      "kernel_s": 602.06524398693,
+      "wall_s": 861.7966813340026,
+      "peak_rss_bytes": 470536192,
+      "assumed_parameters": true
+    },
+    "7000x8600": {
+      "lines": 8608,
+      "fine_steps_per_channel": 688640000,
+      "integrity": "complete",
+      "recon_status": "complete",
+      "lost_blocks": 0,
+      "kernel_s": 434.82629392559465,
+      "wall_s": 771.8218599590036,
+      "peak_rss_bytes": 276443136,
+      "assumed_parameters": true
+    }
+  },
+  "inputs": {
+    "factorial": "docs/reports/stage4_factorial_data.json",
+    "pair": "docs/reports/stage4_package_b_data.json",
+    "nominal": "docs/reports/nominal_quality_metrics.json"
+  }
+}
