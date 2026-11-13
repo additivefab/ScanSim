@@ -6,5 +6,12 @@
   "ruff": "passed",
   "scope": "sweep/compare/CLI/evidence-record unit paths",
   "stage7_complete": false,
-  "unclosed": ["performance pair", "measurement/browser acceptance", "full external tool/license lock", "S7-T03 residual report"]
+  "unclosed": [
+    "performance pair",
+    "measurement/browser acceptance",
+    "full external tool/license lock",
+    "S7-T03 residual report"
+  ],
+  "logs_archive": "/Users/yuxinghua/.cache/scansim-stage7-acceptance/logs.tar.gz",
+  "logs_archive_sha256": ""
 }
