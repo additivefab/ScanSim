@@ -1,0 +1,13 @@
+{
+  "format": "zlscan.s5-glare-regression/1",
+  "source_commit": "153c57c47e7bb6068bf1e3965cab446106da9595",
+  "full_pytest_passed": 1579,
+  "full_pytest_skipped": 2,
+  "full_pytest_seconds": 192.73,
+  "ruff": "passed",
+  "format_files": 313,
+  "focused_truth_tests": 49,
+  "mechanism": "default-off normalized wide-tail PSF mixture",
+  "m06_measurement_obtained": false,
+  "stage5_complete": false
+}
