@@ -7,13 +7,15 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S7-T05 首轮 CI 四目标通过、Windows 两目标失败；可移植性修复原生通过，PDF 原生已通过；隔离安装 UTF-8 修复与第四轮验证进行中 |
-| 下一个任务 | CI/平台兼容性与阶段 3/4 剩余软件门槛；继续多工作点标定及几何/辐射辨识，浏览器与实机验收保留 |
+| 进行中的任务 | 本轮 S7-T05 六目标 CI 与干净机器安装验证完成；阶段3–7总体目标仍进行中 |
+| 下一个任务 | S4-T01 多工作点标定集与时期绑定；继续阶段3/4剩余软件验收及几何/辐射辨识，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
 | 最近一次全量测试 | 2026-11-13 `pytest -q`：1495 通过、2 跳过，201.56 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
+
+- **最新 CI 源码已发布并核对**：`6083281`（完整哈希 `6083281d38ecaa8bdea25534581d0a3c57c0635b`）已正常快进推送，远端 main 当时等于本地 HEAD。第四轮 run43363085674 六目标全部 success；Linux各1497/0跳过、macOS各1495/2、Windows各1493/4，全部隔离安装审计通过。前三轮负证据与本轮成功共24个原 ZIP/6382内部文件的摘要、锁、日志和实际示例在 `evidence_runs/2026-11-13_cross_platform_ci/record/`。本批后续为文档与归档提交，代码未再改，CI验证源码仍精确指向6083281；最终推送另逐引用核对。原 stash04da348保留，实机/浏览器/完整工具链锁及阶段3–7其它门槛仍未关闭。
 
 - **最新已核对发布批次**：安装工具 `631c542`、离线包/证据 `3575b15` 和交接 `5befe19` 已正常快进推送，包含上轮时基交接 `389e16e`；实际远端 main `5befe191c5cfc05226d2ccba873a4e9cce56e28d` 等于当时本地 HEAD。使用 macOS 现有 7897 代理的单请求 SOCKS5h 通路，TLS 校验与仓库 origin 均保留；HTTPS/SSH 失败原件不删除。回执在 `evidence_runs/2026-11-13_latest_install/record/publication/verified_batch.json`，GitHub 对 53 MiB 工件给出大文件提示但接受更新。工作区当时干净，原 stash `04da348` 保留。本条之后交接提交继续正常推送核对，下方待发布文字是该次成功之前的历史。
 

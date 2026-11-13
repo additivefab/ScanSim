@@ -1,5 +1,49 @@
 # 三平台与最低/当前 Python CI（S7-T05）
 
+## 当前结论：六目标实际通过
+
+2026-11-13，[第四轮 run 43363085674](https://github.com/additivefab/ScanSim/actions/runs/43363085674) 六个 job 均 success，
+固定源码 `6083281d38ecaa8bdea25534581d0a3c57c0635b`。全部原始 ZIP 已下载，摘要与 GitHub digest 一致、
+CRC 与内部逐文件摘要核对完成。以下早期“待返回/失败”文字是按轮次保留的历史，
+当前结论以本节与 `evidence_runs/2026-11-13_cross_platform_ci/record/fourth_acceptance.json` 为准。
+
+| 目标 | 实际 Python | 通过 | 跳过 | 完整安装审计 |
+|---|---|---:|---:|---|
+| macos-latest | 3.11.9 | 1495 | 2 | 通过 |
+| macos-latest | 3.14.10 | 1495 | 2 | 通过 |
+| ubuntu-latest | 3.11.18 | 1497 | 0 | 通过 |
+| ubuntu-latest | 3.14.10 | 1497 | 0 | 通过 |
+| windows-latest | 3.11.9 | 1493 | 4 | 通过 |
+| windows-latest | 3.14.10 | 1493 | 4 | 通过 |
+
+Linux 无跳过，实际执行了两项 Icarus 功能 RTL 测试；macOS 跳过两项缺失 Icarus
+测试；Windows 另跳过两项 POSIX 信号测试，共四项。Windows EOF 暂停/恢复、
+跨进程写入排斥与可读前缀、原 JS 帮助函数断言、原理图 PDF 合同均实际通过。
+冻结 B 在 Windows 使用明确标记的 NPZ 原字节内存适配，原14断言通过；
+未经适配的原套件首轮清理失败仍保存，冻结源不改。
+
+各目标实际核对1238个跟踪源码文件、150个 Python 模块与5个资源字节；
+后端3包锁、目标自身19个外部运行依赖加项目 wheel 共20个运行锁项，
+随后离线重复构建、全新隔离 venv 安装、pip check、CLI/HTTP、static、dynamic、
+timing、segmented 以及新进程回读全部通过。每个目标20条安装审计命令退出0。
+各目标两份独立源副本构建的 wheel 字节一致；不同 OS/Python 的 wheel 摘要
+可能不同，不要求跨目标成品 ZIP 字节相同，完整摘要在 acceptance JSON。
+
+实际镜像为 ubuntu26 / 20261101.186.1、macos26 / 20261102.0473.1、
+win25-vs2026 / 20261103.298.1，具体 OS/架构与包版本在每个原工件。
+UTF-8/Agg 与子 CLI 文本编码配置显式记录，安装驱动保留 -I；没有测试所有
+桌面 OS、所有 Python 版本、浏览器交互或硬件。该批数据均为软件/合成输入，
+实际测量取得标志仍 false、参数证据升级列表为空、硬件 check 仍 unresolved。
+
+四轮24个原始 GitHub ZIP 共6382个内部文件均建摘要索引，
+前三轮失败与本轮成功分别存入 `record/first_wave.tar.gz` 至 `fourth_wave.tar.gz`，
+每个外层归档再次逐文件回读校验；GitHub 三天工件过期不会丢失这些原件。
+本机最终1495通过/2跳过（201.56 s），Ruff/298文件格式通过。
+另一台干净机器的软件安装与规定的六目标 CI 门槛已有证据；完整工具链/许可、
+实机、浏览器与阶段3–7其它未闭合项仍保留。
+
+## 实现与逐轮历史
+
 2026-11-13。新增 `.github/workflows/ci.yml`，采用 YAML 允许的 JSON 表示，
 由标准库校验矩阵合同，避免新增 YAML 依赖。Linux/Windows/macOS 的 latest 标签各覆盖
 Python 3.11 与 3.14；实际版本、架构、镜像信息单独记录，标签不等于平台环境锁。

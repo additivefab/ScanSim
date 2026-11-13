@@ -1,0 +1,387 @@
+{
+  "format": "zlscan.cross-platform-acceptance/1",
+  "run_id": 43363085674,
+  "url": "https://github.com/additivefab/ScanSim/actions/runs/43363085674",
+  "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+  "conclusion": "passed",
+  "targets": [
+    {
+      "artifact_id": 14009995769,
+      "name": "scansim-macos-latest-py3.14-attempt1",
+      "status": "passed",
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "python": "3.14.10 (v3.14.10:b703b2c5e70, Oct 25 2026, 14:17:53) [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "platform": "macOS-26.7.2-arm64-arm-64bit-Mach-O",
+      "cases": 1497,
+      "passed": 1495,
+      "failed_or_error": 0,
+      "skipped": 2,
+      "skip_reasons": [
+        {
+          "name": "test_icarus_matches_capture_window_reference",
+          "message": "Icarus Verilog and vvp are unavailable"
+        },
+        {
+          "name": "test_real_rtl_high_bits_survive_packet_loss_reconnect_and_new_epoch",
+          "message": "Icarus unavailable"
+        }
+      ],
+      "failures": [],
+      "wheel": {
+        "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "size_bytes": 350823,
+        "metadata_version": "0.1.0.dev0",
+        "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+        "assets": {
+          "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+          "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+          "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+          "zlscan/report/image_view.html": "4179b9a38178bd274915233a817fa17133c1840f3a446533e3a77e320581fa2c",
+          "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e"
+        },
+        "python_modules": 150
+      },
+      "repeated_build": {
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "byte_identical": true,
+        "independent_source_copy": true
+      },
+      "github": {
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "43363085674",
+        "GITHUB_RUN_ATTEMPT": "1",
+        "GITHUB_SHA": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+        "GITHUB_EVENT_NAME": "push",
+        "GITHUB_REF": "refs/heads/main",
+        "RUNNER_OS": "macOS",
+        "ImageOS": "macos26",
+        "ImageVersion": "20261102.0473.1"
+      },
+      "locked_runtime_distributions": 20,
+      "build_backend_distributions": 3,
+      "external_runtime_distributions": 19,
+      "source_files": 1238,
+      "installed_audit_commands": 20,
+      "isolated_module_path": "/Users/runner/work/_temp/scansim-ci-work/wheel-work/runtime/lib/python3.14/site-packages/zlscan/__init__.py",
+      "isolated_prefix": "/Users/runner/work/_temp/scansim-ci-work/wheel-work/runtime",
+      "hardware_check": "unresolved"
+    },
+    {
+      "artifact_id": 14009995071,
+      "name": "scansim-windows-latest-py3.11-attempt1",
+      "status": "passed",
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "platform": "Windows-10-10.0.26100-SP0",
+      "cases": 1497,
+      "passed": 1493,
+      "failed_or_error": 0,
+      "skipped": 4,
+      "skip_reasons": [
+        {
+          "name": "test_icarus_matches_capture_window_reference",
+          "message": "Icarus Verilog and vvp are unavailable"
+        },
+        {
+          "name": "test_real_rtl_high_bits_survive_packet_loss_reconnect_and_new_epoch",
+          "message": "Icarus unavailable"
+        },
+        {
+          "name": "test_actual_sigint_pauses_at_safe_boundary_and_can_resume",
+          "message": "POSIX signal delivery; Windows uses TerminateProcess"
+        },
+        {
+          "name": "test_sigterm_while_waiting_for_input_commits_pause",
+          "message": "POSIX signal delivery; Windows uses TerminateProcess"
+        }
+      ],
+      "failures": [],
+      "wheel": {
+        "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+        "sha256": "d9f4ccea3fdbcd173f027abf839dd17730793138318665c095d6ec165a0b1461",
+        "size_bytes": 350853,
+        "metadata_version": "0.1.0.dev0",
+        "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+        "assets": {
+          "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e",
+          "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+          "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+          "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+          "zlscan/report/image_view.html": "4179b9a38178bd274915233a817fa17133c1840f3a446533e3a77e320581fa2c"
+        },
+        "python_modules": 150
+      },
+      "repeated_build": {
+        "sha256": "d9f4ccea3fdbcd173f027abf839dd17730793138318665c095d6ec165a0b1461",
+        "byte_identical": true,
+        "independent_source_copy": true
+      },
+      "github": {
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "43363085674",
+        "GITHUB_RUN_ATTEMPT": "1",
+        "GITHUB_SHA": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+        "GITHUB_EVENT_NAME": "push",
+        "GITHUB_REF": "refs/heads/main",
+        "RUNNER_OS": "Windows",
+        "ImageOS": "win25-vs2026",
+        "ImageVersion": "20261103.298.1"
+      },
+      "locked_runtime_distributions": 20,
+      "build_backend_distributions": 3,
+      "external_runtime_distributions": 19,
+      "source_files": 1238,
+      "installed_audit_commands": 20,
+      "isolated_module_path": "D:\\a\\_temp\\scansim-ci-work\\wheel-work\\runtime\\Lib\\site-packages\\zlscan\\__init__.py",
+      "isolated_prefix": "D:\\a\\_temp\\scansim-ci-work\\wheel-work\\runtime",
+      "hardware_check": "unresolved"
+    },
+    {
+      "artifact_id": 14009421229,
+      "name": "scansim-ubuntu-latest-py3.14-attempt1",
+      "status": "passed",
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "python": "3.14.10 (main, Oct 26 2026, 14:17:03) [GCC 15.2.0]",
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "cases": 1497,
+      "passed": 1497,
+      "failed_or_error": 0,
+      "skipped": 0,
+      "skip_reasons": [],
+      "failures": [],
+      "wheel": {
+        "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "size_bytes": 350823,
+        "metadata_version": "0.1.0.dev0",
+        "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+        "assets": {
+          "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+          "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+          "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+          "zlscan/report/image_view.html": "4179b9a38178bd274915233a817fa17133c1840f3a446533e3a77e320581fa2c",
+          "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e"
+        },
+        "python_modules": 150
+      },
+      "repeated_build": {
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "byte_identical": true,
+        "independent_source_copy": true
+      },
+      "github": {
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "43363085674",
+        "GITHUB_RUN_ATTEMPT": "1",
+        "GITHUB_SHA": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+        "GITHUB_EVENT_NAME": "push",
+        "GITHUB_REF": "refs/heads/main",
+        "RUNNER_OS": "Linux",
+        "ImageOS": "ubuntu26",
+        "ImageVersion": "20261101.186.1"
+      },
+      "locked_runtime_distributions": 20,
+      "build_backend_distributions": 3,
+      "external_runtime_distributions": 19,
+      "source_files": 1238,
+      "installed_audit_commands": 20,
+      "isolated_module_path": "/home/runner/work/_temp/scansim-ci-work/wheel-work/runtime/lib/python3.14/site-packages/zlscan/__init__.py",
+      "isolated_prefix": "/home/runner/work/_temp/scansim-ci-work/wheel-work/runtime",
+      "hardware_check": "unresolved"
+    },
+    {
+      "artifact_id": 14009302836,
+      "name": "scansim-macos-latest-py3.11-attempt1",
+      "status": "passed",
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "python": "3.11.9 (v3.11.9:de54cf5be3, Apr  2 2024, 07:12:50) [Clang 13.0.0 (clang-1300.0.29.30)]",
+      "platform": "macOS-26.7.2-arm64-arm-64bit",
+      "cases": 1497,
+      "passed": 1495,
+      "failed_or_error": 0,
+      "skipped": 2,
+      "skip_reasons": [
+        {
+          "name": "test_icarus_matches_capture_window_reference",
+          "message": "Icarus Verilog and vvp are unavailable"
+        },
+        {
+          "name": "test_real_rtl_high_bits_survive_packet_loss_reconnect_and_new_epoch",
+          "message": "Icarus unavailable"
+        }
+      ],
+      "failures": [],
+      "wheel": {
+        "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "size_bytes": 350823,
+        "metadata_version": "0.1.0.dev0",
+        "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+        "assets": {
+          "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+          "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+          "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+          "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e",
+          "zlscan/report/image_view.html": "4179b9a38178bd274915233a817fa17133c1840f3a446533e3a77e320581fa2c"
+        },
+        "python_modules": 150
+      },
+      "repeated_build": {
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "byte_identical": true,
+        "independent_source_copy": true
+      },
+      "github": {
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "43363085674",
+        "GITHUB_RUN_ATTEMPT": "1",
+        "GITHUB_SHA": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+        "GITHUB_EVENT_NAME": "push",
+        "GITHUB_REF": "refs/heads/main",
+        "RUNNER_OS": "macOS",
+        "ImageOS": "macos26",
+        "ImageVersion": "20261102.0473.1"
+      },
+      "locked_runtime_distributions": 20,
+      "build_backend_distributions": 3,
+      "external_runtime_distributions": 19,
+      "source_files": 1238,
+      "installed_audit_commands": 20,
+      "isolated_module_path": "/Users/runner/work/_temp/scansim-ci-work/wheel-work/runtime/lib/python3.11/site-packages/zlscan/__init__.py",
+      "isolated_prefix": "/Users/runner/work/_temp/scansim-ci-work/wheel-work/runtime",
+      "hardware_check": "unresolved"
+    },
+    {
+      "artifact_id": 14009257240,
+      "name": "scansim-ubuntu-latest-py3.11-attempt1",
+      "status": "passed",
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "cases": 1497,
+      "passed": 1497,
+      "failed_or_error": 0,
+      "skipped": 0,
+      "skip_reasons": [],
+      "failures": [],
+      "wheel": {
+        "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "size_bytes": 350823,
+        "metadata_version": "0.1.0.dev0",
+        "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+        "assets": {
+          "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+          "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+          "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e",
+          "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+          "zlscan/report/image_view.html": "4179b9a38178bd274915233a817fa17133c1840f3a446533e3a77e320581fa2c"
+        },
+        "python_modules": 150
+      },
+      "repeated_build": {
+        "sha256": "b983bf06194e85c2a7ab2f59da533f02f92bbbdeb8a7c12d0ee9eacabf2cfa32",
+        "byte_identical": true,
+        "independent_source_copy": true
+      },
+      "github": {
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "43363085674",
+        "GITHUB_RUN_ATTEMPT": "1",
+        "GITHUB_SHA": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+        "GITHUB_EVENT_NAME": "push",
+        "GITHUB_REF": "refs/heads/main",
+        "RUNNER_OS": "Linux",
+        "ImageOS": "ubuntu26",
+        "ImageVersion": "20261101.186.1"
+      },
+      "locked_runtime_distributions": 20,
+      "build_backend_distributions": 3,
+      "external_runtime_distributions": 19,
+      "source_files": 1238,
+      "installed_audit_commands": 20,
+      "isolated_module_path": "/home/runner/work/_temp/scansim-ci-work/wheel-work/runtime/lib/python3.11/site-packages/zlscan/__init__.py",
+      "isolated_prefix": "/home/runner/work/_temp/scansim-ci-work/wheel-work/runtime",
+      "hardware_check": "unresolved"
+    },
+    {
+      "artifact_id": 14008927595,
+      "name": "scansim-windows-latest-py3.14-attempt1",
+      "status": "passed",
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "python": "3.14.10 (tags/v3.14.10:b703b2c, Oct 25 2026, 17:36:52) [MSC v.1944 64 bit (AMD64)]",
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "cases": 1497,
+      "passed": 1493,
+      "failed_or_error": 0,
+      "skipped": 4,
+      "skip_reasons": [
+        {
+          "name": "test_icarus_matches_capture_window_reference",
+          "message": "Icarus Verilog and vvp are unavailable"
+        },
+        {
+          "name": "test_real_rtl_high_bits_survive_packet_loss_reconnect_and_new_epoch",
+          "message": "Icarus unavailable"
+        },
+        {
+          "name": "test_actual_sigint_pauses_at_safe_boundary_and_can_resume",
+          "message": "POSIX signal delivery; Windows uses TerminateProcess"
+        },
+        {
+          "name": "test_sigterm_while_waiting_for_input_commits_pause",
+          "message": "POSIX signal delivery; Windows uses TerminateProcess"
+        }
+      ],
+      "failures": [],
+      "wheel": {
+        "filename": "zlscan-0.1.0.dev0-py3-none-any.whl",
+        "sha256": "211a553a898741ae61a481fceacb9a2e4e872bc26c869895da779fd3516f5dbf",
+        "size_bytes": 351304,
+        "metadata_version": "0.1.0.dev0",
+        "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+        "assets": {
+          "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+          "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+          "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+          "zlscan/report/image_view.html": "4179b9a38178bd274915233a817fa17133c1840f3a446533e3a77e320581fa2c",
+          "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e"
+        },
+        "python_modules": 150
+      },
+      "repeated_build": {
+        "sha256": "211a553a898741ae61a481fceacb9a2e4e872bc26c869895da779fd3516f5dbf",
+        "byte_identical": true,
+        "independent_source_copy": true
+      },
+      "github": {
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "43363085674",
+        "GITHUB_RUN_ATTEMPT": "1",
+        "GITHUB_SHA": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+        "GITHUB_EVENT_NAME": "push",
+        "GITHUB_REF": "refs/heads/main",
+        "RUNNER_OS": "Windows",
+        "ImageOS": "win25-vs2026",
+        "ImageVersion": "20261103.298.1"
+      },
+      "locked_runtime_distributions": 20,
+      "build_backend_distributions": 3,
+      "external_runtime_distributions": 19,
+      "source_files": 1238,
+      "installed_audit_commands": 20,
+      "isolated_module_path": "D:\\a\\_temp\\scansim-ci-work\\wheel-work\\runtime\\Lib\\site-packages\\zlscan\\__init__.py",
+      "isolated_prefix": "D:\\a\\_temp\\scansim-ci-work\\wheel-work\\runtime",
+      "hardware_check": "unresolved"
+    }
+  ],
+  "scope": "specified GitHub-hosted software environments; actual per-target repeated builds and fresh isolated installs; no browser or hardware acceptance; UTF-8 child CLI configuration explicit",
+  "remaining_gates": [
+    "browser interaction",
+    "real hardware measurements",
+    "full CPython/OS/dev/external toolchain locks",
+    "license audit",
+    "remaining stage 3-7 tasks"
+  ]
+}

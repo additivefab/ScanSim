@@ -7,7 +7,9 @@ CLI 与 wheel 元数据由安装验证核对。升级包版本不会升级任何
 ## 从源码安装
 
 要求 Python 3.11 及以上。以下为使用方式；本轮实际环境是 macOS 15.7.6、
-Python 3.14.7、Python 进程 x86_64。Windows/Linux 与其他 Python 版本矩阵未执行。
+Python 3.14.7、Python 进程 x86_64。另已在 GitHub 干净 runner 完成 Linux/Windows/macOS ×
+Python 3.11/3.14 六目标的完整测试与隔离安装，实际版本及跳过原因见
+[跨平台 CI 报告](reports/cross_platform_ci.md)。其它 OS/版本不据此宣称已验证。
 
 macOS/Linux：
 
@@ -19,7 +21,7 @@ python3 -m venv .venv
 .venv/bin/python -m pytest -q
 ```
 
-Windows（命令未在 Windows 实跑）：
+Windows（PowerShell；CI 用 setup-python 后的 python 模块入口，未单独验收 py 启动器）：
 
 ```powershell
 $env:PYTHONUTF8 = "1"
@@ -101,10 +103,10 @@ offline_env/bin/zlscan --version
 offline_env/bin/python -m pip check
 ```
 
-新构建由工具生成配套锁。当前记录只覆盖同一主机上的隔离环境，
-系统 Python、内核及系统库仍来自该主机；另一台干净机器、Windows/Linux
-与其他 Python 版本尚未验收。构建后端版本会在 wheel 元数据/日志中记录，
-构建工具链与 dev/外部仿真工具的完整锁定、发布许可及 CI 仍待完成。
+新构建由工具生成配套锁。旧 macOS 参考包覆盖原主机；新增六目标 CI 在各自
+干净 runner 上实际解析目标依赖、按新哈希锁离线构建和安装，不能混用不同目标
+的二进制依赖。见跨平台 CI 报告与归档中的各目标锁。系统 Python/内核/系统库
+来自实际 runner，CPython/OS/dev/外部工具完整锁与发布许可审计仍待完成。
 
 当前正式参考锁：`install/locks/macos-x86_64-cpython314-runtime-ident.lock`；
 对应工件/来源/平台汇总见 `docs/reports/wheel_install_audit.json`。

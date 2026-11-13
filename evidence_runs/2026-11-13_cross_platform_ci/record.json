@@ -1,0 +1,50 @@
+{
+  "format": "zlscan.cross-platform-evidence/1",
+  "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+  "run_id": 43363085674,
+  "conclusion": "passed",
+  "scope": "specified GitHub-hosted software environments; actual per-target repeated builds and fresh isolated installs; no browser or hardware acceptance; UTF-8 child CLI configuration explicit",
+  "archive_count": 4,
+  "original_artifact_count": 24,
+  "zip_member_count": 6382,
+  "archive_bytes": 48480733,
+  "archives": [
+    {
+      "run_id": 43355893600,
+      "source_commit": "1ae11ddba9d68d4d1ef5197ad93a8cacc9cb6b94",
+      "conclusion": "failure",
+      "archive": "first_wave.tar.gz",
+      "bytes": 10829592,
+      "sha256": "1c3a1914b8d262e0429954dd6ae2dc829c2376ada53b6e02dcc8d8fb5acf5f66",
+      "zip_member_count": 1406
+    },
+    {
+      "run_id": 43359591080,
+      "source_commit": "cf9561072a6b69594a1f902ed53a2998a4b89df8",
+      "conclusion": "failure",
+      "archive": "second_wave.tar.gz",
+      "bytes": 10759780,
+      "sha256": "1b331829da61eb411780daef09c0c6836924fee1fba9493190eea479f6f6b609",
+      "zip_member_count": 1410
+    },
+    {
+      "run_id": 43361011838,
+      "source_commit": "342af7b74597fe088755ac467024084f1e58a572",
+      "conclusion": "failure",
+      "archive": "third_wave.tar.gz",
+      "bytes": 10932214,
+      "sha256": "1c1bd1a4ddcd30fdb7a5d1e8d80b4bcb53ca872ce2831a411d34337f54431c3d",
+      "zip_member_count": 1468
+    },
+    {
+      "run_id": 43363085674,
+      "source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+      "conclusion": "success",
+      "archive": "fourth_wave.tar.gz",
+      "bytes": 15959147,
+      "sha256": "9ba8f1b836cf1d79fc0722107e0328be4a3f2795415fa4a64a29cd00f8e6b3ae",
+      "zip_member_count": 2098
+    }
+  ],
+  "acceptance": "record/fourth_acceptance.json"
+}
