@@ -80,6 +80,37 @@ def test_psf_quadrature_cache_is_configuration_only_and_immutable():
     assert not _quadrature(9, 5, True, True)[0].flags.writeable
 
 
+def test_wide_tail_glare_is_normalized_and_default_off():
+    s = edge(0.0, 3.0, 0.1, 0.1, n=512)
+    x = np.array([0.07])
+    y = np.array([0.05])
+    core = psf.effective_transmittance(s.lookup, psf.PsfConfig(1e-3, 1e-3), x, y)
+    default = psf.effective_transmittance(s.lookup, psf.PsfConfig(1e-3, 1e-3), x, y)
+    glare = psf.effective_transmittance(
+        s.lookup,
+        psf.PsfConfig(1e-3, 1e-3, glare_weight=0.25, glare_fwhm_x_m=2e-2, glare_fwhm_y_m=2e-2),
+        x,
+        y,
+    )
+    assert default[0] == pytest.approx(core[0], rel=1e-14)
+    assert glare[0] > core[0]
+    constant = uniform(0.4, 0.1, 0.1)
+    value = psf.effective_transmittance(
+        constant.lookup,
+        psf.PsfConfig(1e-3, 1e-3, glare_weight=0.5, glare_fwhm_x_m=2e-2, glare_fwhm_y_m=2e-2),
+        np.array([0.05]),
+        np.array([0.05]),
+    )
+    assert value[0] == pytest.approx(10**-0.4, rel=1e-12)
+
+
+def test_invalid_glare_configuration_is_rejected():
+    with pytest.raises(ValueError):
+        psf.PsfConfig(1e-3, 1e-3, glare_weight=1.1)
+    with pytest.raises(ValueError):
+        psf.PsfConfig(1e-3, 1e-3, glare_weight=0.1, glare_fwhm_x_m=0, glare_fwhm_y_m=1e-2)
+
+
 # ---- collect, source ------------------------------------------------------------------------
 
 

@@ -20,7 +20,7 @@ SPEC = ModuleSpec(
     name="truth.psf", interface={"x": "m", "y": "m", "T_eff": "1"}, state={},
     equation="T_eff = sum_ij w_i w_j T(x + sqrt2 sx a_i, y + sqrt2 sy a_j) (Gauss-Hermite)",
     parameters={"fwhm_x_m": "m", "fwhm_y_m": "m"},
-    applicability="elliptical Gaussian core; no wide-tail glare (stage 5)",
+    applicability="elliptical Gaussian core plus optional normalized wide-tail mixture",
     fidelity="L1", validation=["test_psf_constant_T", "test_psf_transmittance_not_density"],
 )  # fmt: skip
 
@@ -33,6 +33,25 @@ class PsfConfig:
     fwhm_y_m: float
     nodes_x: int = 9
     nodes_y: int = 5
+    glare_weight: float = 0.0
+    glare_fwhm_x_m: float = 0.0
+    glare_fwhm_y_m: float = 0.0
+
+    def __post_init__(self) -> None:
+        if not np.isfinite(
+            (
+                self.fwhm_x_m,
+                self.fwhm_y_m,
+                self.glare_weight,
+                self.glare_fwhm_x_m,
+                self.glare_fwhm_y_m,
+            )
+        ).all():
+            raise ValueError("PSF parameters must be finite")
+        if not 0 <= self.glare_weight <= 1:
+            raise ValueError("glare weight must lie in [0, 1]")
+        if self.glare_weight and (self.glare_fwhm_x_m <= 0 or self.glare_fwhm_y_m <= 0):
+            raise ValueError("enabled glare requires positive tail widths")
 
 
 @lru_cache(maxsize=32)
@@ -51,11 +70,22 @@ def effective_transmittance(
     x: np.ndarray, y: np.ndarray,
 ) -> np.ndarray:  # fmt: skip
     sx, sy = cfg.fwhm_x_m * FWHM_TO_SIGMA, cfg.fwhm_y_m * FWHM_TO_SIGMA
-    if sx == 0 and sy == 0:
+    gx, gy = cfg.glare_fwhm_x_m * FWHM_TO_SIGMA, cfg.glare_fwhm_y_m * FWHM_TO_SIGMA
+    if sx == 0 and sy == 0 and not cfg.glare_weight:
         return lookup(x, y)
-    ax, wx, ay, wy = _quadrature(cfg.nodes_x, cfg.nodes_y, bool(sx), bool(sy))
-    out = np.zeros_like(x, dtype=float)
-    for ai, wi in zip(ax, wx, strict=True):
-        for aj, wj in zip(ay, wy, strict=True):
-            out += wi * wj * lookup(x + sx * ai, y + sy * aj)
-    return out
+
+    def component(width_x, width_y):
+        if width_x == 0 and width_y == 0:
+            return lookup(x, y)
+        ax, wx, ay, wy = _quadrature(cfg.nodes_x, cfg.nodes_y, bool(width_x), bool(width_y))
+        out = np.zeros_like(x, dtype=float)
+        for ai, wi in zip(ax, wx, strict=True):
+            for aj, wj in zip(ay, wy, strict=True):
+                out += wi * wj * lookup(x + width_x * ai, y + width_y * aj)
+        return out
+
+    core = component(sx, sy)
+    if not cfg.glare_weight:
+        return core
+    tail = component(gx, gy)
+    return (1 - cfg.glare_weight) * core + cfg.glare_weight * tail
