@@ -1,0 +1,13 @@
+{
+  "format": "zlscan.glare-candidate-ci-fix/1",
+  "source_commit": "3e0437fbaf4ff9ca62b410c2722758da7451fa0b",
+  "run_id": 43434912452,
+  "url": "https://github.com/additivefab/ScanSim/actions/runs/43434912452",
+  "conclusion": "success",
+  "targets": 6,
+  "targets_success": 6,
+  "artifacts": 6,
+  "glare_candidate_verify": "passed",
+  "macos_rounding_fix_verified": true,
+  "scope": "software CI and installation audit; not hardware or full stages 3-7 acceptance"
+}
