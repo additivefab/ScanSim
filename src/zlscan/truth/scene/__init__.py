@@ -10,7 +10,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-from scipy.ndimage import map_coordinates
 
 from zlscan.contracts.module import ModuleSpec
 
@@ -42,12 +41,35 @@ class Scene:
         return cls(10.0 ** (-d), width_m, height_m, off_film_T)
 
     def lookup(self, x: np.ndarray, y: np.ndarray) -> np.ndarray:
+        """Interpolate transmittance at physical coordinates.
+
+        This is the order-1, ``mode="nearest"`` operation previously delegated to
+        ``scipy.ndimage.map_coordinates``.  Keeping the four-point interpolation here
+        avoids rebuilding SciPy's geometric-transform iterator for every PSF quadrature
+        node.  The explicit clipping preserves nearest-edge behavior before the
+        physical outside-film rule is applied.
+        """
         ny, nx = self.transmittance_map.shape
-        fx = np.asarray(x, dtype=float) / self.width_m * nx - 0.5
-        fy = np.asarray(y, dtype=float) / self.height_m * ny - 0.5
-        inside = (np.asarray(x) >= 0) & (np.asarray(x) <= self.width_m)
-        inside &= (np.asarray(y) >= 0) & (np.asarray(y) <= self.height_m)
-        val = map_coordinates(self.transmittance_map, [fy, fx], order=1, mode="nearest")
+        x = np.asarray(x, dtype=float)
+        y = np.asarray(y, dtype=float)
+        fx = x / self.width_m * nx - 0.5
+        fy = y / self.height_m * ny - 0.5
+        inside = (x >= 0) & (x <= self.width_m)
+        inside &= (y >= 0) & (y <= self.height_m)
+        fx = np.clip(fx, 0, nx - 1)
+        fy = np.clip(fy, 0, ny - 1)
+        x0 = np.floor(fx).astype(np.intp)
+        y0 = np.floor(fy).astype(np.intp)
+        x1 = np.minimum(x0 + 1, nx - 1)
+        y1 = np.minimum(y0 + 1, ny - 1)
+        wx = fx - x0
+        wy = fy - y0
+        val = (
+            self.transmittance_map[y0, x0] * (1 - wx) * (1 - wy)
+            + self.transmittance_map[y0, x1] * wx * (1 - wy)
+            + self.transmittance_map[y1, x0] * (1 - wx) * wy
+            + self.transmittance_map[y1, x1] * wx * wy
+        )
         return val if self.legacy_nearest_boundary else np.where(inside, val, self.off_film_T)
 
 
