@@ -56,7 +56,9 @@ vm.runInContext(HELPERS,context);
     import json
 
     result = subprocess.run(
-        [shutil.which("node"), "-e", "const HELPERS=" + json.dumps(helpers) + ";\n" + script],
+        [shutil.which("node")],
+        input="const HELPERS=" + json.dumps(helpers) + ";\n" + script,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,
@@ -100,7 +102,9 @@ vm.runInContext(HELPER,context);
 })().catch(error=>{console.error(error);process.exitCode=1});
 """
     result = subprocess.run(
-        [shutil.which("node"), "-e", "const HELPER=" + json.dumps(helper) + ";\n" + script],
+        [shutil.which("node")],
+        input="const HELPER=" + json.dumps(helper) + ";\n" + script,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,
@@ -129,7 +133,9 @@ assert.equal(lines[0][0],10,'previous value is held only up to start of missing 
 assert(moves.concat(lines).flat().every(Number.isFinite));
 """
     result = subprocess.run(
-        [shutil.which("node"), "-e", "const HELPER=" + json.dumps(helper) + ";\n" + script],
+        [shutil.which("node")],
+        input="const HELPER=" + json.dumps(helper) + ";\n" + script,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,
@@ -158,7 +164,9 @@ assert.equal(signals,0);assert.equal(context.viewGeneration,1);
 context.manifest={};change();assert.equal(signals,1);assert.equal(images,1);
 """
     result = subprocess.run(
-        [shutil.which("node"), "-e", "const HELPER=" + json.dumps(helper) + ";\n" + script],
+        [shutil.which("node")],
+        input="const HELPER=" + json.dumps(helper) + ";\n" + script,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,

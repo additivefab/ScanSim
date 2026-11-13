@@ -7,11 +7,11 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S7-T05 CI 三平台 × Python 3.11/3.14 的实际回归与安装验证进行中 |
+| 进行中的任务 | S7-T05 首轮 CI 四目标通过、Windows 两目标失败；可移植性修复与第二轮验证进行中 |
 | 下一个任务 | CI/平台兼容性与阶段 3/4 剩余软件门槛；继续多工作点标定及几何/辐射辨识，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1490 通过、2 跳过，181.70 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1493 通过、2 跳过，204.95 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
 

@@ -16,7 +16,9 @@ def run(script):
     html = (STATIC / "index.html").read_text()
     js = re.search(r"<script>(.*?)</script>", html, re.S).group(1)
     result = subprocess.run(
-        [shutil.which("node"), "-e", "const PAGE=" + json.dumps(js) + ";\n" + script],
+        [shutil.which("node")],
+        input="const PAGE=" + json.dumps(js) + ";\n" + script,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,

@@ -153,10 +153,10 @@ def main() -> None:
             [sys.executable, "-m", "pytest", "-q", "--junitxml=" + str(out / "pytest.xml")],
             cwd=source,
         )
-        for tool in ("iverilog", "vvp"):
+        for tool in ("iverilog", "vvp", "pdftotext"):
             path = shutil.which(tool)
             if path:
-                runner.run(tool + "_version", [path, "-V"])
+                runner.run(tool + "_version", [path, "-v" if tool == "pdftotext" else "-V"])
         backend, manifest = extract_backend(source, work)
         project = tomllib.loads((source / "pyproject.toml").read_text(encoding="utf-8"))["project"]
         requirements = project["dependencies"] + project["optional-dependencies"]["ident"]

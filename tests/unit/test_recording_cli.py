@@ -209,6 +209,9 @@ def test_subprocess_stdin_eof_is_pause_and_fresh_resume_finishes(tmp_path):
     assert json.loads(second.stdout.splitlines()[-1])["status"] == "complete"
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="POSIX signal delivery; Windows uses TerminateProcess"
+)
 def test_actual_sigint_pauses_at_safe_boundary_and_can_resume(tmp_path):
     import os
     import signal
@@ -347,6 +350,9 @@ def test_control_budget_leaves_room_to_restart_and_finish(tmp_path, monkeypatch)
     assert len(root["control"]["log"]) <= 16
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="POSIX signal delivery; Windows uses TerminateProcess"
+)
 def test_sigterm_while_waiting_for_input_commits_pause(tmp_path):
     import signal
 

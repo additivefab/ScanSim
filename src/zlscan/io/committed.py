@@ -8,17 +8,44 @@ import tempfile
 from pathlib import Path
 from typing import BinaryIO
 
+# A mandatory Windows byte-range lock must not cover readable payload bytes.
+# This reserved byte is outside the supported file-size range; locking it never
+# extends/allocates the file. The OS releases the lease when the handle closes.
+WRITER_LEASE_OFFSET = (1 << 63) - 2
+
 
 def _lock(stream: BinaryIO) -> None:
     try:
         if os.name == "nt":
-            # Python's documented nonblocking byte-range lock may extend beyond EOF.
+            import ctypes
             import msvcrt
+            from ctypes import wintypes
 
-            position = stream.tell()
-            stream.seek(0)
-            msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
-            stream.seek(position)
+            class Overlapped(ctypes.Structure):
+                _fields_ = [
+                    ("Internal", ctypes.c_size_t),
+                    ("InternalHigh", ctypes.c_size_t),
+                    ("Offset", wintypes.DWORD),
+                    ("OffsetHigh", wintypes.DWORD),
+                    ("hEvent", wintypes.HANDLE),
+                ]
+
+            lock = ctypes.WinDLL("kernel32", use_last_error=True).LockFileEx
+            lock.argtypes = [
+                wintypes.HANDLE,
+                wintypes.DWORD,
+                wintypes.DWORD,
+                wintypes.DWORD,
+                wintypes.DWORD,
+                ctypes.POINTER(Overlapped),
+            ]
+            lock.restype = wintypes.BOOL
+            region = Overlapped()
+            region.Offset = WRITER_LEASE_OFFSET & 0xFFFFFFFF
+            region.OffsetHigh = WRITER_LEASE_OFFSET >> 32
+            # LOCKFILE_FAIL_IMMEDIATELY | LOCKFILE_EXCLUSIVE_LOCK
+            if not lock(msvcrt.get_osfhandle(stream.fileno()), 3, 0, 1, 0, ctypes.byref(region)):
+                raise ctypes.WinError(ctypes.get_last_error())
         else:
             import fcntl
 
@@ -59,6 +86,8 @@ class CommittedFile:
 
     def append(self, data: bytes) -> None:
         self.check()
+        if self.offset + len(data) > WRITER_LEASE_OFFSET:
+            raise ValueError("output overlaps reserved writer lease region")
         try:
             self.stream.seek(self.offset)
             remaining = memoryview(data)
@@ -91,8 +120,8 @@ class CommittedFile:
     @classmethod
     def resume(cls, path: Path, cursor: dict, *, branch_path: Path | None = None) -> CommittedFile:
         offset = int(cursor["offset"])
-        if offset < 0:
-            raise ValueError("committed offset must be nonnegative")
+        if not 0 <= offset <= WRITER_LEASE_OFFSET:
+            raise ValueError("committed offset is outside the writer lease limit")
         stream = Path(path).open("r+b", buffering=0)
         target = None
         transferred = False

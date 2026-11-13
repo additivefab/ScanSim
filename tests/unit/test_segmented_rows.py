@@ -248,16 +248,14 @@ assert(text.includes('时期 1 / 时钟 1 / 样本 104 / 104000000 ps'));
 assert(!text.includes('样本 102 /'),'local offset in continuation is not global column');
 """
     result = subprocess.run(
-        [
-            shutil.which("node"),
-            "-e",
-            "const HELPER="
-            + json.dumps(helper)
-            + ";const IMAGE="
-            + json.dumps(payload)
-            + ";\n"
-            + script,
-        ],
+        [shutil.which("node")],
+        input="const HELPER="
+        + json.dumps(helper)
+        + ";const IMAGE="
+        + json.dumps(payload)
+        + ";\n"
+        + script,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,

@@ -249,7 +249,7 @@ class TraceWriter:
                                 chunks=True,
                                 track_times=False,
                             )
-            with path.open("rb") as stream:
+            with path.open("r+b") as stream:
                 os.fsync(stream.fileno())
             row = dict(sequence=self.sequence, start=start, end=start + n, sha256=sha256_file(path))
             self.index.append((json.dumps(row, sort_keys=True) + "\n").encode())

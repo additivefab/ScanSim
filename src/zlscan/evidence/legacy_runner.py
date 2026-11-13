@@ -149,8 +149,37 @@ def run_b_sim(
     return result, (read_json(out_dir / "metrics.json") if result.returncode == 0 else {})
 
 
+def b_own_test_args(*, windows: bool) -> list[str]:
+    """Frozen tests leak two NPZ disk handles; adapt only their subprocess I/O.
+
+    Windows forbids deleting those open files. Exact NPZ bytes stay lazily read
+    from BytesIO; no original source, assertions, model or archive values change.
+    This is explicitly an adapted suite, not an unmodified Windows suite pass.
+    """
+    if not windows:
+        return ["-m", "unittest", "discover", "-s", "tests"]
+    return [
+        "-c",
+        """
+import io, os, sys, unittest
+import numpy as np
+original_load = np.load
+def load(file, *args, **kwargs):
+    if isinstance(file, (str, bytes, os.PathLike)) and os.fsdecode(file).endswith('.npz'):
+        with open(file, 'rb') as stream:
+            file = io.BytesIO(stream.read())
+    return original_load(file, *args, **kwargs)
+np.load = load
+print('Windows frozen-suite NPZ byte-snapshot I/O adapter', flush=True)
+suite = unittest.defaultTestLoader.discover('tests')
+result = unittest.TextTestRunner().run(suite)
+sys.exit(0 if result.wasSuccessful() else 1)
+""",
+    ]
+
+
 def run_b_own_tests(package: Path) -> CommandResult:
-    return run_python(["-m", "unittest", "discover", "-s", "tests"], package)
+    return run_python(b_own_test_args(windows=os.name == "nt"), package)
 
 
 def parse_pytest_passed(output: str) -> int | None:

@@ -41,18 +41,16 @@ assert(sample.includes('时钟定义推导')&&sample.includes('假设参数推�
 assert(sample.includes('主机到达：未记录')&&sample.includes('不是主机收件时刻'));
 """
     result = subprocess.run(
-        [
-            shutil.which("node"),
-            "-e",
-            "const PAGE="
-            + json.dumps(script)
-            + "; const EVENTS="
-            + json.dumps(events)
-            + "; const SAMPLES="
-            + json.dumps(samples)
-            + ";"
-            + test,
-        ],
+        [shutil.which("node")],
+        input="const PAGE="
+        + json.dumps(script)
+        + "; const EVENTS="
+        + json.dumps(events)
+        + "; const SAMPLES="
+        + json.dumps(samples)
+        + ";"
+        + test,
+        encoding="utf-8",
         capture_output=True,
         text=True,
         timeout=20,
