@@ -7,13 +7,15 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S4-T05/S4-T09 分段行、共同标定来源链与正式/安装证据已提交；HTTPS 推送重试中 |
+| 进行中的任务 | S4-T05/S4-T09 分段行与共同标定来源链、正式/隔离安装证据完成；本地提交待 HTTPS 恢复发布 |
 | 下一个任务 | 跨时期标定/密度与样本像素因果联动核验；继续阶段 3/4 及后续 5–7 门槛，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
 | 最近一次全量测试 | 2026-11-13 `pytest -q`：1440 通过、2 跳过，179.22 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
+
+- **最新待推送**：实现 `3f42972` 与证据 `f9b02fc`，连同上轮组件批次，共五个提交领先最后核实的远端 `352e8c125a020a95599a6f2079ecdaecdf923863`。本轮 fetch/读引用成功且远端为本地祖先，但两次正常 push（含 bundled Git、直接仓库 URL）均退出 128，仍为 `LibreSSL SSL_ERROR_SYSCALL`。失败原件在 `evidence_runs/2026-11-13_segmented_rows/record/publication/`；后续应正常快进推送并核对远端，不重写历史或关闭 TLS。本条之后的交接提交也待发布。原 stash `04da34820d47a489c72845a539ede165d996d31e` 保留。
 
 - **当前待推送**：二维组件视图实现 `fe2b31f`、证据 `647aee9` 已在本地提交，HTTPS fetch/push 多次因 `LibreSSL SSL_ERROR_SYSCALL` 失败，不能当作已交付。读引用/直接 URL fetch 曾间歇成功，最后成功读取远端 main 为 `352e8c125a020a95599a6f2079ecdaecdf923863`，随后读取也再次失败。失败回执在 `evidence_runs/2026-11-13_component_views/record/publication/`；保留全部本地提交，下一轮授权内继续重试，不改 TLS 校验/系统代理或历史，原 stash `04da348` 未动。实现/测试/隔离安装的通过不受网络回执替代，三至七阶段目标仍进行中。
 - 精确数字状态/统一游标实现 `cef8c5d` 与证据 `10023d4` 已快进推送；实际远端 main 核对 `10023d4ba22c6c8f6c8b06ae6786976fd100ebfb` 等于当时 HEAD，工作区干净。正式 HTTP/新进程和隔离安装证据已归档，原 JSON 键序复读失败保留；不升级浏览器、EOF 排空或实机门槛。后续提交仍逐次核验，原 stash `04da348` 未动。

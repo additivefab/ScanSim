@@ -1,0 +1,8 @@
+{
+  "local_head": "f9b02fc994e3205206cb7189dfc3141e247877fb",
+  "command": "/Users/yuxinghua/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback/git -c http.proxy=http://127.0.0.1:7897 -c http.version=HTTP/1.1 push https://github.com/additivefab/ScanSim.git main:main",
+  "returncode": 128,
+  "error": "LibreSSL SSL_ERROR_SYSCALL",
+  "last_verified_remote": "352e8c125a020a95599a6f2079ecdaecdf923863",
+  "publication": "not confirmed"
+}
