@@ -90,8 +90,11 @@ def _fit(rows, facets, config):
         sigma = row["decl"].standard_uncertainty_ps
         # Project out a separate intercept in each capture. Original timestamp errors, not
         # their adjacent differences, have the declared independent covariance.
-        xc = (x - x.mean(axis=0)) / sigma
-        yc = (y - y.mean()) / sigma
+        with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
+            xc = (x - x.mean(axis=0)) / sigma
+            yc = (y - y.mean()) / sigma
+        if not np.isfinite(xc).all() or not np.isfinite(yc).all():
+            raise ValueError("nonfinite scaled timing design or timestamps")
         xs.append(xc)
         ys.append(yc)
         meta.append((row, x, y))
@@ -99,16 +102,22 @@ def _fit(rows, facets, config):
     y = np.concatenate(ys)
     scales = np.maximum(np.max(np.abs(x), axis=0), 1.0)
     a = x / scales
-    u, s, vt = np.linalg.svd(a, full_matrices=a.shape[0] < a.shape[1])
+    try:
+        u, s, vt = np.linalg.svd(a, full_matrices=a.shape[0] < a.shape[1])
+    except np.linalg.LinAlgError as exc:
+        raise ValueError("timing singular-value decomposition did not converge") from exc
     rank = int(np.sum(s > config.rank_rtol * s[0])) if len(s) and s[0] > 0 else 0
     supported = vt[:rank]
     null = vt[rank:]
     gamma = supported.T @ ((u[:, :rank].T @ y) / s[:rank])
     cov = (supported.T / s[:rank] ** 2) @ supported if rank else np.zeros((facets, facets))
     beta = gamma / scales
-    physical_cov = cov / np.outer(scales, scales)
+    with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
+        physical_cov = cov / np.outer(scales, scales)
     if not np.isfinite(beta).all() or not np.isfinite(physical_cov).all():
         raise ValueError("nonfinite timing fit or covariance")
+    if rank and np.any((np.diag(physical_cov) == 0) & (np.sum(supported**2, axis=0) > 0)):
+        raise ValueError("timing covariance below numeric range")
     z = float(norm.isf((1 - config.confidence_level) / 2))
 
     def estimate(weights):
@@ -128,7 +137,10 @@ def _fit(rows, facets, config):
     identified = [p["value"] is not None for p in parameters.values()]
     valid = all(p["value"] is None or p["value"] > 0 for p in parameters.values())
     residual = y - a @ gamma
-    score = float(residual @ residual)
+    with np.errstate(over="ignore", invalid="ignore"):
+        score = float(residual @ residual)
+    if not math.isfinite(score):
+        raise ValueError("nonfinite timing chi-square")
     dof = len(y) - len(rows) - rank
     cycle = estimate(np.ones(facets))
     cycle["unit"] = "ps"

@@ -264,3 +264,11 @@ def test_cli_artifacts_and_unidentifiable_exit(tmp_path):
     assert (tmp_path / "unknown/timing_residuals.svg").stat().st_size > 1000
     with pytest.raises(SystemExit):
         main(["ident", "--timing-fit", str(p), "--metadata", "x", "--out", "x"])
+
+
+@pytest.mark.parametrize("sigma", [1e-320, 1e-200])
+def test_unrepresentable_declared_weights_fail_explicitly(tmp_path, sigma):
+    c = fixture(tmp_path)
+    c["captures"][0]["standard_uncertainty_ps"] = sigma
+    with pytest.raises(ValueError, match="nonfinite|numeric range"):
+        run(tmp_path, c)
