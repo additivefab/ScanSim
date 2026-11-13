@@ -1,0 +1,39 @@
+{
+  "local_head": "376aeb5903bca4adeef09db54e8073b732ebacb1",
+  "remote_equals_head": true,
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-c",
+        "http.proxy=http://127.0.0.1:7897",
+        "-c",
+        "http.version=HTTP/1.1",
+        "push",
+        "origin",
+        "main"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "filtered_stderr": [
+        "To https://github.com/additivefab/ScanSim.git",
+        "   a0c79f3..376aeb5  main -> main"
+      ]
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "http.proxy=http://127.0.0.1:7897",
+        "-c",
+        "http.version=HTTP/1.1",
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "returncode": 0,
+      "stdout": "376aeb5903bca4adeef09db54e8073b732ebacb1\trefs/heads/main\n",
+      "filtered_stderr": []
+    }
+  ]
+}
