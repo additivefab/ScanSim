@@ -54,7 +54,7 @@ class ImageArtifact:
                 raise ValueError("lineage SHA-256 does not match reconstruction")
             self.plan = json.loads(plan_path.read_text(encoding="utf-8"))
             if (
-                self.plan.get("format") != "zlscan-image-lineage/1"
+                self.plan.get("format") not in {"zlscan-image-lineage/1", "zlscan-image-lineage/2"}
                 or self.plan["raw_sha256"] != self.run["raw_sha256"]
                 or self.plan["calibration_id"] != self.run["calibration_id"]
                 or self.plan["grid"] != self.grid
@@ -70,7 +70,45 @@ class ImageArtifact:
             {c["id"]: ClockDomain(**c) for c in self.plan["clock_domains"]} if self.plan else {}
         )
         self.lines = self.plan["lines"] if self.plan else []
-        self.delivered = [row for row in self.lines if row["source"] is not None]
+        self.delivered = []
+        for row in self.lines:
+            version2 = self.plan["format"] == "zlscan-image-lineage/2"
+            if version2 != ("segments" in row) or (version2 and "source" in row):
+                raise ValueError("image lineage row version differs")
+            parts = self._parts(row)
+            anchor = parts[0]["source"] if parts and parts[0]["column_offset"] == 0 else None
+            previous_end = 0
+            for part in parts:
+                source, offset = part["source"], part["column_offset"]
+                if (
+                    type(source["sample_count"]) is not int
+                    or source["sample_count"] <= 0
+                    or source["clock_domain"] not in self.clocks
+                    or self.plan["channel"] not in source["channels"]
+                    or (
+                        offset is not None
+                        and (
+                            type(offset) is not int
+                            or offset < 0
+                            or offset + source["sample_count"]
+                            > len(self.plan["mappings"][row["mapping"]])
+                        )
+                    )
+                ):
+                    raise ValueError("image lineage segment placement or identity is invalid")
+                if offset is not None:
+                    if (
+                        anchor is None
+                        or source["clock_domain"] != anchor["clock_domain"]
+                        or offset
+                        != int(source["first_sample_index"]) - int(anchor["first_sample_index"])
+                        or offset < previous_end
+                    ):
+                        raise ValueError(
+                            "image lineage segment offset disagrees with source anchor"
+                        )
+                    previous_end = offset + source["sample_count"]
+                self.delivered.append({**row, "source": source, "column_offset": offset})
         self.first_sample = min(
             (int(r["source"]["first_sample_index"]) for r in self.delivered), default=0
         )
@@ -83,8 +121,19 @@ class ImageArtifact:
         )
         self.span = last - self.first_sample
         identities = {(r["source"]["epoch"], r["source"]["clock_domain"]) for r in self.delivered}
-        self.timeline_available = len(identities) == 1 and bool(self.clocks)
-        self.epoch, self.domain = next(iter(identities), (None, None))
+        self.epochs = sorted({epoch for epoch, _ in identities})
+        domains = {domain for _, domain in identities}
+        self.epoch = self.epochs[0] if len(self.epochs) == 1 else None
+        self.domain = next(iter(domains)) if len(domains) == 1 else None
+        ends = [
+            (
+                int(r["source"]["first_sample_index"]),
+                int(r["source"]["first_sample_index"]) + r["source"]["sample_count"],
+            )
+            for r in self.delivered
+        ]
+        ordered = all(a[1] <= b[0] for a, b in zip(ends, ends[1:], strict=False))
+        self.timeline_available = len(domains) == 1 and bool(self.clocks) and ordered
         self.mappings = (
             {
                 key: np.asarray([np.nan if x is None else x for x in values])
@@ -108,6 +157,12 @@ class ImageArtifact:
         except Exception:
             self.close()
             raise
+
+    @staticmethod
+    def _parts(row):
+        if "segments" in row:
+            return row["segments"]
+        return [] if row["source"] is None else [dict(source=row["source"], column_offset=0)]
 
     @staticmethod
     def _identity(path: Path) -> tuple:
@@ -154,6 +209,9 @@ class ImageArtifact:
             "unit": "OD",
             "lineage_status": "exact_record" if self.plan else "not_recorded",
             "raw_trace_status": "exact_record" if self.raw_path and self.plan else "not_recorded",
+            "epochs": self.epochs,
+            "timeline_available": self.timeline_available,
+            "unplaced_blocks": sum(r["column_offset"] is None for r in self.delivered),
             "reasons": {str(int(flag)): flag.name for flag in InvalidFlag},
         }
 
@@ -204,31 +262,34 @@ class ImageArtifact:
             u = (x - g["origin_x_m"]) / g["pitch_x_m"] - 0.5
             weights = (1 - np.abs(col - u)) * wy
             used = np.flatnonzero(np.isfinite(weights) & (weights > 0))
-            source = line["source"]
-            if source is None:
-                if len(used):
-                    missing.append(line["line"])
-                continue
-            clock = self.clocks[source["clock_domain"]]
-            for index in used[used < source["sample_count"]]:
-                sample = int(source["first_sample_index"]) + int(index)
-                weight = float(weights[index])
-                samples.append(
-                    {
-                        "session_id": self.plan["session_id"],
-                        "epoch": source["epoch"],
-                        "clock_domain": source["clock_domain"],
-                        "channel": self.plan["channel"],
-                        "sample_index": str(sample),
-                        "sample_time_ticks": str(clock.tick_of(sample)),
-                        "line": line["line"],
-                        "column": int(index),
-                        "weight": weight,
-                        "normalized_weight": weight / support
-                        if flags == 0 and support > 0
-                        else None,
-                    }
-                )
+            covered = set()
+            for part in self._parts(line):
+                source, offset = part["source"], part["column_offset"]
+                if offset is None:
+                    continue
+                clock = self.clocks[source["clock_domain"]]
+                for index in used[(used >= offset) & (used < offset + source["sample_count"])]:
+                    covered.add(int(index))
+                    sample = int(source["first_sample_index"]) + int(index) - offset
+                    weight = float(weights[index])
+                    samples.append(
+                        {
+                            "session_id": self.plan["session_id"],
+                            "epoch": source["epoch"],
+                            "clock_domain": source["clock_domain"],
+                            "channel": self.plan["channel"],
+                            "sample_index": str(sample),
+                            "sample_time_ticks": str(clock.tick_of(sample)),
+                            "line": line["line"],
+                            "column": int(index),
+                            "weight": weight,
+                            "normalized_weight": weight / support
+                            if flags == 0 and support > 0
+                            else None,
+                        }
+                    )
+            if any(int(index) not in covered for index in used):
+                missing.append(line["line"])
         times = [int(s["sample_time_ticks"]) for s in samples]
         return {
             "status": "exact_record",
@@ -236,6 +297,9 @@ class ImageArtifact:
             "column": col,
             "flags": flags,
             "samples": samples,
+            "epochs": sorted({s["epoch"] for s in samples}),
+            "mixed_epoch": len({s["epoch"] for s in samples}) > 1,
+            "calibration_id": self.run["calibration_id"],
             "missing_lines": missing,
             "sample_time_range_ticks": [str(min(times)), str(max(times))] if times else None,
             "meaning": "linear-domain reconstruction weights"
@@ -248,14 +312,14 @@ class ImageArtifact:
         if not self.timeline_available:
             return {
                 "status": "not_computed",
-                "reason": "select one epoch and clock domain for a timeline",
+                "reason": "source indices must be ordered/nonoverlapping in one clock domain",
             }
         if not 0 <= offset < self.span:
             raise ValueError("cursor lies outside the capture")
         sample = self.first_sample + offset
-        row = next(
+        selected = next(
             (
-                r["line"]
+                r
                 for r in self.delivered
                 if int(r["source"]["first_sample_index"])
                 <= sample
@@ -268,8 +332,8 @@ class ImageArtifact:
             "sample_index": str(sample),
             "sample_time_ticks": str(self.clocks[self.domain].tick_of(sample)),
             "step": offset,
-            "current_line": row,
-            "epoch": self.epoch,
+            "current_line": selected["line"] if selected is not None else None,
+            "epoch": selected["source"]["epoch"] if selected is not None else self.epoch,
             "values": {},
             "reason": "recorded capture; internal physical state not registered",
         }
@@ -292,6 +356,7 @@ class ImageArtifact:
         # Storage follows the display budget, including gaps; never allocate the source span.
         lows, highs, firsts, lasts = ([None] * size for _ in range(4))
         recorded = [0] * size
+        epochs = [set() for _ in range(size)]
         with self.raw_path.open("rb") as stream:
             for row in self.delivered:
                 source = row["source"]
@@ -317,6 +382,7 @@ class ImageArtifact:
                     if b == min(end, edge + block):
                         lasts[bucket] = int(chunk[-1])
                     recorded[bucket] += b - a
+                    epochs[bucket].add(source["epoch"])
         self._unchanged()
         clock = self.clocks[self.domain]
         return {
@@ -343,6 +409,8 @@ class ImageArtifact:
             ],
             "columns": ["min", "max", "first", "last", "count"],
             "recorded_counts": recorded,
+            "epochs": [sorted(group) for group in epochs],
+            "mixed_epoch": [len(group) > 1 for group in epochs],
             "missing_count": count - sum(recorded),
             "count_semantics": "sample positions, including missing; recorded_counts exclude gaps",
             "sample_time": {

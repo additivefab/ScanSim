@@ -26,6 +26,19 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
     if density.shape != (grid["height"], grid["width"]) or flags.shape != density.shape:
         raise ValueError("image shape does not match its grid")
     lineage = None
+    lineage_plan = None
+    if run.get("lineage_sha256"):
+        plan_path = directory / "lineage.json"
+        if sha256_file(plan_path) != run["lineage_sha256"]:
+            raise ValueError("image lineage does not match reconstruction SHA-256")
+        lineage_plan = json.loads(plan_path.read_text())
+        if (
+            lineage_plan.get("format") not in {"zlscan-image-lineage/1", "zlscan-image-lineage/2"}
+            or lineage_plan["raw_sha256"] != run["raw_sha256"]
+            or lineage_plan["calibration_id"] != run["calibration_id"]
+            or lineage_plan["grid"] != run["grid"]
+        ):
+            raise ValueError("unsupported image lineage version")
     if raw_path is not None and not run.get("facet_timing_sha256"):
         if sha256_file(raw_path) != run["raw_sha256"]:
             raise ValueError("lineage capture does not match the reconstruction SHA-256")
@@ -45,6 +58,8 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
                 for block in raw.blocks
             },
         }
+        if lineage_plan is not None and lineage_plan["format"] == "zlscan-image-lineage/2":
+            lineage = None  # The legacy one-block-per-line shortcut cannot describe segments.
     return {
         "label": directory.name,
         "calibration_id": run["calibration_id"],
@@ -56,6 +71,7 @@ def _image_payload(directory: Path, raw_path: Path | None) -> dict:
         "flags": flags.ravel().tolist(),
         "support": support.ravel().tolist(),
         "lineage": lineage,
+        "lineage_plan": lineage_plan,
     }
 
 

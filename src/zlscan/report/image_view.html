@@ -57,10 +57,36 @@ const views = data.images.map(image => {
   return {image, canvas, status};
 });
 function sourceTicks(clock, sample) {
-  if (!clock) return null;
-  return BigInt(clock.phase_ticks) + sample * 1000000000000n * BigInt(clock.freq_den) / BigInt(clock.freq_num);
+  if (!clock||clock.freq_num==null||clock.phase_ticks===null||clock.freq_den===null) return null;
+  return BigInt(clock.phase_ticks===undefined?0:clock.phase_ticks) + sample * 1000000000000n * BigInt(clock.freq_den===undefined?1:clock.freq_den) / BigInt(clock.freq_num);
+}
+function plannedLineage(image,row,col,pixel) {
+  const plan=image.lineage_plan,g=plan.grid,rows=[];
+  for(const line of plan.lines){
+    const wy=1-Math.abs(row-((line.y_m-g.origin_y_m)/g.pitch_y_m-.5));
+    if(wy<=0)continue;
+    const mapping=plan.mappings[line.mapping],parts=line.segments||
+      (line.source?[{source:line.source,column_offset:0}]:[]);
+    for(const part of parts){
+      if(part.column_offset===null)continue;
+      const source=part.source,clock=plan.clock_domains.find(c=>c.id===source.clock_domain);
+      for(let j=0;j<source.sample_count;j++){
+        const index=part.column_offset+j,x=mapping[index];if(x===null||x===undefined)continue;
+        const weight=(1-Math.abs(col-((x-g.origin_x_m)/g.pitch_x_m-.5)))*wy;
+        if(weight<=0)continue;
+        const sample=BigInt(source.first_sample_index)+BigInt(j),time=sourceTicks(clock,sample);
+        const normalized=image.flags[pixel]===0?weight/image.support[pixel]:null;
+        rows.push({sample,time,epoch:source.epoch,domain:source.clock_domain,normalized});
+      }
+    }
+  }
+  if(!rows.length)return "像素支持范围内无已定位的交付样本";
+  const description=rows.map(r=>`时期 ${r.epoch} / 时钟 ${r.domain} / 样本 ${r.sample} / ${r.time===null?'时间未取得':r.time+' ps'}`+
+    (r.normalized===null?'':` (${(100*r.normalized).toFixed(1)}%)`)).join('、');
+  return (image.flags[pixel]===0?'线性域样本及权重：':'无效像素的几何支持候选：')+description;
 }
 function lineage(image, row, col, pixel) {
+  if(image.lineage_plan)return plannedLineage(image,row,col,pixel);
   if (!image.lineage) return "样本谱系未记录";
   const line = image.lineage.lines[row];
   if (!line) return "本行无已交付样本";

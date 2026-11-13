@@ -16,7 +16,8 @@ from pathlib import Path
 import numpy as np
 
 from zlscan.contracts.flags import InvalidFlag
-from zlscan.io.rawstream import FLAG_LINE_START, ReadResult, read_all
+from zlscan.io.line_layout import line_layout
+from zlscan.io.rawstream import ReadResult, read_all
 
 
 @dataclass
@@ -47,21 +48,35 @@ def reconstruct(
     segments = [(s.epoch, s.clock_domain, s.channels, s.first_sample_index, s.samples)
                 for s in read.segments]  # fmt: skip
     reasons: list[str] = []
-    for b in read.blocks:
-        if not b.flags & FLAG_LINE_START or b.line_number not in expected_lines:
-            continue
-        row = b.line_number - first
-        for epoch, domain, chans, seg_first, samples in segments:
-            if epoch == b.epoch and domain == b.clock_domain and chans == b.channels:
-                lo = b.first_sample_index - seg_first
-                if 0 <= lo and lo + b.sample_count <= len(samples):
-                    cnt = min(b.sample_count, wl)
-                    for j, c in enumerate(chans):
-                        codes[c][row, :cnt] = samples[lo : lo + cnt, j]
-                    invalid[row, :cnt] = 0
-                    if b.sample_count < wl:
-                        reasons.append(f"line {b.line_number} is shorter than the window")
-                    break
+    for channel in channels:
+        valid = np.zeros((n, wl), bool)
+        for line, parts in line_layout(read.blocks, channel, wl).items():
+            if line not in expected_lines:
+                continue
+            row = line - first
+            for part in parts:
+                b, offset = part.block, part.column_offset
+                if offset is None:
+                    reasons.append(f"line {line} block {b.seq} unplaced: {part.reason}")
+                    continue
+                for epoch, domain, chans, seg_first, samples in segments:
+                    if epoch == b.epoch and domain == b.clock_domain and chans == b.channels:
+                        lo = b.first_sample_index - seg_first
+                        if 0 <= lo and lo + b.sample_count <= len(samples):
+                            stop = offset + b.sample_count
+                            codes[channel][row, offset:stop] = samples[
+                                lo : lo + b.sample_count, chans.index(channel)
+                            ]
+                            valid[row, offset:stop] = True
+                            break
+        if channel == channels[0]:
+            invalid[valid] = 0
+        else:
+            invalid[~valid] |= int(InvalidFlag.MISSING_SAMPLE)
+    if (invalid != 0).any():
+        reasons.append(
+            "some declared line sample positions were not delivered or could not be placed"
+        )
     got = {b.line_number for b in read.blocks}
     missing = [n_ for n_ in expected_lines if n_ not in got]
     if missing:

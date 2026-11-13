@@ -134,3 +134,5 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 见 [组件视图](docs/reports/component_views.md)；浏览器视觉与实机验收仍待完成。
 前端削顶/PMT 超限在细步网格，ADC 饱和在源 ADC 网格；仅研究视图可见。
 见 [事件来源与恢复规则](docs/reports/model_quality_events.md)。
+
+分段 ZLRAW 续包、缺口与跨时期像素来源见 [核验说明](docs/reports/segmented_rows.md)。

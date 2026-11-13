@@ -81,6 +81,7 @@ class Service:
                 "parent": None,
                 "session_id": image.plan["session_id"] if image.plan else None,
                 "epoch": image.epoch,
+                "epochs": image.epochs,
                 "steps": image.span,
                 "samples": sum(row["source"]["sample_count"] for row in image.delivered),
                 "cursor_unit": "sample",

@@ -10,7 +10,8 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from zlscan.contracts.events import Derivation, Event
 from zlscan.contracts.flags import InvalidFlag
 from zlscan.contracts.verdict import Verdict
-from zlscan.io.rawstream import FLAG_LINE_START, BlockInfo, ReadResult
+from zlscan.io.line_layout import line_layout
+from zlscan.io.rawstream import BlockInfo, ReadResult
 
 _FLAGS = {
     "adc_saturated": InvalidFlag.ADC_SATURATED,
@@ -77,11 +78,7 @@ def quality_spans(
     following = {key: next(iterator, None) for key, iterator in pending.items()}
     active: dict[tuple[int, int], list[tuple[int, int, int]]] = defaultdict(list)
     for block in raw.blocks:
-        if (
-            channel not in block.channels
-            or not block.flags & FLAG_LINE_START
-            or not 0 <= block.line_number < lines
-        ):
+        if channel not in block.channels or not 0 <= block.line_number < lines:
             continue
         first = block.first_sample_index
         end = first + min(block.sample_count, width)
@@ -105,5 +102,12 @@ def apply_quality_log(
     path: Path, raw_sha256: str, raw: ReadResult, channel: int, flags: np.ndarray
 ) -> None:
     """Set sample flags in place, preserving any loss already detected by the raw reader."""
+    parts = {
+        p.block.seq: p
+        for row in line_layout(raw.blocks, channel, flags.shape[1]).values()
+        for p in row
+    }
     for block, start, stop, reason in quality_spans(path, raw_sha256, raw, channel, *flags.shape):
-        flags[block.line_number, start:stop] |= reason
+        offset = parts[block.seq].column_offset
+        if offset is not None:
+            flags[block.line_number, offset + start : offset + stop] |= reason

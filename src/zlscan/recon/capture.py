@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import tempfile
 from dataclasses import asdict
-from itertools import pairwise
 from pathlib import Path
 
 import numpy as np
@@ -13,6 +12,7 @@ import numpy as np
 from zlscan.contracts.calibration import CalibrationHeader, CaptureDescription, require_applicable
 from zlscan.contracts.flags import InvalidFlag
 from zlscan.io.facet_timing import FacetTiming, GeometryModel, observed_phases
+from zlscan.io.line_layout import line_layout, source_record
 from zlscan.io.manifest import sha256_file
 from zlscan.io.quality import quality_spans
 from zlscan.io.rawstream import FLAG_LINE_START, BlockInfo, ReadResult, SessionHeader, scan_blocks
@@ -99,17 +99,12 @@ def reconstruct_capture(
         raw = scan_blocks(raw_path, lambda *_: None)
         session = _validate_capture(raw, capture)
         cols = int(session.windows["window_length"])
-        channel_blocks = [
-            block
-            for block in raw.blocks
-            if channel in block.channels and block.flags & FLAG_LINE_START
-        ]
+        channel_blocks = [block for block in raw.blocks if channel in block.channels]
         if not channel_blocks:
             raise ValueError(f"capture lacks channel {channel}")
         if cols <= 0 or any(block.sample_count > cols for block in channel_blocks):
             raise ValueError("capture block is larger than its declared sample window")
-        if any(a.line_number >= b.line_number for a, b in pairwise(channel_blocks)):
-            raise ValueError("capture has repeated or out-of-order line starts")
+        layouts = line_layout(raw.blocks, channel, cols)
         if delay_ticks is not None and model is None:
             domains = {block.clock_domain for block in channel_blocks}
             clocks = [clock for clock in session.clock_domains if clock["id"] in domains]
@@ -154,6 +149,9 @@ def reconstruct_capture(
         if raw
         else {}
     )
+    segmented = raw is not None and any(
+        len(parts) > 1 or any(p.column_offset is None for p in parts) for parts in layouts.values()
+    )
 
     with tempfile.TemporaryDirectory(prefix="zlscan_density_") as directory:
         scratch_dir = Path(directory)
@@ -179,25 +177,23 @@ def reconstruct_capture(
                             else:
                                 flags |= int(InvalidFlag.WHITE_REFERENCE_INVALID)
                 block = delivered.get(line)
-                lineage_rows.append(
-                    {
-                        "line": line,
-                        "mapping": mapping,
-                        "y_m": y,
-                        "source": None
-                        if block is None
-                        else {
-                            "epoch": block.epoch,
-                            "clock_domain": block.clock_domain,
-                            "first_sample_index": str(block.first_sample_index),
-                            "sample_count": block.sample_count,
-                            "seq": block.seq,
-                            "channels": block.channels,
-                            "payload_offset": block.payload_offset,
-                            "payload_crc32": block.payload_crc32,
-                        },
-                    }
-                )
+                row_plan = {
+                    "line": line,
+                    "mapping": mapping,
+                    "y_m": y,
+                    "source": None if block is None else source_record(block),
+                }
+                if segmented:
+                    row_plan.pop("source")
+                    row_plan["segments"] = [
+                        dict(
+                            source=source_record(p.block),
+                            column_offset=p.column_offset,
+                            placement_reason=p.reason,
+                        )
+                        for p in layouts.get(line, [])
+                    ]
+                lineage_rows.append(row_plan)
                 accumulator.add(codes, flags, x, y, gain)
 
             if raw is None:
@@ -220,6 +216,9 @@ def reconstruct_capture(
                 span = next(spans, None)
                 next_line = 0
                 missing = int(InvalidFlag.MISSING_SAMPLE)
+                parts_by_seq = {p.block.seq: p for parts in layouts.values() for p in parts}
+                current_line = None
+                row_codes = row_flags = None
 
                 def add_missing(until: int) -> None:
                     nonlocal next_line
@@ -232,30 +231,41 @@ def reconstruct_capture(
                         next_line += 1
 
                 def consume(_session: SessionHeader, block: BlockInfo, samples: np.ndarray) -> None:
-                    nonlocal next_line, span
-                    if channel not in block.channels or not block.flags & FLAG_LINE_START:
+                    nonlocal next_line, span, current_line, row_codes, row_flags
+                    if channel not in block.channels:
                         return
+                    if current_line is not None and block.line_number != current_line:
+                        add_row(current_line, row_codes, row_flags)
+                        next_line = current_line + 1
                     if (
                         not next_line <= block.line_number < capture.lines
                         or block.sample_count > cols
                     ):
                         raise ValueError("capture line layout changed while reconstructing")
-                    add_missing(block.line_number)
+                    if current_line != block.line_number:
+                        add_missing(block.line_number)
+                        current_line = block.line_number
+                        row_codes = np.zeros(cols, dtype=np.uint16)
+                        row_flags = np.full(cols, missing, dtype=np.uint16)
                     count = block.sample_count
-                    codes = np.zeros(cols, dtype=np.uint16)
-                    codes[:count] = samples[:, block.channels.index(channel)]
-                    flags = np.full(cols, missing, dtype=np.uint16)
-                    flags[:count] = 0
+                    offset = parts_by_seq[block.seq].column_offset
+                    if offset is not None:
+                        row_codes[offset : offset + count] = samples[
+                            :, block.channels.index(channel)
+                        ]
+                        row_flags[offset : offset + count] = 0
                     while span is not None and span[0].seq == block.seq:
                         _, start, stop, reason = span
-                        flags[start:stop] |= reason
+                        if offset is not None:
+                            row_flags[offset + start : offset + stop] |= reason
                         span = next(spans, None)
-                    add_row(next_line, codes, flags)
-                    next_line += 1
 
                 verified = scan_blocks(raw_path, consume)
                 if verified != raw or span is not None:
                     raise ValueError("capture changed while reconstructing")
+                if current_line is not None:
+                    add_row(current_line, row_codes, row_flags)
+                    next_line = current_line + 1
                 add_missing(capture.lines)
             if sha256_file(raw_path) != capture.raw_sha256:
                 raise ValueError("capture changed while reconstructing")
@@ -285,9 +295,14 @@ def reconstruct_capture(
         "calibration_binding_status": "compatible_at_reconstruction",
     }
     if raw is not None:
+        if segmented:
+            manifest["unplaced_blocks"] = sum(
+                p.column_offset is None for parts in layouts.values() for p in parts
+            )
+            manifest["segmented_rows"] = sum(len(parts) > 1 for parts in layouts.values())
         mappings = {"uniform": nominal_x, **{f"phase_{k}": v for k, v in x_by_phase.items()}}
         lineage = {
-            "format": "zlscan-image-lineage/1",
+            "format": "zlscan-image-lineage/2" if segmented else "zlscan-image-lineage/1",
             "raw_sha256": capture.raw_sha256,
             "calibration_id": calibration.calibration_id,
             "channel": channel,
