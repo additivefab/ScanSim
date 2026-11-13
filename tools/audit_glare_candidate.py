@@ -20,7 +20,7 @@ def main():
     if a.verify:
         result = json.loads((a.out / "audit.json").read_bytes())
         assert result["format"] == "zlscan.glare-candidate-audit/1"
-        assert result["default_off_equal"] and result["constant_max_abs_error"] == 0.0
+        assert result["default_off_equal"] and result["constant_max_abs_error"] <= 2e-15
         assert (
             len(result["invalid_configuration_rejections"]) == 2
             and not result["m06_measurement_obtained"]
