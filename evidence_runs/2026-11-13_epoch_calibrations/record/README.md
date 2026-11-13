@@ -1,0 +1,17 @@
+# 多工作点标定证据
+
+当前固定源码085e914、CI run43373222408，详见fixed_acceptance.json。
+current_wave为0abbcb3的原始六目标功能记录；后续资源反例与坐标来源缺陷
+使它不能替代新修正的验证。fixed_wave为085e914的全部六目标记录。
+各tar.gz的对应JSON给出归档摘要和逐文件摘要，内部原ZIP均按GitHub digest与CRC核对。
+*_wave_members.json索引原ZIP内部文件（两轮共12ZIP、4604文件）。
+
+developer_changed_source保存实际dirty构建相对d22160a的20份变更载荷，
+developer_source.json标明Git基准与摘要，不冒充固定构建。developer_install
+为该安装原件，formal_install为0abb固定安装，fixed_install为085固定安装；
+各自367个实际输出/输入/日志，逐成员回读校验。
+
+local_runs保存早期失败输入、单元/全量日志、CLI命令与本机探针。
+row_cache_red实际发现61行驻留；修正后本机活跃ndarray行缓冲峰值为2，
+不是总RSS/整幅速度。早期6列参考不满足阶梯宽度、tuple/list比较失败均未删除。
+本轮未取得实机测量、浏览器验收或其它未闭合阶段门槛。

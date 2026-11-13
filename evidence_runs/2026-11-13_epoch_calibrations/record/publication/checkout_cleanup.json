@@ -1,0 +1,8 @@
+{
+  "source_checkout": "/Users/yuxinghua/.cache/scansim-epoch-source-psjqe6sp",
+  "source_commit": "085e914f33170a5822bbae28d1b35d7badfdba12",
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "scope": "removed only the task-created clean detached checkout after its actual audit outputs were archived; original workspace and stash retained"
+}

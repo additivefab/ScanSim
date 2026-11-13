@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "git",
+    "-c",
+    "http.proxy=socks5h://127.0.0.1:7897",
+    "-c",
+    "http.version=HTTP/1.1",
+    "ls-remote",
+    "origin",
+    "refs/heads/main"
+  ],
+  "returncode": 0,
+  "stdout": "085e914f33170a5822bbae28d1b35d7badfdba12\trefs/heads/main\n",
+  "stderr": "",
+  "local_head": "085e914f33170a5822bbae28d1b35d7badfdba12",
+  "remote_matches_local": true
+}

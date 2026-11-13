@@ -1,0 +1,67 @@
+{
+  "format": "zlscan.epoch-evidence/1",
+  "source_commit": "085e914f33170a5822bbae28d1b35d7badfdba12",
+  "ci_run_id": 43373222408,
+  "software_conclusion": "passed",
+  "original_ci_artifacts": 12,
+  "ci_zip_member_count": 4604,
+  "archives": [
+    {
+      "name": "developer_source",
+      "archive": "developer_changed_source.tar.gz",
+      "sha256": "e66e132f4b903a0fbc9619db1f4c385e33f54ebe5bd723cc2de418f0b296fd1f",
+      "bytes": 141296,
+      "verified_files": 20
+    },
+    {
+      "name": "developer_install",
+      "archive": "developer_install.tar.gz",
+      "sha256": "7d27bb4d674ab4ae5fd19bcf8c73de43c2f0d02f3e7fbfda103541e4272d4eab",
+      "bytes": 2950936,
+      "verified_files": 367
+    },
+    {
+      "name": "formal_install",
+      "archive": "formal_install.tar.gz",
+      "sha256": "bb008ce42a3526a1cbfc7418abf452e31549482abb29a858d9ae735837560b61",
+      "bytes": 2951049,
+      "verified_files": 367
+    },
+    {
+      "name": "fixed_install",
+      "archive": "fixed_install.tar.gz",
+      "sha256": "3005319b7f475a2940fdce3ad75b584b724a6763f17706a6f9266ccd227f95db",
+      "bytes": 2952080,
+      "verified_files": 367
+    },
+    {
+      "name": "local_runs",
+      "archive": "local_runs.tar.gz",
+      "sha256": "5161e6640d94b84bb3022452b6fa06ffdd58ead2add159004ebbe54e166821fa",
+      "bytes": 214596,
+      "verified_files": 173
+    },
+    {
+      "name": "current_wave",
+      "archive": "current_wave.tar.gz",
+      "sha256": "01c02ce34bcb90640aae2d9aaba40b73b08f205b1ff3f361b065c1db7e907ce2",
+      "bytes": 16307552,
+      "verified_files": 20
+    },
+    {
+      "name": "fixed_wave",
+      "archive": "fixed_wave.tar.gz",
+      "sha256": "12184bd27810180c2d273bd7c09770ac4c93da2be2946f0f6e6a97e0b1d2b53f",
+      "bytes": 16317817,
+      "verified_files": 19
+    }
+  ],
+  "scope": "specified software/host environments, explicit binding and synthetic reference workflow; no physical scanner validation, browser acceptance, whole-frame speed or total RSS claim",
+  "remaining": [
+    "recording history automatic capture v2 export",
+    "remaining stages 3-7 gates",
+    "browser acceptance",
+    "real measurements",
+    "whole-frame speed"
+  ]
+}

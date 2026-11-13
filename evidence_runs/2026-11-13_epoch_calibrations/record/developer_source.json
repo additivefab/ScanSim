@@ -1,0 +1,110 @@
+{
+  "base_commit": "d22160a64b11f1d894c10a6f57495be9d9a3d51f",
+  "dirty": true,
+  "snapshot_files": 1258,
+  "changed_files": [
+    {
+      "path": "README.md",
+      "sha256": "e059a401c3e3080464925b6b3d85ad73e3197a30e2038a8e0254b684f8bb6f94",
+      "bytes": 9046
+    },
+    {
+      "path": "docs/dev/02_architecture.md",
+      "sha256": "1ee3deef9a3dac0207941000954e91d98c70017dae5ebca8359a3cffa609a697",
+      "bytes": 8057
+    },
+    {
+      "path": "docs/dev/03_contracts.md",
+      "sha256": "2b0536767a52c6b9944b780da31b9b9fb6f19f6a3796fcdc283e5247ec9887d8",
+      "bytes": 58358
+    },
+    {
+      "path": "docs/dev/DECISIONS.md",
+      "sha256": "5a7ba6683aa454ebaf71747e4c708a38f6940aa4526a844cb2d331138e4eb13f",
+      "bytes": 32995
+    },
+    {
+      "path": "docs/dev/PROGRESS.md",
+      "sha256": "972567b03ee8d4b2ddde8d2fd3b7445604a2df4f261b03692fbb5eece08ace67",
+      "bytes": 114592
+    },
+    {
+      "path": "docs/reports/epoch_calibrations.md",
+      "sha256": "12961a9b268a6b3b8498ffb87b5c90e487b510548822f3ae9c72fc0d4358eafc",
+      "bytes": 3639
+    },
+    {
+      "path": "src/zlscan/calib/file.py",
+      "sha256": "b8748e0929a91738e2196c9c64cd0c08ced9bf20ebfbabecfb7ee8ad927c53f9",
+      "bytes": 1123
+    },
+    {
+      "path": "src/zlscan/cli.py",
+      "sha256": "e548c8670c1f4cf48be1b4083a3b6d95186f473c8f16234a3a1609901c077a74",
+      "bytes": 37200
+    },
+    {
+      "path": "src/zlscan/contracts/calibration.py",
+      "sha256": "9ba45032ac63d1cae8077ae302dd5db4e6275854630711829c469919611f8b92",
+      "bytes": 11524
+    },
+    {
+      "path": "src/zlscan/io/image_artifact.py",
+      "sha256": "b666f03d9b64d88ebde61f11721db270f4d08cea2962adebea73924a0655c7b3",
+      "bytes": 24789
+    },
+    {
+      "path": "src/zlscan/recon/capture.py",
+      "sha256": "cf4cb72f1f8d2fb3eac004e8d21bc34e714b1dda7ab2b3b818e9605d35980a7f",
+      "bytes": 16562
+    },
+    {
+      "path": "src/zlscan/recon/disk_density.py",
+      "sha256": "fb45ffddaa1b4fc34ad3021ea846ff5488c1c810407747c1ded91f9246a67f21",
+      "bytes": 4564
+    },
+    {
+      "path": "src/zlscan/recon/epoch_capture.py",
+      "sha256": "13de6a5c5fc3485776b55857a0381e54b06b79f0b34bef241823554c6f4f4933",
+      "bytes": 14487
+    },
+    {
+      "path": "src/zlscan/report/image_view.html",
+      "sha256": "42f67dc732ffd4d517a32dbf7a696af87923a88f506b9eca5320e60b83845eca",
+      "bytes": 8154
+    },
+    {
+      "path": "src/zlscan/report/image_view.py",
+      "sha256": "ae741834267bc278cabbd4292442b61e0212ff164aa033802a548b106c4a0c24",
+      "bytes": 4246
+    },
+    {
+      "path": "tests/unit/test_cli.py",
+      "sha256": "e12831b8f1b003d79d9550743780d73a58f50101fb9403c88164c6f8c4e54bae",
+      "bytes": 3041
+    },
+    {
+      "path": "tests/unit/test_epoch_calibrations.py",
+      "sha256": "6a659b3405453e2ab2b1dfe244684070237b334ce260dd1d6c93abc86c8c62ec",
+      "bytes": 18750
+    },
+    {
+      "path": "tools/audit_epoch_calibrations.py",
+      "sha256": "2a823af409492f550e8f232f8b67fe39b8bc269112c9dced23b72f24bc276a71",
+      "bytes": 12100
+    },
+    {
+      "path": "tools/audit_wheel_install.py",
+      "sha256": "44d027dd4bd1ef24b7cdfab83cf1c8adc93195fa0bd345a44ed986b3bc331cd0",
+      "bytes": 18930
+    },
+    {
+      "path": "tools/ci_runner.py",
+      "sha256": "a9269fd2ee121bc9b290c29c0687bd757c2c703b2078769126fc76cdb28d9cb4",
+      "bytes": 9619
+    }
+  ],
+  "archive": "developer_changed_source.tar.gz",
+  "sha256": "e66e132f4b903a0fbc9619db1f4c385e33f54ebe5bd723cc2de418f0b296fd1f",
+  "scope": "exact changed payloads from the actual dirty audited snapshot; apply over base Git tree; not a committed build"
+}

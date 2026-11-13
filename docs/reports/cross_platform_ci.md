@@ -1,5 +1,8 @@
 # 三平台与最低/当前 Python CI（S7-T05）
 
+后续多工作点批次：085e914的六目标安装/资源与元数据验证已完成，见
+[新批次报告](epoch_calibrations.md)。本文件下方保留6083281基线及早期平台修复历史。
+
 ## 当前结论：六目标实际通过
 
 2026-11-13，[第四轮 run 43363085674](https://github.com/additivefab/ScanSim/actions/runs/43363085674) 六个 job 均 success，
