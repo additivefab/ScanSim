@@ -1,0 +1,19 @@
+{
+  "status": "push_failed",
+  "observed_at": "2026-11-13T00:31:58.347432+00:00",
+  "target": "https://github.com/additivefab/ScanSim.git",
+  "branch": "main",
+  "local_head": "647aee96221c80127148ddd015e03848850af7c3",
+  "implementation": "fe2b31fa2968aab7a94bb6a9247183690aef27aa",
+  "last_successful_remote_main": "352e8c125a020a95599a6f2079ecdaecdf923863",
+  "push_exit_code": 128,
+  "logs_original_sha256": {
+    "publish_retry.json": "53975cc9c836b9bc52b6ea2a7fa45d447b4e9c4a2415519e802ac297f3f62c8a",
+    "publish_socks.json": "3420b72d22cbc68746dd7b83114ab579fd2a6d45cdcb6f233f2cdeeb22aafb27",
+    "publish_runtime_git.json": "47f9a7bd92622ebcb8130c30d0ae8982ab9f23156638c48aefdf8320b92fa271",
+    "publish_direct_url.json": "caaa23b9a694ed34ea89d1b8339374c017455f0f1cdfbf7db74dc761b1f64296",
+    "push_tls_failure.log": "8ba2d6c46d2d0a36072d2c46027196730202397c26b925d3cc8f1a32c6c9b0c2",
+    "push_exit.txt": "56292515f7d3a7110811eb8de26b3f75f82a0766aa5a1fd66ebcfcb84fe6d5ff"
+  },
+  "notes": "HTTPS fetch/push repeatedly failed with LibreSSL SSL_ERROR_SYSCALL; refs/direct-URL fetch succeeded intermittently, latest ref read also failed. Last successful remote SHA is historical, not a fresh delivery receipt. No force push, history rewrite, TLS verification disabling or proxy configuration changes. User push authorization remains valid; implementation/tests/installed validation are separate from delivery."
+}
