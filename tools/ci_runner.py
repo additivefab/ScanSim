@@ -148,15 +148,33 @@ def main() -> None:
         runner.run("dev_packages", [sys.executable, "-m", "pip", "list", "--format=json"])
         runner.run("ruff", [sys.executable, "-m", "ruff", "check", "."], cwd=source)
         runner.run("format", [sys.executable, "-m", "ruff", "format", "--check", "."], cwd=source)
+        for tool in ("iverilog", "vvp", "pdftotext"):
+            path = (
+                os.environ.get("SCANSIM_PDFTOTEXT") if tool == "pdftotext" else None
+            ) or shutil.which(tool)
+            if path:
+                runner.run(tool + "_version", [path, "-v" if tool == "pdftotext" else "-V"])
+        pdf_tool = os.environ.get("SCANSIM_PDFTOTEXT") or shutil.which("pdftotext")
+        if pdf_tool:
+            runner.run(
+                "pdftotext_bbox_preflight",
+                [
+                    pdf_tool,
+                    "-bbox",
+                    "-f",
+                    "10",
+                    "-l",
+                    "10",
+                    str(source / "legacy/originals/SmartZynq_SP2_Schematic_V1d3B_20260413.pdf.pdf"),
+                    str(out / "schematic_bbox.html"),
+                ],
+                cwd=source,
+            )
         runner.run(
             "pytest",
             [sys.executable, "-m", "pytest", "-q", "--junitxml=" + str(out / "pytest.xml")],
             cwd=source,
         )
-        for tool in ("iverilog", "vvp", "pdftotext"):
-            path = shutil.which(tool)
-            if path:
-                runner.run(tool + "_version", [path, "-v" if tool == "pdftotext" else "-V"])
         backend, manifest = extract_backend(source, work)
         project = tomllib.loads((source / "pyproject.toml").read_text(encoding="utf-8"))["project"]
         requirements = project["dependencies"] + project["optional-dependencies"]["ident"]

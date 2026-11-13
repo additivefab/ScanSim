@@ -46,7 +46,7 @@ Ubuntu 两版本 1488 通过/4 跳过，macOS 两版本 1486 通过/6 跳过；
 每个 job 的原始 ZIP、JUnit 与元数据保留在本轮 output，后续归档，不覆盖首轮负证据。
 
 Windows 问题归类：18 个 HDF5 只读句柄 fsync、2 个下游同因退出、9 个 byte-0
-强制锁挡读、7 个大 Node argv、4 个非 Poppler pdftotext -bbox 错误、
+强制锁挡读、7 个大 Node argv、4 个 pdftotext -bbox 退出 99 错误（首轮缺实际版本，非 Poppler 的推断未证实）、
 2 个 POSIX 信号差异、1 个冻结 B 原套件 NPZ 句柄泄漏。后者原 14 测试含 2 个
 清理错误，原件未改；仅 Windows 测试子进程透明输出原字节 BytesIO 适配标志。
 修复合同见 D074。CI 新增三平台实际 Poppler 安装，四个 PDF 合同仍执行原断言。
@@ -58,3 +58,18 @@ Windows 控制台信号能力仍未验收。
 修复后本机定向 45 项通过（41.68 s），全量 1493 通过/2 跳过（204.95 s），
 两项为 Icarus 不可用；Ruff 与 298 文件格式检查通过。NPZ 适配路径另在本机
 执行冻结 B 的全部 14 项断言通过，明确不当作 Windows 原生结果。
+
+
+## 第二轮 Windows 负证据
+
+[run 43359591080](https://github.com/additivefab/ScanSim/actions/runs/43359591080)，
+提交 `cf9561072a6b69594a1f902ed53a2998a4b89df8`。Windows 两版本
+各 1487 通过/4 跳过/4 setup 错误；四个错误仍是原 PDF 的 pdftotext -bbox 退出99。
+写入锁/实时读/可写 fsync、Node 原断言、NPZ 适配及新跨进程合同均已原生通过；
+四跳过是 Icarus 两项与 POSIX 信号两项，不能算作这些能力在 Windows 通过。
+该轮仍未走到 Windows wheel 安装审计。已安装 Chocolatey Poppler26.9.0，
+但此前 PATH 命令没有记录实际选择版本，故不能确认根因就是非 Poppler。
+D075 改为绝对路径、提前版本/bbox 预检并显示原 stderr，仍保留原合同。
+
+D075 本机定向 10 项通过（0.78 s），全量 1494 通过/2 跳过（211.59 s），
+Ruff 与 298 文件格式检查通过。四个 PDF 合同本机实际执行，第三轮原生结果仍待返回。

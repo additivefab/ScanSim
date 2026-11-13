@@ -7,6 +7,7 @@ reported. The hand-checked part (power and GND rows that text position cannot se
 by a person in docs/reports/pin_registry_review.md, which includes this output's numbers.
 """
 
+import os
 import subprocess
 import sys
 import tempfile
@@ -23,7 +24,16 @@ STATUSES = ("confirmed", "mismatch", "gnd_symbol_no_text", "power_name_not_align
 
 
 def pdftotext(args: list[str], page: int, out: Path) -> str:
-    cmd = ["pdftotext", *args, "-f", str(page), "-l", str(page), str(PDF), str(out)]
+    cmd = [
+        os.environ.get("SCANSIM_PDFTOTEXT", "pdftotext"),
+        *args,
+        "-f",
+        str(page),
+        "-l",
+        str(page),
+        str(PDF),
+        str(out),
+    ]
     subprocess.run(cmd, check=True, capture_output=True)
     return out.read_text(encoding="utf-8")
 

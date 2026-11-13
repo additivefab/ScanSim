@@ -742,3 +742,8 @@ Node VM/DOM 帮助函数测试经 stdin 传输原脚本，保留所有断言，�
 冻结 B 原始测试在 Windows 的 NPZ 句柄泄漏失败须保留；测试子进程适配器只将
 路径 NPZ 原字节移入 BytesIO，其余 numpy.load 行为、源码、断言与数值保持原样，
 输出必须明确标注适配。不可把该通过写成未适配原套件的 Windows 通过。
+
+CI 的 `SCANSIM_PDFTOTEXT` 为已安装 Poppler 的完整可执行文件路径；PDF 合同与
+手动 review 优先使用该值，未设时才解析 PATH。完整 pytest 前先记录实际版本，
+对原 PDF 第 10 页执行原 `-bbox` 命令并保留 stdout/stderr；任何失败仍失败，
+不能把选择不到/无法执行工具变成跳过。

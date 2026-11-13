@@ -105,3 +105,16 @@ def test_workflow_shell_scripts_contain_real_newlines():
     w = json.loads((root / ".github/workflows/ci.yml").read_text())
     for step in w["jobs"]["verify"]["steps"]:
         assert chr(92) + "n" not in step.get("run", "")
+
+
+def test_windows_pdf_tool_is_selected_by_absolute_path():
+    root = Path(__file__).resolve().parents[2]
+    workflow = json.loads((root / ".github/workflows/ci.yml").read_text())
+    step = next(
+        s
+        for s in workflow["jobs"]["verify"]["steps"]
+        if s.get("name") == "Install and select Poppler on Windows"
+    )
+    assert "SCANSIM_PDFTOTEXT" in step["run"]
+    assert "$tool.FullName" in step["run"]
+    assert "GITHUB_ENV" in step["run"]

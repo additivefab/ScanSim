@@ -5,6 +5,7 @@ power and GND rows cannot be settled by text position; they were checked by eye 
 documented in docs/reports/pin_registry_review.md, so this test pins their count instead.
 """
 
+import os
 import shutil
 import subprocess
 from collections import Counter
@@ -18,16 +19,20 @@ from zlscan.hardware.pins import PinRegistry
 ROOT = Path(__file__).resolve().parents[2]
 PDF = ROOT / "legacy/originals/SmartZynq_SP2_Schematic_V1d3B_20260413.pdf.pdf"
 
-pytestmark = pytest.mark.skipif(shutil.which("pdftotext") is None, reason="pdftotext not installed")
+PDFTOTEXT = os.environ.get("SCANSIM_PDFTOTEXT") or shutil.which("pdftotext")
+pytestmark = pytest.mark.skipif(PDFTOTEXT is None, reason="pdftotext not installed")
 
 
 def _text(args, page, tmp_path):
     out = tmp_path / f"p{page}.txt"
-    subprocess.run(
-        ["pdftotext", *args, "-f", str(page), "-l", str(page), str(PDF), str(out)],
-        check=True,
+    result = subprocess.run(
+        [PDFTOTEXT, *args, "-f", str(page), "-l", str(page), str(PDF), str(out)],
         capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
     )
+    assert result.returncode == 0, (result.args, result.returncode, result.stderr)
     return out.read_text(encoding="utf-8")
 
 

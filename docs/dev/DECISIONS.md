@@ -116,6 +116,8 @@
 
 | D074 | 按首轮真实 Windows CI 失败修复文件句柄/锁与测试传输；保留原失败，禁止改冻结包 | Windows 强制字节锁移至保留的非数据区域，文件上限约束该区域，关闭句柄释放；不同版本的活跃写入器不可混用。HDF5 新文件以可写句柄 fsync。Node 断言脚本通过 stdin 避开 Windows 命令行长度限制。POSIX 两信号用例只在 POSIX 运行，EOF 暂停/恢复仍跨平台。冻结 B 的两个未关闭 NPZ 仅在测试子进程按原字节 BytesIO 适配并显式标记，不冒充未经适配的 Windows 原套件通过。CI 安装实际 Poppler，保留原 PDF 断言；不升级硬件证据 | S7-T05，2026-11-13 |
 
+| D075 | Windows PDF 合同显式选择已安装 Poppler 的绝对路径，并在 pytest 前保留版本与 bbox 提取日志 | 第二轮 Windows 原生测试仅剩四个 PDF setup 错误，安装 Poppler 不等于实际命令选中了它；Git Bash/PATH 的推断待新运行核对。CI 用 GITHUB_ENV 的 SCANSIM_PDFTOTEXT 传入 FullName，手动 review 与合同共享该选择，失败显示原始 stderr，禁止跳过/放宽 PDF 断言 | S7-T05，2026-11-13 |
+
 ## 二、待用户决定
 
 遇到下列事项先问用户。问之前继续做不依赖它的部分。
