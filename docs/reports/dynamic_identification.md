@@ -43,3 +43,8 @@ JSON 保留全部逐点观测、预测、名义残差和来源摘要；SVG/PNG �
 
 开发全量 1456 通过/2 跳过（179.28 s，缺 Icarus 的 RTL 未执行），
 Ruff 与 290 文件格式通过；集成定向 199 通过。
+
+干净实现 `afd9fdf` 的正式 CLI/独立进程完整 JSON 重算通过，21 源文件不变。
+[摘要](dynamic_identification_audit.json)；完整合成源、结果、图、失败/最终测试日志与驱动
+逐原件校验归档在 `evidence_runs/2026-11-13_dynamic_ident/record/`。
+本次新增功能尚未另建最新 wheel/跨平台运行，不套用上轮安装记录。

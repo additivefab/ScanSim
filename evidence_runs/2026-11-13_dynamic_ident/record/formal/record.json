@@ -1,0 +1,90 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "conditional observed dynamic identification from synthetic scope files",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T01:17:27.954391+00:00",
+ "finished_at": "2026-11-13T01:17:39.945990+00:00",
+ "code": {
+  "commit": "afd9fdf59479d2fd891577c1aa023e210866c063",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": 20261113,
+ "inputs": {
+  "evidence_runs/2026-11-13_dynamic_ident/output/formal/sources.json": "04f9cc35c91eff1921cd29d14122f7e11919add7ee8dde732b237f09b4221b1a",
+  "tools/audit_dynamic_identification.py": "a1e28bed8e98b63c2bebcbde0cb15be5c8d417897c75ceffe25fdad9eeec88ae"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_dynamic_identification.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_dynamic_ident/output/formal"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_dynamic_identification.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_dynamic_ident/output/formal",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "independently recomputed CLI cases",
+   "expected": 4,
+   "tolerance": null,
+   "actual": 4,
+   "passed": true
+  },
+  {
+   "quantity": "source file digests unchanged",
+   "expected": 21,
+   "tolerance": null,
+   "actual": 21,
+   "passed": true
+  },
+  {
+   "quantity": "both relative tau errors below .01",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "held-out residual below .005 V",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "parameter upgrades absent",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  }
+ ],
+ "notes": "Eight analytic noisy scope files; no real measurements. CLI negative mismatch/flat/reuse cases must exit 1 (outer driver verifies expected codes). Fresh process recomputes full JSON, no parameter evidence upgrades; does not prove interval coverage or hardware response."
+}

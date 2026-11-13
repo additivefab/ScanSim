@@ -1,0 +1,29 @@
+{
+  "origin": "synthetic",
+  "seed": 20261113,
+  "source_files_unchanged": 21,
+  "cases": 4,
+  "rise_tau_s": 0.0020006388467242297,
+  "fall_tau_s": 0.004997382342722833,
+  "relative_errors": {
+    "rise": 0.000319423362114879,
+    "fall": 0.0005235314554334902
+  },
+  "criterion_relative_error": 0.01,
+  "holdout_max_abs_residual_si": 0.0029359086048289518,
+  "holdout_threshold_si": 0.005,
+  "actual_measurements_obtained": false,
+  "parameter_upgrades": [],
+  "code_commit": "afd9fdf59479d2fd891577c1aa023e210866c063",
+  "archive": {
+    "files": 106,
+    "all_original_member_sha256_verified": true,
+    "archive_sha256": "f437a720bcd1311a50e9d371ede0c65ebd36e541f487ae78de351b5f0439b8c0"
+  },
+  "full_pytest": {
+    "passed": 1456,
+    "skipped": 2,
+    "seconds": 179.28
+  },
+  "latest_wheel_for_this_feature": "not_executed"
+}

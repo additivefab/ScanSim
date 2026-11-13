@@ -1,0 +1,3 @@
+dynamic CLI, independent holdout, flat and reuse gates passed
+
+all four CLI results independently recomputed; sources unchanged
