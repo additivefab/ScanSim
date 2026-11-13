@@ -1,0 +1,93 @@
+{
+  "format": "zlscan.ad9268-m02-document-audit/1",
+  "source_root": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/AD9268\u6a21\u5757\u8d44\u6599V4.1",
+  "files": [
+    {
+      "path": "\u4f8b\u7a0b\u7a0b\u5e8f/AD9268_V2.zip",
+      "sha256": "816ba5eab99e2960c33647ffac0043755baadeca44473c2768bef39bec0ed474",
+      "bytes": 65409
+    },
+    {
+      "path": "\u539f\u7406\u56fePDF/AD9268 V4.1.pdf",
+      "sha256": "edb57d88c9008e52d1e81d91d0abdb89b4d1f39e180eac8c07a2e69631ef6ca7",
+      "bytes": 106827
+    },
+    {
+      "path": "\u6a21\u5757\u5c3a\u5bf8/AD9268_V4.1.DXF",
+      "sha256": "41ca6134f38f6bff6330ff4bac530682886c46a8b6a96a8ca2af8e80d0eb8c32",
+      "bytes": 9317358
+    },
+    {
+      "path": "\u6a21\u5757\u5c3a\u5bf8/AD9268_V4.1.pdf",
+      "sha256": "0a1f78c9f28cd400f573f7b246c52ca7504cddd92001a84da2689889bb2efd98",
+      "bytes": 271282
+    },
+    {
+      "path": "\u6a21\u5757\u5c3a\u5bf8/AD9268\u5c3a\u5bf8\u56feV4.0.DXF",
+      "sha256": "c37e78c629ff1d5333960af65d3ff43d89025b6b8b018be69be49929d15ad3ff",
+      "bytes": 8736436
+    },
+    {
+      "path": "\u6a21\u5757\u5c3a\u5bf8/AD9268\u5c3a\u5bf8\u56feV4.0.pdf",
+      "sha256": "ff850c3832c82b8ba50643a0cadfd77d51eba33d73dae95a099008aae081baff",
+      "bytes": 145101
+    },
+    {
+      "path": "\u7528\u6237\u624b\u518c/AD9268\u6a21\u5757\u7528\u6237\u624b\u518cV1.0.pdf",
+      "sha256": "649a331f915faf8e847b3f38db49b7ecbfb25d238edd67ff73068e1247896117",
+      "bytes": 1779554
+    },
+    {
+      "path": "\u82af\u7247\u624b\u518c/AD8132.pdf",
+      "sha256": "8ac8c8756bf6a73c0511f40ae05941ae2b79b9a33de915261293291c7b759f50",
+      "bytes": 857647
+    },
+    {
+      "path": "\u82af\u7247\u624b\u518c/AD9268.pdf",
+      "sha256": "68edb5ac19edb7630197c01a87266950e6a662ca1d7e6f6b8c34c76e76c19ba9",
+      "bytes": 2340456
+    },
+    {
+      "path": "\u82af\u7247\u624b\u518c/LM2663.pdf",
+      "sha256": "ee1be159fa5fd8b8feb63dc6e99baca6d08b3f04837b55c803ef798ada06c64c",
+      "bytes": 928418
+    },
+    {
+      "path": "\u82af\u7247\u624b\u518c/NCP1529.pdf",
+      "sha256": "4bb5b85b780ebdda59c4eb85aa3fe2ede9e365a2115ec18ccb4e176b0337d3d6",
+      "bytes": 252399
+    },
+    {
+      "path": "\u82af\u7247\u624b\u518c/SGM2036.pdf",
+      "sha256": "5390ebdaaf49eb079e5bd149869d1efbeaf74330fe7f5b1a2ddf4abb3aea2ac0",
+      "bytes": 824333
+    }
+  ],
+  "facts": {
+    "adc": "AD9268",
+    "channels": 2,
+    "resolution_bits": 16,
+    "maximum_sample_rate_hz": 125000000,
+    "input_range_v": "-4.5..+4.5",
+    "analog_bandwidth_hz": 350000000,
+    "digital_interface_voltage_v": 1.8,
+    "outputs": [
+      "1.8V CMOS",
+      "LVDS"
+    ],
+    "control_interface": "SPI",
+    "module_supply_v": 5.0
+  },
+  "evidence_scope": "datasheet/user manual/example RTL and schematic documents; document-derived only",
+  "hardware_identity_verified": false,
+  "register_dump_obtained": false,
+  "test_code_capture_obtained": false,
+  "measured_clock_obtained": false,
+  "m02_complete": false,
+  "missing": [
+    "board-specific register readback",
+    "captured test pattern with channel mapping",
+    "measured clock/data timing and acquisition session identity",
+    "verified schematic-to-populated-board continuity"
+  ]
+}
