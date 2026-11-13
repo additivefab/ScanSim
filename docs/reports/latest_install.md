@@ -27,3 +27,21 @@ PYTHONHOME、VIRTUAL_ENV 的源码污染入口，运行 -I 核对模块路径和
 另一台干净机器、Windows/Linux/其他 Python 版本尚未执行。
 三包后端锁不等于宿主 Python/pip/OS/dev/外部仿真器全锁，项目许可与 CI 仍保留。
 浏览器视觉、测量支持和阶段 3–7 其它门槛不因此升级。
+
+干净提交 `631c542` 的正式构建已逐一核对 1212 个跟踪文件与固定 Git blob，
+两份独立源码的 wheel SHA256 相同，150 模块/5 资源及全部已安装 CLI/新进程验证通过。
+正式 wheel SHA256 为 be53ae4a8d22344b3d92a35c012d4d7f95720dc60ad4f9a070ddf9b81e7eaa50。
+配套运行与构建锁保存在 install/locks/ 下带 631c542 的文件，旧锁保留。
+
+[离线包](../../install/bundles/scansim-macos-x86_64-cpython314-631c542.tar.gz)
+含 20 份运行 wheel 和 3 份构建 wheel（packaging 在两个组中各保留一份）、锁、清单、
+5 个独立审计脚本与说明，共 35 个文件，56,005,792 字节。
+包 SHA256：a397d019cc6822007b67cebfaaf25fdc794391bc6cd441db32e190a771f42932。
+实际解包后每个成员核对原摘要，从解包 wheelhouse 在另一个全新 venv 离线安装，
+pip check、-I 位置/版本及所有模块/资源再检查通过。新环境实际执行动态四例/时基六例
+及新进程回读，完整结果与正式安装及开发原件逐字节相同；正式安装的分段 12 数组
+与开发原件逐元素相同（含 NaN）。当前 150 Python/5 资源也与 dirty 开发尝试的源摘要相同。
+
+[汇总](latest_install_audit.json)，正式与解包安装记录及完整案例/原日志/下载后端原件的
+逐成员校验归档在 evidence_runs/2026-11-13_latest_install/record/；依赖 wheel 本体在上述
+可携包中保留原字节和原许可证文件。没有把同机新 venv 说成另一台干净机器。

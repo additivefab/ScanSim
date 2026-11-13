@@ -1,0 +1,20 @@
+{
+  "source": {
+    "commit": "631c542657255f04b7c5effe0d6310598469fde4",
+    "dirty": false
+  },
+  "bundle": "install/bundles/scansim-macos-x86_64-cpython314-631c542.tar.gz",
+  "sha256": "a397d019cc6822007b67cebfaaf25fdc794391bc6cd441db32e190a771f42932",
+  "size_bytes": 56005792,
+  "members_verified": 35,
+  "locked_wheels": 23,
+  "parity": {
+    "dynamic": 4,
+    "timing": 6,
+    "developer_dynamic_identification": 4,
+    "developer_timing_identification": 6
+  },
+  "segmented_arrays_equal_including_nan": 12,
+  "work_dir": "/Users/yuxinghua/.cache/zlscan-wheel-audit/bundle-qwdkqdji",
+  "scope": "same host unpacked bundle fresh venv; other machine/OS not executed"
+}

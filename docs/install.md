@@ -108,3 +108,13 @@ offline_env/bin/python -m pip check
 对应工件/来源/平台汇总见 `docs/reports/wheel_install_audit.json`。
 这份锁只对应记录中的特定 wheel；配套 wheelhouse 位于审计 work_dir。
 源码重新构建时，工具会生成该构建对应的新锁。
+
+## 当前已核验的离线包
+
+[macOS CPython 3.14 x86_64 / 631c542](../install/bundles/scansim-macos-x86_64-cpython314-631c542.tar.gz)
+携带完整运行/构建 wheelhouse、配套锁、摘要与合成示例审计脚本。先解包并进入目录，
+选择一个尚不存在的新环境目录，执行包内 README 的 --no-index/--require-hashes 安装命令。
+实际包 SHA256 和新环境重装/辨识结果见 [最新核验](reports/latest_install.md)。
+该包绑定源码点 631c542；复现相同 wheel 字节需相同源码点、SOURCE_DATE_EPOCH 和已记录
+构建环境。后续文档提交或其它源码点的重建会产生自己的配套锁，不复用此 wheel 的摘要。
+旧 reference 锁仍保留为历史；新锁为 install/locks/ 中带 631c542 的 build/runtime-ident 文件。

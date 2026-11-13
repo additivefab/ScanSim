@@ -1,0 +1,210 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "locked backend and runtime current wheel with installed CLI suites",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T02:01:54.177623+00:00",
+ "finished_at": "2026-11-13T02:04:17.981702+00:00",
+ "code": {
+  "commit": "631c542657255f04b7c5effe0d6310598469fde4",
+  "dirty": false
+ },
+ "environment": {
+  "host": {
+   "python": "3.14.7",
+   "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+   "machine": "x86_64",
+   "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2",
+    "tifffile": "2026.11.8",
+    "pillow": "13.0.0",
+    "pydantic": "2.14.3",
+    "h5py": "3.16.0"
+   }
+  },
+  "runtime": {
+   "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 17.0.0 (clang-1700.6.4.2)]",
+   "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+   "process_arch": "x86_64",
+   "prefix": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-6hybsjxd/runtime",
+   "module_path": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-6hybsjxd/runtime/lib/python3.14/site-packages/zlscan/__init__.py"
+  },
+  "installed": [
+   {
+    "name": "annotated-types",
+    "version": "0.8.0"
+   },
+   {
+    "name": "contourpy",
+    "version": "1.4.0"
+   },
+   {
+    "name": "cycler",
+    "version": "0.12.1"
+   },
+   {
+    "name": "fonttools",
+    "version": "4.68.0"
+   },
+   {
+    "name": "h5py",
+    "version": "3.16.0"
+   },
+   {
+    "name": "kiwisolver",
+    "version": "1.5.1"
+   },
+   {
+    "name": "matplotlib",
+    "version": "3.11.2"
+   },
+   {
+    "name": "numpy",
+    "version": "2.5.4"
+   },
+   {
+    "name": "packaging",
+    "version": "26.3"
+   },
+   {
+    "name": "pillow",
+    "version": "13.0.0"
+   },
+   {
+    "name": "pip",
+    "version": "26.2.1"
+   },
+   {
+    "name": "pydantic",
+    "version": "2.14.3"
+   },
+   {
+    "name": "pydantic_core",
+    "version": "2.50.4"
+   },
+   {
+    "name": "pyparsing",
+    "version": "3.3.3"
+   },
+   {
+    "name": "python-dateutil",
+    "version": "4.0.0"
+   },
+   {
+    "name": "scipy",
+    "version": "1.18.1"
+   },
+   {
+    "name": "tifffile",
+    "version": "2026.11.8"
+   },
+   {
+    "name": "typing_extensions",
+    "version": "4.16.0"
+   },
+   {
+    "name": "typing-inspection",
+    "version": "0.4.5"
+   },
+   {
+    "name": "tzdata",
+    "version": "2026.6"
+   },
+   {
+    "name": "zlscan",
+    "version": "0.1.0.dev0"
+   }
+  ],
+  "builder": [
+   {
+    "name": "packaging",
+    "version": "26.3"
+   },
+   {
+    "name": "pip",
+    "version": "26.2.1"
+   },
+   {
+    "name": "setuptools",
+    "version": "84.2.1"
+   },
+   {
+    "name": "wheel",
+    "version": "0.48.0"
+   }
+  ]
+ },
+ "seed": 20261113,
+ "inputs": {
+  "evidence_runs/2026-11-13_latest_install/output/formal/source_manifest.json": "db5084bf3e700a51e2d7fcbc333724af7d870d59ba4ff96d7700d4db37f160e2",
+  "evidence_runs/2026-11-13_latest_install/output/formal/build.lock": "0496f2e6a919f0b7391a91009453b77d9a641b5b8045593d7fa22762e6765a52",
+  "evidence_runs/2026-11-13_latest_install/output/formal/external-runtime.lock": "d92f6892142e90b68025ccdd3b7fcf6e5f74925ddc20d65212cad9e471d293d5",
+  "tools/audit_wheel_install.py": "740a726b992fa3eec3c0accd8b6ebb81971a1ae801636f2967c9244b3d668793"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_wheel_install.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_latest_install/output/formal",
+    "--build-wheelhouse",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_latest_install/output/build_wheels",
+    "--build-manifest",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_latest_install/output/build_manifest.json",
+    "--runtime-wheelhouse",
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/segmented-offline-s6sre9g2/wheelhouse",
+    "--runtime-manifest",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_segmented_rows/output/wheel-offline/wheelhouse_manifest.json"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "fixed commit snapshot verified",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "repeated wheel bytes identical",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "Python modules match source",
+   "expected": 150,
+   "tolerance": null,
+   "actual": 150,
+   "passed": true
+  },
+  {
+   "quantity": "runtime assets match source",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  },
+  {
+   "quantity": "locked runtime packages",
+   "expected": 20,
+   "tolerance": null,
+   "actual": 20,
+   "passed": true
+  },
+  {
+   "quantity": "offline hash-locked input mode",
+   "expected": "offline_hash_locked_inputs",
+   "tolerance": null,
+   "actual": "offline_hash_locked_inputs",
+   "passed": true
+  }
+ ],
+ "notes": "Fixed Git source verified. Three build dependencies and 20 runtime distributions are hash-locked; CPython/ensurepip/pip/OS external. Two tracked source copies same SOURCE_DATE_EPOCH and same builder; byte-identical wheel. Installed original CLI/HTTP smoke and static/dynamic/timing/segmented with fresh-process verification. Same host, not browser/cross-platform/hardware acceptance."
+}
