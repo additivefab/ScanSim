@@ -1,0 +1,48 @@
+{
+  "format": "zlscan.publication-receipt/1",
+  "verified_at": "2026-11-13T04:19:58.480735+00:00",
+  "published_evidence_commit": "71bff8813af4f3713fdf0be95f1dda47212e4c95",
+  "ci_source_commit": "6083281d38ecaa8bdea25534581d0a3c57c0635b",
+  "ci_run_id": 43363085674,
+  "ci_conclusion": "success",
+  "push": {
+    "argv": [
+      "git",
+      "-c",
+      "http.proxy=socks5h://127.0.0.1:7897",
+      "-c",
+      "http.version=HTTP/1.1",
+      "-c",
+      "credential.helper=",
+      "-c",
+      "credential.helper=!gh auth git-credential",
+      "push",
+      "origin",
+      "main"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "To https://github.com/additivefab/ScanSim.git\n   6083281..71bff88  main -> main\n"
+  },
+  "read_refs": {
+    "argv": [
+      "git",
+      "-c",
+      "http.proxy=socks5h://127.0.0.1:7897",
+      "-c",
+      "http.version=HTTP/1.1",
+      "ls-remote",
+      "--heads",
+      "origin"
+    ],
+    "returncode": 0,
+    "stdout": "71bff8813af4f3713fdf0be95f1dda47212e4c95\trefs/heads/main\n",
+    "stderr": ""
+  },
+  "remote_heads": {
+    "refs/heads/main": "71bff8813af4f3713fdf0be95f1dda47212e4c95"
+  },
+  "remote_matches_local": true,
+  "original_stash_preserved": "04da34820d47a489c72845a539ede165d996d31e",
+  "scope": "published source and full CI evidence; this receipt is added in a subsequent documentation-only commit"
+}

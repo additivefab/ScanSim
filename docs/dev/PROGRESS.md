@@ -15,6 +15,8 @@
 
 ## 当前发布交接
 
+- **CI 证据批次已发布**：`71bff8813af4f3713fdf0be95f1dda47212e4c95` 已正常快进推送，实际远端 main 与当时本地 HEAD 相同；六目标验证源码为6083281，四轮24原工件及全部归档已随该提交发布。完整回执在 `evidence_runs/2026-11-13_cross_platform_ci/record/publication/verified_batch.json`。本条与回执属于后续文档提交，继续正常推送核对；工作区当时干净，stash04da348未动。
+
 - **最新 CI 源码已发布并核对**：`6083281`（完整哈希 `6083281d38ecaa8bdea25534581d0a3c57c0635b`）已正常快进推送，远端 main 当时等于本地 HEAD。第四轮 run43363085674 六目标全部 success；Linux各1497/0跳过、macOS各1495/2、Windows各1493/4，全部隔离安装审计通过。前三轮负证据与本轮成功共24个原 ZIP/6382内部文件的摘要、锁、日志和实际示例在 `evidence_runs/2026-11-13_cross_platform_ci/record/`。本批后续为文档与归档提交，代码未再改，CI验证源码仍精确指向6083281；最终推送另逐引用核对。原 stash04da348保留，实机/浏览器/完整工具链锁及阶段3–7其它门槛仍未关闭。
 
 - **最新已核对发布批次**：安装工具 `631c542`、离线包/证据 `3575b15` 和交接 `5befe19` 已正常快进推送，包含上轮时基交接 `389e16e`；实际远端 main `5befe191c5cfc05226d2ccba873a4e9cce56e28d` 等于当时本地 HEAD。使用 macOS 现有 7897 代理的单请求 SOCKS5h 通路，TLS 校验与仓库 origin 均保留；HTTPS/SSH 失败原件不删除。回执在 `evidence_runs/2026-11-13_latest_install/record/publication/verified_batch.json`，GitHub 对 53 MiB 工件给出大文件提示但接受更新。工作区当时干净，原 stash `04da348` 保留。本条之后交接提交继续正常推送核对，下方待发布文字是该次成功之前的历史。
