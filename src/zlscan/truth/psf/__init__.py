@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from functools import lru_cache
 
 import numpy as np
 
@@ -34,6 +35,17 @@ class PsfConfig:
     nodes_y: int = 5
 
 
+@lru_cache(maxsize=32)
+def _quadrature(nodes_x: int, nodes_y: int, active_x: bool, active_y: bool):
+    """Cache configuration-only nodes; returned arrays are immutable shared constants."""
+    ax, wx = np.polynomial.hermite_e.hermegauss(nodes_x if active_x else 1)
+    ay, wy = np.polynomial.hermite_e.hermegauss(nodes_y if active_y else 1)
+    wx, wy = wx / wx.sum(), wy / wy.sum()
+    for array in (ax, wx, ay, wy):
+        array.setflags(write=False)
+    return ax, wx, ay, wy
+
+
 def effective_transmittance(
     lookup: Callable[[np.ndarray, np.ndarray], np.ndarray], cfg: PsfConfig,
     x: np.ndarray, y: np.ndarray,
@@ -41,9 +53,7 @@ def effective_transmittance(
     sx, sy = cfg.fwhm_x_m * FWHM_TO_SIGMA, cfg.fwhm_y_m * FWHM_TO_SIGMA
     if sx == 0 and sy == 0:
         return lookup(x, y)
-    ax, wx = np.polynomial.hermite_e.hermegauss(cfg.nodes_x if sx else 1)
-    ay, wy = np.polynomial.hermite_e.hermegauss(cfg.nodes_y if sy else 1)
-    wx, wy = wx / wx.sum(), wy / wy.sum()
+    ax, wx, ay, wy = _quadrature(cfg.nodes_x, cfg.nodes_y, bool(sx), bool(sy))
     out = np.zeros_like(x, dtype=float)
     for ai, wi in zip(ax, wx, strict=True):
         for aj, wj in zip(ay, wy, strict=True):

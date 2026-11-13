@@ -65,6 +65,21 @@ def test_psf_nodes_converge():
     assert abs(vals[3] - vals[2]) < abs(vals[1] - vals[0]) + 1e-12
 
 
+def test_psf_quadrature_cache_is_configuration_only_and_immutable():
+    from zlscan.truth.psf import _quadrature
+
+    _quadrature.cache_clear()
+    x = np.array([0.05, 0.06])
+    y = np.array([0.05, 0.06])
+    scene = Scene.from_density(np.full((8, 8), 0.3), 0.1, 0.1)
+    first = psf.effective_transmittance(scene.lookup, psf.PsfConfig(3e-3, 2e-3), x, y)
+    info = _quadrature.cache_info()
+    second = psf.effective_transmittance(scene.lookup, psf.PsfConfig(3e-3, 2e-3), x, y)
+    assert info.misses == 1 and _quadrature.cache_info().hits == 1
+    np.testing.assert_array_equal(first, second)
+    assert not _quadrature(9, 5, True, True)[0].flags.writeable
+
+
 # ---- collect, source ------------------------------------------------------------------------
 
 
