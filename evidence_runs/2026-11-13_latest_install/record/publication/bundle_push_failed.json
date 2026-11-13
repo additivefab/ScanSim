@@ -1,0 +1,49 @@
+{
+  "local_head": "3575b15bde7159777b00c5f5ebed4a724aa6f947",
+  "remote_equals_head": false,
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-c",
+        "http.proxy=http://127.0.0.1:7897",
+        "-c",
+        "http.version=HTTP/1.1",
+        "-c",
+        "http.lowSpeedLimit=1024",
+        "-c",
+        "http.lowSpeedTime=60",
+        "push",
+        "--progress",
+        "origin",
+        "main"
+      ],
+      "returncode": 128,
+      "stdout": "",
+      "filtered_stderr": [
+        "fatal: unable to access 'https://github.com/additivefab/ScanSim.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443"
+      ]
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "http.proxy=http://127.0.0.1:7897",
+        "-c",
+        "http.version=HTTP/1.1",
+        "-c",
+        "http.lowSpeedLimit=1024",
+        "-c",
+        "http.lowSpeedTime=60",
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "returncode": 128,
+      "stdout": "",
+      "filtered_stderr": [
+        "fatal: unable to access 'https://github.com/additivefab/ScanSim.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443"
+      ]
+    }
+  ]
+}

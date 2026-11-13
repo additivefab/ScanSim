@@ -1,0 +1,7 @@
+{
+  "command": "ssh -o HostKeyAlias=github.com -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=8 -p 443 -T git@ssh.github.com",
+  "returncode": 255,
+  "stderr": "git@ssh.github.com: Permission denied (publickey).\n",
+  "agent": "no identities available from existing agent",
+  "scope": "existing GitHub host trust retained; no host keys or authentication configuration changed"
+}

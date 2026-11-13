@@ -1,0 +1,9 @@
+{
+  "record_seed": 20261113,
+  "applies_to": [
+    "dynamic_identification",
+    "timing_identification"
+  ],
+  "other_generators": "their actual archived configs/inputs; the wheel build has no RNG seed",
+  "scope": "The record seed does not assert that all nominal physical/configured smoke inputs use this seed."
+}

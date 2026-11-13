@@ -7,13 +7,15 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S7-T05 最新离线双锁包、正式重复构建与解包新环境验证完成；核对发布 |
-| 下一个任务 | 当前 dynamic/timing 的最新隔离安装包与运行/ident 验证；继续阶段 3/4 剩余门槛、多工作点标定与几何/辐射辨识，浏览器与实机验收保留 |
+| 进行中的任务 | S7-T05 最新离线双锁包/正式与解包验证完成，本地提交待网络恢复发布 |
+| 下一个任务 | CI/平台兼容性与阶段 3/4 剩余软件门槛；继续多工作点标定及几何/辐射辨识，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
 | 最近一次全量测试 | 2026-11-13 `pytest -q`：1485 通过、2 跳过，185.32 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
+
+- **最新待发布**：安装工具 `631c542` 与离线包/证据 `3575b15` 均已本地提交，完整回归/正式构建/解包新环境通过。包含时基交接 `389e16e`，领先最后确认远端 `376aeb5903bca4adeef09db54e8073b732ebacb1`；本轮正常 HTTPS push 多次在握手阶段 `LibreSSL SSL_ERROR_SYSCALL` 退出128。已有 GitHub 主机信任下的 SSH/443 能连接但公钥认证拒绝，未注册新 key 或修改认证配置。发布回执在 `evidence_runs/2026-11-13_latest_install/record/publication/`。53 MiB 可携包及 816 原件归档已落盘；不把本地安装通过或提交当已发布。原 stash `04da348` 未动。本条的交接提交也需正常推送核对。
 
 - **已确认时基发布批次**：实现 `df9dd69`、数值保护 `69a49c5` 与证据 `376aeb5` 已正常快进推送，实际远端 main 全哈希 `376aeb5903bca4adeef09db54e8073b732ebacb1` 等于当时本地 HEAD；回执在 `evidence_runs/2026-11-13_timing_ident/record/publication/verified_batch.json`。原 stash `04da348` 未动，工作区当时干净。249 原件逐成员归档校验通过。此条后的交接提交仍逐次正常推送核对，下方当前批次 TLS 失败/待核对条目为历史过程。
 
