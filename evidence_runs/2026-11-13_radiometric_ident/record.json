@@ -1,0 +1,32 @@
+{
+  "format": "zlscan.radiometric-identification-evidence/1",
+  "validated_source_commit": "f7ced1d0d754ce5624eb1677a66c3f7666f2670a",
+  "ci_run": 43391098851,
+  "ci_url": "https://github.com/additivefab/ScanSim/actions/runs/43391098851",
+  "ci_all_six_targets_passed": true,
+  "local_full_tests": {
+    "passed": 1576,
+    "skipped": 2,
+    "seconds": 201.13
+  },
+  "local_ruff": "passed",
+  "local_format_files": 313,
+  "installed_commands_per_target": 28,
+  "python_modules": 157,
+  "assets": 5,
+  "raw_csv_statistics_independently_recomputed": true,
+  "actual_measurements_obtained": false,
+  "parameter_upgrades": [],
+  "ci_original_zip_files": 6,
+  "ci_internal_file_entries": 4822,
+  "local_archived_member_entries": 892,
+  "pre_fix_dirty_source_payload_members": 8,
+  "scope": "conditional software mean/variance identification, not physical noise/spectra or full stages 3-7 acceptance",
+  "remaining": [
+    "requirement-by-requirement stages 3-7 audit",
+    "stage 3/4 acceptance and performance",
+    "actual independent measurements",
+    "browser acceptance",
+    "remaining stage 5-7 requirements"
+  ]
+}

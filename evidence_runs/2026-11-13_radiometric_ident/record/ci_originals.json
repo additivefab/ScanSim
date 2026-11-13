@@ -1,0 +1,48 @@
+{
+  "source_commit": "f7ced1d0d754ce5624eb1677a66c3f7666f2670a",
+  "archive": "ci_originals.tar.gz",
+  "sha256": "6568587e0166c1fca6ed5b71bb7c64e913b90865ea4071965234a4e28988888f",
+  "verified_member_bytes": true,
+  "files": {
+    "ci/14020987336.zip": {
+      "size": 5736951,
+      "sha256": "488e4c3c35b6a1cb412ac3aea3a93ab9ad1ed4af349cf5d18a4366c83c7d4857"
+    },
+    "ci/14021027975.zip": {
+      "size": 5517556,
+      "sha256": "a5f22b40112470aa724edaadc83d68fabc6d2c9742d0604104727885a1f8b5c5"
+    },
+    "ci/14021073135.zip": {
+      "size": 5517598,
+      "sha256": "a1e079a242e701b96c1d874d7905181d290491c516a94311960d34b1abe40685"
+    },
+    "ci/14021675019.zip": {
+      "size": 5741968,
+      "sha256": "ec26a93a492802046205e20bc456c0b37e73297d599968647fa59f9286c05b69"
+    },
+    "ci/14021875434.zip": {
+      "size": 5523997,
+      "sha256": "b350a8e2dfb4e96fd20a70dd2bbd366fb45e6947b3e7d6d843721ea1f029bbd0"
+    },
+    "ci/14021990069.zip": {
+      "size": 5530285,
+      "sha256": "9f09f502eca290d3bd29dfee50e45809179b97351ab2a3133484ad480c04a55e"
+    },
+    "ci/artifacts.json": {
+      "size": 4261,
+      "sha256": "947d321f9b0eb97144a186f030a56c212fae61df83a04e71c2039f9019ab2843"
+    },
+    "ci/jobs.json": {
+      "size": 18854,
+      "sha256": "1213b54856ce6b6589dd074094c0632ffd67372093ba99e945b016e00dcb2aa0"
+    },
+    "ci/run.json": {
+      "size": 12222,
+      "sha256": "11f04c820605ea4b23f4841dd3fc68446aa03ff2e1ba1d1cb3c6d220f59da354"
+    },
+    "verify_ci.py": {
+      "size": 10720,
+      "sha256": "12852fbccab083f19281f90fff0470faffd91ca789cc54b8974af76dafece0a7"
+    }
+  }
+}
