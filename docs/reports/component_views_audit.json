@@ -1,0 +1,18 @@
+{
+  "origin": "SIMULATED",
+  "visibility": "ORACLE_ONLY",
+  "source_files": 22,
+  "component_frames": 18,
+  "http_responses": 29,
+  "independent_chain_match": true,
+  "source_unchanged": true,
+  "scope": "787 fine steps, two channels; no browser/hardware acceptance",
+  "code": {
+    "commit": "fe2b31fa2968aab7a94bb6a9247183690aef27aa",
+    "dirty": false
+  },
+  "wheel_sha256": "c3bd13250079c1b4a174b8da85f2535eb4e1f62765868a3c8f91681a8b145cca",
+  "locked_distributions": 20,
+  "prior_published_payload_files_equal": 5,
+  "installed_payload_files_equal": 5
+}

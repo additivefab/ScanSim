@@ -1,0 +1,93 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Installed component HTTP frames and original payload parity",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T00:20:52.099225+00:00",
+ "finished_at": "2026-11-13T00:21:13.790402+00:00",
+ "code": {
+  "commit": "fe2b31fa2968aab7a94bb6a9247183690aef27aa",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "prefix": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime",
+  "module_path": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime/lib/python3.14/site-packages/zlscan/__init__.py",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0",
+   "pillow": "13.0.0",
+   "tifffile": "2026.11.8",
+   "matplotlib": "3.11.2"
+  }
+ },
+ "seed": {
+  "0": 3,
+  "1": 31
+ },
+ "inputs": {
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_component_views.py": "9e7973063172c586284ed6d10bfa4bf36d8a49bd432fc82e9799cf074c6e6b27",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/wheel/source_manifest.json": "7ced97495b2e32ffd35c5886167005d217bae566c4b68a1dc0a65d7ff79a1db6",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/wheel/requirements.lock": "cdf1339fa7b4f001349ea9abca92839b5e529dc375435f40ae2b718672e2cff5"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime/bin/python",
+    "-I",
+    "-c",
+    "import json,sys,platform,zlscan,importlib.metadata as m;print(json.dumps(dict(python=platform.python_version(),platform=platform.platform(),machine=platform.machine(),prefix=sys.prefix,module_path=zlscan.__file__,packages={k:m.version(k) for k in ['numpy','scipy','pydantic','h5py','pillow','tifffile','matplotlib']})))"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime/bin/python",
+    "-I",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_component_views.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/installed_http"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime/bin/python",
+    "-I",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/tools/audit_component_views.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/installed_http",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "component_frames",
+   "expected": 18,
+   "tolerance": null,
+   "actual": 18,
+   "passed": true
+  },
+  {
+   "quantity": "http_responses",
+   "expected": 29,
+   "tolerance": null,
+   "actual": 29,
+   "passed": true
+  },
+  {
+   "quantity": "installed_payload_files_equal",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  }
+ ],
+ "notes": "Same-host hash-locked isolated wheel, -I import probe, actual runtime environment above. Source script and synthetic fixture intentionally supplied; CLI/HTTP import installed package. Fresh-process component responses equal bytewise, shared physics implementation. No installed full pytest, browser, other OS or hardware acceptance."
+}

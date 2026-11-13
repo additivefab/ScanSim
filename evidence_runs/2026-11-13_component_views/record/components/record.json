@@ -1,0 +1,94 @@
+{
+ "format": "zlscan-evidence/1",
+ "name": "Original component frames and controlled physical trajectory HTTP",
+ "status": "independent_rerun",
+ "conclusion": "pass",
+ "started_at": "2026-11-13T00:18:54.810699+00:00",
+ "finished_at": "2026-11-13T00:19:17.092014+00:00",
+ "code": {
+  "commit": "fe2b31fa2968aab7a94bb6a9247183690aef27aa",
+  "dirty": false
+ },
+ "environment": {
+  "python": "3.14.7",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "machine": "x86_64",
+  "packages": {
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "tifffile": "2026.11.8",
+   "pillow": "13.0.0",
+   "pydantic": "2.14.3",
+   "h5py": "3.16.0"
+  }
+ },
+ "seed": {
+  "0": 3,
+  "1": 31
+ },
+ "inputs": {
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/configs/physical_recording.json": "794d2175e487ae9dfb5c96c55ac52753e8fca2ce0c65fa5c7a89e151094d427f",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/formal_http/base/config.json": "32e590bfb49768c303a5996bdb529ee700440a2b02dd7d0683e7a44f2d65b93c",
+  "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_digital_cursor/record/artifacts/formal_http.tar.gz": "40a60fd44d90dc405fa0441bd7ec0f2c7d8944aa6d2204d22898b7ad92a25551"
+ },
+ "commands": [
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_component_views.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/formal_http"
+   ],
+   "returncode": 0
+  },
+  {
+   "argv": [
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/.venv/bin/python",
+    "tools/audit_component_views.py",
+    "--out",
+    "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/evidence_runs/2026-11-13_component_views/output/formal_http",
+    "--verify"
+   ],
+   "returncode": 0
+  }
+ ],
+ "criteria": [
+  {
+   "quantity": "component_frames",
+   "expected": 18,
+   "tolerance": null,
+   "actual": 18,
+   "passed": true
+  },
+  {
+   "quantity": "http_responses",
+   "expected": 29,
+   "tolerance": null,
+   "actual": 29,
+   "passed": true
+  },
+  {
+   "quantity": "source_files",
+   "expected": 22,
+   "tolerance": null,
+   "actual": 22,
+   "passed": true
+  },
+  {
+   "quantity": "independent_chain_match",
+   "expected": true,
+   "tolerance": null,
+   "actual": true,
+   "passed": true
+  },
+  {
+   "quantity": "prior_published_payload_files_equal",
+   "expected": 5,
+   "tolerance": null,
+   "actual": 5,
+   "passed": true
+  }
+ ],
+ "notes": "SIMULATED/ORACLE_ONLY. Independent execution path shares Chain physics. ADC hold preserves original source time/epoch; component HTTP bytes match fresh process. Five original payload files equal the earlier published archived source. No browser, optical-ray tracing, physical port measurements or hardware acceptance."
+}

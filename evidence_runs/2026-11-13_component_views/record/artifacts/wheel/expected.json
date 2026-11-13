@@ -1,0 +1,10 @@
+{
+  "version": "0.1.0.dev0",
+  "assets": {
+    "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+    "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+    "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+    "zlscan/report/image_view.html": "23a73fe4652eefebfedd7110dd2408a57aac0870b489e060f285cb647f6395db",
+    "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e"
+  }
+}

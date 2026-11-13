@@ -1,0 +1,209 @@
+{
+  "version": "0.1.0.dev0",
+  "module_path": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime/lib/python3.14/site-packages/zlscan/__init__.py",
+  "prefix": "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/runtime",
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 17.0.0 (clang-1700.6.4.2)]",
+  "platform": "macOS-15.7.6-x86_64-i386-64bit-Mach-O",
+  "process_arch": "x86_64",
+  "assets": {
+    "zlscan/hardware/pin_registry.json": "7497c59408b9f8d2a48eae40e3af00524cb8ea76dd38326ed9525b5f1890f58f",
+    "zlscan/evidence/parameters.json": "e3089f521f1b708a7698b954f125f7d39b081fd2202e278ef02cfa3d4ea192e7",
+    "zlscan/evidence/forbidden_defaults.json": "9acfa0de1e00b3de886d6cac4948527f1f3246c546d6e8b5af3b0c18162862fe",
+    "zlscan/report/image_view.html": "23a73fe4652eefebfedd7110dd2408a57aac0870b489e060f285cb647f6395db",
+    "zlscan/api/static/index.html": "4d62aba27ea5ce19a4c364204a7ca8e637f8686b581b2c85b262f6f5fedfb35e"
+  },
+  "http": {
+    "/": {
+      "status": 200,
+      "bytes": 34893
+    },
+    "/runs": {
+      "status": 200,
+      "bytes": 18
+    },
+    "/runs/demo/manifest": {
+      "status": 200,
+      "bytes": 1317
+    }
+  },
+  "commands": [
+    {
+      "arguments": [
+        "--version"
+      ],
+      "returncode": 0,
+      "stdout": "zlscan 0.1.0.dev0\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "--help"
+      ],
+      "returncode": 0,
+      "stdout": "usage: zlscan [-h] [--version] <command> ...\n\nLaser film-scanner simulation. Sub-commands appear in the stage that\nimplements them; unimplemented ones exit with a non-zero status.\n\npositional arguments:\n  <command>\n    budget       feasibility budget: geometry, photons, signal levels, data\n                 path\n    check        rule checks on the hardware profile and configuration\n    run          run a simulation and write a run directory\n    sweep        parameter sweep over independent runs\n    calibrate    estimate a calibration file from calibration scans\n    reconstruct  reconstruct an image from a raw stream and a calibration file\n    metrics      evaluate image quality against the simulation truth\n    ident        import measurements and identify parameters\n    compare      compare two runs, simulation against measurement, or two\n                 implementations\n    report       build an offline report for a run\n    cosim        co-simulate the RTL against the digital reference model\n    replay       replay a time window from the nearest checkpoint\n    serve        start the local query service for the workbench\n\noptions:\n  -h, --help     show this help message and exit\n  --version      show program's version number and exit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "check"
+      ],
+      "returncode": 4,
+      "stdout": "硬件画像门槛：未决（缺少 15 项资料）\n  - 装配实例编号\n  - J6（BANK33，VADJ）的实测电压\n  - FPGA 速度等级\n  - DDR 中系统与 DMA 的保留量\n  - ADC 实际转换速率\n  - ADC 时钟来源\n  - 数字输出模式（CMOS、LVDS）\n  - 模块连接器的数字电平\n  - 模块的电平转换\n  - ADC 寄存器读回\n  - MAC 路线（PS 经 EMIO 或 PL MAC）\n  - 实测有效载荷速率\n  - 固件校验值\n  - 载板与模块到开发板的接线（已核对）\n  - 行同步信号的真实来源\n引脚表：120 行（V1.3/V1.3B J5、V1.3/V1.3B J6、V1.0/V1.1 J5），结构检查通过。这是板端连接器对照，不是接线批准。\n该门槛只检查资料完整性；资料齐全也不等于已通过电气、时序或实机验证。\n预算约束：10 项无法计算，0 项矛盾。\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "run",
+        "--mode",
+        "digital",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/digital"
+      ],
+      "returncode": 0,
+      "stdout": "digital 模式完成：重建 complete，完整性 complete，写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/digital\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "budget",
+        "--config",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/research_scenario.json",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/budget"
+      ],
+      "returncode": 1,
+      "stdout": "预算结论 25 项：FAIL 1，INFO 15，PASS 7，UNRESOLVED 2\n已写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/budget/budget.json 与 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/budget/budget_report.html\n注意：这是假设场景，数字不是硬件事实。\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "run",
+        "--mode",
+        "calibration",
+        "--preset",
+        "nominal",
+        "--lines",
+        "4",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reference"
+      ],
+      "returncode": 0,
+      "stdout": "physical 模式完成：重建 complete，完整性 complete，写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reference\n物理适用性：受限研究模型；不作为高密度测量能力或实机精度验证。\n注意：带噪对数输入缺少固定物理响应，统计量依赖数值时间格。\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "calibrate",
+        "--raw",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reference/observable/raw.zlraw",
+        "--protocol",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reference/observable/scan_protocol.json",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/calibration"
+      ],
+      "returncode": 0,
+      "stdout": "标定文件已写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/calibration\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "run",
+        "--mode",
+        "physical",
+        "--config",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/research_scenario.json",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/sample"
+      ],
+      "returncode": 0,
+      "stdout": "physical 模式完成：重建 complete，完整性 complete，写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/sample\n物理适用性：受限研究模型；不作为高密度测量能力或实机精度验证。\n注意：带噪对数输入缺少固定物理响应，统计量依赖数值时间格。\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "reconstruct",
+        "--raw",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/sample/observable/raw.zlraw",
+        "--capture",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/sample/observable/capture.json",
+        "--calibration",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/calibration/calibration.json",
+        "--columns",
+        "40",
+        "--pitch-x-m",
+        "0.002",
+        "--pitch-y-m",
+        "0.002",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reconstructed"
+      ],
+      "returncode": 0,
+      "stdout": "密度图已写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reconstructed，有效覆盖 97.5%\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "report",
+        "--run",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/reconstructed",
+        "--raw",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/sample/observable/raw.zlraw",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/image.html"
+      ],
+      "returncode": 0,
+      "stdout": "成像工作台已写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/image.html\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "run",
+        "--mode",
+        "recording",
+        "--config",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording_config.json",
+        "--commands",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording_commands.jsonl",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording"
+      ],
+      "returncode": 0,
+      "stdout": "{\"format\": \"zlscan.recording-run/1\", \"mode\": \"physical_recording\", \"origin\": \"SIMULATED\", \"visibility\": \"ORACLE_ONLY\", \"status\": \"committed\", \"op\": \"open\", \"summary\": {\"written_blocks\": 0, \"lost_blocks\": 0, \"retained_samples_per_channel\": 0, \"closed\": false, \"failed\": false, \"fine_step\": \"0\", \"control_state\": \"scanning\", \"applied_commands\": 0, \"physical_applicability\": [{\"status\": \"limited_research_model\", \"high_density_capability\": \"not_validated\", \"stochastic_log_status\": \"not_applicable\", \"input_response_hz\": null, \"trajectory_status\": \"unclamped_f_theta_with_assumed_extrapolation\", \"input_response_evidence\": null, \"dt_over_response_tau\": null, \"finite_grid_to_continuous_current_variance_ratio\": null, \"limitations\": [\"PMT anode limit is a warning only, not saturation or recovery physics\", \"polygon scanner, not a closed-loop galvanometer\", \"collection model does not establish local coating-defect response\", \"assumed parameters do not establish hardware capability\"]}]}, \"checkpoint_sha256\": \"631e65639890958c82e3269d7d81b324a8a8ea7e0738d7991543b896b5261bd3\", \"definition_sha256\": \"9b96a3553b6f6af2f65d165336838b05f5b484664d0cee0d8456f8af11cc0ad2\"}\n{\"format\": \"zlscan.recording-run/1\", \"mode\": \"physical_recording\", \"origin\": \"SIMULATED\", \"visibility\": \"ORACLE_ONLY\", \"status\": \"committed\", \"op\": \"lines\", \"summary\": {\"written_blocks\": 0, \"lost_blocks\": 0, \"retained_samples_per_channel\": 0, \"closed\": false, \"failed\": false, \"fine_step\": \"10000\", \"control_state\": \"scanning\", \"applied_commands\": 0, \"physical_applicability\": [{\"status\": \"limited_research_model\", \"high_density_capability\": \"not_validated\", \"stochastic_log_status\": \"not_applicable\", \"input_response_hz\": null, \"trajectory_status\": \"unclamped_f_theta_with_assumed_extrapolation\", \"input_response_evidence\": null, \"dt_over_response_tau\": null, \"finite_grid_to_continuous_current_variance_ratio\": null, \"limitations\": [\"PMT anode limit is a warning only, not saturation or recovery physics\", \"polygon scanner, not a closed-loop galvanometer\", \"collection model does not establish local coating-defect response\", \"assumed parameters do not establish hardware capability\"]}]}, \"checkpoint_sha256\": \"972dd6f4220dd3ca3aba5edf860d6bfb0c4e3ad10acedeaef4b53e3c6ae60672\", \"definition_sha256\": \"9b96a3553b6f6af2f65d165336838b05f5b484664d0cee0d8456f8af11cc0ad2\"}\n{\"format\": \"zlscan.recording-run/1\", \"mode\": \"physical_recording\", \"origin\": \"SIMULATED\", \"visibility\": \"ORACLE_ONLY\", \"status\": \"paused\", \"op\": \"eof\", \"summary\": {\"written_blocks\": 0, \"lost_blocks\": 0, \"retained_samples_per_channel\": 0, \"closed\": false, \"failed\": false, \"fine_step\": \"10000\", \"control_state\": \"scanning\", \"applied_commands\": 0, \"physical_applicability\": [{\"status\": \"limited_research_model\", \"high_density_capability\": \"not_validated\", \"stochastic_log_status\": \"not_applicable\", \"input_response_hz\": null, \"trajectory_status\": \"unclamped_f_theta_with_assumed_extrapolation\", \"input_response_evidence\": null, \"dt_over_response_tau\": null, \"finite_grid_to_continuous_current_variance_ratio\": null, \"limitations\": [\"PMT anode limit is a warning only, not saturation or recovery physics\", \"polygon scanner, not a closed-loop galvanometer\", \"collection model does not establish local coating-defect response\", \"assumed parameters do not establish hardware capability\"]}]}, \"checkpoint_sha256\": \"972dd6f4220dd3ca3aba5edf860d6bfb0c4e3ad10acedeaef4b53e3c6ae60672\", \"definition_sha256\": \"9b96a3553b6f6af2f65d165336838b05f5b484664d0cee0d8456f8af11cc0ad2\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "run",
+        "--mode",
+        "recording",
+        "--resume",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording",
+        "--commands",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording_commands.jsonl"
+      ],
+      "returncode": 0,
+      "stdout": "{\"format\": \"zlscan.recording-run/1\", \"mode\": \"physical_recording\", \"origin\": \"SIMULATED\", \"visibility\": \"ORACLE_ONLY\", \"status\": \"committed\", \"op\": \"open\", \"summary\": {\"written_blocks\": 0, \"lost_blocks\": 0, \"retained_samples_per_channel\": 0, \"closed\": false, \"failed\": false, \"fine_step\": \"10000\", \"control_state\": \"scanning\", \"applied_commands\": 0, \"physical_applicability\": [{\"status\": \"limited_research_model\", \"high_density_capability\": \"not_validated\", \"stochastic_log_status\": \"not_applicable\", \"input_response_hz\": null, \"trajectory_status\": \"unclamped_f_theta_with_assumed_extrapolation\", \"input_response_evidence\": null, \"dt_over_response_tau\": null, \"finite_grid_to_continuous_current_variance_ratio\": null, \"limitations\": [\"PMT anode limit is a warning only, not saturation or recovery physics\", \"polygon scanner, not a closed-loop galvanometer\", \"collection model does not establish local coating-defect response\", \"assumed parameters do not establish hardware capability\"]}]}, \"checkpoint_sha256\": \"972dd6f4220dd3ca3aba5edf860d6bfb0c4e3ad10acedeaef4b53e3c6ae60672\", \"definition_sha256\": \"9b96a3553b6f6af2f65d165336838b05f5b484664d0cee0d8456f8af11cc0ad2\"}\n{\"format\": \"zlscan.recording-run/1\", \"mode\": \"physical_recording\", \"origin\": \"SIMULATED\", \"visibility\": \"ORACLE_ONLY\", \"status\": \"committed\", \"op\": \"lines\", \"summary\": {\"written_blocks\": 1, \"lost_blocks\": 0, \"retained_samples_per_channel\": 13, \"closed\": false, \"failed\": false, \"fine_step\": \"20000\", \"control_state\": \"scanning\", \"applied_commands\": 0, \"physical_applicability\": [{\"status\": \"limited_research_model\", \"high_density_capability\": \"not_validated\", \"stochastic_log_status\": \"not_applicable\", \"input_response_hz\": null, \"trajectory_status\": \"unclamped_f_theta_with_assumed_extrapolation\", \"input_response_evidence\": null, \"dt_over_response_tau\": null, \"finite_grid_to_continuous_current_variance_ratio\": null, \"limitations\": [\"PMT anode limit is a warning only, not saturation or recovery physics\", \"polygon scanner, not a closed-loop galvanometer\", \"collection model does not establish local coating-defect response\", \"assumed parameters do not establish hardware capability\"]}]}, \"checkpoint_sha256\": \"fab4e8018789610999bc319e99b09398c6f08fcbefac07e5c497e206f875ac77\", \"definition_sha256\": \"9b96a3553b6f6af2f65d165336838b05f5b484664d0cee0d8456f8af11cc0ad2\"}\n{\"format\": \"zlscan.recording-run/1\", \"mode\": \"physical_recording\", \"origin\": \"SIMULATED\", \"visibility\": \"ORACLE_ONLY\", \"status\": \"complete\", \"op\": \"finish\", \"summary\": {\"written_blocks\": 1, \"lost_blocks\": 0, \"retained_samples_per_channel\": 13, \"closed\": true, \"failed\": false, \"fine_step\": \"20000\", \"control_state\": \"done\", \"applied_commands\": 0, \"physical_applicability\": [{\"status\": \"limited_research_model\", \"high_density_capability\": \"not_validated\", \"stochastic_log_status\": \"not_applicable\", \"input_response_hz\": null, \"trajectory_status\": \"unclamped_f_theta_with_assumed_extrapolation\", \"input_response_evidence\": null, \"dt_over_response_tau\": null, \"finite_grid_to_continuous_current_variance_ratio\": null, \"limitations\": [\"PMT anode limit is a warning only, not saturation or recovery physics\", \"polygon scanner, not a closed-loop galvanometer\", \"collection model does not establish local coating-defect response\", \"assumed parameters do not establish hardware capability\"]}]}, \"checkpoint_sha256\": \"42f462b33bd7efd9a25582cb455db212db29e804e54f2c18d8247fd99547c004\", \"definition_sha256\": \"9b96a3553b6f6af2f65d165336838b05f5b484664d0cee0d8456f8af11cc0ad2\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "replay",
+        "--run",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording",
+        "--start-step",
+        "10200",
+        "--steps",
+        "100",
+        "--probes",
+        "power_w,v_adc",
+        "--out",
+        "/Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording_replay"
+      ],
+      "returncode": 0,
+      "stdout": "回放结果已写入 /Users/yuxinghua/.cache/zlscan-wheel-audit/install-_kp58s1l/smoke/recording_replay\n",
+      "stderr": ""
+    }
+  ],
+  "hardware_check": "unresolved",
+  "scope": "same-host isolated wheel smoke only; no browser or hardware acceptance"
+}
