@@ -2,11 +2,11 @@
 
 ## 最新提交回执：六目标通过
 
-2026-11-13，提交 `fb335171fa5cd34872c89313c8701ab80662ea48` 的
-[run 43443963677](https://github.com/additivefab/ScanSim/actions/runs/43443963677)
+2026-11-13，提交 `5312ecd7239caf420aa2a2eb3a5371fd5cdbba9a` 的
+[run 43445872468](https://github.com/additivefab/ScanSim/actions/runs/43445872468)
 已结束且整体 `success`。Ubuntu、macOS、Windows 各 Python 3.11/3.14 共六个 job
 均为 `success`，包含完整测试与隔离 wheel 审计。原始 GitHub API 回执保存在
-`evidence_runs/2026-11-13_cross_platform_ci/record/fb33517_acceptance.json`。
+`evidence_runs/2026-11-13_cross_platform_ci/record/5312ecd_acceptance.json`。
 这次 CI 只确认软件矩阵和安装路径，不改变硬件、浏览器或实测来源门槛。
 
 后续多工作点批次：085e914的六目标安装/资源与元数据验证已完成，见
