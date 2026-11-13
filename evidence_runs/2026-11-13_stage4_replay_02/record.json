@@ -1,0 +1,20 @@
+{
+  "format": "zlscan.stage4-factorial-replay/1",
+  "source_commit": "feadead2b6e3bb44dc9f5ed2fff902cbe1cc5d5c",
+  "tool": "tools/stage4_experiments.py",
+  "output": "evidence_runs/2026-11-13_stage4_replay_02/run.json",
+  "output_sha256": "2547ebac8bba9c63e561d7b537850d88377babcf332740f122201b52d64a4919",
+  "reference": "docs/reports/stage4_factorial_data.json",
+  "reference_sha256": "96824297fa3033dac7a7eef0703f2789939ca35b555bc1f9291498501fc18312",
+  "factorial_cases": 8,
+  "common_pixels": 288,
+  "interactions_exact_match": true,
+  "contains_truth": true,
+  "scope": "current-source replay of synthetic SIMULATED factorial experiment; not independent hardware validation",
+  "stage4_gate_closed": false,
+  "remaining": [
+    "browser/workbench acceptance",
+    "hardware/independent measurement",
+    "full stage gate closure"
+  ]
+}
