@@ -1,0 +1,17 @@
+{
+  "source": {
+    "commit": "9746a8ed4d6a074f6826fe7de2adba5e9acbcf6b",
+    "dirty": false
+  },
+  "commands": 30,
+  "all_commands_passed": true,
+  "python_modules": 157,
+  "assets": 5,
+  "repeated_build": {
+    "sha256": "87d6253ed999b26c76de0762a8dc6c28718fedf6d8c58322d689a0d12b59f118",
+    "byte_identical": true,
+    "independent_source_copy": true
+  },
+  "glare_driver": "glare_candidate and verify passed",
+  "cache_audit": "/Users/yuxinghua/.cache/scansim-glare-candidate/formal_out_01/audit.json"
+}
