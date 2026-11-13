@@ -233,6 +233,7 @@ def main() -> None:
             "segmented_rows",
             "epoch_calibrations",
             "recording_capture",
+            "geometry_identification",
         ):
             shutil.copytree(work / "wheel-work" / name, examples / name)
         shutil.copyfile(manifest, out / "build_manifest.json")

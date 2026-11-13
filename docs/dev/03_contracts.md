@@ -682,6 +682,44 @@ validation 不参与选 tau、基线、幅度、区间或模型。其基线与�
 没有验证或没有容差不记通过；结果始终 MODEL_ESTIMATE，不升级实测参数、不生成生产标定。
 缺元数据/采样不一致/非 DC/未补偿探针/非有限量/不明来源拒绝辨识，仍可由原导入器查看。
 
+## 观测几何辨识补充（S6-T03，D081）
+
+`zlscan.geometry-fit-config/1` 声明confidence_level、rank_rtol、assumption_source，
+input_handling=`conditional_on_declared_landmarks_and_slopes`、
+error_model=`independent_gaussian_known_target_x_sigma`，可选预定validation_max_abs_residual_m，
+captures数组逐项name/path/sha256/partition（fit或validation），至少一个fit，名称唯一。
+
+每个 `zlscan.geometry-observations/1` 声明source_kind（synthetic或declared_measurement）、
+device、measurement_point、settings_source、extraction_method、target_certificate_ref、
+acquisition_id、raw_path/raw_sha256、capture_path/capture_sha256、channel、timing（既有FacetTiming），
+landmarks包含name、line、sample_column、target_x_m、target_dx_dy、standard_uncertainty_x_m、
+uncertainty_source。数值有限，标准不确定度为正；无特征用空landmarks，不填伪标记。
+标记名及行/样本位置不可重复计权。输入路径相对各声明文件。
+
+校验注释/原始文件/捕获描述hash及原Session，模拟与测量来源不可互换。
+全部参与码流时期须绑定相同仪器设置（比较时仅忽略epoch_range），相位策略及窗口一致。
+共用捕获校验对MEASURED要求已知且匹配的硬件身份；未知值不推断。
+拒绝重复原始hash或会话/采集ID，包含同分区重复，以免伪造独立权重。
+最多64个捕获、64个面、每捕获100000标记和1000000行，是软件限额，不是硬件能力。
+标记两邻近整数列均需有实际交付样本；只从所选通道的行起点与传感器事件恢复相位。
+失锁和同一行跨时期无新锚点时标记未解析，禁止读取真值面号。
+
+逐面设计向量为[1,u,u³,-target_dx_dy]，u=2*(sample_column+0.5)/window_length-1，
+观测模型target_x=a+b*u+c*u³-slope*dy。网格slope=0，斜线斜率显式给出。
+拟合仅使用fit分区；SVD报告秩、可辨识参数/组合、零空间、已知sigma下的条件边际区间、
+协方差与相关性。秩亏参数为null，最小范数解不冒充唯一物理参数。
+正向导数在fit支持范围需为正；非单调映射报告invalid_geometry。
+留出不重拟合，超fit支持或不在可辨识预测空间时不外推。
+validation状态包括not_executed/unidentifiable/incomplete_coverage/not_assessed/mismatch/compatible，
+按每面实际留出设计秩说明是否覆盖fit可辨识方向；没有斜线的留出不验证已辨识dy。
+CLI对不可完全辨识、非单调、留出失配/不可辨识/方向缺覆盖返回1并保留可审阅报告。
+源或格式失配在创建输出前拒绝；已有输出目录不覆盖。
+
+输出 `zlscan.geometry-identification/1` 始终MODEL_ESTIMATE、parameter_upgrades=[]、
+hard_acceptance_eligible=false。这里只校验源字节、声明与样本身份，不证明标记检测、
+证书真实性、物理独立性、无模型质量事件或实际仪器误差；不传播标记定位/斜率误差、
+共享证书误差和模型偏差，不生成自动合格标定。原始真值及模拟链配置不得进入辨识。
+
 ## 观测时基辨识补充（S6-T03）
 
 `zlscan.timing-fit-config/1` 列出带摘要的同步观测 JSON 与 fit/validation 分区、已知独立高斯

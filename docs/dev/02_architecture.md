@@ -151,6 +151,10 @@ class Module(Protocol):
 
 每个子命令随对应阶段实现；未实现的子命令给出明确的"尚未实现"提示并返回非零状态，不得静默成功。
 
+2026-11-13：`ident/geometry.py` 接收实际ZLRAW及观测相位、尺寸标记并作条件几何辨识；
+复用捕获绑定校验与逐段样本定位，不导入正向链或真值。公共入口为ident的
+`--geometry-fit`，残差由 `report/geometry_identification.py` 输出；不自动升级标定。
+
 
 2026-11-13：持久研究探针文件格式由 `io/probe_store.py` 管理，engine 在同一生产边界
 连接 Chain 输出及统一根；trace 仍只负责摘要/显示计算，不为文件提交扩宽导入白名单。

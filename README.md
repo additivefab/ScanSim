@@ -145,6 +145,10 @@ zlscan replay --run recording_run --start-step 10200 --steps 800 --probes power_
 
 带原源校验的同步计数与条件时基辨识见 [说明](docs/reports/timing_identification.md)。
 
+`zlscan ident --geometry-fit geometry-fit.json --out geometry_result` 从显式尺寸标记与
+可观测镜面相位辨识逐面几何参数，输出条件区间、相关性、退化与留出残差。
+输入格式、来源门禁及尚未建立的实测证据见 [几何辨识说明](docs/reports/geometry_identification.md)。
+
 最新模块安装、后端/运行双锁与重复 wheel 构建见 [安装核验](docs/reports/latest_install.md)。
 
 三平台与 Python 3.11/3.14 的 CI 配置及实际运行边界见 [CI 核验](docs/reports/cross_platform_ci.md)。
