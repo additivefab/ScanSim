@@ -1,0 +1,52 @@
+{
+  "format": "zlscan.glare-candidate-audit/1",
+  "origin": "SYNTHETIC",
+  "source_kind": "synthetic_edge_and_uniform",
+  "default_off_equal": true,
+  "core": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5005,
+    0.0010000000000000002,
+    0.0010000000000000002,
+    0.0010000000000000002,
+    0.0010000000000000002
+  ],
+  "enabled": [
+    0.9992978310804814,
+    0.9868312084908683,
+    0.9868312084908683,
+    0.9258678571428571,
+    0.5005,
+    0.07513214285714287,
+    0.01416879150913172,
+    0.014174372383672652,
+    0.0017077497940595039
+  ],
+  "open_close_delta": [
+    -0.0007021689195185754,
+    -0.01316879150913175,
+    -0.01316879150913175,
+    -0.07413214285714287,
+    0.0,
+    0.07413214285714287,
+    0.013168791509131719,
+    0.013174372383672651,
+    0.0007077497940595036
+  ],
+  "constant_values": [
+    0.3981071705534972
+  ],
+  "constant_expected": 0.3981071705534972,
+  "constant_max_abs_error": 0.0,
+  "invalid_configuration_rejections": [
+    "glare weight must lie in [0, 1]",
+    "enabled glare requires positive tail widths"
+  ],
+  "max_open_close_delta": 0.07413214285714287,
+  "m06_measurement_obtained": false,
+  "parameter_upgrades": [],
+  "scope": "software candidate open/close and normalization only; not M06 or hardware"
+}
