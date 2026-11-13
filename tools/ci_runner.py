@@ -232,6 +232,7 @@ def main() -> None:
             "timing_identification",
             "segmented_rows",
             "epoch_calibrations",
+            "recording_capture",
         ):
             shutil.copytree(work / "wheel-work" / name, examples / name)
         shutil.copyfile(manifest, out / "build_manifest.json")

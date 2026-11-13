@@ -639,6 +639,15 @@ class PhysicalRecorder:
         return result
 
     @_serialized
+    def capture_description(self):
+        """Snapshot observable raw identity and declared effective settings, without truth files."""
+        from zlscan.engine.recording_capture import describe_recording
+
+        # Includes writer lease, external mutation and control consistency checks.
+        self.checkpoint()
+        return describe_recording(self)
+
+    @_serialized
     def summary(self) -> dict:
         return {
             **self.recording.summary(),

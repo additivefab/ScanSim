@@ -98,6 +98,10 @@ zlscan run --mode recording --resume recording_run --commands next.jsonl
 `{"op":"finish"}` 才排空结束。未知尾部原位拒绝，可加 `--out recovered_run`
 从提交前缀分支并保留原件。协议、安全停止和资源范围见 `docs/reports/recording_cli.md`。
 
+暂停或完成且已交付数据时，自动导出 `capture.json` v2，逐时期绑定实际设置，可交给
+`reconstruct` 与匹配的 `calibration-set` 使用。快照绑定当时的raw SHA；续写后使用新快照。
+无交付块时不生成描述，未知硬件仍为空；该功能不代表实机标定完成。
+
 
 录制历史研究窗口重放：
 

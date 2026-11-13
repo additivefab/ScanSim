@@ -258,6 +258,14 @@ def _signals(stop):
 
 def _commit(recorder, definition, status, op, output):
     root = recorder.save_checkpoint()
+    capture_sha256 = None
+    if status in {"complete", "paused"}:
+        capture = recorder.capture_description()
+        if capture is not None:
+            path = publish_document(
+                recorder.directory, "capture.json", capture.model_dump_json(indent=2).encode()
+            )
+            capture_sha256 = sha256_file(path)
     result = dict(
         format="zlscan.recording-run/1",
         mode="physical_recording",
@@ -268,6 +276,7 @@ def _commit(recorder, definition, status, op, output):
         summary=recorder.summary(),
         checkpoint_sha256=sha256_file(root),
         definition_sha256=sha256_file(recorder.directory / "definition.json"),
+        capture_sha256=capture_sha256,
     )
     publish_document(recorder.directory, "run.json", json.dumps(result, allow_nan=False).encode())
     output.write(json.dumps(result, allow_nan=False) + "\n")

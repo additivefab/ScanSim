@@ -77,14 +77,21 @@ def test_pause_resume_matches_continuous_files_and_full_root(tmp_path, monkeypat
     paused = json.loads((actual / "run.json").read_text())
     assert paused["status"] == "paused" and paused["summary"]["fine_step"] == "10137"
     assert not paused["summary"]["closed"]
+    assert paused["summary"]["written_blocks"] == 0
+    assert paused["capture_sha256"] is None
+    assert not (actual / "capture.json").exists()
     inode = (actual / "raw.zlraw").stat().st_ino
     cfg.write_text("external config is no longer available")
     assert run_cli(monkeypatch, ["--resume", str(actual)], post) == 0
     assert (actual / "raw.zlraw").stat().st_ino == inode
-    for name in ["raw.zlraw", "events.jsonl", "checkpoint.json"]:
+    for name in ["raw.zlraw", "events.jsonl", "checkpoint.json", "capture.json"]:
         assert (actual / name).read_bytes() == (baseline / name).read_bytes()
     final = json.loads((actual / "run.json").read_text())
     assert final["status"] == "complete" and final["summary"]["closed"]
+    assert (
+        final["capture_sha256"]
+        == hashlib.sha256((actual / "capture.json").read_bytes()).hexdigest()
+    )
     rows = [json.loads(s) for s in capsys.readouterr().out.splitlines()]
     assert all(r["checkpoint_sha256"] for r in rows)
     assert rows[-1]["summary"]["fine_step"] == "40000"
@@ -115,6 +122,32 @@ def test_unknown_tail_refuses_in_place_and_branch_preserves_original(tmp_path, m
     )
     assert hashes(source) == before
     assert json.loads((branch / "run.json").read_text())["status"] == "complete"
+
+
+def test_paused_capture_binds_delivered_bytes_and_resume_updates_snapshot(tmp_path, monkeypatch):
+    cfg = config(tmp_path)
+    path = tmp_path / "paused"
+    assert (
+        run_cli(
+            monkeypatch, ["--config", str(cfg), "--out", str(path)], [{"op": "lines", "count": 3}]
+        )
+        == 0
+    )
+    capture = json.loads((path / "capture.json").read_text())
+    run = json.loads((path / "run.json").read_text())
+    assert run["status"] == "paused"
+    assert capture["version"] == 2
+    assert capture["raw_sha256"] == hashlib.sha256((path / "raw.zlraw").read_bytes()).hexdigest()
+    assert run["capture_sha256"] == hashlib.sha256((path / "capture.json").read_bytes()).hexdigest()
+    assert (
+        run_cli(
+            monkeypatch, ["--resume", str(path)], [{"op": "lines", "count": 1}, {"op": "finish"}]
+        )
+        == 0
+    )
+    assert capture["raw_sha256"] != hashlib.sha256((path / "raw.zlraw").read_bytes()).hexdigest()
+    updated = json.loads((path / "capture.json").read_text())
+    assert updated["raw_sha256"] == hashlib.sha256((path / "raw.zlraw").read_bytes()).hexdigest()
 
 
 @pytest.mark.parametrize(
