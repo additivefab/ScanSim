@@ -1,0 +1,14 @@
+{
+  "format": "zlscan-evidence-record/1",
+  "name": "current stochastic log assumed-model audit",
+  "status": "measured",
+  "conclusion": "pass_with_scope",
+  "scope": "assumed statistical candidate only; no hardware or measured-source acceptance",
+  "command": ".venv/bin/python tools/audit_stochastic_log.py --out output/audit.json",
+  "remaining_validation": [
+    "low-light step grid statistics",
+    "independent calibration residuals",
+    "measured PMT and input-node response",
+    "measured device density capability"
+  ]
+}

@@ -27,3 +27,5 @@ T_eff = (1 - glare_weight) * G_core[T]
 
 
 固定实现后的完整回归：1579 passed、2 skipped，192.73 s；Ruff通过，313文件格式检查通过。缺少Icarus导致两项RTL协同跳过；该回归不替代M06测量。
+
+同一当前源码还重新运行了 P0 随机对数候选审计（os=4/8/16/32，输入响应关闭/20 kHz，三种子，Welch 0–50 kHz 统计）。原始结果保存在 `evidence_runs/2026-11-13_stochastic_log_audit_current/output/audit.json`；该工件仍明确标记为 ASSUMED，未把统计一致性升级为 M06 或硬件验收。
