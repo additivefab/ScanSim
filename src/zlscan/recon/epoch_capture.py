@@ -75,6 +75,7 @@ def reconstruct_epoch_capture(
         )
         delay = cal.items.get("delay")
         offset = 0.0
+        delay_used = False
         if delay and delay.status == "ok":
             if not isinstance(delay.value, dict) or type(delay.value.get("delay_ticks")) is not int:
                 raise ValueError("calibration delay requires an integer delay_ticks")
@@ -90,6 +91,7 @@ def reconstruct_epoch_capture(
                     raise ValueError("epoch delay compensation requires one observed sample clock")
                 clock = clocks[0]
                 offset = delay.value["delay_ticks"] * clock["freq_num"] / (1e12 * clock["freq_den"])
+                delay_used = True
         uniform = f"epoch_{epoch}:uniform"
         mappings[uniform] = (
             grid.origin_x_m + (columns - offset) / cols * grid.width * grid.pitch_x_m
@@ -115,7 +117,14 @@ def reconstruct_epoch_capture(
                 if gain and gain.status == "ok"
                 else None
             )
-        projections[epoch] = dict(transfer=transfer, model=model, gains=gains, uniform=uniform)
+        projections[epoch] = dict(
+            transfer=transfer,
+            model=model,
+            gains=gains,
+            uniform=uniform,
+            delay_used=delay_used,
+            offset_samples=offset,
+        )
     if timing is not None and not any(p["model"] is not None for p in projections.values()):
         raise ValueError("facet timing has no corresponding epoch geometry")
 
@@ -169,7 +178,23 @@ def reconstruct_epoch_capture(
                     flags[selected_columns] = reasons[selected_columns]
                     x[selected_columns] = mappings[mapping][selected_columns]
                     y[selected_columns] = yy
-                    plans[epoch] = dict(mapping=mapping, y_m=yy)
+                    plans[epoch] = dict(
+                        mapping=mapping,
+                        y_m=yy,
+                        coordinate_source=(
+                            "observable_facet_calibration"
+                            if mapping != p["uniform"]
+                            else "declared_uniform_grid"
+                        ),
+                        delay_calibration_used=p["delay_used"],
+                        facet_mapping_status=(
+                            "not_available"
+                            if model is None
+                            else "resolved"
+                            if mapping != p["uniform"]
+                            else "unresolved"
+                        ),
+                    )
                 segments = []
                 for part in layouts.get(line, []):
                     epoch = part.block.epoch
@@ -278,7 +303,15 @@ def reconstruct_epoch_capture(
         calibration_document_sha256=hashlib.sha256(encoded).hexdigest(),
         calibration_document_hash_format="pydantic canonical JSON UTF-8",
         epoch_calibrations=lineage["epoch_calibrations"],
-        coordinate_source="per-segment observed epoch and its calibrated mapping",
+        coordinate_source="per-segment declared or observable/calibrated sources; see lineage",
+        epoch_coordinate_sources={
+            str(epoch): dict(
+                spatial_model_available=p["model"] is not None,
+                delay_calibration_used=p["delay_used"],
+                applied_separate_delay_offset_samples=p["offset_samples"],
+            )
+            for epoch, p in projections.items()
+        },
         support="positive bilinear weight within one grid pitch per axis",
         minimum_support_weight=0.5,
         valid_fraction=valid_fraction,

@@ -223,6 +223,7 @@ class ImageArtifact:
             **(
                 {
                     "epoch_calibrations": self.run["epoch_calibrations"],
+                    "epoch_coordinate_sources": self.run.get("epoch_coordinate_sources"),
                     "capture_description": self.run["capture_description"],
                     "expected_binding_scope": self.expected_binding_scope,
                     "calibration_document_sha256": self.run["calibration_document_sha256"],
@@ -380,6 +381,9 @@ class ImageArtifact:
                             line=line["line"],
                             column=index,
                             calibration_id=part["calibration_id"],
+                            coordinate_source=part.get("coordinate_source", "not_recorded"),
+                            delay_calibration_used=part.get("delay_calibration_used"),
+                            facet_mapping_status=part.get("facet_mapping_status", "not_recorded"),
                             weight=weight,
                             normalized_weight=weight / support
                             if flags == 0 and support > 0

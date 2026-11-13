@@ -793,3 +793,15 @@ OS 默认编码。安装审计的文本子进程管道显式 UTF-8 解码，子 
 v2 完整描述逐时期比较（时期列表顺序无关），任一工作点 hash/增益不符置
 CALIBRATION_MISMATCH 并隐藏密度。manifest 标明比较是 common_binding、
 capture_description 还是 not_requested，不能把只比较共同字段当成逐时期核对。
+
+逐时期沉积的输出行缓存上限为2，逐出前写回原磁盘行；多个工作点的y偏移
+不能使缓存增长为整幅像素阵列。标定表与坐标映射元数据仍随工作点数量/窗宽
+增长，行/包谱系随观测输入增长，不能将该输出行缓存上限当作全进程常数内存。
+旧单标定 add 函数体保留原样，避免为集合新路径增加原分组成本。
+
+坐标元数据不得把所有路径概称标定坐标。谱系v3逐段的 coordinate_source 为
+declared_uniform_grid 或 observable_facet_calibration，另记录面映射是否解析、
+是否使用独立电子延迟。epoch_coordinate_sources 记录模型可用性与明确命名的
+applied_separate_delay_offset_samples（算法实际修正量，不是未知硬件延迟）。
+无几何模型的均匀网格是声明假设；有模型但无本时期锚点的段仍未解析。旧v3未记录
+来源的字段返回not_recorded，不由新的阅读器把旧声明改装成已测量事实。

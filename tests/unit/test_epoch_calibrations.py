@@ -89,9 +89,15 @@ def test_same_row_uses_its_own_white_reference_and_preserves_calibration_lineage
         np.testing.assert_allclose(data["density"][0], -np.log10(expected))
         assert not data["flags"].any()
     assert result["epoch_calibrations"] == {"0": "low", "1": "high"}
+    assert result["epoch_coordinate_sources"]["0"]["spatial_model_available"] is False
+    assert result["epoch_coordinate_sources"]["1"]["delay_calibration_used"] is False
     with ImageArtifact(output, raw_path=raw) as artifact:
         assert artifact.pixel_lineage(0, 0)["samples"][0]["calibration_id"] == "low"
         assert artifact.pixel_lineage(0, 2)["samples"][0]["calibration_id"] == "high"
+        assert (
+            artifact.pixel_lineage(0, 2)["samples"][0]["coordinate_source"]
+            == "declared_uniform_grid"
+        )
     plan = json.loads((output / "lineage.json").read_text())
     assert plan["format"] == "zlscan-image-lineage/3"
 
@@ -443,3 +449,51 @@ def test_image_binding_comparison_can_check_the_entire_epoch_description(tmp_pat
         tile = image.tile(0, 0)
         assert all(value is None for value in tile["density"][0])
         assert all(flag & int(InvalidFlag.CALIBRATION_MISMATCH) for flag in tile["flags"][0])
+
+
+def test_many_vertical_working_points_keep_a_bounded_output_row_cache(tmp_path):
+    import weakref
+
+    from tests.unit.test_density_reconstruction import calibration
+
+    from zlscan.recon.density import reconstruct_density
+    from zlscan.recon.disk_density import DiskDensity
+
+    width = 100
+    cal = calibration()
+    cal.items["dark_raw_code"].value["0"]["median"] = [0] * width
+    cal.items["white_raw_code"].value["0"]["median"] = [20] * width
+    grid = Grid(2, 100, 1, 1)
+    x = np.full(width, 0.75)
+    y = np.arange(width) * 0.6 + 0.5
+
+    class Tracked(DiskDensity):
+        refs = []
+        peak = 0
+
+        def _row(self, index):
+            result = super()._row(index)
+            self.refs.append(weakref.ref(result))
+            self.peak = max(self.peak, sum(r() is not None for r in self.refs))
+            return result
+
+    scratch_dir = tmp_path / "scratch"
+    scratch_dir.mkdir()
+    output = tmp_path / "image"
+    with (scratch_dir / "rows.bin").open("w+b") as scratch:
+        disk = Tracked(scratch, grid, cal, 0, width)
+        disk.add_linear(np.ones(width), np.zeros(width, np.uint16), x, y)
+        assert disk.peak <= 4, f"{disk.peak} full output rows were resident together"
+        disk.write(scratch_dir, output)
+    expected = reconstruct_density(
+        np.full((1, width), 20, np.uint16),
+        x[None, :],
+        y[None, :],
+        grid,
+        cal,
+        cal.binds_to,
+        channel=0,
+    )
+    with np.load(output / "density.npz") as actual:
+        for name in actual.files:
+            np.testing.assert_array_equal(actual[name], getattr(expected, name))

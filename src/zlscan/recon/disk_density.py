@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import OrderedDict
 from contextlib import ExitStack
 from pathlib import Path
 from typing import BinaryIO
@@ -47,7 +48,22 @@ class DiskDensity:
         if not np.isfinite(gain) or gain <= 0:
             raise ValueError("facet gain must be positive and finite")
         transmittance = _sample_transmittance(codes, flags, self._transfer) / gain
-        self.add_linear(transmittance, flags, x, y)
+        rows = {}
+        for px, py, weight, values, reasons in _contributions(
+            x, y, self.grid, transmittance, flags
+        ):
+            # y is constant across one acquired line, so each contribution batch has one row.
+            row_index = int(py[0])
+            if row_index not in rows:
+                rows[row_index] = self._row(row_index)
+            row = rows[row_index][0]
+            np.bitwise_or.at(row["flags"], px, reasons)
+            valid = (reasons == 0) & np.isfinite(values)
+            np.add.at(row["support"], px[valid], weight[valid])
+            np.add.at(row["total"], px[valid], weight[valid] * values[valid])
+        for row_index, row in rows.items():
+            self._scratch.seek(row_index * self._row_dtype.itemsize)
+            self._scratch.write(row.tobytes())
 
     def add_linear(
         self,
@@ -57,15 +73,22 @@ class DiskDensity:
         y: np.ndarray | float,
     ) -> None:
         """Deposit already-linearized samples with independently calibrated positions."""
-        rows = {}
+        rows = OrderedDict()
         for px, py, weight, values, reasons in _contributions(
             x, y, self.grid, transmittance, flags
         ):
             for index in np.unique(py):
                 row_index = int(index)
-                if row_index not in rows:
-                    rows[row_index] = self._row(row_index)
-                row = rows[row_index][0]
+                buffer = rows.pop(row_index, None)
+                if buffer is None:
+                    if len(rows) == 2:
+                        evicted_index, evicted = rows.popitem(last=False)
+                        self._scratch.seek(evicted_index * self._row_dtype.itemsize)
+                        self._scratch.write(evicted.tobytes())
+                        del evicted
+                    buffer = self._row(row_index)
+                rows[row_index] = buffer
+                row = buffer[0]
                 selected = py == index
                 np.bitwise_or.at(row["flags"], px[selected], reasons[selected])
                 valid = selected & (reasons == 0) & np.isfinite(values)

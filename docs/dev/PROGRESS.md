@@ -7,11 +7,11 @@
 | 项 | 值 |
 |---|---|
 | 当前阶段 | 阶段 3 与阶段 4 同时推进，均待完成验收 |
-| 进行中的任务 | S4-T01 多工作点标定软件路径本机通过；固定源码安装与跨平台验证待执行 |
+| 进行中的任务 | S4-T01 缓存/坐标来源修正本机通过；固定修正源码安装与新CI待验证 |
 | 下一个任务 | S4-T01 多工作点标定集与时期绑定；继续阶段3/4剩余软件验收及几何/辐射辨识，浏览器与实机验收保留 |
 | 代码 | `check`、`budget`、`run`、`calibrate`、`reconstruct`、`metrics`、`report`、`ident`（波形/码流/标量表导入）、`cosim`、`replay`、`serve` 已实现；新增 `sweep` 和文件级 `compare` |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`。用户已授权推送；首次检查远端为空，无需合并其他分支。提交身份见 DECISIONS.md Q011 |
-| 最近一次全量测试 | 2026-11-13 `pytest -q`：1520 通过、2 跳过，194.33 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
+| 最近一次全量测试 | 2026-11-13 `pytest -q`：1521 通过、2 跳过，180.74 秒；Icarus 不可用，RTL 协同未执行；Ruff/格式通过 |
 
 ## 当前发布交接
 
