@@ -1,0 +1,27 @@
+{
+  "format": "zlscan.recording-capture-evidence/1",
+  "source_commit": "e3e2f548ef0bd7aeee553a14988b631d73757075",
+  "ci_run": 43379122293,
+  "ci_url": "https://github.com/additivefab/ScanSim/actions/runs/43379122293",
+  "scope": "software producer export and installation; not full stages 3-7, browser or hardware acceptance",
+  "local_full_test": {
+    "passed": 1529,
+    "skipped": 2,
+    "seconds": 180.4
+  },
+  "local_ruff": "passed",
+  "local_format_files": 304,
+  "local_installed_commands": 24,
+  "ci_targets": 6,
+  "ci_original_zip_files": 6,
+  "ci_internal_members": 2764,
+  "local_archived_files": 188,
+  "actual_measurements_obtained": false,
+  "remaining": [
+    "full stage 3/4 acceptance",
+    "geometric and radiometric identification",
+    "physical measurements and independent validation",
+    "browser acceptance",
+    "remaining stage 5-7 requirements"
+  ]
+}
