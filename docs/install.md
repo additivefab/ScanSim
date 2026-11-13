@@ -64,6 +64,29 @@ wheel、smoke.json 和逐步日志。work_dir.txt 指向保留在仓库外的构
 wheelhouse 和环境。progress.json 记录已完成命令，不代替实际进程状态。
 输出目录独占创建，重跑选择新目录，保留失败记录。
 
+## 用锁定后端离线重复构建
+
+新增四项成对输入，不能只提供其中一项后退回在线解析：
+
+```bash
+python tools/audit_wheel_install.py --out /absolute/new/audit \
+  --build-wheelhouse /path/to/build_wheels --build-manifest /path/to/build_manifest.json \
+  --runtime-wheelhouse /path/to/runtime_wheels --runtime-manifest /path/to/runtime_manifest.json
+```
+
+清单格式为 `{"normalized-name":{"filename":"name-version-tag.whl","version":"...","sha256":"..."}}`。
+文件名只可指向给定 house 内的 basename，包 Name/Version 与 SHA256 都要匹配。
+后端清单不接受项目 wheel；运行清单的旧项目项明确排除，新项目由当前源快照构建。
+工具生成 build.lock 与 external-runtime.lock，在独立 builder venv 离线安装后端，
+用 --no-build-isolation/--no-deps/--no-index 构建当前项目。运行依赖也离线按哈希校验，
+再生成包含本次项目 wheel 的 requirements.lock；缺包/错摘要直接失败。
+
+干净运行逐文件核对固定提交的 Git blob；全部 Python 模块和 5 项资源均按字节检查。
+两份独立的跟踪源副本用相同 SOURCE_DATE_EPOCH 和后端构建，要求 wheel 字节相同。
+安装验证还包含 dynamic/timing/segmented 的实际 CLI 和独立进程回读。
+三份后端包的锁不包含宿主 CPython、ensurepip 自带 pip、内核/系统库或外部仿真工具，
+这些实际版本另外记录。重复构建是本机同一工具链的结果，不代表跨平台字节一致。
+
 ## 使用配套离线工件
 
 锁文件绑定特定平台/Python/构建 wheel 的版本与 SHA256；与对应 wheelhouse

@@ -694,3 +694,19 @@ validation 不调整周期或相位；仅以该采集第一个观测时间为显
 相邻差分共享端点、噪声相关，描述波动不自动解释为真实转速抖动。
 
 不可表示的权重、协方差下溢或非有限卡方拒绝计算，不生成零宽度伪确定区间。
+
+## 安装包离线复现补充（S7-T05）
+
+wheel 审计新增可选成对的 build/runtime wheelhouse 与摘要清单输入；四项须完整给出。
+各包文件名只允许 house 内的 basename，原 SHA256 及 Name/Version 均须匹配清单；
+生成配套 --require-hashes 锁。构建后端在单独新 venv 离线安装，由该环境
+--no-build-isolation/--no-deps 构建；运行依赖从另一份已验证清单离线解析。
+清单中旧 zlscan 包只作为历史项排除，当前 wheel 必须由当前源快照重新构建。
+
+干净源快照逐文件核对固定 Git 提交的 blob（不是只信当前目录）；检查所有 Python 模块及
+运行资源是否逐字节进入 wheel。相同 SOURCE_DATE_EPOCH、同一锁定后端、两份独立跟踪源
+快照重复构建，要求 wheel 字节相同。构建完成再检查跟踪快照未改变。
+
+安装在仓库外新 venv，执行 -I 导入路径检查、原短流程/HTTP，以及 static、dynamic、timing
+和 segmented 的实际 CLI/新进程回读。声明同机隔离，不借此升级另一台机器/跨平台/
+浏览器或实机门槛。后端三包哈希锁不等于 CPython、ensurepip/pip、OS/外部工具的完整锁。

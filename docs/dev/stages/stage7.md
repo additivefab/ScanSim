@@ -38,6 +38,8 @@
 
 2026-11-13：旧 wheel 缺 API HTML 已实证并修复；新增跟踪源快照构建、目标运行+ident 哈希锁与同机隔离 venv 的安装/HTTP/短流程验证，见 `docs/reports/wheel_install.md` 和 `docs/install.md`。另一台干净机器、跨平台/版本矩阵、构建/dev/外部工具完整锁定及许可/CI 仍未完成，阶段7不关闭。
 
+2026-11-13：S7-T05 新增 build/runtime 双哈希清单的离线安装路径、固定提交 blob/全 Python 模块检查及两份独立源码副本的重复 wheel 字节比较。已装包还执行 dynamic/timing/segmented 的实际 CLI 与新进程回读。当前为同机验证，另一台机器/其他 OS、CPython/pip/外部工具完整锁及许可/CI 门槛仍保留，见 `docs/reports/latest_install.md`。
+
 ## 阶段门槛
 
 - [ ] 文档里的每一项"已支持"都有对应测试。
