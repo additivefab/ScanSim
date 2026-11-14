@@ -6,6 +6,7 @@ import json
 import re
 from contextlib import ExitStack, contextmanager
 from copy import deepcopy
+from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
@@ -79,6 +80,13 @@ def demo_service(lines: int = 6) -> Service:
     run = build_run("demo", cfg, steps, probes, steps // lines)
     run.losses = transport_losses(cfg, run.codes, lines)  # a stalled link, to show loss tracing
     svc.add(run)
+    # Paired research-only run for the window distinction: this variant lets the beam illuminate
+    # outside the film while keeping every other assumption identical.
+    off_film_cfg = deepcopy(cfg)
+    off_film_cfg.source = replace(off_film_cfg.source, gated=False)
+    off_film = build_run("demo_offfilm", off_film_cfg, steps, probes, steps // lines)
+    off_film.losses = transport_losses(off_film_cfg, off_film.codes, lines)
+    svc.add(off_film)
     return svc
 
 

@@ -128,6 +128,17 @@ def test_w04_an_unrecorded_signal_is_marked_not_drawn(server):
     assert img["status"] == "not_computed"
 
 
+def test_w07_demo_offfilm_pair_exposes_window_effect_without_hardware_claim(server):
+    port, svc = server
+    gated = svc.runs["demo"]
+    off_film = svc.runs["demo_offfilm"]
+    assert gated.cfg.source.gated is True and off_film.cfg.source.gated is False
+    assert np.any(gated.codes != off_film.codes)
+    _, gated_state = get(port, "/runs/demo/state?step=0&probes=power_w,v_adc")
+    _, off_film_state = get(port, "/runs/demo_offfilm/state?step=0&probes=power_w,v_adc")
+    assert gated_state["values"] != off_film_state["values"]
+
+
 def test_w05_asking_for_probes_does_not_change_the_codes(server):
     port, _ = server
     a = get(port, "/runs/demo/traces?signal=adc.code&start=0&end=4000&pixel_width=800")[1]
