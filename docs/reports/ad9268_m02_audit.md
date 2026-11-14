@@ -1,6 +1,6 @@
 # AD9268 V4.1 资料与 M02 门槛审计
 
-2026-11-13。资料目录包含模块用户手册、AD9268/AD8132等芯片手册、原理图PDF、尺寸图DXF/PDF和 `AD9268_V2.zip` FPGA例程。所有非DS_Store文件已逐字节计算SHA-256，清单在 `evidence_runs/2026-11-13_ad9268_audit/record.json`。
+2026-11-14。资料目录包含模块用户手册、AD9268/AD8132等芯片手册、原理图PDF、尺寸图DXF/PDF和 `AD9268_V2.zip` FPGA例程。所有非DS_Store文件已逐字节计算SHA-256，清单在 `evidence_runs/2026-11-13_ad9268_audit/record.json`；当前冻结副本又以只读模式复核 12 个文件和 EDA 工程，回执在 `evidence_runs/2026-11-14_ad9268_document_audit/record/audit.json`，摘要 SHA-256 为 `b2665c20d93ca731f6abb8e9a95a7c69e1bdaa86ff43f689a7a5c8cb43aa9d64`。
 
 ## 文档支持的事实
 

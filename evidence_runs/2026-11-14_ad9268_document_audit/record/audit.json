@@ -1,0 +1,127 @@
+{
+  "format": "zlscan-added-hardware-sources/1",
+  "source_root": "/Users/yuxinghua/Downloads/ZL_OEM_SCANNER_SIM_V1/zlscan_v5/references/hardware_20261112",
+  "documents_directory": "AD9268模块资料V4.1",
+  "documents_manifest": {
+    "format": "zlscan-manifest/1",
+    "files": [
+      {
+        "path": "例程程序/AD9268_V2.zip",
+        "size": 65409,
+        "sha256": "816ba5eab99e2960c33647ffac0043755baadeca44473c2768bef39bec0ed474"
+      },
+      {
+        "path": "原理图PDF/AD9268 V4.1.pdf",
+        "size": 106827,
+        "sha256": "edb57d88c9008e52d1e81d91d0abdb89b4d1f39e180eac8c07a2e69631ef6ca7"
+      },
+      {
+        "path": "模块尺寸/AD9268_V4.1.DXF",
+        "size": 9317358,
+        "sha256": "41ca6134f38f6bff6330ff4bac530682886c46a8b6a96a8ca2af8e80d0eb8c32"
+      },
+      {
+        "path": "模块尺寸/AD9268_V4.1.pdf",
+        "size": 271282,
+        "sha256": "0a1f78c9f28cd400f573f7b246c52ca7504cddd92001a84da2689889bb2efd98"
+      },
+      {
+        "path": "模块尺寸/AD9268尺寸图V4.0.DXF",
+        "size": 8736436,
+        "sha256": "c37e78c629ff1d5333960af65d3ff43d89025b6b8b018be69be49929d15ad3ff"
+      },
+      {
+        "path": "模块尺寸/AD9268尺寸图V4.0.pdf",
+        "size": 145101,
+        "sha256": "ff850c3832c82b8ba50643a0cadfd77d51eba33d73dae95a099008aae081baff"
+      },
+      {
+        "path": "用户手册/AD9268模块用户手册V1.0.pdf",
+        "size": 1779554,
+        "sha256": "649a331f915faf8e847b3f38db49b7ecbfb25d238edd67ff73068e1247896117"
+      },
+      {
+        "path": "芯片手册/AD8132.pdf",
+        "size": 857647,
+        "sha256": "8ac8c8756bf6a73c0511f40ae05941ae2b79b9a33de915261293291c7b759f50"
+      },
+      {
+        "path": "芯片手册/AD9268.pdf",
+        "size": 2340456,
+        "sha256": "68edb5ac19edb7630197c01a87266950e6a662ca1d7e6f6b8c34c76e76c19ba9"
+      },
+      {
+        "path": "芯片手册/LM2663.pdf",
+        "size": 928418,
+        "sha256": "ee1be159fa5fd8b8feb63dc6e99baca6d08b3f04837b55c803ef798ada06c64c"
+      },
+      {
+        "path": "芯片手册/NCP1529.pdf",
+        "size": 252399,
+        "sha256": "4bb5b85b780ebdda59c4eb85aa3fe2ede9e365a2115ec18ccb4e176b0337d3d6"
+      },
+      {
+        "path": "芯片手册/SGM2036.pdf",
+        "size": 824333,
+        "sha256": "5390ebdaaf49eb079e5bd149869d1efbeaf74330fe7f5b1a2ddf4abb3aea2ac0"
+      }
+    ]
+  },
+  "project": {
+    "path": "扫描底_zl2.eprj2",
+    "size": 2682880,
+    "sha256": "eb15ac3e95782de550ac0306dc505ff48d0d888753db5119be4551f2b571e84f",
+    "sqlite_integrity": "ok",
+    "source_unchanged": true,
+    "table_counts": {
+      "schematics": 0,
+      "documents": 0,
+      "devices": 0,
+      "components": 0,
+      "texts": 0,
+      "resources": 0,
+      "project_structures": 40,
+      "history_data": 44
+    },
+    "latest_structure": {
+      "boards": {
+        "829b4e827fff1974": {
+          "uuid": "829b4e827fff1974",
+          "title": "GPIO_2",
+          "zIndex": 1
+        }
+      },
+      "schematics": {
+        "a5031a9d34da40a28009707d3e47f379": {
+          "uuid": "a5031a9d34da40a28009707d3e47f379",
+          "name": "Schematic1",
+          "board": "829b4e827fff1974",
+          "version": "1793757901434",
+          "updateTime": 1793757901434
+        }
+      },
+      "sheets": {
+        "761ec0a6d4494037beabd61c34d0cf94": {
+          "uuid": "761ec0a6d4494037beabd61c34d0cf94",
+          "title": "P1",
+          "schematic_uuid": "a5031a9d34da40a28009707d3e47f379",
+          "zIndex": 1,
+          "version": "1793757901434",
+          "updateTime": 1793757901434
+        }
+      },
+      "pcbs": {
+        "7fc621341b2f437ba354bbbea1ca450e": {
+          "uuid": "7fc621341b2f437ba354bbbea1ca450e",
+          "title": "AD16_2",
+          "board": "829b4e827fff1974",
+          "parent_uuid": "",
+          "version": "1794446837543",
+          "updateTime": 1794446837543
+        }
+      }
+    },
+    "circuit_body_status": "not_decoded",
+    "note": "Structure metadata is not an electrical netlist or wiring verification."
+  }
+}
