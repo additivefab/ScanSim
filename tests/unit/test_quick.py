@@ -12,7 +12,14 @@ def test_quick_run_writes_reloadable_artifacts(tmp_path):
     result = run_quick(QuickConfig(width=32, height=16), tmp_path / "run")
     assert result.metadata["format"] == "zlscan.quick-run/1"
     assert result.metadata["fidelity"] == "APPROXIMATE"
+    assert result.metadata["reconstruction_input"] == "adc_code_midpoint_voltage"
+    assert result.metadata["validation_status"] == "NOT_VALIDATED"
     assert result.arrays["code"].shape == (16, 32)
+    assert result.arrays["teff_scan"].shape == (16, 32)
+    assert result.arrays["collection_profile"].shape == (16, 32)
+    assert result.arrays["target_voltage_v"].shape == (16, 32)
+    assert result.arrays["voltage_noiseless_v"].shape == (16, 32)
+    assert result.arrays["last_filtered_v"].shape == (16,)
     assert (result.run_dir / "preview.png").is_file()
     assert (
         (result.run_dir / "selected_line.csv")

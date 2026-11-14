@@ -180,20 +180,28 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
         + (np.arange(cfg.width) + 0.5) * dt_eff
     )
     y_positions = times * cfg.feed_speed_m_s
+    row_indices_unclipped = np.rint(
+        y_positions / max(cfg.scene_height_m, 1e-12) * (cfg.height - 1)
+    ).astype(int)
+    outside_scene = (y_positions < 0) | (y_positions >= cfg.scene_height_m)
     row_indices = np.clip(
-        np.rint(y_positions / max(cfg.scene_height_m, 1e-12) * (cfg.height - 1)).astype(int),
+        row_indices_unclipped,
         0,
         cfg.height - 1,
     )
-    p_rel = (
-        cfg.laser_rel * teff[row_indices, np.arange(cfg.width)[None, :]] * profile[None, :]
-        + cfg.background_rel
-    )
+    teff_scan = teff[row_indices, np.arange(cfg.width)[None, :]]
+    collection_profile = np.broadcast_to(profile, (cfg.height, cfg.width))
+    p_rel = cfg.laser_rel * teff_scan * collection_profile + cfg.background_rel
     i_rel = cfg.pmt_gain_rel * p_rel
     target = cfg.log_offset_v + cfg.log_slope_v_per_decade * np.log10(
         np.maximum(i_rel, cfg.log_floor_rel) / cfg.log_i_ref_rel
     )
     voltage = np.empty_like(target, dtype=float)
+    before_gap = np.full(cfg.height, np.nan, dtype=float)
+    after_gap = np.full(cfg.height, np.nan, dtype=float)
+    last_filtered = np.full(cfg.height, np.nan, dtype=float)
+    gap_duration = np.zeros(cfg.height, dtype=float)
+    gap_target = np.full(cfg.height, np.nan, dtype=float)
     alpha = math.exp(-dt_eff / cfg.tau_s) if cfg.tau_s else 0.0
     rng = np.random.default_rng(cfg.seed)
     previous = cfg.log_offset_v + cfg.log_slope_v_per_decade * math.log10(
@@ -201,13 +209,18 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
     )
     for row in range(cfg.height):
         if cfg.tau_s:
+            before_gap[row] = previous
+            gap_duration[row] = max(line_period - active, 0.0)
             previous = cfg.log_offset_v + (previous - cfg.log_offset_v) * math.exp(
-                -max(line_period - active, 0.0) / cfg.tau_s
+                -gap_duration[row] / cfg.tau_s
             )
+            after_gap[row] = previous
+            gap_target[row] = target[row, 0]
             voltage[row], state = lfilter(
                 [1 - alpha], [1, -alpha], target[row], zi=[alpha * previous]
             )
             previous = float(voltage[row, -1])
+            last_filtered[row] = previous
         else:
             voltage[row] = target[row]
     if cfg.noise_sigma_v:
@@ -217,20 +230,31 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
     code = np.clip(np.floor((voltage - cfg.adc_vmin) / lsb), 0, 2**cfg.adc_bits - 1).astype(
         np.uint16
     )
-    inv_i = cfg.log_i_ref_rel * 10 ** ((voltage - cfg.log_offset_v) / cfg.log_slope_v_per_decade)
+    reconstruction_voltage = cfg.adc_vmin + (code.astype(float) + 0.5) * lsb
+    inv_i = cfg.log_i_ref_rel * 10 ** (
+        (reconstruction_voltage - cfg.log_offset_v) / cfg.log_slope_v_per_decade
+    )
     that = (inv_i / cfg.pmt_gain_rel - cfg.background_rel) / np.maximum(cfg.laser_rel, 1e-12)
     with np.errstate(divide="ignore", invalid="ignore"):
         density_hat = np.where(that > 0, -np.log10(that), np.nan)
     valid = (
-        finite[row_indices, np.arange(cfg.width)[None, :]] & ~saturated & np.isfinite(density_hat)
+        finite[row_indices, np.arange(cfg.width)[None, :]]
+        & ~saturated
+        & ~outside_scene
+        & np.isfinite(density_hat)
     )
     density_hat = np.where(valid, density_hat, np.nan)
     arrays = {
         "density_input": density.astype(np.float32),
         "transmittance_effective": teff.astype(np.float32),
+        "teff_scan": teff_scan.astype(np.float32),
+        "collection_profile": collection_profile.astype(np.float32),
         "power_rel": p_rel.astype(np.float32),
         "current_rel": i_rel.astype(np.float32),
+        "target_voltage_v": target.astype(np.float32),
+        "voltage_noiseless_v": voltage.astype(np.float32),
         "voltage_v": voltage.astype(np.float32),
+        "reconstruction_voltage_v": reconstruction_voltage.astype(np.float32),
         "code": code,
         "density_hat": density_hat.astype(np.float32),
         "valid": valid,
@@ -240,6 +264,13 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
             (np.arange(cfg.width) + 0.5) * spacing_x, (cfg.height, cfg.width)
         ).astype(np.float64),
         "y_m": y_positions.astype(np.float64),
+        "row_indices": row_indices.astype(np.int32),
+        "outside_scene": outside_scene,
+        "before_gap_v": before_gap.astype(np.float32),
+        "after_gap_v": after_gap.astype(np.float32),
+        "last_filtered_v": last_filtered.astype(np.float32),
+        "gap_duration_s": gap_duration.astype(np.float64),
+        "gap_target_v": gap_target.astype(np.float32),
     }
     np.savez_compressed(out / "arrays.npz", **arrays)
     _preview(density_hat, out / "preview.png", cfg.density_min, cfg.density_max)
@@ -285,6 +316,7 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
         "validation_status": "NOT_VALIDATED",
         "validated_for_hardware": False,
         "reconstruction": "nominal_model_inverse",
+        "reconstruction_input": "adc_code_midpoint_voltage",
         "geometry_reconstruction": "row_stacking_approximate",
         "seed": cfg.seed,
         "git_head": _git_head(),
@@ -294,7 +326,12 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
         "valid_fraction": float(np.mean(valid)),
         "saturated_fraction": float(np.mean(saturated)),
         "representative_time_step_s": dt_eff,
+        "hardware_adc_clock_s": None,
         "line_period_s": line_period,
+        "outside_scene_fraction": float(np.mean(outside_scene)),
+        "dynamic_state": (
+            "recorded_first_order_gap_state" if cfg.tau_s else "NO_DYNAMIC_STATE_TAU_ZERO"
+        ),
         "notes": [
             "No real ADC clock or digital link is simulated.",
             "Noise is equivalent voltage demonstration noise.",

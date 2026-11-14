@@ -14,7 +14,8 @@ def _request(port, path, method="GET", body=None):
     payload = json.dumps(body).encode() if body is not None else None
     connection.request(method, path, body=payload, headers={"Content-Type": "application/json"})
     response = connection.getresponse()
-    result = json.loads(response.read())
+    raw = response.read()
+    result = json.loads(raw) if "json" in response.getheader("Content-Type", "") else raw.decode()
     connection.close()
     return response.status, result
 
@@ -37,8 +38,14 @@ def test_quick_row_endpoint_and_previous_run_share_cached_artifacts(tmp_path):
         assert second["previous"]["run"] == first["run"]
         status, row = _request(server.server_address[1], f"/api/row?run={second['run']}&row=3")
         assert status == 200 and row["row"] == 3
+        assert row["reconstruction_input"] == "adc_code_midpoint_voltage"
+        assert "last_filtered_v" in row["state"]
         arrays = np.load(tmp_path / second["run"] / "arrays.npz")
         np.testing.assert_allclose(row["values"]["voltage_v"], arrays["voltage_v"][3])
+        csv_status, csv_body = _request(
+            server.server_address[1], f"/api/row.csv?run={second['run']}&row=3"
+        )
+        assert csv_status == 200 and "sample_index" in csv_body
     finally:
         server.shutdown()
         thread.join(timeout=5)

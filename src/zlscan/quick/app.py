@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import base64
 import binascii
+import csv
+import io
 import json
 import mimetypes
 import threading
 import time
+from collections import OrderedDict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
@@ -22,6 +25,7 @@ class QuickServer(ThreadingHTTPServer):
         self.root = root.resolve()
         self.latest: Path | None = None
         self.previous: Path | None = None
+        self.row_cache: OrderedDict[tuple[str, int], dict] = OrderedDict()
         super().__init__(address, QuickHandler)
 
 
@@ -40,38 +44,17 @@ class QuickHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = unquote(parsed.path)
         query = parse_qs(parsed.query)
-        if path == "/api/row":
+        if path in {"/api/row", "/api/row.csv"}:
             try:
                 run = (self.server.root / query["run"][0]).resolve()
                 row = int(query["row"][0])
                 if not run.is_relative_to(self.server.root) or not (run / "arrays.npz").is_file():
                     raise ValueError("unknown quick run")
-                with np.load(run / "arrays.npz") as arrays:
-                    if row < 0 or row >= arrays["voltage_v"].shape[0]:
-                        raise ValueError("row outside quick run")
-                    fields = {
-                        name: arrays[name][row]
-                        for name in (
-                            "time_s",
-                            "x_m",
-                            "y_m",
-                            "power_rel",
-                            "current_rel",
-                            "voltage_v",
-                            "code",
-                            "density_hat",
-                            "valid",
-                            "saturated",
-                        )
-                    }
-                payload = {
-                    "row": row,
-                    "values": {
-                        key: [self._json_value(value) for value in values]
-                        for key, values in fields.items()
-                    },
-                }
-                self._json(200, payload)
+                payload = self._row_payload(run, row)
+                if path == "/api/row.csv":
+                    self._csv_response(payload)
+                else:
+                    self._json(200, payload)
             except (KeyError, OSError, ValueError, TypeError) as exc:
                 self._json(400, {"error": str(exc)})
             return
@@ -130,6 +113,7 @@ class QuickHandler(BaseHTTPRequestHandler):
             result = run_quick(cfg, self.server.root / "runs" / run_id)
             self.server.previous = self.server.latest
             self.server.latest = result.run_dir
+            self.server.row_cache.clear()
             self._json(
                 200,
                 {
@@ -146,6 +130,84 @@ class QuickHandler(BaseHTTPRequestHandler):
             return None
         metadata = json.loads((run / "quick_run.json").read_text(encoding="utf-8"))
         return {"run": str(run.relative_to(self.server.root)), "metadata": metadata}
+
+    def _row_payload(self, run: Path, row: int) -> dict:
+        key = (str(run), row)
+        cached = self.server.row_cache.get(key)
+        if cached is not None:
+            self.server.row_cache.move_to_end(key)
+            return cached
+        with np.load(run / "arrays.npz") as arrays:
+            if row < 0 or row >= arrays["voltage_v"].shape[0]:
+                raise ValueError("row outside quick run")
+            names = (
+                "time_s",
+                "x_m",
+                "y_m",
+                "power_rel",
+                "current_rel",
+                "target_voltage_v",
+                "voltage_noiseless_v",
+                "voltage_v",
+                "reconstruction_voltage_v",
+                "code",
+                "density_hat",
+                "valid",
+                "saturated",
+                "outside_scene",
+                "teff_scan",
+                "collection_profile",
+                "row_indices",
+                "before_gap_v",
+                "after_gap_v",
+                "last_filtered_v",
+                "gap_duration_s",
+                "gap_target_v",
+            )
+            values = {}
+            state = {}
+            for name in names:
+                if name not in arrays:
+                    values[name] = None
+                elif arrays[name].ndim == 1:
+                    state[name] = self._json_value(arrays[name][row])
+                else:
+                    values[name] = [self._json_value(value) for value in arrays[name][row]]
+        metadata = json.loads((run / "quick_run.json").read_text(encoding="utf-8"))
+        payload = {
+            "run": str(run.relative_to(self.server.root)),
+            "row": row,
+            "sample_count": len(values["voltage_v"]),
+            "sample_index": list(range(len(values["voltage_v"]))),
+            "values": values,
+            "state": state,
+            "outside_scene": bool(any(values.get("outside_scene") or [])),
+            "dynamic_state": metadata.get("dynamic_state", "NOT_RECORDED"),
+            "reconstruction_input": metadata.get("reconstruction_input", "legacy_voltage_direct"),
+        }
+        self.server.row_cache[key] = payload
+        self.server.row_cache.move_to_end(key)
+        while len(self.server.row_cache) > 4:
+            self.server.row_cache.popitem(last=False)
+        return payload
+
+    def _csv_response(self, payload: dict) -> None:
+        stream = io.StringIO(newline="")
+        value_names = [name for name, values in payload["values"].items() if values is not None]
+        fields = ["sample_index", *value_names]
+        writer = csv.writer(stream)
+        writer.writerow(fields)
+        for index in range(payload["sample_count"]):
+            writer.writerow([index, *[payload["values"][name][index] for name in fields[1:]]])
+        raw = stream.getvalue().encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/csv; charset=utf-8")
+        self.send_header(
+            "Content-Disposition", f"attachment; filename=quick_row_{payload['row']:04d}.csv"
+        )
+        self.send_header("Content-Length", str(len(raw)))
+        self.end_headers()
+        self.wfile.write(raw)
 
     @staticmethod
     def _json_value(value):
