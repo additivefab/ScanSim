@@ -3,6 +3,7 @@
 import json
 
 import numpy as np
+from PIL import Image
 
 from zlscan.quick.model import QuickConfig, run_quick
 
@@ -46,3 +47,13 @@ def test_quick_rejects_invalid_geometry(tmp_path):
         assert "scene dimensions" in str(exc)
     else:
         raise AssertionError("invalid quick geometry was accepted")
+
+
+def test_quick_accepts_grayscale_png_input(tmp_path):
+    image_path = tmp_path / "film.png"
+    Image.fromarray(np.tile(np.arange(8, dtype=np.uint8), (4, 1))).save(image_path)
+    result = run_quick(
+        QuickConfig(width=16, height=8, input_path=str(image_path)), tmp_path / "png_run"
+    )
+    assert result.metadata["input"]["input_kind"] == "grayscale_image"
+    assert result.arrays["density_input"].shape == (8, 16)
