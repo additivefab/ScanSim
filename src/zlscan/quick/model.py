@@ -282,6 +282,7 @@ def run_quick(cfg: QuickConfig, out: Path) -> QuickResult:
         "mode": "quick",
         "origin": "SIMULATED",
         "fidelity": "APPROXIMATE",
+        "validation_status": "NOT_VALIDATED",
         "validated_for_hardware": False,
         "reconstruction": "nominal_model_inverse",
         "geometry_reconstruction": "row_stacking_approximate",
