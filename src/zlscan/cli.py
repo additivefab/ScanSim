@@ -651,7 +651,7 @@ def _run_quick(argv: Sequence[str]) -> int:
         "stripe": {"defect_amplitude": 0.8, "defect_center": 0.52, "defect_sigma": 0.025},
         "tail": {"tau_s": 0.001},
         "noise": {"noise_sigma_v": 0.025, "seed": 17},
-        "saturation": {"laser_rel": 8.0, "pmt_gain_rel": 3.0},
+        "saturation": {"laser_rel": 10_000.0, "pmt_gain_rel": 1_000.0},
     }
     try:
         data = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
