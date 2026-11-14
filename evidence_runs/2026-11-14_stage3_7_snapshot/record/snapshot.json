@@ -1,0 +1,31 @@
+{
+  "format": "zlscan-stage3-7-snapshot/1",
+  "status": "partial",
+  "scope": "current software/evidence state; unresolved hardware and measured gates are not inferred",
+  "evidence": {
+    "stage34_software_status": "pass",
+    "stage7_residual_status": "pass_with_scope",
+    "ad9268_document_files": 12,
+    "ad9268_sqlite_integrity": "ok",
+    "ci_status": "success",
+    "ci_job_count": 6,
+    "ci_success_jobs": 6,
+    "performance_wall_s": {
+      "4000x5000": 861.7966813340026,
+      "7000x8600": 771.8218599590036
+    }
+  },
+  "unresolved": [
+    "W07 page-level paired off-film illumination scenario",
+    "M02 board register readback, test-pattern capture, measured clocks and channel mapping",
+    "M06 point-target/knife-edge/grid measurements",
+    "measured device residuals and independent timing traces",
+    "complete external tool/license lock"
+  ],
+  "inputs": {
+    "stage34_software": "evidence_runs/2026-11-13_stage34_software_gate/acceptance.json",
+    "stage7_residuals": "evidence_runs/2026-11-14_stage7_residual_audit/record/audit.json",
+    "ad9268_documents": "evidence_runs/2026-11-14_ad9268_document_audit/record/audit.json",
+    "ci": "evidence_runs/2026-11-14_cross_platform_ci/record/37e4e12_acceptance.json"
+  }
+}
