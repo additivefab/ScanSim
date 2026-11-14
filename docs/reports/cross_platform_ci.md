@@ -1,5 +1,12 @@
 # 三平台与最低/当前 Python CI（S7-T05）
 
+## 最新提交回执：六目标通过（2026-11-14）
+
+提交 `37e4e120643e54cd6b7737ca21fc0dcec8b6bb45` 的
+[run 43551835229](https://github.com/additivefab/ScanSim/actions/runs/43551835229)
+已结束且整体 `success`；六个 job 均成功。原始回执保存在
+`evidence_runs/2026-11-14_cross_platform_ci/record/37e4e12_acceptance.json`。
+
 ## 最新提交回执：六目标通过
 
 2026-11-13，提交 `5312ecd7239caf420aa2a2eb3a5371fd5cdbba9a` 的
