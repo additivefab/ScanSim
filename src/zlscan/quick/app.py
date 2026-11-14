@@ -10,7 +10,9 @@ import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote
+from urllib.parse import parse_qs, unquote, urlparse
+
+import numpy as np
 
 from .model import QuickConfig, run_quick
 
@@ -35,7 +37,33 @@ class QuickHandler(BaseHTTPRequestHandler):
         self.wfile.write(raw)
 
     def do_GET(self) -> None:  # noqa: N802
-        path = unquote(self.path.split("?", 1)[0])
+        parsed = urlparse(self.path)
+        path = unquote(parsed.path)
+        query = parse_qs(parsed.query)
+        if path == "/api/row":
+            try:
+                run = (self.server.root / query["run"][0]).resolve()
+                row = int(query["row"][0])
+                if not run.is_relative_to(self.server.root) or not (run / "arrays.npz").is_file():
+                    raise ValueError("unknown quick run")
+                with np.load(run / "arrays.npz") as arrays:
+                    if row < 0 or row >= arrays["voltage_v"].shape[0]:
+                        raise ValueError("row outside quick run")
+                    fields = {name: arrays[name][row] for name in (
+                        "time_s", "x_m", "y_m", "power_rel", "current_rel",
+                        "voltage_v", "code", "density_hat", "valid", "saturated",
+                    )}
+                payload = {
+                    "row": row,
+                    "values": {
+                        key: [self._json_value(value) for value in values]
+                        for key, values in fields.items()
+                    },
+                }
+                self._json(200, payload)
+            except (KeyError, OSError, ValueError, TypeError) as exc:
+                self._json(400, {"error": str(exc)})
+            return
         if path == "/api/current":
             if not self.server.latest:
                 self._json(404, {"error": "no quick run yet"})
@@ -107,6 +135,13 @@ class QuickHandler(BaseHTTPRequestHandler):
             return None
         metadata = json.loads((run / "quick_run.json").read_text(encoding="utf-8"))
         return {"run": str(run.relative_to(self.server.root)), "metadata": metadata}
+
+    @staticmethod
+    def _json_value(value):
+        if isinstance(value, (bool, np.bool_)):
+            return bool(value)
+        numeric = float(value)
+        return numeric if np.isfinite(numeric) else None
 
     def log_message(self, format: str, *args) -> None:
         return
