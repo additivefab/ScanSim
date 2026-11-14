@@ -49,10 +49,21 @@ class QuickHandler(BaseHTTPRequestHandler):
                 with np.load(run / "arrays.npz") as arrays:
                     if row < 0 or row >= arrays["voltage_v"].shape[0]:
                         raise ValueError("row outside quick run")
-                    fields = {name: arrays[name][row] for name in (
-                        "time_s", "x_m", "y_m", "power_rel", "current_rel",
-                        "voltage_v", "code", "density_hat", "valid", "saturated",
-                    )}
+                    fields = {
+                        name: arrays[name][row]
+                        for name in (
+                            "time_s",
+                            "x_m",
+                            "y_m",
+                            "power_rel",
+                            "current_rel",
+                            "voltage_v",
+                            "code",
+                            "density_hat",
+                            "valid",
+                            "saturated",
+                        )
+                    }
                 payload = {
                     "row": row,
                     "values": {

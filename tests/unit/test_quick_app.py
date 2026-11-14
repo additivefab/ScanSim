@@ -35,9 +35,7 @@ def test_quick_row_endpoint_and_previous_run_share_cached_artifacts(tmp_path):
         )
         assert first_status == second_status == 200
         assert second["previous"]["run"] == first["run"]
-        status, row = _request(
-            server.server_address[1], f"/api/row?run={second['run']}&row=3"
-        )
+        status, row = _request(server.server_address[1], f"/api/row?run={second['run']}&row=3")
         assert status == 200 and row["row"] == 3
         arrays = np.load(tmp_path / second["run"] / "arrays.npz")
         np.testing.assert_allclose(row["values"]["voltage_v"], arrays["voltage_v"][3])
