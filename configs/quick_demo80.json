@@ -1,0 +1,15 @@
+{
+  "format": "zlscan.quick-config/1",
+  "width": 512,
+  "height": 256,
+  "scene_width_m": 0.08,
+  "scene_height_m": 0.04,
+  "spot_fwhm_m": 0.0008,
+  "laser_rel": 1.0,
+  "pmt_gain_rel": 1.0,
+  "tau_s": 0.00002,
+  "background_rel": 0.02,
+  "noise_sigma_v": 0.0,
+  "feed_speed_m_s": 0.08,
+  "seed": 1
+}

@@ -47,6 +47,7 @@ COMMANDS: tuple[Command, ...] = (
     Command("cosim", "co-simulate the RTL against the digital reference model", 2),
     Command("replay", "replay a time window from the nearest checkpoint", 3),
     Command("serve", "start the local query service for the workbench", 3),
+    Command("quick", "run the fast approximate interactive scanner", 0),
 )
 
 
@@ -623,6 +624,58 @@ def _run_serve(argv: Sequence[str]) -> int:
     return 0
 
 
+def _run_quick(argv: Sequence[str]) -> int:
+    import json
+    import shutil
+    from pathlib import Path
+
+    from zlscan.quick.app import serve_quick
+    from zlscan.quick.model import QuickConfig, run_quick
+
+    p = argparse.ArgumentParser(prog="zlscan quick")
+    p.add_argument(
+        "--preset",
+        choices=["demo80", "ideal", "blur", "stripe", "tail", "noise", "saturation"],
+        default="demo80",
+    )
+    p.add_argument("--config", type=Path)
+    p.add_argument("--input", type=Path)
+    p.add_argument("--out", type=Path, default=Path("quick_demo"))
+    p.add_argument("--serve", action="store_true")
+    p.add_argument("--port", type=int, default=8766)
+    args = p.parse_args(list(argv))
+    presets = {
+        "demo80": {},
+        "ideal": {"spot_fwhm_m": 0.0, "tau_s": 0.0},
+        "blur": {"spot_fwhm_m": 0.003},
+        "stripe": {"defect_amplitude": 0.8, "defect_center": 0.52, "defect_sigma": 0.025},
+        "tail": {"tau_s": 0.001},
+        "noise": {"noise_sigma_v": 0.025, "seed": 17},
+        "saturation": {"laser_rel": 8.0, "pmt_gain_rel": 3.0},
+    }
+    try:
+        data = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
+        if not isinstance(data, dict):
+            raise ValueError("quick config must be a JSON object")
+        data = {**presets[args.preset], **data, "case": args.preset}
+        if args.input:
+            data["input_path"] = str(args.input)
+        cfg = QuickConfig.from_mapping(data)
+        if args.serve:
+            args.out.mkdir(parents=True, exist_ok=True)
+            static = Path(__file__).parent / "api/static/quick.html"
+            shutil.copyfile(static, args.out / "quick.html")
+            serve_quick(args.out, args.port)
+            return 0
+        result = run_quick(cfg, args.out)
+        print(f"Quick run 已写入 {result.run_dir}")
+        print(f"预览：{result.run_dir / 'preview.png'}")
+        return 0
+    except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+        print(f"Quick 配置/运行失败：{exc}", file=sys.stderr)
+        return CHECK_FAIL_EXIT_CODE
+
+
 def _run_ident(argv: Sequence[str]) -> int:
     import hashlib
     import json
@@ -899,6 +952,7 @@ ARG_HANDLERS = {
     "cosim": _run_cosim,
     "replay": _run_replay,
     "serve": _run_serve,
+    "quick": _run_quick,
 }
 
 

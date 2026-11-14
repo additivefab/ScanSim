@@ -82,6 +82,15 @@ zlscan run --mode physical --config configs/research_scenario.json --out scenari
 zlscan serve --run scenario_run
 ```
 
+快速交互演示路径（独立于正式研究链路）：
+
+```sh
+.venv/bin/zlscan quick --preset demo80 --out results/quick_demo
+.venv/bin/zlscan quick --serve --out results/quick_ui --port 8766
+```
+
+Quick 输出明确标记为 `SIMULATED / APPROXIMATE`，用于快速调参、播放和导出演示数据，不能当作硬件或实测验收。
+
 示例预算因未知吞吐/内存返回 4；超限预算返回 1 并保留诊断。
 可从 `scenario_run/inputs/resolved_scenario.json` 重跑，或用 replay 自动复用原配置。
 字段、双通道及参考标定语义见 `docs/reports/research_scenario.md`。
