@@ -11,7 +11,7 @@ from zlscan.cli import COMMANDS, USAGE_EXIT_CODE, main
 # docs/dev/02_architecture.md, section 8.
 PLANNED = {
     "budget", "check", "run", "sweep", "calibrate", "calibration-set", "reconstruct", "metrics",
-    "ident", "compare", "report", "cosim", "replay", "serve",
+    "ident", "compare", "report", "cosim", "replay", "serve", "quick",
 }  # fmt: skip
 
 
