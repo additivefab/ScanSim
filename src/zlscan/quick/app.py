@@ -85,7 +85,9 @@ class QuickHandler(BaseHTTPRequestHandler):
                 upload_path.write_bytes(base64.b64decode(str(upload), validate=True))
                 data["input_path"] = str(upload_path)
             cfg = QuickConfig.from_mapping(data)
-            run_id = time.strftime("run-%Y%m%d-%H%M%S") + f"-{time.time_ns()}-{threading.get_ident()}"
+            run_id = time.strftime("run-%Y%m%d-%H%M%S") + (
+                f"-{time.time_ns()}-{threading.get_ident()}"
+            )
             result = run_quick(cfg, self.server.root / "runs" / run_id)
             self.server.previous = self.server.latest
             self.server.latest = result.run_dir
