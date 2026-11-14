@@ -19,6 +19,7 @@ pytest tests/unit/test_sweep_compare.py tests/unit/test_cli.py \
 - CI/安装审计已有当前固定源码的六目标实工件。
 - 阶段 3/4 统一软件门禁已通过，包含两个全幅性能工件：4000×5000 为 861.80 s，7000×8600 为 771.82 s；结果见 `evidence_runs/2026-11-13_stage34_software_gate/acceptance.json`。
 - `legacy_cross_compare.md` 已保留光功率、PMT 阳极电流、对数级电压、ADC 输入和 ADC 码的逐环节静态残差，以及动态阶跃 RMS/边沿差异；这些是软件/冻结旧包对照，不是实测设备残差。
+- 新增 `tools/audit_stage7_residuals.py`，对上述静态链残差和两组边沿配准数据执行机器检查；当前结果为 `pass_with_scope`，并明确保留“实测设备残差未取得”失败项，回执见 `evidence_runs/2026-11-14_stage7_residual_audit/record/audit.json`。
 
 仍未关闭：
 

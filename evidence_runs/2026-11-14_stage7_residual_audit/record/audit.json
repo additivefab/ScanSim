@@ -1,0 +1,52 @@
+{
+  "format": "zlscan-stage7-residual-audit/1",
+  "scope": "software and frozen-package replay only; measured device acceptance is required separately",
+  "status": "pass_with_scope",
+  "criteria": [
+    {
+      "name": "static chain residuals",
+      "passed": true,
+      "detail": "rows=3; max_abs={'power_w': 1.0587911840678754e-22, 'anode_a': 2.167482773124396e-15, 'v_log': 4.6466608338846527e-11, 'v_adc': 3.2660429916120393e-10, 'code': 0.0}"
+    },
+    {
+      "name": "dynamic alignment residuals",
+      "passed": true,
+      "detail": "cases=2; aligned MSE does not exceed uncorrected MSE"
+    },
+    {
+      "name": "measured device residuals",
+      "passed": false,
+      "detail": "no measured device capture, independent timing record, or instrument trace was supplied"
+    }
+  ],
+  "static": {
+    "rows": 3,
+    "max_absolute_difference": {
+      "power_w": 1.0587911840678754e-22,
+      "anode_a": 2.167482773124396e-15,
+      "v_log": 4.6466608338846527e-11,
+      "v_adc": 3.2660429916120393e-10,
+      "code": 0.0
+    }
+  },
+  "dynamic": {
+    "demo_log": {
+      "shared_pixels": 55552,
+      "edge_calibrated_shift_px": 2.00631627103121,
+      "uncorrected_mse": 0.16716666468704544,
+      "edge_calibrated_mse": 0.01521576230851189,
+      "software_candidate_pass": true
+    },
+    "ad9268_50m_5x": {
+      "shared_pixels": 3840,
+      "edge_calibrated_shift_px": 2.0933100750504536,
+      "uncorrected_mse": 0.18960184633068178,
+      "edge_calibrated_mse": 0.027394450629991567,
+      "software_candidate_pass": true
+    }
+  },
+  "inputs": {
+    "legacy": "docs/reports/legacy_cross_compare_data.json",
+    "pair": "docs/reports/stage4_package_b_data.json"
+  }
+}
