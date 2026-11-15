@@ -22,7 +22,12 @@ from zlscan.budget.geometry import solve
 from zlscan.budget.memory import FrameSpec, board_memory
 from zlscan.budget.modes import AcquisitionMode, Stage, assess
 from zlscan.budget.photons import PhotonInputs, photon_budget
-from zlscan.budget.signals import SignalInputs, signal_budget
+from zlscan.budget.signals import (
+    LinearSignalInputs,
+    SignalInputs,
+    linear_signal_budget,
+    signal_budget,
+)
 from zlscan.contracts.param import Evidence
 from zlscan.evidence.table import load_parameters
 
@@ -268,6 +273,9 @@ def _signals(inputs: Inputs, photons: Any, out: dict[str, Any], densities: list[
     clear = (
         photons.rows[0].anode_current_a if photons.rows and photons.rows[0].density == 0 else None
     )
+    if inputs.num("budget.transimpedance_ohm") is not None:
+        _linear_signals(inputs, clear, out, densities)
+        return
     pol = inputs.num("budget.polarity")
     bits = inputs.num("adc.module_silkscreen_bits")
     inp = SignalInputs(
@@ -319,6 +327,69 @@ def _signals(inputs: Inputs, photons: Any, out: dict[str, Any], densities: list[
             "OD",
         )  # fmt: skip
     )
+
+
+def _linear_signals(inputs: Inputs, clear: Any, out: dict[str, Any], densities: list[float]):
+    """Transimpedance front end, selected by a known ``budget.transimpedance_ohm``."""
+    keys = [
+        "budget.linear_offset_v", "budget.transimpedance_ohm", "budget.driver_gain",
+        "budget.driver_offset_v", "budget.adc_vmin", "budget.adc_vmax",
+        "adc.module_silkscreen_bits", "pmt.dark_current_a",
+    ]  # fmt: skip
+    deps = _deps(inputs, keys)
+    bits = inputs.num("adc.module_silkscreen_bits")
+    r = linear_signal_budget(
+        LinearSignalInputs(
+            offset_v=inputs.num("budget.linear_offset_v"),
+            transimpedance_ohm=inputs.num("budget.transimpedance_ohm"),
+            driver_gain=inputs.num("budget.driver_gain"),
+            driver_offset_v=inputs.num("budget.driver_offset_v"),
+            adc_vmin=inputs.num("budget.adc_vmin"),
+            adc_vmax=inputs.num("budget.adc_vmax"),
+            adc_bits=None if bits is None else int(bits),
+            clear_current_a=clear,
+            dark_current_a=inputs.num("pmt.dark_current_a"),
+        ),
+        densities,
+    )
+    if r.missing:
+        out["conclusions"].append(
+            _conclusion(
+                "signals.levels",
+                "前端电平与 ADC 量程",
+                "UNRESOLVED",
+                None,
+                deps,
+                f"{UNCOMPUTABLE}：缺少 {', '.join(r.missing)}",
+            )  # fmt: skip
+        )
+        return
+    for row in r.rows:
+        out["conclusions"].append(
+            _conclusion(
+                f"signals.adc_v.D{row.density:g}",
+                f"D={row.density:g} ADC 输入电压",
+                "PASS" if row.in_adc_range else "FAIL",
+                row.adc_v,
+                deps,
+                "线性前端直流电平" if row.in_adc_range else "超出 ADC 量程",
+                "V",
+            )  # fmt: skip
+        )
+        note = f"此处一个码约合 {row.density_step_per_code:.3g} OD；只含量化，不含噪声"
+        if row.codes_above_dark < 1:
+            note = "底片信号不足一个 ADC 码，线性量化无法分辨；" + note
+        out["conclusions"].append(
+            _conclusion(
+                f"signals.codes.D{row.density:g}",
+                f"D={row.density:g} 高于暗电平的 ADC 码数",
+                "INFO",
+                row.codes_above_dark,
+                deps,
+                note,
+                "码",
+            )  # fmt: skip
+        )
 
 
 def _datapath(inputs: Inputs, geo: Any, cfg: dict[str, Any], out: dict[str, Any]) -> None:

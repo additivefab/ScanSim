@@ -257,6 +257,18 @@ def resolve_physics(
     return cfg, secondary
 
 
+def _scene_densities(cfg: ChainConfig) -> list[float]:
+    """Default budget levels, extended by whole decades up to the densest finite scene value."""
+    levels = {0.0, 1.0, 2.0, 3.0}
+    maps = [s.transmittance_map for s in cfg.scenes.values()]
+    positive = [m[m > 0] for m in maps]
+    floor = min((float(p.min()) for p in positive if p.size), default=1.0)
+    top = round(-math.log10(floor), 6)
+    if top > 3.0:
+        levels |= {float(d) for d in range(4, math.floor(top) + 1)} | {top}
+    return sorted(levels)
+
+
 def scenario_budget(loaded: LoadedScenario) -> dict:
     """Nominal primary-channel geometry/DC projection; no queue/hardware defaults."""
     cfg = loaded.primary
@@ -291,6 +303,8 @@ def scenario_budget(loaded: LoadedScenario) -> dict:
         "budget.log_offset_v": af.v0 if af.kind == "log" else None,
         "budget.log_slope_v_per_decade": af.slope_v_per_dec if af.kind == "log" else None,
         "budget.log_reference_current_a": af.i_ref_a if af.kind == "log" else None,
+        "budget.linear_offset_v": af.v0 if af.kind == "linear" else None,
+        "budget.transimpedance_ohm": af.r_t_ohm if af.kind == "linear" else None,
         "budget.channels": 2 if loaded.secondary else 1,
         "benchmark.width_pixels": sc.nx,
         "benchmark.height_pixels": loaded.document.lines,
@@ -308,6 +322,7 @@ def scenario_budget(loaded: LoadedScenario) -> dict:
     return dict(
         mode="research",
         inputs=inputs,
+        densities=_scene_densities(cfg),
         scenario=dict(
             name="versioned research scenario",
             assumed=True,

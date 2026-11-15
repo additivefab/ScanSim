@@ -107,3 +107,68 @@ def signal_budget(
         tau = sum(1 / (2 * math.pi * f) for f in pole_hz)
         result.tail_pixels = tau * pixel_rate_hz
     return result
+
+
+@dataclass(frozen=True)
+class LinearSignalInputs:
+    """Transimpedance front end: ``V = offset + R_t * I``, then ``gain * V + offset_drive``."""
+
+    offset_v: float | None = None
+    transimpedance_ohm: float | None = None
+    driver_gain: float | None = None
+    driver_offset_v: float | None = None
+    adc_vmin: float | None = None
+    adc_vmax: float | None = None
+    adc_bits: int | None = None
+    clear_current_a: float | None = None
+    dark_current_a: float | None = None
+
+
+@dataclass(frozen=True)
+class LinearSignalRow:
+    density: float
+    current_a: float
+    adc_v: float
+    in_adc_range: bool
+    margin_v: float
+    codes_above_dark: float  # film signal alone, in ADC codes; below one means unresolved
+    density_step_per_code: float  # |dD| of one code at this level: LSB / (ln 10 * signal)
+
+
+@dataclass
+class LinearSignalBudget:
+    status: Verdict
+    rows: list[LinearSignalRow] = field(default_factory=list)
+    missing: list[str] = field(default_factory=list)
+    lsb_v: float | None = None
+
+
+def linear_signal_budget(inp: LinearSignalInputs, densities: list[float]) -> LinearSignalBudget:
+    """DC levels of a linear front end. Quantisation only: no noise, no dynamics, no clipping."""
+    missing = [f.name for f in fields(inp) if getattr(inp, f.name) is None]
+    result = LinearSignalBudget(Verdict.UNRESOLVED if missing else Verdict.PASS, missing=missing)
+    if missing:
+        return result
+    if inp.adc_vmax <= inp.adc_vmin or inp.transimpedance_ohm <= 0 or inp.driver_gain <= 0:
+        raise ValueError("ADC range, transimpedance and driver gain must be positive and ordered")
+    result.lsb_v = (inp.adc_vmax - inp.adc_vmin) / 2**inp.adc_bits
+    scale = inp.driver_gain * inp.transimpedance_ohm
+    for d in densities:
+        signal_a = inp.clear_current_a * 10 ** (-d)
+        current = signal_a + inp.dark_current_a
+        v_adc = inp.driver_gain * (inp.offset_v + inp.transimpedance_ohm * current)
+        v_adc += inp.driver_offset_v
+        margin = min(v_adc - inp.adc_vmin, inp.adc_vmax - v_adc)
+        signal_v = scale * signal_a
+        result.rows.append(
+            LinearSignalRow(
+                d,
+                current,
+                v_adc,
+                margin >= 0,
+                margin,
+                signal_v / result.lsb_v,
+                result.lsb_v / (math.log(10) * signal_v),
+            )  # fmt: skip
+        )
+    return result
