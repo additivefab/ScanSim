@@ -93,6 +93,9 @@ class ChainConfig:
         d = asdict(self)
         if d["common_seed"] is None:  # unused option: identity of older configurations is kept
             del d["common_seed"]
+        for key in ("sat_current_a", "droop_per_a", "droop_tau_s"):
+            if d["detector"][key] is None:
+                del d["detector"][key]
         return d
 
     def hash(self) -> str:
@@ -127,6 +130,9 @@ class Chain:
             det_mod.DetectorResponse(cfg.detector.pole_hz, self.dt)
             if cfg.detector.pole_hz is not None
             else None
+        )
+        self.saturation = (
+            det_mod.Saturation(cfg.detector, self.dt) if cfg.detector.saturates else None
         )
         self.rng = CounterRng(cfg.seed)  # this channel only: detector and ADC noise
         self.common_rng = CounterRng(cfg.effective_common_seed)  # scanner and laser
@@ -199,6 +205,8 @@ class Chain:
 
         current, over = det_mod.anode_current(cfg.detector, power, self.dt, self.rng,
                                               cfg.domain_id, s0)  # fmt: skip
+        if self.saturation is not None:
+            current = self.saturation.process(current)
         if self.detector_response is not None:
             current = self.detector_response.process(current)
             if cfg.detector.anode_limit_a is not None:
@@ -257,6 +265,7 @@ class Chain:
                 "detector_response": (
                     self.detector_response.state() if self.detector_response is not None else None
                 ),
+                **({"saturation": self.saturation.state()} if self.saturation else {}),
             }
         ).encode()
 
@@ -270,6 +279,8 @@ class Chain:
         self.afe.set_state(d["afe"])
         if self.detector_response is not None:
             self.detector_response.set_state(d["detector_response"])
+        if self.saturation is not None:
+            self.saturation.set_state(d["saturation"])
 
 
 def merge(parts: list[ChunkOut]) -> ChunkOut:

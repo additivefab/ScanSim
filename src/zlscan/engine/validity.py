@@ -12,7 +12,9 @@ def physical_applicability(cfg: ChainConfig) -> dict:
     response = cfg.detector.pole_hz is not None
     dt_over_tau = 2 * math.pi * cfg.detector.pole_hz / (cfg.fs_hz * cfg.os) if response else None
     limits = [
-        "PMT anode limit is a warning only, not saturation or recovery physics",
+        "assumed PMT compression/droop candidate, not a measured saturation or recovery curve"
+        if cfg.detector.saturates
+        else "PMT anode limit is a warning only, not saturation or recovery physics",
         "polygon scanner, not a closed-loop galvanometer",
         "collection model does not establish local coating-defect response",
         "assumed parameters do not establish hardware capability",

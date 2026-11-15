@@ -50,10 +50,63 @@ class DetectorConfig:
     anode_limit_a: float | None = None
     pole_hz: float | None = None  # optional fast-response pole, ASSUMED when used
     shot_noise: bool = True
+    # Saturation candidate (spec 13.2), all ASSUMED and off when None.
+    sat_current_a: float | None = None  # soft-knee current of the static compression
+    droop_per_a: float | None = None  # steady-state fractional gain loss per ampere
+    droop_tau_s: float | None = None  # build-up and recovery time constant of that loss
 
     def __post_init__(self) -> None:
         if self.pole_hz is not None and (not np.isfinite(self.pole_hz) or self.pole_hz <= 0):
             raise ValueError("detector input-response pole must be positive and finite")
+        for value in (self.sat_current_a, self.droop_per_a, self.droop_tau_s):
+            if value is not None and (not np.isfinite(value) or value <= 0):
+                raise ValueError("saturation parameters must be positive and finite or null")
+        if (self.droop_per_a is None) != (self.droop_tau_s is None):
+            raise ValueError("gain droop needs both droop_per_a and droop_tau_s")
+
+    @property
+    def saturates(self) -> bool:
+        return self.sat_current_a is not None or self.droop_per_a is not None
+
+
+class Saturation:
+    """Anode compression and gain droop with recovery (candidate, spec 13.2).
+
+    I_c = I / (1 + I/I_sat)                     static soft knee
+    dd/dt = (kappa * I_c - d) / tau             droop state, exact for bin-constant current
+    I_out[k] = I_c[k] * max(0, 1 - d[k])        d[k] is the state at the start of bin k
+
+    The state starts at zero and is never reset at a line start. It is not a divider-chain
+    circuit model and no measured recovery curve supports its parameters yet.
+    """
+
+    def __init__(self, cfg: DetectorConfig, dt_s: float) -> None:
+        if not cfg.saturates or not np.isfinite(dt_s) or dt_s <= 0:
+            raise ValueError("saturation needs an enabled option and a positive time step")
+        self.sat = cfg.sat_current_a
+        self.kappa = cfg.droop_per_a
+        self.a = math.exp(-dt_s / cfg.droop_tau_s) if cfg.droop_tau_s else None
+        self.d = 0.0
+
+    def process(self, current: np.ndarray) -> np.ndarray:
+        x = np.asarray(current, dtype=float)
+        if self.sat is not None:
+            x = x / (1 + x / self.sat)
+        if self.kappa is None or not len(x):
+            return x
+        ends, _ = lfilter([(1 - self.a) * self.kappa], [1.0, -self.a], x, zi=[self.a * self.d])
+        starts = np.concatenate([[self.d], ends[:-1]])
+        self.d = float(ends[-1])
+        return x * np.maximum(0.0, 1 - starts)
+
+    def state(self) -> list[float]:
+        return [self.d]
+
+    def set_state(self, state: list[float]) -> None:
+        value = np.asarray(state, dtype=float)
+        if value.shape != (1,) or not np.all(np.isfinite(value)) or value[0] < 0:
+            raise ValueError("invalid saturation checkpoint state")
+        self.d = float(value[0])
 
 
 class DetectorResponse:
