@@ -90,7 +90,10 @@ def stream_physical(
         secondary.domain_id,
         secondary.adc.bits,
         secondary.scan,
-    ) or (primary.scan.row_jitter_s and primary.seed != secondary.seed):
+    ) or (
+        primary.scan.row_jitter_s
+        and primary.effective_common_seed != secondary.effective_common_seed
+    ):
         raise ValueError("dual physical channels require common scan timing and ADC sampling")
     step_count = line_steps(primary)
     if step_count <= 0:
@@ -114,7 +117,7 @@ def stream_physical(
         raise ValueError("dual streaming requires an aligned overflow signal")
     start_wall = time.perf_counter()
     chains = Chain(primary), Chain(secondary)
-    sync = sync_ticks(primary.scan, lines, chains[0].rng, primary.domain_id)
+    sync = sync_ticks(primary.scan, lines, chains[0].common_rng, primary.domain_id)
     capture_end = -(-(step_count * lines) // primary.os)
     windows = [
         Window(line, first, min(stop, capture_end))

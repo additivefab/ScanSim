@@ -66,7 +66,7 @@ def run_physical(
     dom = ClockDomain(cfg.domain_id, cfg.fs_hz)
     src = ConvertedSamples(res.codes.reshape(-1, 1), (0,), res.first_sample, 0, dom,
                            cfg.adc.bits, meta={"saturated": res.saturated})  # fmt: skip
-    syncs = scan_mod.sync_ticks(cfg.scan, lines, chain.rng, cfg.domain_id)
+    syncs = scan_mod.sync_ticks(cfg.scan, lines, chain.common_rng, cfg.domain_id)
     spp = max(1, round(cfg.fs_hz * cfg.scan.pitch_x_m / cfg.scan.v_x))
     window_cycles = round(cfg.scan.active_s * cfg.fs_hz)
     start_cycles = round(cfg.scan.window_start_s() * cfg.fs_hz)
@@ -133,7 +133,7 @@ def stream_raw(path: Path, cfg: ChainConfig, lines: int, acq: AcquisitionConfig 
     acq = acq or AcquisitionConfig(
         round(cfg.scan.window_start_s() * cfg.fs_hz), round(cfg.scan.active_s * cfg.fs_hz)
     )
-    syncs = scan_mod.sync_ticks(cfg.scan, lines, chain.rng, cfg.domain_id)
+    syncs = scan_mod.sync_ticks(cfg.scan, lines, chain.common_rng, cfg.domain_id)
     windows = enumerate(capture_windows(dom, syncs, acq))
     pending = next(windows, None)
     capture_end = -(-(steps * lines) // cfg.os)

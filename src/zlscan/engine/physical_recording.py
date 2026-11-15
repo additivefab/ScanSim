@@ -49,10 +49,8 @@ class PhysicalRecorder:
 
         if any(basis(c) != basis(first) for c in owned.values()) or first.adc.bits != link.bits:
             raise ValueError("physical channels require common scan timing and ADC sampling")
-        if first.scan.row_jitter_s and len({c.seed for c in owned.values()}) > 1:
-            raise ValueError(
-                "common scan jitter requires a common seed; independent noise keys pending"
-            )
+        if first.scan.row_jitter_s and len({c.effective_common_seed for c in owned.values()}) > 1:
+            raise ValueError("common scan jitter requires one common_seed for all channels")
         return owned
 
     def __init__(

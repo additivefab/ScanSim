@@ -337,7 +337,7 @@ def _dispatch(recorder, definition, command, stop):
                     line_start_s(
                         cfg.scan,
                         np.array([k]),
-                        next(iter(recorder.chains.values())).rng,
+                        next(iter(recorder.chains.values())).common_rng,
                         cfg.domain_id,
                     )[0]
                 )

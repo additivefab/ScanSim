@@ -251,7 +251,10 @@ def resolve_physics(
             or secondary.domain_id != cfg.domain_id
             or secondary.scan != cfg.scan
             or secondary.adc != cfg.adc
-            or (cfg.scan.row_jitter_s and secondary.seed != cfg.seed)
+            or (
+                cfg.scan.row_jitter_s
+                and secondary.effective_common_seed != cfg.effective_common_seed
+            )
         ):
             raise ValueError("dual channels require identical clocks, scan and ADC encoding")
     return cfg, secondary

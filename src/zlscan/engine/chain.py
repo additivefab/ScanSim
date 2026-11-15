@@ -81,9 +81,22 @@ class ChainConfig:
     legacy_reset_per_line: bool = False
     # Injected optical pulses (start_step, n_steps, extra_power_w), for causality and trace tests.
     injections: list[tuple[int, int, float]] = field(default_factory=list)
+    # Seed of the sources every channel of one instrument shares (row jitter, laser line noise).
+    # None keeps the single-seed behaviour: the channel seed drives them too.
+    common_seed: int | None = None
+
+    @property
+    def effective_common_seed(self) -> int:
+        return self.seed if self.common_seed is None else self.common_seed
+
+    def hash_payload(self) -> dict:
+        d = asdict(self)
+        if d["common_seed"] is None:  # unused option: identity of older configurations is kept
+            del d["common_seed"]
+        return d
 
     def hash(self) -> str:
-        d = asdict(self)
+        d = self.hash_payload()
         scenes = d.pop("scenes")
         d["scenes"] = {
             k: hashlib.sha256(np.ascontiguousarray(v["transmittance_map"]).tobytes()).hexdigest()
@@ -115,7 +128,8 @@ class Chain:
             if cfg.detector.pole_hz is not None
             else None
         )
-        self.rng = CounterRng(cfg.seed)
+        self.rng = CounterRng(cfg.seed)  # this channel only: detector and ADC noise
+        self.common_rng = CounterRng(cfg.effective_common_seed)  # scanner and laser
         self.afe = afe_mod.Afe(cfg.afe, self.dt)
         self.fine_clock = ClockDomain(cfg.domain_id, cfg.fs_hz * cfg.os)
         self.adc_clock = ClockDomain(cfg.domain_id, cfg.fs_hz)
@@ -155,7 +169,7 @@ class Chain:
     def _advance(self, n: int) -> ChunkOut:
         cfg, s0 = self.cfg, self.step
         t = (s0 + np.arange(n)) * self.dt
-        k, x, y, facet, inside = scan_mod.geometry(cfg.scan, t, self.rng, cfg.domain_id)
+        k, x, y, facet, inside = scan_mod.geometry(cfg.scan, t, self.common_rng, cfg.domain_id)
 
         t_eff = np.ones(n)
         laser_on = np.ones(n, dtype=bool)
@@ -174,7 +188,7 @@ class Chain:
                 scene = cfg.scenes[ph.scene]
                 t_eff[m] = psf_mod.effective_transmittance(scene.lookup, cfg.psf, x[m], y[m])
         u = np.clip((x - (cfg.scan.x_center_m - cfg.scan.width_m / 2)) / cfg.scan.width_m, 0, 1)
-        p0 = src_mod.power(cfg.source, t, k, self.rng, cfg.domain_id, inside, laser_on)
+        p0 = src_mod.power(cfg.source, t, k, self.common_rng, cfg.domain_id, inside, laser_on)
         eta = collect_mod.efficiency(cfg.collect, u)
         lit = laser_on & (inside if cfg.source.gated else True)
         power = p0 * eta * t_eff + np.where(lit, cfg.collect.stray_w, 0.0)
