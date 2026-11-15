@@ -15,3 +15,6 @@ evidence_runs/*/output/
 # Preserve the pre-fix benchmark outputs locally.
 evidence_runs/stage3_small_frame/end_to_end/
 evidence_runs/stage3_small_frame/stream.zlraw
+
+# Local interactive outputs (quick UI, ad-hoc runs).
+results/
