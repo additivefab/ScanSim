@@ -23,8 +23,32 @@ from zlscan.experiment.low_light import (
 )
 from zlscan.io.manifest import sha256_file
 
+PROTOCOL_2 = {
+    # Declared on 2026-11-16 from the protocol-1 power analysis, before any protocol-2 data:
+    # see docs/reports/low_light_protocol2.md. Margins and family alpha are unchanged.
+    "format": "zlscan-low-light-study/2",
+    "replicates": 96,
+    "fraction_method": "replicate-level Welch/paired t on per-run invalid fractions (each a "
+    "mean over thousands of samples); approximate, not distribution-free. Hoeffding kept as "
+    "'conservative'. Both arms all-zero is reported as no_invalid_observed, not equivalent",
+    "usable_range_rule": {"max_finest_grid_invalid_fraction": 0.5},
+}
 
-def specification(smoke=False):
+
+def specification(smoke=False, protocol=1, replicates=None):
+    spec = _specification(smoke)
+    if protocol == 2:
+        spec.update(PROTOCOL_2)
+        if smoke:
+            spec["replicates"] = 3
+    elif protocol != 1:
+        raise ValueError("unknown protocol")
+    if replicates is not None:
+        spec["replicates"] = replicates
+    return spec
+
+
+def _specification(smoke=False):
     return {
         "format": "zlscan-low-light-study/1",
         "evidence": "ASSUMED",
@@ -136,6 +160,24 @@ def generate(directory: Path, spec):
             print(f"generated assumed os={os}, replicate={rep}", flush=True)
     manifest = {"specification": spec, "captures": captures}
     (directory / "manifest.json").write_text(json.dumps(manifest, indent=2, allow_nan=False) + "\n")
+
+
+def protocol2(row, selected, grid, finest, margin, alpha, spec):
+    """Protocol-2 status: usable-range exclusion, then replicate-level t for fractions."""
+    left = selected(grid, metric="invalid_fraction")
+    right = selected(finest, metric="invalid_fraction")
+    known = [v for v in right if v is not None]
+    limit = spec["usable_range_rule"]["max_finest_grid_invalid_fraction"]
+    if not known or float(np.mean(known)) > limit:
+        return {**row, "protocol1_status": row["status"], "status": "outside_usable_range"}
+    if row["metric"] != "invalid_fraction":
+        return row
+    conservative = {k: row[k] for k in ("ci", "status", "method")}
+    approx = equivalence(left, right, margin, alpha=alpha, paired=row["paired"])
+    row = {**row, **approx, "method": "replicate-level t", "conservative": conservative}
+    if not any(v for v in left if v is not None) and not any(known):
+        row["status"] = "no_invalid_observed"
+    return row
 
 
 def analyze(directory: Path):
@@ -283,24 +325,26 @@ def analyze(directory: Path):
                             and r["expected_density"] == density
                         ]
 
-                    comparisons.append(
-                        {
-                            "family": "calibration",
-                            "grid": grid,
-                            "reference_grid": finest,
-                            "arm": arm,
-                            "expected_density": density,
-                            "metric": metric,
-                            **equivalence(
-                                selected(grid),
-                                selected(finest),
-                                margin,
-                                alpha=spec["family_alpha"] / (3 * 2 * 4 * 2),
-                                paired=arm == "fixed_finest",
-                                bounded_fraction=metric == "invalid_fraction",
-                            ),
-                        }
-                    )
+                    alpha = spec["family_alpha"] / (3 * 2 * 4 * 2)
+                    row = {
+                        "family": "calibration",
+                        "grid": grid,
+                        "reference_grid": finest,
+                        "arm": arm,
+                        "expected_density": density,
+                        "metric": metric,
+                        **equivalence(
+                            selected(grid),
+                            selected(finest),
+                            margin,
+                            alpha=alpha,
+                            paired=arm == "fixed_finest",
+                            bounded_fraction=metric == "invalid_fraction",
+                        ),
+                    }
+                    if spec["format"].endswith("/2"):
+                        row = protocol2(row, selected, grid, finest, margin, alpha, spec)
+                    comparisons.append(row)
     step_summaries, calibration_summaries = [], []
     for grid in spec["grids"]:
         runs = [r for r in step_rows if r["grid"] == grid]
@@ -362,6 +406,8 @@ if __name__ == "__main__":
     parser.add_argument("--out", type=Path)
     parser.add_argument("--reanalyze", type=Path)
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--protocol", type=int, choices=(1, 2), default=1)
+    parser.add_argument("--replicates", type=int)
     args = parser.parse_args()
     if args.reanalyze:
         result = analyze(args.reanalyze)
@@ -369,7 +415,7 @@ if __name__ == "__main__":
         assert result == expected, "fresh analysis differs from published result"
         print("fresh-process raw-only fit/reconstruction/statistical analysis matches report")
     else:
-        generate(args.out, specification(args.smoke))
+        generate(args.out, specification(args.smoke, args.protocol, args.replicates))
         result = analyze(args.out)
         (args.out / "report.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
         print(json.dumps(result["comparison_status_counts"]))
