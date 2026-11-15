@@ -79,6 +79,33 @@
 - 遗留问题与风险
 ```
 
+### 2026-11-16  Claude（N1、N2 进行中；因用量上限中断）
+
+- 已完成并提交：
+  - N1：预算器支持线性前端并把密度档扩到场景最大密度（`44a348c`）；`configs/zl80_baseline.json`
+    （由用户的 r5 配置派生：PMT 增益 500 使 D=0 不超限，场景改成真正的阶梯楔）、
+    解析扫描 `tools/zl80_baseline_study.py`（结果 `docs/reports/zl80_baseline_data.json`）、
+    整幅评价工具 `tools/zl80_full_frame_metrics.py`（`2b32d46`）。
+  - N2：协议 1 的 49 项归因与协议 2 预声明 `docs/reports/low_light_protocol2.md`（`da80161`）；
+    公共/独立随机源（D085，`cfb4587`）；PMT 压缩与下垂候选（D086，`0068e19`，规格待确认 Q020）。
+- 实际运行：`ruff check` 通过；`pytest -m "not slow"` 1581 通过、2 跳过（Icarus 不可用）。
+  **全量（含 slow）在这些改动之后未重跑。**
+- **两个后台运行在本条写下时尚未结束，结果未读取、未分析：**
+  - ZL80 双通道整幅 4000 行：输出 `evidence_runs/2026-11-16_zl80_baseline/output/full_frame`，
+    日志 `…/record/full_frame.log`（末行 `exit N` 表示结束）。源码为 `2b32d46`。
+    结束后跑 `tools/zl80_full_frame_metrics.py --run <该目录> --out …/record/metrics.json`。
+  - 低光协议 2（96 次重复）：输出 `evidence_runs/2026-11-16_low_light_protocol2/output/run`，
+    日志 `…/record/generation.log`。源码为 `da80161`。结束后跑 `--reanalyze`，
+    把结果追加到 `low_light_protocol2.md` 第 3 节，按其中预声明的口径判定。
+- 已得到的 N1 解析结论（全部为假设输入）：线性前端下功率×增益被 D=0 的阳极与 ADC 量程封顶；
+  基线 D=4.5 每像素约 27 个光电子、散粒噪声约 0.096 OD；要到 0.05 OD 需曝光约 3.7 倍，
+  到 0.02 OD 需约 23 倍。8 行试跑的两通道逐阶噪声与预算一致（未作为正式证据）。
+- 未做：N1 报告 `docs/reports/zl80_baseline.md` 未写；N3（运动、送片编码器、收光响应表）未开始；
+  N4 底板工程 `../扫描底_zl2.eprj2` 的电路载荷是加密的，常见 AES 组合试过均未解开，
+  需用户从嘉立创 EDA 导出网表或 PDF；N5 未开始。
+- 未提交的内容：两个证据目录的 `record/` 日志（运行结束后再提交）。
+- 下一步：读两个后台结果 → 写 N1 报告 → 追加协议 2 结果 → 全量 pytest → N3。
+
 ### 2026-11-15  Claude（全面评估与 N0 收口）
 
 - 做了什么：通读规则、决策、门槛审计与评审对照；实跑全量测试与 ZL80 场景；形成并写入下一步方案（D084）；
