@@ -27,13 +27,10 @@ import audit_stage34_acceptance as archived  # noqa: E402
 
 LOW_LIGHT = ROOT / "evidence_runs/2026-11-16_low_light_protocol2/record/summary.json"
 ZL80_METRICS = ROOT / "evidence_runs/2026-11-16_zl80_baseline/record/metrics.json"
+W07 = ROOT / "evidence_runs/2026-11-16_browser_w07/record/w07.json"
 ZL80_LOG = ROOT / "evidence_runs/2026-11-16_zl80_baseline/record/full_frame.log"
 
 NOT_EXECUTED = [
-    (
-        "browser:W07-paired-pages",
-        "paired off-film page scenario, see browser_workbench_2026-11-13.md",
-    ),
     ("browser:real-drag-frame-rate", "mouse-drag frame rate on a real browser"),
     ("browser:full-trace-visual", "full-length trace visual detail"),
     ("browser:cross-epoch-imaging", "cross-epoch imaging page"),
@@ -89,6 +86,18 @@ def zl80() -> list[dict]:
     return [ran, noise]
 
 
+def w07() -> dict:
+    d = json.loads(W07.read_text(encoding="utf-8"))["state_step_59999"]
+    a, b = d["demo"], d["demo_offfilm"]
+    differs = b["pmt.power_w"] > a["pmt.power_w"] and b["afe.v_adc"] != a["afe.v_adc"]
+    return criterion(
+        "browser:W07-paired-state",
+        "partial" if differs else "fail",
+        "off-film run changes front-end state at the same cursor; paired image/waveform "
+        "visual comparison not executed",
+    )
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--out", type=Path, required=True)
@@ -112,6 +121,7 @@ def main() -> None:
                                   c["detail"]))  # fmt: skip
     criteria.append(low_light())
     criteria.extend(zl80())
+    criteria.append(w07())
     criteria.extend(criterion(n, "not_executed", why) for n, why in NOT_EXECUTED)
     counts = {
         s: sum(c["status"] == s for c in criteria)

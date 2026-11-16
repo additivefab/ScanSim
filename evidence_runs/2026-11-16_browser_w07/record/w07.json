@@ -1,0 +1,14 @@
+{
+  "format": "zlscan-browser-check/1",
+  "item": "W07",
+  "date": "2026-11-16",
+  "source_commit": "87efdd6",
+  "how": "zlscan serve --port 8765 --lines 6 opened in the Claude desktop built-in browser; compare menu set to demo_offfilm and the model cursor moved to fine step 59999 on the page; the two runs' same-step state was then fetched with the page's own origin (fetch from the page context, not by clicking each control)",
+  "page_observed": {"compare_menu_options": ["无", "demo", "demo_offfilm"], "selected": "demo_offfilm", "cursor_step": 59999, "scan_window": "outside", "laser_gate": "off"},
+  "state_step_59999": {
+    "demo": {"pmt.power_w": 0.0, "pmt.current_a": 1.3343425708645587e-9, "afe.v_adc": 2.0072938061098746},
+    "demo_offfilm": {"pmt.power_w": 8e-06, "pmt.current_a": 0.0006149956690279579, "afe.v_adc": 0.30281507593584767}
+  },
+  "conclusion": "off-film illumination changes the front-end state at the same cursor while the beam is outside the scan window",
+  "scope": "SIMULATED demo runs; page paired selection and same-cursor state only. Not executed: image/waveform paired visual comparison, real mouse-drag frame rate, full-length trace visual detail, cross-epoch imaging"
+}

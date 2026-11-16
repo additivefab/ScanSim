@@ -3,9 +3,9 @@
   "scope": "software gates for stages 3/4 on this host; no browser/hardware/measured claim",
   "counts": {
     "pass": 9,
-    "partial": 1,
+    "partial": 2,
     "fail": 0,
-    "not_executed": 6
+    "not_executed": 5
   },
   "status": "software_pass_with_open_items",
   "criteria": [
@@ -17,7 +17,7 @@
     {
       "name": "tool:pytest",
       "status": "pass",
-      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1587 passed, 2 skipped, 34 deselected in 181.26s (0:03:01)"
+      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1587 passed, 2 skipped, 34 deselected in 179.99s (0:02:59)"
     },
     {
       "name": "archived:performance:4000x5000",
@@ -60,9 +60,9 @@
       "detail": "worst relative std error 0.011 over high-count steps (limit 0.05)"
     },
     {
-      "name": "browser:W07-paired-pages",
-      "status": "not_executed",
-      "detail": "paired off-film page scenario, see browser_workbench_2026-11-13.md"
+      "name": "browser:W07-paired-state",
+      "status": "partial",
+      "detail": "off-film run changes front-end state at the same cursor; paired image/waveform visual comparison not executed"
     },
     {
       "name": "browser:real-drag-frame-rate",
@@ -100,11 +100,11 @@
     },
     "pytest": {
       "returncode": 0,
-      "seconds": 182.2,
+      "seconds": 181.0,
       "tail": [
         "SKIPPED [1] tests/unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable",
         "SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable",
-        "1587 passed, 2 skipped, 34 deselected in 181.26s (0:03:01)"
+        "1587 passed, 2 skipped, 34 deselected in 179.99s (0:02:59)"
       ]
     }
   }
