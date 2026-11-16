@@ -12,7 +12,7 @@
 |---|---|
 | 当前方向 | 按 `docs/plan/下一步开发方案_2026-11-15.md` 执行（D084）：停止新增接口，围绕 ZL80 纵向打通，并取得第一批实测 |
 | 进行中的任务 | 无。N0–N5 的软件部分已做完；剩余项都依赖你的决定或实测 |
-| 下一个任务 | 等你：Q016 余项（扫描时间目标）、Q017（近期可做的测量）、Q018（入库策略）、Q019（stash）、N4 实测（`docs/dev/measurement_request.md`）、底板网表导出。收到后按该清单继续 |
+| 下一个任务 | 等你：Q018 外部存储位置与是否同意改写历史、Q019 确认丢弃 stash、N4 实测（`docs/dev/measurement_request.md`）、底板网表导出。收到后按该清单继续 |
 | 最近一次全量测试 | 2026-11-16 `tools/run_stage34_gates.py`：ruff 通过；`pytest -m "not slow"` 通过（Icarus 缺失，2 项跳过）；slow 的 34 项另跑通过（39.5 s）；合计 1587+34 通过、2 跳过 |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`；2026-11-15 已推送并核对，见会话日志 |
 | 未跟踪 | `configs/zl80_r5_scenario.json`（用户 2026-11-15 新建，N1 处理后再入库）；`results/` 已加入 `.gitignore` |
@@ -88,6 +88,7 @@
 - N5：`tools/run_stage34_gates.py`，报告 `evidence_runs/2026-11-16_stage34_gates/record/gates.json`：9 通过、1 部分、0 失败、6 未执行。
 - N4：写了 `docs/dev/measurement_request.md`。未取得任何实测。
 - 编码器观测接入重建：`zlscan reconstruct --encoder`（`recon/encoder.py`，8 项新测试）；`tools/export_feed_encoder.py` 导出仿真编码器文件（带 0.3 纹波的 6 行实跑：计数 0,21,46,72,97,119，名义应为 0,20,40…）。逐时期标定路径不支持，明确拒绝。
+- Q016、Q017 已答（D092、D093）：扫描时间 ≤30 s，选路线 C（100 µW、增益 250、1500 rpm，26.7 s，σ 0.048 OD，`configs/zl80_target_c_30s.json`）；近期没有实测，N4 搁置。Q018 选了外部存储但未给位置；Q019 stash 已核对被取代，待你确认丢弃。
 - Q016（部分）、Q020 已答（D090、D091）：设计目标 80×200 mm、50 µm、4.5 OD、σ≤0.05 OD；规格 13.2–13.4 采用且默认关闭。`configs/zl80_target_005od.json` 预算 0 FAIL，三条可行路线见 `reports/zl80_baseline.md`。待答只剩扫描时间目标（Q016 余项）、Q017–Q019。
 - Q015 已答：多面镜（D089）。N3 视为完成；振镜候选保持默认关闭，不再推进。待答仅剩 Q016–Q020。
 - 振镜：默认关闭的正弦轨迹候选（D088，规格 13.5，5 项测试）；无伺服/滞后/回程，不是闭环振镜模型，Q015 仍待你决定。
