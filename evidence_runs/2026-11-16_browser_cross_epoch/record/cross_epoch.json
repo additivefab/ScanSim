@@ -1,0 +1,15 @@
+{
+  "format": "zlscan-browser-check/1",
+  "date": "2026-11-16",
+  "source_commit": "9f8e529",
+  "how": "zlscan serve --images registry --port 8777 (8766 was already in use by another process and was left alone) in the Claude desktop built-in browser; registry points at the archived 'split' reconstruction of evidence_runs/2026-11-13_segmented_rows/output/developer-03 and its producer/raw.zlraw (SHA-256 matches split_capture.json)",
+  "page_observed": {
+    "header": "split, SIMULATED, session 19, epochs 0,1",
+    "image": "24x1 pixels rendered as gray steps; calibration id shown with status compatible_at_reconstruction",
+    "clicked_pixel": "row 0, column 18 (an epoch-1 sample)",
+    "pixel_readout": {"density_od": 1.8499133123899296, "flags": 0, "epochs": [1], "mixed_epoch": false, "sample_index": "118", "sample_time_ticks": "118000000", "session_id": 19, "normalized_weight": 1},
+    "check": "sample 118 = continuation block first_sample_index 112 + 6 columns past its column_offset 12; matches lineage.json segments (epoch 0 block at 100..111, epoch 1 block at 112..123)"
+  },
+  "status": "partial",
+  "scope": "one synthetic 24-column line split across two epochs with one common calibration. Not executed: imaging with a multi-point calibration set, a multi-line image, or a mixed_epoch pixel readout; no measured source"
+}

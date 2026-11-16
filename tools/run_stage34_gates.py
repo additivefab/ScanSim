@@ -28,11 +28,11 @@ import audit_stage34_acceptance as archived  # noqa: E402
 LOW_LIGHT = ROOT / "evidence_runs/2026-11-16_low_light_protocol2/record/summary.json"
 ZL80_METRICS = ROOT / "evidence_runs/2026-11-16_zl80_baseline/record/metrics.json"
 TRACE_DRAG = ROOT / "evidence_runs/2026-11-16_browser_trace_drag/record/browser_trace_drag.json"
+CROSS_EPOCH = ROOT / "evidence_runs/2026-11-16_browser_cross_epoch/record/cross_epoch.json"
 W07 = ROOT / "evidence_runs/2026-11-16_browser_w07/record/w07.json"
 ZL80_LOG = ROOT / "evidence_runs/2026-11-16_zl80_baseline/record/full_frame.log"
 
 NOT_EXECUTED = [
-    ("browser:cross-epoch-imaging", "cross-epoch imaging page"),
     ("hardware:M02-M08", "board/instrument measurements; none obtained"),
     ("rtl:icarus-cosim", "Icarus Verilog unavailable on this host"),
 ]
@@ -117,6 +117,17 @@ def trace_drag() -> list[dict]:
     ]
 
 
+def cross_epoch() -> dict:
+    d = json.loads(CROSS_EPOCH.read_text(encoding="utf-8"))["page_observed"]
+    ok = d["pixel_readout"]["epochs"] == [1] and d["pixel_readout"]["flags"] == 0
+    return criterion(
+        "browser:cross-epoch-imaging",
+        "partial" if ok else "fail",
+        "epoch-1 pixel lineage verified on one split line; multi-point calibration set, "
+        "multi-line and mixed_epoch readouts not executed",
+    )
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--out", type=Path, required=True)
@@ -142,6 +153,7 @@ def main() -> None:
     criteria.extend(zl80())
     criteria.append(w07())
     criteria.extend(trace_drag())
+    criteria.append(cross_epoch())
     criteria.extend(criterion(n, "not_executed", why) for n, why in NOT_EXECUTED)
     counts = {
         s: sum(c["status"] == s for c in criteria)

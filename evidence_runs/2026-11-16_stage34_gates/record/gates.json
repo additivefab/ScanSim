@@ -3,9 +3,9 @@
   "scope": "software gates for stages 3/4 on this host; no browser/hardware/measured claim",
   "counts": {
     "pass": 10,
-    "partial": 3,
+    "partial": 4,
     "fail": 0,
-    "not_executed": 3
+    "not_executed": 2
   },
   "status": "software_pass_with_open_items",
   "criteria": [
@@ -17,7 +17,7 @@
     {
       "name": "tool:pytest",
       "status": "pass",
-      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1596 passed, 2 skipped, 34 deselected in 180.13s (0:03:00)"
+      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1596 passed, 2 skipped, 34 deselected in 181.75s (0:03:01)"
     },
     {
       "name": "archived:performance:4000x5000",
@@ -76,8 +76,8 @@
     },
     {
       "name": "browser:cross-epoch-imaging",
-      "status": "not_executed",
-      "detail": "cross-epoch imaging page"
+      "status": "partial",
+      "detail": "epoch-1 pixel lineage verified on one split line; multi-point calibration set, multi-line and mixed_epoch readouts not executed"
     },
     {
       "name": "hardware:M02-M08",
@@ -100,11 +100,11 @@
     },
     "pytest": {
       "returncode": 0,
-      "seconds": 181.0,
+      "seconds": 182.7,
       "tail": [
         "SKIPPED [1] tests/unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable",
         "SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable",
-        "1596 passed, 2 skipped, 34 deselected in 180.13s (0:03:00)"
+        "1596 passed, 2 skipped, 34 deselected in 181.75s (0:03:01)"
       ]
     }
   }
