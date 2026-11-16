@@ -1,0 +1,130 @@
+{
+  "schema": "zlscan.zl80-full-frame-metrics/1",
+  "visibility": "ORACLE_ONLY",
+  "evidence": "assumed",
+  "lines": 4000,
+  "evaluated_lines": 3998,
+  "samples_per_line": 31831,
+  "pixel_time_s": 7.957747154594767e-07,
+  "note": "pixel = linear mean of ADC samples; white from off-film samples of channel 0; channel 1 scaled by the model transimpedance ratio; dark level is the model zero",
+  "channels": [
+    {
+      "channel": 0,
+      "transimpedance_ohm": 10000.0,
+      "steps": [
+        {
+          "density_true": 0.5,
+          "pixels": 1271364,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": -0.00013283395010016408,
+          "std_od": 0.0009498811102191711,
+          "budget_electrons_per_pixel": 266064.5304204616,
+          "budget_shot_sigma_od": 0.000959980688387087,
+          "budget_high_count_valid": true,
+          "mean_signal_codes": 17553.21280344776
+        },
+        {
+          "density_true": 2.0,
+          "pixels": 1271364,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": -9.501035845671524e-05,
+          "std_od": 0.0053399223445530575,
+          "budget_electrons_per_pixel": 8413.69920711816,
+          "budget_shot_sigma_od": 0.00539836812464738,
+          "budget_high_count_valid": true,
+          "mean_signal_codes": 555.0736374905492
+        },
+        {
+          "density_true": 3.5,
+          "pixels": 1275362,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": 0.0009069130179866214,
+          "std_od": 0.03021178149729917,
+          "budget_electrons_per_pixel": 266.0645304204616,
+          "budget_shot_sigma_od": 0.030357254850795472,
+          "budget_high_count_valid": true,
+          "mean_signal_codes": 17.553479566255454
+        },
+        {
+          "density_true": 4.5,
+          "pixels": 1275362,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": 0.009499034257948402,
+          "std_od": 0.09753947287463277,
+          "budget_electrons_per_pixel": 26.606453042046162,
+          "budget_shot_sigma_od": 0.09599806883870869,
+          "budget_high_count_valid": false,
+          "mean_signal_codes": 1.7595703997360115
+        }
+      ],
+      "white_reference_current_a": 8.467258919738553e-05,
+      "white_saturated_fraction": 0.0
+    },
+    {
+      "channel": 1,
+      "transimpedance_ohm": 320000.0,
+      "steps": [
+        {
+          "density_true": 0.5,
+          "pixels": 1271364,
+          "invalid_fraction": 1.0,
+          "saturated_pixel_fraction": 1.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": null,
+          "std_od": null,
+          "budget_electrons_per_pixel": 266064.5304204616,
+          "budget_shot_sigma_od": 0.000959980688387087,
+          "budget_high_count_valid": true,
+          "mean_signal_codes": 65535.5
+        },
+        {
+          "density_true": 2.0,
+          "pixels": 1271364,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": -0.00010336279908673696,
+          "std_od": 0.005348192417891613,
+          "budget_electrons_per_pixel": 8413.69920711816,
+          "budget_shot_sigma_od": 0.00539836812464738,
+          "budget_high_count_valid": true,
+          "mean_signal_codes": 17762.703065917467
+        },
+        {
+          "density_true": 3.5,
+          "pixels": 1275362,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": 0.0009505409611052507,
+          "std_od": 0.030128007722120743,
+          "budget_electrons_per_pixel": 266.0645304204616,
+          "budget_shot_sigma_od": 0.030357254850795472,
+          "budget_high_count_valid": true,
+          "mean_signal_codes": 561.6485033929216
+        },
+        {
+          "density_true": 4.5,
+          "pixels": 1275362,
+          "invalid_fraction": 0.0,
+          "saturated_pixel_fraction": 0.0,
+          "nonpositive_pixel_fraction": 0.0,
+          "bias_od": 0.01071774000764858,
+          "std_od": 0.09797456995358261,
+          "budget_electrons_per_pixel": 26.606453042046162,
+          "budget_shot_sigma_od": 0.09599806883870869,
+          "budget_high_count_valid": false,
+          "mean_signal_codes": 56.15523489536771
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5187 @@
+{
+ "specification": {
+  "format": "zlscan-low-light-study/2",
+  "evidence": "ASSUMED",
+  "scope": "Numerical candidate-model study, not measured performance or spatial calibration",
+  "grids": [
+   4,
+   8,
+   16,
+   32
+  ],
+  "replicates": 96,
+  "cycles": 64,
+  "phase_samples": 256,
+  "settle_samples": 512,
+  "reference_rows": 16,
+  "patch_columns": 64,
+  "validation_rows": 16,
+  "white_rate_s": 100000000.0,
+  "step_high_rate_s": 1000000.0,
+  "step_low_rate_s": 100000.0,
+  "reference_density": [
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0
+  ],
+  "held_out_density": [
+   0.5,
+   1.5,
+   2.5,
+   3.5
+  ],
+  "analysis_bin_pitch_m": 0.001,
+  "fs_hz": 1000000,
+  "bits": 16,
+  "assumptions": {
+   "excess_noise_factor": 1,
+   "input_response_hz": 20000,
+   "post_log_poles_hz": [
+    30000,
+    50000
+   ],
+   "adc_range_v": [
+    -1,
+    2.5
+   ]
+  },
+  "margins": {
+   "voltage_mean_v": 0.005,
+   "band_power_ratio": 1.25,
+   "bias_difference_od": 0.02,
+   "invalid_fraction_difference": 0.02
+  },
+  "family_alpha": 0.05,
+  "smoke_only": false,
+  "binding_policy": "named physical study instrument; os/seed recorded separately; cannot match production run calibration binding",
+  "band_power_scope": "Welch constant-detrended final half-phase windows; 7.8125 kHz bins, summed through 50 kHz, excludes unresolved low-frequency power",
+  "uncertainty_scope": "t intervals over independent runs, not correlated pixels; fixed-finest arm uses paired differences due to shared calibration fit; fractions use bounded Hoeffding intervals, including zero observed invalid counts",
+  "remaining": [
+   "measured PMT/input response",
+   "full parameter-range validation",
+   "source/channel noise separation",
+   "real device density capability"
+  ],
+  "fraction_method": "replicate-level Welch/paired t on per-run invalid fractions (each a mean over thousands of samples); approximate, not distribution-free. Hoeffding kept as 'conservative'. Both arms all-zero is reported as no_invalid_observed, not equivalent",
+  "usable_range_rule": {
+   "max_finest_grid_invalid_fraction": 0.5
+  }
+ },
+ "comparison_status_counts": {
+  "equivalent": 35,
+  "no_invalid_observed": 18,
+  "outside_usable_range": 12,
+  "inconclusive": 1
+ },
+ "comparisons": [
+  {
+   "family": "step",
+   "grid": 4,
+   "reference_grid": 32,
+   "metric": "down_initial_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": -0.0010960285426101501,
+   "ci": [
+    -0.002981373472789223,
+    0.0007893163875689227
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 4,
+   "reference_grid": 32,
+   "metric": "down_plateau_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": -9.750846819525649e-05,
+   "ci": [
+    -0.0022354199767545143,
+    0.0020404030403640013
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 4,
+   "reference_grid": 32,
+   "metric": "down_windowed_band_variance_v2",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.22314355131420976,
+   "alpha": 0.002777777777777778,
+   "log_ratio": true,
+   "estimate": 3.996189336064049e-05,
+   "ci": [
+    -0.04553206445134159,
+    0.045611988238062874
+   ],
+   "status": "equivalent",
+   "ratio_estimate": 1.0000399626918477,
+   "ratio_ci": [
+    0.9554889648513454,
+    1.0466682125798328
+   ]
+  },
+  {
+   "family": "step",
+   "grid": 4,
+   "reference_grid": 32,
+   "metric": "up_initial_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 0.0014322396864323156,
+   "ci": [
+    0.0003684999710302445,
+    0.0024959794018343867
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 4,
+   "reference_grid": 32,
+   "metric": "up_plateau_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 6.590160438656179e-05,
+   "ci": [
+    -0.000502750809344322,
+    0.0006345540181174455
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 4,
+   "reference_grid": 32,
+   "metric": "up_windowed_band_variance_v2",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.22314355131420976,
+   "alpha": 0.002777777777777778,
+   "log_ratio": true,
+   "estimate": -0.0054286730233616964,
+   "ci": [
+    -0.04873438384724041,
+    0.037877037800517016
+   ],
+   "status": "equivalent",
+   "ratio_estimate": 0.9945860355939079,
+   "ratio_ci": [
+    0.952434077978993,
+    1.038603516053763
+   ]
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 1.2472381442335534e-05,
+   "ci": [
+    -0.0027465848012298826,
+    0.0027715295641145537
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.0011858965490358503,
+   "ci": [
+    -0.009415763842128924,
+    0.007043970744057224
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.00010780183170686075,
+   "ci": [
+    -0.014431751354489377,
+    0.014647355017903098
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 89,
+   "n_right": 92,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.029541481659676613,
+   "ci": [
+    -0.07205375609169173,
+    0.012970792772338507
+   ],
+   "status": "outside_usable_range",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.009244791666666696,
+   "ci": [
+    -0.4054143968439545,
+    0.4239039801772879
+   ],
+   "status": "outside_usable_range",
+   "method": "bounded Hoeffding; independent runs",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.00029469399258906515,
+   "ci": [
+    -0.00018788285326991523,
+    0.0007772708384480455
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.00045004332023158844,
+   "ci": [
+    -0.0020462066103172872,
+    0.0011461199698541101
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0012697441090619432,
+   "ci": [
+    -0.003537223373865532,
+    0.006076711591989419
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 86,
+   "n_right": 86,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.027742003726402523,
+   "ci": [
+    -0.06458562221991396,
+    0.009101614767108919
+   ],
+   "status": "outside_usable_range",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 4,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.009244791666666696,
+   "ci": [
+    -0.38762001699570564,
+    0.40610960032903903
+   ],
+   "status": "outside_usable_range",
+   "method": "bounded Hoeffding; independent runs",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "step",
+   "grid": 8,
+   "reference_grid": 32,
+   "metric": "down_initial_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": -0.00041856421103952934,
+   "ci": [
+    -0.002479265798165622,
+    0.0016421373760865635
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 8,
+   "reference_grid": 32,
+   "metric": "down_plateau_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": -0.0008171748418912828,
+   "ci": [
+    -0.003282905847855114,
+    0.0016485561640725483
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 8,
+   "reference_grid": 32,
+   "metric": "down_windowed_band_variance_v2",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.22314355131420976,
+   "alpha": 0.002777777777777778,
+   "log_ratio": true,
+   "estimate": 0.008480151722236151,
+   "ci": [
+    -0.03687119070802489,
+    0.05383149415249719
+   ],
+   "status": "equivalent",
+   "ratio_estimate": 1.008516210063517,
+   "ratio_ci": [
+    0.9638002737846615,
+    1.0553067618116574
+   ]
+  },
+  {
+   "family": "step",
+   "grid": 8,
+   "reference_grid": 32,
+   "metric": "up_initial_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 0.00010913227888748565,
+   "ci": [
+    -0.0010265808672282612,
+    0.0012448454250032325
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 8,
+   "reference_grid": 32,
+   "metric": "up_plateau_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 0.00030558096125890555,
+   "ci": [
+    -0.00021912217409187924,
+    0.0008302840966096903
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 8,
+   "reference_grid": 32,
+   "metric": "up_windowed_band_variance_v2",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.22314355131420976,
+   "alpha": 0.002777777777777778,
+   "log_ratio": true,
+   "estimate": 0.0014739926282860694,
+   "ci": [
+    -0.041045104880782717,
+    0.043993090137354855
+   ],
+   "status": "equivalent",
+   "ratio_estimate": 1.001475079489363,
+   "ratio_ci": [
+    0.9597858379456685,
+    1.0449751342288518
+   ]
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.0012284527614257953,
+   "ci": [
+    -0.004025750718782483,
+    0.0015688451959308927
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.004146780364060382,
+   "ci": [
+    -0.012483652582155983,
+    0.004190091854035219
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.003230017894975651,
+   "ci": [
+    -0.017793287452749475,
+    0.011333251662798171
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 90,
+   "n_right": 92,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.02279183274569272,
+   "ci": [
+    -0.06781375817014224,
+    0.0222300926787568
+   ],
+   "status": "outside_usable_range",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.01920572916666674,
+   "ci": [
+    -0.3954534593439545,
+    0.43386491767728796
+   ],
+   "status": "outside_usable_range",
+   "method": "bounded Hoeffding; independent runs",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 6.532340430590727e-05,
+   "ci": [
+    -0.00038521944041918177,
+    0.0005158662490309964
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.00047347970756857205,
+   "ci": [
+    -0.002056692304146896,
+    0.001109732889009752
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.002748750034425984,
+   "ci": [
+    -0.002825877172486369,
+    0.008323377241338338
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 87,
+   "n_right": 87,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.01576734625501979,
+   "ci": [
+    -0.05957594121653507,
+    0.028041248706495485
+   ],
+   "status": "outside_usable_range",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 8,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.01920572916666674,
+   "ci": [
+    -0.3776590794957056,
+    0.4160705378290391
+   ],
+   "status": "outside_usable_range",
+   "method": "bounded Hoeffding; independent runs",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "step",
+   "grid": 16,
+   "reference_grid": 32,
+   "metric": "down_initial_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 0.0003405429852408881,
+   "ci": [
+    -0.0016288913562483203,
+    0.0023099773267300965
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 16,
+   "reference_grid": 32,
+   "metric": "down_plateau_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": -0.0012559109636848531,
+   "ci": [
+    -0.00360966239620414,
+    0.0010978404688344336
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 16,
+   "reference_grid": 32,
+   "metric": "down_windowed_band_variance_v2",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.22314355131420976,
+   "alpha": 0.002777777777777778,
+   "log_ratio": true,
+   "estimate": 0.003101509786390899,
+   "ci": [
+    -0.04411156096307885,
+    0.050314580535860645
+   ],
+   "status": "equivalent",
+   "ratio_estimate": 1.0031063244441512,
+   "ratio_ci": [
+    0.9568472047227594,
+    1.0516018578236859
+   ]
+  },
+  {
+   "family": "step",
+   "grid": 16,
+   "reference_grid": 32,
+   "metric": "up_initial_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 0.0005993613421633511,
+   "ci": [
+    -0.00048514354421275575,
+    0.001683866228539458
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 16,
+   "reference_grid": 32,
+   "metric": "up_plateau_mean_v",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.005,
+   "alpha": 0.002777777777777778,
+   "log_ratio": false,
+   "estimate": 0.00027859143239945816,
+   "ci": [
+    -0.00021645681083593124,
+    0.0007736396756348476
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "step",
+   "grid": 16,
+   "reference_grid": 32,
+   "metric": "up_windowed_band_variance_v2",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.22314355131420976,
+   "alpha": 0.002777777777777778,
+   "log_ratio": true,
+   "estimate": -0.007535411763084809,
+   "ci": [
+    -0.04968339376974227,
+    0.03461257024357265
+   ],
+   "status": "equivalent",
+   "ratio_estimate": 0.9924929082731104,
+   "ratio_ci": [
+    0.9515306373433305,
+    1.0352185566222547
+   ]
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.0014438723158639172,
+   "ci": [
+    -0.004225626668462691,
+    0.0013378820367348572
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.004776273118028002,
+   "ci": [
+    -0.013238863375722887,
+    0.0036863171396668837
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.0065914918368858155,
+   "ci": [
+    -0.020899917820676496,
+    0.007716934146904863
+   ],
+   "status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.4146591885106212,
+     0.4146591885106212
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 84,
+   "n_right": 92,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.03793633395468027,
+   "ci": [
+    -0.07981901280084695,
+    0.003946344891486417
+   ],
+   "status": "outside_usable_range",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": false,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.001464843750000111,
+   "ci": [
+    -0.4131943447606211,
+    0.41612403226062133
+   ],
+   "status": "outside_usable_range",
+   "method": "bounded Hoeffding; independent runs",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 9.745095176247331e-05,
+   "ci": [
+    -0.00039776472742145954,
+    0.0005926666309464062
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.00021386781466083138,
+   "ci": [
+    -0.0018111888161594944,
+    0.0013834531868378316
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0009007947484968581,
+   "ci": [
+    -0.004025661412049844,
+    0.00582725090904356
+   ],
+   "status": "equivalent"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "status": "no_invalid_observed",
+   "method": "replicate-level t",
+   "conservative": {
+    "ci": [
+     -0.39686480866237234,
+     0.39686480866237234
+    ],
+    "status": "inconclusive",
+    "method": "bounded Hoeffding; independent runs"
+   }
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "metric": "bias_od_valid_only",
+   "n_left": 81,
+   "n_right": 81,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": -0.02724294144372002,
+   "ci": [
+    -0.0727028486318086,
+    0.01821696574436857
+   ],
+   "status": "outside_usable_range",
+   "protocol1_status": "inconclusive"
+  },
+  {
+   "family": "calibration",
+   "grid": 16,
+   "reference_grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "metric": "invalid_fraction",
+   "n_left": 96,
+   "n_right": 96,
+   "paired": true,
+   "margin": 0.02,
+   "alpha": 0.0010416666666666667,
+   "log_ratio": false,
+   "estimate": 0.001464843750000111,
+   "ci": [
+    -0.3953999649123722,
+    0.39832965241237245
+   ],
+   "status": "outside_usable_range",
+   "method": "bounded Hoeffding; independent runs",
+   "protocol1_status": "inconclusive"
+  }
+ ],
+ "calibration_summaries": [
+  {
+   "grid": 4,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03726515917042639,
+    "ci": [
+     -0.03842207348616346,
+     -0.03610824485468932
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.10962243366896718,
+    "ci": [
+     -0.11304827631172777,
+     -0.10619659102620659
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.15305780071396338,
+    "ci": [
+     -0.15912327399068565,
+     -0.1469923274372411
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 89,
+    "mean": -0.06510544089604083,
+    "ci": [
+     -0.08295781873934362,
+     -0.047253063052738034
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8387044270833334,
+    "ci": [
+     0.7000937715639611,
+     0.9773150826027056
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03698293755927966,
+    "ci": [
+     -0.03814154379756239,
+     -0.035824331320996924
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.10888658044016292,
+    "ci": [
+     -0.11227350566342913,
+     -0.1054996552168967
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.1518958584366083,
+    "ci": [
+     -0.15760501873653093,
+     -0.14618669813668567
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 4,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 89,
+    "mean": -0.06005753113760243,
+    "ci": [
+     -0.0779433142449804,
+     -0.04217174803022446
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8387044270833334,
+    "ci": [
+     0.7000937715639611,
+     0.9773150826027056
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03850608431329452,
+    "ci": [
+     -0.039695173671402254,
+     -0.03731699495518678
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.11258331748399171,
+    "ci": [
+     -0.11609995594544936,
+     -0.10906667902253406
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.1563956204406459,
+    "ci": [
+     -0.16248130094375898,
+     -0.1503099399375328
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 90,
+    "mean": -0.05835579198205693,
+    "ci": [
+     -0.07826769772436867,
+     -0.0384438862397452
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8486653645833334,
+    "ci": [
+     0.7100547090639612,
+     0.9872760201027057
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.037212308147562816,
+    "ci": [
+     -0.038381432590138945,
+     -0.03604318370498669
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.1089100168274999,
+    "ci": [
+     -0.11225601288093082,
+     -0.10556402077406898
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.15041685251124426,
+    "ci": [
+     -0.15628085541510167,
+     -0.14455284960738685
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 8,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 90,
+    "mean": -0.04984687867209282,
+    "ci": [
+     -0.06864877697557933,
+     -0.031044980368606315
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8486653645833334,
+    "ci": [
+     0.7100547090639612,
+     0.9872760201027057
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03872150386773264,
+    "ci": [
+     -0.039897574654792545,
+     -0.037545433080672735
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.11321281023795933,
+    "ci": [
+     -0.11683447144165188,
+     -0.10959114903426678
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.15975709438255606,
+    "ci": [
+     -0.16562354322380174,
+     -0.15389064554131038
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 84,
+    "mean": -0.07350029319104448,
+    "ci": [
+     -0.09081309286326872,
+     -0.056187493518820235
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8309244791666668,
+    "ci": [
+     0.6923138236472945,
+     0.969535134686039
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03718018060010625,
+    "ci": [
+     -0.0383645230850662,
+     -0.0359958381151463
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.10865040493459216,
+    "ci": [
+     -0.11209692249478521,
+     -0.1052038873743991
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.15226480779717338,
+    "ci": [
+     -0.1579120725096151,
+     -0.14661754308473168
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 16,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 84,
+    "mean": -0.0658902671907976,
+    "ci": [
+     -0.08102248987095412,
+     -0.050758044510641094
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8309244791666668,
+    "ci": [
+     0.6923138236472945,
+     0.969535134686039
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "per_grid",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03727763155186872,
+    "ci": [
+     -0.03844656812466344,
+     -0.036108694979074006
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "per_grid",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.10843653711993133,
+    "ci": [
+     -0.11194788164953191,
+     -0.10492519259033074
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "per_grid",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.15316560254567024,
+    "ci": [
+     -0.15935625667571068,
+     -0.1469749484156298
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "per_grid",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 92,
+    "mean": -0.03556395923636421,
+    "ci": [
+     -0.05354315913910343,
+     -0.017584759333624998
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8294596354166667,
+    "ci": [
+     0.6908489798972944,
+     0.9680702909360389
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 0.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.03727763155186872,
+    "ci": [
+     -0.03844656812466344,
+     -0.036108694979074006
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 1.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.10843653711993133,
+    "ci": [
+     -0.11194788164953191,
+     -0.10492519259033074
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 2.5,
+   "bias_od_valid_only": {
+    "n": 96,
+    "mean": -0.15316560254567024,
+    "ci": [
+     -0.15935625667571068,
+     -0.1469749484156298
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.0,
+    "ci": [
+     0.0,
+     0.13861065551937227
+    ],
+    "method": "bounded Hoeffding"
+   }
+  },
+  {
+   "grid": 32,
+   "arm": "fixed_finest",
+   "expected_density": 3.5,
+   "bias_od_valid_only": {
+    "n": 92,
+    "mean": -0.03556395923636421,
+    "ci": [
+     -0.05354315913910343,
+     -0.017584759333624998
+    ]
+   },
+   "invalid_fraction": {
+    "n": 96,
+    "mean": 0.8294596354166667,
+    "ci": [
+     0.6908489798972944,
+     0.9680702909360389
+    ],
+    "method": "bounded Hoeffding"
+   }
+  }
+ ],
+ "step_summaries": [
+  {
+   "grid": 4,
+   "metrics": {
+    "down_initial_mean_v": {
+     "n": 96,
+     "mean": -0.13240521988485868,
+     "ci": [
+      -0.1333201289666475,
+      -0.13149031080306986
+     ]
+    },
+    "down_plateau_mean_v": {
+     "n": 96,
+     "mean": -0.24389474279461365,
+     "ci": [
+      -0.2447816476618164,
+      -0.2430078379274109
+     ]
+    },
+    "down_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.005790325976239755,
+     "ci": [
+      0.005676612786754324,
+      0.005904039165725185
+     ]
+    },
+    "up_initial_mean_v": {
+     "n": 96,
+     "mean": -0.011802567051033025,
+     "ci": [
+      -0.0122913488434069,
+      -0.01131378525865915
+     ]
+    },
+    "up_plateau_mean_v": {
+     "n": 96,
+     "mean": 0.04762325073918967,
+     "ci": [
+      0.047336241164937246,
+      0.04791026031344209
+     ]
+    },
+    "up_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.00031359593187460353,
+     "ci": [
+      0.0003072270367716112,
+      0.0003199648269775959
+     ]
+    }
+   }
+  },
+  {
+   "grid": 8,
+   "metrics": {
+    "down_initial_mean_v": {
+     "n": 96,
+     "mean": -0.13172775555328806,
+     "ci": [
+      -0.13279144763340148,
+      -0.13066406347317464
+     ]
+    },
+    "down_plateau_mean_v": {
+     "n": 96,
+     "mean": -0.24461440916830968,
+     "ci": [
+      -0.24581247652160573,
+      -0.24341634181501362
+     ]
+    },
+    "down_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.005838525129153785,
+     "ci": [
+      0.005726672669376947,
+      0.005950377588930623
+     ]
+    },
+    "up_initial_mean_v": {
+     "n": 96,
+     "mean": -0.013125674458577855,
+     "ci": [
+      -0.013679436288821472,
+      -0.012571912628334238
+     ]
+    },
+    "up_plateau_mean_v": {
+     "n": 96,
+     "mean": 0.04786293009606201,
+     "ci": [
+      0.04761416754557562,
+      0.0481116926465484
+     ]
+    },
+    "up_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.0003156450121978986,
+     "ci": [
+      0.0003095391507200319,
+      0.0003217508736757653
+     ]
+    }
+   }
+  },
+  {
+   "grid": 16,
+   "metrics": {
+    "down_initial_mean_v": {
+     "n": 96,
+     "mean": -0.13096864835700764,
+     "ci": [
+      -0.131956166898202,
+      -0.12998112981581328
+     ]
+    },
+    "down_plateau_mean_v": {
+     "n": 96,
+     "mean": -0.24505314529010325,
+     "ci": [
+      -0.24615065300366798,
+      -0.24395563757653851
+     ]
+    },
+    "down_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.0058124423231910236,
+     "ci": [
+      0.005690234170861433,
+      0.005934650475520614
+     ]
+    },
+    "up_initial_mean_v": {
+     "n": 96,
+     "mean": -0.01263544539530199,
+     "ci": [
+      -0.013143423485738947,
+      -0.012127467304865032
+     ]
+    },
+    "up_plateau_mean_v": {
+     "n": 96,
+     "mean": 0.04783594056720256,
+     "ci": [
+      0.04761480089167328,
+      0.048057080242731844
+     ]
+    },
+    "up_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.000312758087516372,
+     "ci": [
+      0.00030685130221754685,
+      0.0003186648728151971
+     ]
+    }
+   }
+  },
+  {
+   "grid": 32,
+   "metrics": {
+    "down_initial_mean_v": {
+     "n": 96,
+     "mean": -0.13130919134224853,
+     "ci": [
+      -0.1321383498688104,
+      -0.13048003281568665
+     ]
+    },
+    "down_plateau_mean_v": {
+     "n": 96,
+     "mean": -0.2437972343264184,
+     "ci": [
+      -0.24487995331542975,
+      -0.24271451533740704
+     ]
+    },
+    "down_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.005798181673056597,
+     "ci": [
+      0.005669944030029874,
+      0.00592641931608332
+     ]
+    },
+    "up_initial_mean_v": {
+     "n": 96,
+     "mean": -0.01323480673746534,
+     "ci": [
+      -0.013731334376279334,
+      -0.012738279098651347
+     ]
+    },
+    "up_plateau_mean_v": {
+     "n": 96,
+     "mean": 0.047557349134803105,
+     "ci": [
+      0.04732023300332662,
+      0.04779446526627959
+     ]
+    },
+    "up_windowed_band_variance_v2": {
+     "n": 96,
+     "mean": 0.00031524309542087394,
+     "ci": [
+      0.00030903157525824867,
+      0.0003214546155834992
+     ]
+    }
+   }
+  }
+ ],
+ "fits": [
+  {
+   "grid": 4,
+   "replicate": 0,
+   "status": "fit",
+   "fit_rms_code": 523.1406847759874,
+   "calibration_sha256": "31a268c8dd133eb84a26f9b52df703c1c05cbf4cdeac085adceffa15dcd5c5dc"
+  },
+  {
+   "grid": 4,
+   "replicate": 1,
+   "status": "fit",
+   "fit_rms_code": 526.6670330731082,
+   "calibration_sha256": "3cf35c4f48232ef1fa8e1b10cd693a5fc20bdb41ca85a8ef81d8455e9eccb49a"
+  },
+  {
+   "grid": 4,
+   "replicate": 2,
+   "status": "fit",
+   "fit_rms_code": 498.3069122481194,
+   "calibration_sha256": "1c43e4059778314be9fc4a6c26fbd70787d5b7fd80bbf8896d2cd72a264c4ad1"
+  },
+  {
+   "grid": 4,
+   "replicate": 3,
+   "status": "fit",
+   "fit_rms_code": 459.77175308511676,
+   "calibration_sha256": "c5f1ddc520e3b7bf92c28bbf0f87614330868d8ec95ba6553ee4308200a54a3d"
+  },
+  {
+   "grid": 4,
+   "replicate": 4,
+   "status": "fit",
+   "fit_rms_code": 528.1219894537332,
+   "calibration_sha256": "54123dc5c52eac53c0b0a8aa467b3ab62b5a348a5e469c2ad230cb2bcfbd2997"
+  },
+  {
+   "grid": 4,
+   "replicate": 5,
+   "status": "fit",
+   "fit_rms_code": 569.3511128696283,
+   "calibration_sha256": "228925aebce2bbbc4e64045988f40e3e89af88f34c6c02450e0c686dd904c6e8"
+  },
+  {
+   "grid": 4,
+   "replicate": 6,
+   "status": "fit",
+   "fit_rms_code": 553.5240167060772,
+   "calibration_sha256": "ba14b41cca0273590660ec1e8f781aa380fe7baa56bf1e0d06ad8164664d0456"
+  },
+  {
+   "grid": 4,
+   "replicate": 7,
+   "status": "fit",
+   "fit_rms_code": 488.79482965945857,
+   "calibration_sha256": "5e4de5cddee8b97ae8b0385d4c291a3a0d869eccea6a734aa49049127a5afba6"
+  },
+  {
+   "grid": 4,
+   "replicate": 8,
+   "status": "fit",
+   "fit_rms_code": 553.9301223385708,
+   "calibration_sha256": "c0eddae12ed66aba4e39d2167d8e0638b4a578b5b67731bfc7ef99fb744246ab"
+  },
+  {
+   "grid": 4,
+   "replicate": 9,
+   "status": "fit",
+   "fit_rms_code": 551.2011719483555,
+   "calibration_sha256": "3870d66237dd43e02c9ee7c918e3e1ebe2e567b469529f0d9dc71e249b20c44e"
+  },
+  {
+   "grid": 4,
+   "replicate": 10,
+   "status": "fit",
+   "fit_rms_code": 490.53798696893,
+   "calibration_sha256": "1352ee170aa2f727bcb464b0f7afe23fc4f9b2b55312bde81958a4856d8ad6f0"
+  },
+  {
+   "grid": 4,
+   "replicate": 11,
+   "status": "fit",
+   "fit_rms_code": 537.3037880009554,
+   "calibration_sha256": "0e45183b444d325a4870f1e7fb9b53655efe53063dcec47d531098a0c2bcd96a"
+  },
+  {
+   "grid": 4,
+   "replicate": 12,
+   "status": "fit",
+   "fit_rms_code": 534.392879193394,
+   "calibration_sha256": "85da61fa59394c302eda432ff865a9b59ffc88b06bc77aa58a669e3f84d92d44"
+  },
+  {
+   "grid": 4,
+   "replicate": 13,
+   "status": "fit",
+   "fit_rms_code": 541.2202242294062,
+   "calibration_sha256": "8e447f20fc4f2eb512cd2d058ba7f706d6537a3ace64ddde4b054172d2f32154"
+  },
+  {
+   "grid": 4,
+   "replicate": 14,
+   "status": "fit",
+   "fit_rms_code": 568.0714439696666,
+   "calibration_sha256": "56dc65e4ef444dbe001ede2120aadfb4c213b0d69024b3e12c432087fc3beb56"
+  },
+  {
+   "grid": 4,
+   "replicate": 15,
+   "status": "fit",
+   "fit_rms_code": 500.56881233664035,
+   "calibration_sha256": "55bb5ff0f0c457ffd472bedf76f9448e7190ee03e3044a155d22a4cf09e8e25c"
+  },
+  {
+   "grid": 4,
+   "replicate": 16,
+   "status": "fit",
+   "fit_rms_code": 536.6879237470492,
+   "calibration_sha256": "0bb6b69b3c0610de39705da2893d8510454e43a8c7db4a95349ddb019502e606"
+  },
+  {
+   "grid": 4,
+   "replicate": 17,
+   "status": "fit",
+   "fit_rms_code": 502.94723910935636,
+   "calibration_sha256": "8e5c0bec395a1a99e77d2d4d93063996429ff09c16b7dc531fa4639100ec7ce7"
+  },
+  {
+   "grid": 4,
+   "replicate": 18,
+   "status": "fit",
+   "fit_rms_code": 540.7271315397398,
+   "calibration_sha256": "0231e32e38d57782a2670a86c3d3248f8cc0d273fdcbbfda19f7d4b8c217650e"
+  },
+  {
+   "grid": 4,
+   "replicate": 19,
+   "status": "fit",
+   "fit_rms_code": 585.5240031061052,
+   "calibration_sha256": "27463aa4c5fe96287d6651d6bb41eb153be525e2267cc0f95e574f14f050fbff"
+  },
+  {
+   "grid": 4,
+   "replicate": 20,
+   "status": "fit",
+   "fit_rms_code": 497.9897008129072,
+   "calibration_sha256": "ee113441c8347c2c4fed12936beee21d3db057d417f779eaf3e334f36eed8dea"
+  },
+  {
+   "grid": 4,
+   "replicate": 21,
+   "status": "fit",
+   "fit_rms_code": 504.08325029129907,
+   "calibration_sha256": "4a175abecf0161534f87d2ffa4ec52dae49f419da2b89ab1b72e1e32fca20cf5"
+  },
+  {
+   "grid": 4,
+   "replicate": 22,
+   "status": "fit",
+   "fit_rms_code": 548.9676027419445,
+   "calibration_sha256": "ebf80aac175ddc36d1132abf6fb7b86d71c70761ebb8068cef273a8f7b68f085"
+  },
+  {
+   "grid": 4,
+   "replicate": 23,
+   "status": "fit",
+   "fit_rms_code": 536.9848638293507,
+   "calibration_sha256": "e1e43b40366a4f9394ac76f5008dd1b9e68e0b91d187fccfe33eee7083300b37"
+  },
+  {
+   "grid": 4,
+   "replicate": 24,
+   "status": "fit",
+   "fit_rms_code": 548.7586273444102,
+   "calibration_sha256": "2844bd8efd375f8a732cb2595ab259db3866d7df239d15136a909e9b9e347e6a"
+  },
+  {
+   "grid": 4,
+   "replicate": 25,
+   "status": "fit",
+   "fit_rms_code": 561.4255291792439,
+   "calibration_sha256": "10fbd29559a6940d2e5868524028fc7b2a75afeca1a3b236c6c0d025522357ed"
+  },
+  {
+   "grid": 4,
+   "replicate": 26,
+   "status": "fit",
+   "fit_rms_code": 509.59853211431476,
+   "calibration_sha256": "d7053ecbb6f13076bbda08d37f639414b4210c4dbf86f6729a47f48cc4042ad3"
+  },
+  {
+   "grid": 4,
+   "replicate": 27,
+   "status": "fit",
+   "fit_rms_code": 567.3620713900475,
+   "calibration_sha256": "a51fc96a5be0d726993ae47cfedbce49546694ad779297e8d534476926390eb5"
+  },
+  {
+   "grid": 4,
+   "replicate": 28,
+   "status": "fit",
+   "fit_rms_code": 523.2531759624926,
+   "calibration_sha256": "857595040b057a38fca26dd31287d4aecb7f44abefa8a385b5c38c74f8519733"
+  },
+  {
+   "grid": 4,
+   "replicate": 29,
+   "status": "fit",
+   "fit_rms_code": 533.695499380511,
+   "calibration_sha256": "7a81018b2353d007b675fe5142ff41340b5afe7247d594de36a1ab96f7b41a51"
+  },
+  {
+   "grid": 4,
+   "replicate": 30,
+   "status": "fit",
+   "fit_rms_code": 532.1368508033703,
+   "calibration_sha256": "d863cf03098c44009c7177ebcf7caa72d617c34092ba1a2a9877109446a04644"
+  },
+  {
+   "grid": 4,
+   "replicate": 31,
+   "status": "fit",
+   "fit_rms_code": 488.90540275559863,
+   "calibration_sha256": "944d700bc3d8b73f7567ffa064b0a1938018f7f17a063a221afcb21911fc5d02"
+  },
+  {
+   "grid": 4,
+   "replicate": 32,
+   "status": "fit",
+   "fit_rms_code": 493.04692395662,
+   "calibration_sha256": "af4fc230a97f4d61e42fb067be4b5153a54f1227c15e1f0e35f10ab87c4c546a"
+  },
+  {
+   "grid": 4,
+   "replicate": 33,
+   "status": "fit",
+   "fit_rms_code": 494.9725506848204,
+   "calibration_sha256": "b774491b3559868bbe1e33d9bcb195689d75c935a6b5596a47349d02c0978308"
+  },
+  {
+   "grid": 4,
+   "replicate": 34,
+   "status": "fit",
+   "fit_rms_code": 504.2432808410825,
+   "calibration_sha256": "807c9b6eb7c629fc76b124eab3772f4db144fa6cd551660100282e229974b4bb"
+  },
+  {
+   "grid": 4,
+   "replicate": 35,
+   "status": "fit",
+   "fit_rms_code": 508.13260665984325,
+   "calibration_sha256": "40497a206e0805f0b6ed696d96f9fe364b41a0c38c10aa912b506056b011dec0"
+  },
+  {
+   "grid": 4,
+   "replicate": 36,
+   "status": "fit",
+   "fit_rms_code": 536.8759068176172,
+   "calibration_sha256": "e6dece29ec7f7047704e5a22695050501f428fc4144b6ce517132bf1d7f18933"
+  },
+  {
+   "grid": 4,
+   "replicate": 37,
+   "status": "fit",
+   "fit_rms_code": 597.952418420353,
+   "calibration_sha256": "95e9917be2ab73ce666000f7b7a4663a23e45b838abff6567227c4e5cf0042e0"
+  },
+  {
+   "grid": 4,
+   "replicate": 38,
+   "status": "fit",
+   "fit_rms_code": 513.996681144562,
+   "calibration_sha256": "a25942d9145decddadc0b2ca2e3579cf7e094b86e23290a152e85ffee2150ec9"
+  },
+  {
+   "grid": 4,
+   "replicate": 39,
+   "status": "fit",
+   "fit_rms_code": 373.25871512013333,
+   "calibration_sha256": "b004f85c7d8d335461884644fddc71988b5f1ad26995b315e3aece17800dd03c"
+  },
+  {
+   "grid": 4,
+   "replicate": 40,
+   "status": "fit",
+   "fit_rms_code": 521.4611841004247,
+   "calibration_sha256": "693ab4b46d24e9881a332052de4f4c43e38104f929f637bfc0b7d59b8bed62b0"
+  },
+  {
+   "grid": 4,
+   "replicate": 41,
+   "status": "fit",
+   "fit_rms_code": 516.8806088916373,
+   "calibration_sha256": "cf90e4372a2cdc33a0bb945a828f1f92e686574ce1aa3ac0129c06b71a579f11"
+  },
+  {
+   "grid": 4,
+   "replicate": 42,
+   "status": "fit",
+   "fit_rms_code": 423.01585133842417,
+   "calibration_sha256": "c7aca30e0a86b6a5323c78545f5db473b37834515d7c4c181711b89eb2ba0086"
+  },
+  {
+   "grid": 4,
+   "replicate": 43,
+   "status": "fit",
+   "fit_rms_code": 511.92399743136554,
+   "calibration_sha256": "b9c5b6f2626d823c1aff1bea6871fb747d2a8f5ae128756d1981976174c32594"
+  },
+  {
+   "grid": 4,
+   "replicate": 44,
+   "status": "fit",
+   "fit_rms_code": 468.6140683186992,
+   "calibration_sha256": "bc8d86d8469f0d7d0f4942439bf8dd1a8f5749b9d2989b596b2b352391817f5c"
+  },
+  {
+   "grid": 4,
+   "replicate": 45,
+   "status": "fit",
+   "fit_rms_code": 613.5166314660621,
+   "calibration_sha256": "87f912e267045ed03f5b405b4a04fe8395c6e9075a181a31057505ecb88f65b7"
+  },
+  {
+   "grid": 4,
+   "replicate": 46,
+   "status": "fit",
+   "fit_rms_code": 511.6559862741807,
+   "calibration_sha256": "e794c4157ffb0181f817ba53dfca6f518c7dbe8ad9e8e2405cc6bae5ed1b38b6"
+  },
+  {
+   "grid": 4,
+   "replicate": 47,
+   "status": "fit",
+   "fit_rms_code": 555.4325608416922,
+   "calibration_sha256": "b82098214f717c9fea7bc4b3915be1c87d568ffb54ceb30eade6aba293f5061f"
+  },
+  {
+   "grid": 4,
+   "replicate": 48,
+   "status": "fit",
+   "fit_rms_code": 545.1832116745496,
+   "calibration_sha256": "d8ffc02575a3fbbae688b0696694736c284a233240c8ee349f3d31d9e715f6ed"
+  },
+  {
+   "grid": 4,
+   "replicate": 49,
+   "status": "fit",
+   "fit_rms_code": 503.09338182703107,
+   "calibration_sha256": "985aac91e857c8792a63de25222426a9bc773d6c51b5ff9f5d687a65a455e1c4"
+  },
+  {
+   "grid": 4,
+   "replicate": 50,
+   "status": "fit",
+   "fit_rms_code": 493.6679981188378,
+   "calibration_sha256": "1cf423ca1f888a3abfeb475ac78026b5f6404917ceaab53d335da362c05e0201"
+  },
+  {
+   "grid": 4,
+   "replicate": 51,
+   "status": "fit",
+   "fit_rms_code": 487.2523511342197,
+   "calibration_sha256": "840f0a5ea78c471d01e39c0339603ed37fb41d904f0f55444aaf07c5fa1921e8"
+  },
+  {
+   "grid": 4,
+   "replicate": 52,
+   "status": "fit",
+   "fit_rms_code": 475.08740841723335,
+   "calibration_sha256": "074b5473cd6e41e0d8f1ed50d80cbe4f4278dcf9da6bda2be4036d662f0fb4c9"
+  },
+  {
+   "grid": 4,
+   "replicate": 53,
+   "status": "fit",
+   "fit_rms_code": 533.815969460607,
+   "calibration_sha256": "9c06d19084a74aa4fbb723b454380b3a74027f4f3daee0739882e1bd39d11335"
+  },
+  {
+   "grid": 4,
+   "replicate": 54,
+   "status": "fit",
+   "fit_rms_code": 519.3408638665007,
+   "calibration_sha256": "190c3338cc732bfdbe0e686b3fddd1fb964da06007e5c087807da703b11983d5"
+  },
+  {
+   "grid": 4,
+   "replicate": 55,
+   "status": "fit",
+   "fit_rms_code": 507.91641534015616,
+   "calibration_sha256": "8f27301c87eb5716586e04cccccc556dd92a149a0379acc2607cd6b42e7a10ca"
+  },
+  {
+   "grid": 4,
+   "replicate": 56,
+   "status": "fit",
+   "fit_rms_code": 492.4561064997978,
+   "calibration_sha256": "be8f8422e9013949a0bfd4710bf2102f83c38e4924a036e9447ae37cf49b0b14"
+  },
+  {
+   "grid": 4,
+   "replicate": 57,
+   "status": "fit",
+   "fit_rms_code": 499.8000860562891,
+   "calibration_sha256": "79d9f6f5d21a9e73f062a840069ff17ccbb13238d7a3be895584f56fc67f3f19"
+  },
+  {
+   "grid": 4,
+   "replicate": 58,
+   "status": "fit",
+   "fit_rms_code": 497.5501833422555,
+   "calibration_sha256": "41a3ccd6ee296937efd2eaebd62628e80ae52a6dfbbe316f7d78c5a5be5bd85d"
+  },
+  {
+   "grid": 4,
+   "replicate": 59,
+   "status": "fit",
+   "fit_rms_code": 505.93926373369715,
+   "calibration_sha256": "1f11cfcfe76f9b4d5f4a185cbe404eb29a844900bbe84fefd051370a00f519b5"
+  },
+  {
+   "grid": 4,
+   "replicate": 60,
+   "status": "fit",
+   "fit_rms_code": 510.481826014971,
+   "calibration_sha256": "29157af13e9f46e4a888011093658f6cf2e32f203fc077670a6f78cf6dd46cd1"
+  },
+  {
+   "grid": 4,
+   "replicate": 61,
+   "status": "fit",
+   "fit_rms_code": 516.289033898945,
+   "calibration_sha256": "88deb5dc8a65e446c51ed7e94cf5e55e099c090c4ca6f2f9e50430d403938ddb"
+  },
+  {
+   "grid": 4,
+   "replicate": 62,
+   "status": "fit",
+   "fit_rms_code": 523.2738268573789,
+   "calibration_sha256": "b621278ba2243d8a0fc0e7a9e9d30f00921cd0070c7985c59671f62f78e3075e"
+  },
+  {
+   "grid": 4,
+   "replicate": 63,
+   "status": "fit",
+   "fit_rms_code": 521.8764281065135,
+   "calibration_sha256": "afcaae341c261d35a30a0ecdd169196c3f1a404452653d35f25a0ae791d6f854"
+  },
+  {
+   "grid": 4,
+   "replicate": 64,
+   "status": "fit",
+   "fit_rms_code": 561.3943440711066,
+   "calibration_sha256": "816db1d5892e66ef5234c4e3890f2b0906851fccad1dfe17462f5cb967bdaf4d"
+  },
+  {
+   "grid": 4,
+   "replicate": 65,
+   "status": "fit",
+   "fit_rms_code": 560.6555010592241,
+   "calibration_sha256": "6479e1104a18a09c0d2f50d391bd5b6668a5e228ea9cd19c34bcaf2c2cde47b8"
+  },
+  {
+   "grid": 4,
+   "replicate": 66,
+   "status": "fit",
+   "fit_rms_code": 572.8154092622335,
+   "calibration_sha256": "1e6762f47ab481243de9c298e1590f5cea838b928700e0192f20ba01cd5ecd3e"
+  },
+  {
+   "grid": 4,
+   "replicate": 67,
+   "status": "fit",
+   "fit_rms_code": 498.916717989806,
+   "calibration_sha256": "a931897185534fff3b951ce5f123bf5963cdea1d7990f5a448787726b24fde02"
+  },
+  {
+   "grid": 4,
+   "replicate": 68,
+   "status": "fit",
+   "fit_rms_code": 537.3088270328609,
+   "calibration_sha256": "6d4ee3198de6f6e119a6e17da5a1901dcf608bbcc4b3dbde26138c2bdad87ed5"
+  },
+  {
+   "grid": 4,
+   "replicate": 69,
+   "status": "fit",
+   "fit_rms_code": 594.1566268699124,
+   "calibration_sha256": "a81010c5306b509f733329bbc6f90e66e6270899c9610f22d0ac6413a704fe6f"
+  },
+  {
+   "grid": 4,
+   "replicate": 70,
+   "status": "fit",
+   "fit_rms_code": 502.49194399032945,
+   "calibration_sha256": "8e0462c922df561b2299bb8d0c71199a8d6426f4783c6b0dd270e1c5fbdbb4a6"
+  },
+  {
+   "grid": 4,
+   "replicate": 71,
+   "status": "fit",
+   "fit_rms_code": 482.1574108450291,
+   "calibration_sha256": "3831a98717398904d4b9b41c754d56a6c8cb04c74f9e64da0ae3e826d9a7709a"
+  },
+  {
+   "grid": 4,
+   "replicate": 72,
+   "status": "fit",
+   "fit_rms_code": 521.4984227278279,
+   "calibration_sha256": "c98d5e967615c516f10cdd1946755f83a1a14aded669ff0a876f2ea965b6e1dc"
+  },
+  {
+   "grid": 4,
+   "replicate": 73,
+   "status": "fit",
+   "fit_rms_code": 513.0941640387452,
+   "calibration_sha256": "08891e9dfa3e5ca59846d9ce78192b367d57696f5f4c5620bb5d4bb3bfb2b7b0"
+  },
+  {
+   "grid": 4,
+   "replicate": 74,
+   "status": "fit",
+   "fit_rms_code": 531.9126853847536,
+   "calibration_sha256": "a9624829bc079ea0264ac1836d20336efcf430d9beb026b1c2c09f6149e8beb2"
+  },
+  {
+   "grid": 4,
+   "replicate": 75,
+   "status": "fit",
+   "fit_rms_code": 542.940940113267,
+   "calibration_sha256": "6e0736b33f0a6d7b6e196e42fc296b9b9cce9e56e6cb2d00a5586eecee902f92"
+  },
+  {
+   "grid": 4,
+   "replicate": 76,
+   "status": "fit",
+   "fit_rms_code": 505.7032803123942,
+   "calibration_sha256": "efb482082c438a9063332e06a918819ce06e0dbce862bc180a51177526cadd56"
+  },
+  {
+   "grid": 4,
+   "replicate": 77,
+   "status": "fit",
+   "fit_rms_code": 524.9408988821644,
+   "calibration_sha256": "b1b3f724826c47aedc1510ce9334f285362542903faaae912060cdb168a0a31a"
+  },
+  {
+   "grid": 4,
+   "replicate": 78,
+   "status": "fit",
+   "fit_rms_code": 562.959304010812,
+   "calibration_sha256": "88a67ee9acdf497702bc6c80c3bd1c31f83c7eaa96c513e8a2d6d2eb790eb236"
+  },
+  {
+   "grid": 4,
+   "replicate": 79,
+   "status": "fit",
+   "fit_rms_code": 560.3881998933642,
+   "calibration_sha256": "d244cf9cbcb92aa92451240b334e0cbbc90256917aef04b67c8ac0659b760e6c"
+  },
+  {
+   "grid": 4,
+   "replicate": 80,
+   "status": "fit",
+   "fit_rms_code": 512.1194808172419,
+   "calibration_sha256": "12464aab1b47dc0f78e32c80cfacd20811840ed0971532c431dc7f4fb5566d42"
+  },
+  {
+   "grid": 4,
+   "replicate": 81,
+   "status": "fit",
+   "fit_rms_code": 553.8664449223464,
+   "calibration_sha256": "5532bf6a651a8e0267753432f4768bf8295f7e789ffd00701fcfd6611b8ccf10"
+  },
+  {
+   "grid": 4,
+   "replicate": 82,
+   "status": "fit",
+   "fit_rms_code": 514.4558824433201,
+   "calibration_sha256": "b1af445cfd9f3ebee367c499e45f89f8e2e6553028c109e7856de5601098cff8"
+  },
+  {
+   "grid": 4,
+   "replicate": 83,
+   "status": "fit",
+   "fit_rms_code": 477.28134031193747,
+   "calibration_sha256": "7e50b61750240766612882070e5740f3a68447fe8a51e21f3cc9a806e19bb2de"
+  },
+  {
+   "grid": 4,
+   "replicate": 84,
+   "status": "fit",
+   "fit_rms_code": 514.7997045630216,
+   "calibration_sha256": "55fb7ff2cd288c95c5864154d4d5b508333d9764e5161f23412d7247760c1580"
+  },
+  {
+   "grid": 4,
+   "replicate": 85,
+   "status": "fit",
+   "fit_rms_code": 529.7610097338776,
+   "calibration_sha256": "3cb625d2c602ca5e72264c3b3b74095c3be12aec423fb9e1e3c36b542c59e426"
+  },
+  {
+   "grid": 4,
+   "replicate": 86,
+   "status": "fit",
+   "fit_rms_code": 510.5703710824755,
+   "calibration_sha256": "0abd86633228fc1a76e604ffd0eec69ab10b70e75867bf42fccaaf310965f3f1"
+  },
+  {
+   "grid": 4,
+   "replicate": 87,
+   "status": "fit",
+   "fit_rms_code": 481.3251580871429,
+   "calibration_sha256": "65381330ca32a975f07de47e35a93ac88489d6606aec3b668624da5e337bea0c"
+  },
+  {
+   "grid": 4,
+   "replicate": 88,
+   "status": "fit",
+   "fit_rms_code": 514.2768050704495,
+   "calibration_sha256": "bf6b031ac814a8d08b1bc3a4e18298c7dc0ab5dbdb2945eda304bc39d960d658"
+  },
+  {
+   "grid": 4,
+   "replicate": 89,
+   "status": "fit",
+   "fit_rms_code": 507.3280967157037,
+   "calibration_sha256": "2fedbd6fe277d11da2e84fb568d49a5793ef433109d6afed7d82802f0b1ff33f"
+  },
+  {
+   "grid": 4,
+   "replicate": 90,
+   "status": "fit",
+   "fit_rms_code": 544.9321461962932,
+   "calibration_sha256": "3410c27e646bdbb552e4373ff52c89b4ef3f01a970c0b334b5789f434720aee8"
+  },
+  {
+   "grid": 4,
+   "replicate": 91,
+   "status": "fit",
+   "fit_rms_code": 485.5709274686016,
+   "calibration_sha256": "8cc3b6d4c2621e58db9bd1a40080f845cd725fac89ed45f40cadba50a42a1ba3"
+  },
+  {
+   "grid": 4,
+   "replicate": 92,
+   "status": "fit",
+   "fit_rms_code": 540.8433208434142,
+   "calibration_sha256": "61504108c604272e663eda82c2feb815ec4cd1cb983d6a8a8865de6dbf6fce62"
+  },
+  {
+   "grid": 4,
+   "replicate": 93,
+   "status": "fit",
+   "fit_rms_code": 577.4350499472395,
+   "calibration_sha256": "5825d395743128eee9d3f387ed7c5227aac79a36eeb95aa36c488e839ad74955"
+  },
+  {
+   "grid": 4,
+   "replicate": 94,
+   "status": "fit",
+   "fit_rms_code": 507.39936931490513,
+   "calibration_sha256": "570e838fff9923460f5327431461e51d9dae74dc2e7b272d1ad98577a0f58dc1"
+  },
+  {
+   "grid": 4,
+   "replicate": 95,
+   "status": "fit",
+   "fit_rms_code": 492.4131699988599,
+   "calibration_sha256": "6424248b65714b306503a137ca935ba5df53f3f72ae040b469ed8279daf438b3"
+  },
+  {
+   "grid": 8,
+   "replicate": 0,
+   "status": "fit",
+   "fit_rms_code": 565.6761058665354,
+   "calibration_sha256": "cbb2a9f373577fce1d13fcc9a95add38ee84043fbdce00cdebcc2250bdb6f1c7"
+  },
+  {
+   "grid": 8,
+   "replicate": 1,
+   "status": "fit",
+   "fit_rms_code": 509.73337753095296,
+   "calibration_sha256": "22832507f673fea4301f75bbbe53da9f6d2f545d2a2fe065df02af03735532fe"
+  },
+  {
+   "grid": 8,
+   "replicate": 2,
+   "status": "fit",
+   "fit_rms_code": 510.6110288571595,
+   "calibration_sha256": "0f896b2832b493c84fa72261dc6a9603dd73c04cac9fe2c994af392caad7e924"
+  },
+  {
+   "grid": 8,
+   "replicate": 3,
+   "status": "fit",
+   "fit_rms_code": 427.41817609458485,
+   "calibration_sha256": "63be0ee0300dc538acabcedaf1e6ee6b8dad80a17977eb1783f5d40b1c7bf5a9"
+  },
+  {
+   "grid": 8,
+   "replicate": 4,
+   "status": "fit",
+   "fit_rms_code": 526.7538599937092,
+   "calibration_sha256": "fd5627534431e0549368251dd3afa6c3b9ec303ff7b8b8afff7a65af90de861f"
+  },
+  {
+   "grid": 8,
+   "replicate": 5,
+   "status": "fit",
+   "fit_rms_code": 576.594850200806,
+   "calibration_sha256": "9f66200ae32ed73838599d5da25625fec854f288769ac3b9cce2739f7e3d46d1"
+  },
+  {
+   "grid": 8,
+   "replicate": 6,
+   "status": "fit",
+   "fit_rms_code": 493.8172942272184,
+   "calibration_sha256": "66bfde5ffdecac814c8000f16dbb0f75ade0368901ed6ceb5268d2246678ddf8"
+  },
+  {
+   "grid": 8,
+   "replicate": 7,
+   "status": "fit",
+   "fit_rms_code": 502.6293960358795,
+   "calibration_sha256": "94dda0220ae64172f668944601e4c7a7963a42f162c501b0925f8b43a2211523"
+  },
+  {
+   "grid": 8,
+   "replicate": 8,
+   "status": "fit",
+   "fit_rms_code": 491.1396628090686,
+   "calibration_sha256": "cf20498e701bac0a95fb46d7ad444dbd68012b487466cd5dfcdca673d23ff900"
+  },
+  {
+   "grid": 8,
+   "replicate": 9,
+   "status": "fit",
+   "fit_rms_code": 501.6202998173146,
+   "calibration_sha256": "725652cc42a4e94a34c647145c8fc0ad6afc85b34bfaf6da41b9a4f77f1cb6a0"
+  },
+  {
+   "grid": 8,
+   "replicate": 10,
+   "status": "fit",
+   "fit_rms_code": 488.32360474111545,
+   "calibration_sha256": "3b1f11a69ba87010de9c323d7bc1c9cf0a227b946a401ba4db6ee8d286bc81b3"
+  },
+  {
+   "grid": 8,
+   "replicate": 11,
+   "status": "fit",
+   "fit_rms_code": 532.128614624696,
+   "calibration_sha256": "1550efa12053ae0ff9ae33ca5ae9a27e117251b0b5cbd17578be8e3ebd36388b"
+  },
+  {
+   "grid": 8,
+   "replicate": 12,
+   "status": "fit",
+   "fit_rms_code": 483.1516660436665,
+   "calibration_sha256": "7a4900c72d0d56b05dfd5fa2cce5294d1f1bcb9af8f623d4752995d4f53e8576"
+  },
+  {
+   "grid": 8,
+   "replicate": 13,
+   "status": "fit",
+   "fit_rms_code": 509.4615347970147,
+   "calibration_sha256": "22767e51495e4c8b3873ac09c3bdb75f1ac23ff5d319ec0fd4efc43bb51233e9"
+  },
+  {
+   "grid": 8,
+   "replicate": 14,
+   "status": "fit",
+   "fit_rms_code": 480.6002953173344,
+   "calibration_sha256": "422838dbd2d4632ac333d1dd99203f10500722302c145bd60ff6ccfac4184c12"
+  },
+  {
+   "grid": 8,
+   "replicate": 15,
+   "status": "fit",
+   "fit_rms_code": 559.3583217963517,
+   "calibration_sha256": "07499dca7c2aba806b6cf9f105ee3b588dad3155bf5c00881cd3600c51b879d2"
+  },
+  {
+   "grid": 8,
+   "replicate": 16,
+   "status": "fit",
+   "fit_rms_code": 503.2290971743539,
+   "calibration_sha256": "beca08a0b76c6c1a1b68e49a3943232364d141bdb8d5cb7e7b074d80d54d6064"
+  },
+  {
+   "grid": 8,
+   "replicate": 17,
+   "status": "fit",
+   "fit_rms_code": 525.9376973787215,
+   "calibration_sha256": "fb3d7fed1ec89216d3964f607ab2cd4004dd8074642dd8a2b77ff9af9814228c"
+  },
+  {
+   "grid": 8,
+   "replicate": 18,
+   "status": "fit",
+   "fit_rms_code": 559.4077292656923,
+   "calibration_sha256": "488a4e6d0587e3c3ba82318addacb2004d0c43227100bf2ccdd80c689e9aca5c"
+  },
+  {
+   "grid": 8,
+   "replicate": 19,
+   "status": "fit",
+   "fit_rms_code": 524.1071670458819,
+   "calibration_sha256": "226727ea1116ffa1413fc159aa042c4094d14b92c771ad392d77a291d6e892f2"
+  },
+  {
+   "grid": 8,
+   "replicate": 20,
+   "status": "fit",
+   "fit_rms_code": 519.1350673539655,
+   "calibration_sha256": "cf1d244f9edfbe28224c3fdc09c237c32fb34b41b9ce3999ded36dfd1cca7344"
+  },
+  {
+   "grid": 8,
+   "replicate": 21,
+   "status": "fit",
+   "fit_rms_code": 509.102175716508,
+   "calibration_sha256": "4cbd7aeab82d02c76347d7ac6df6dd39b9206d1e941c9c256c73d9e34ff85f65"
+  },
+  {
+   "grid": 8,
+   "replicate": 22,
+   "status": "fit",
+   "fit_rms_code": 509.56025890369995,
+   "calibration_sha256": "b56b8cd45b6c21c17f90b395348c710d4133361ca38474222a18cbb6e2e6ef10"
+  },
+  {
+   "grid": 8,
+   "replicate": 23,
+   "status": "fit",
+   "fit_rms_code": 553.0991796836779,
+   "calibration_sha256": "75bdc0a285ba1e071a57359caad4f04ee3cf956a33374d1a74413b027e42504a"
+  },
+  {
+   "grid": 8,
+   "replicate": 24,
+   "status": "fit",
+   "fit_rms_code": 478.26367506377125,
+   "calibration_sha256": "6f5a4a55d501b02136b1943ea1d2b2d1a346ba34e308d3b2445adce9dc77a695"
+  },
+  {
+   "grid": 8,
+   "replicate": 25,
+   "status": "fit",
+   "fit_rms_code": 498.4953557912973,
+   "calibration_sha256": "cb3eb23a5dcf1879a4ac0c5b168bdeccafaf390de29b123b4cf0effbadd52e9c"
+  },
+  {
+   "grid": 8,
+   "replicate": 26,
+   "status": "fit",
+   "fit_rms_code": 484.1778959795476,
+   "calibration_sha256": "dcc25c6c5a6147597e7d444c437672f7ed3d3a22014e5d892c87d859053bbe7f"
+  },
+  {
+   "grid": 8,
+   "replicate": 27,
+   "status": "fit",
+   "fit_rms_code": 537.4584533278376,
+   "calibration_sha256": "cec3ef0352be95d3664dea59a1380dc63cbd629ca1204b5436b8328e824d6a89"
+  },
+  {
+   "grid": 8,
+   "replicate": 28,
+   "status": "fit",
+   "fit_rms_code": 487.7096175057123,
+   "calibration_sha256": "ea2ee28670fc6c78c5cf2a6e25f0f9e95ff896572e8e094e201662b78649d861"
+  },
+  {
+   "grid": 8,
+   "replicate": 29,
+   "status": "fit",
+   "fit_rms_code": 514.1197993864783,
+   "calibration_sha256": "21f170ed78b83fe464e1645526ec5ec4a79e3c06180d75aca8bb8cc9dd25014b"
+  },
+  {
+   "grid": 8,
+   "replicate": 30,
+   "status": "fit",
+   "fit_rms_code": 528.1589838025849,
+   "calibration_sha256": "0eac0e26be813dc39ad48403194ab91137d8ce5dd25081a03fd36d16fe329567"
+  },
+  {
+   "grid": 8,
+   "replicate": 31,
+   "status": "fit",
+   "fit_rms_code": 483.71584747719874,
+   "calibration_sha256": "5abcda029bb4303bed1669f779c6012e0329dc0f5f3604a303537efcbbb070f8"
+  },
+  {
+   "grid": 8,
+   "replicate": 32,
+   "status": "fit",
+   "fit_rms_code": 536.7128033272251,
+   "calibration_sha256": "3bb0df36c987b6227f050b94014a0cecba8c24aaf5458a490a5efa0fd6acddaa"
+  },
+  {
+   "grid": 8,
+   "replicate": 33,
+   "status": "fit",
+   "fit_rms_code": 479.8465559550431,
+   "calibration_sha256": "aff3aacd2dbdbdd13a20b193f856b0e2e309ba4b854b108229dbc86c2674a42d"
+  },
+  {
+   "grid": 8,
+   "replicate": 34,
+   "status": "fit",
+   "fit_rms_code": 539.2460947077045,
+   "calibration_sha256": "989542f6a224d1cc9b74cd5bcb55920c38c34244df51670e923f3d714219c9f6"
+  },
+  {
+   "grid": 8,
+   "replicate": 35,
+   "status": "fit",
+   "fit_rms_code": 540.9098996365611,
+   "calibration_sha256": "42df94a96bf16410a1478560b5a22bea183b2970cb4c8a3f777e3ead7392bc40"
+  },
+  {
+   "grid": 8,
+   "replicate": 36,
+   "status": "fit",
+   "fit_rms_code": 532.909987397113,
+   "calibration_sha256": "e614cc3c92c8b58d913600f97df7af6870eb912f7c0147b132d12ccefe59642e"
+  },
+  {
+   "grid": 8,
+   "replicate": 37,
+   "status": "fit",
+   "fit_rms_code": 573.881278778227,
+   "calibration_sha256": "d5117c25dec7d482a75b95054ef3ff75b69000e3155a34b04b9b36e08f92f430"
+  },
+  {
+   "grid": 8,
+   "replicate": 38,
+   "status": "fit",
+   "fit_rms_code": 522.9812414158558,
+   "calibration_sha256": "ad4908de4e298f4a995fbdc702fd9e6deb9e28905ac3f8992a2ca13e5ca5c9eb"
+  },
+  {
+   "grid": 8,
+   "replicate": 39,
+   "status": "fit",
+   "fit_rms_code": 547.5759245148878,
+   "calibration_sha256": "6bfdae80e4bb1651cecb6addbf64f12b9f1821f1c74b4ee9086af65312de9d80"
+  },
+  {
+   "grid": 8,
+   "replicate": 40,
+   "status": "fit",
+   "fit_rms_code": 569.6080144747792,
+   "calibration_sha256": "cd2fccc34063a5fded0de0b02416837eecbef4df53cc5dded7ec0d657d4bf5f4"
+  },
+  {
+   "grid": 8,
+   "replicate": 41,
+   "status": "fit",
+   "fit_rms_code": 551.0054719887237,
+   "calibration_sha256": "123acada0a63cf56f089598e2a42ec3ff4019a3129fd8026ac9edcaa4d5aa1f1"
+  },
+  {
+   "grid": 8,
+   "replicate": 42,
+   "status": "fit",
+   "fit_rms_code": 530.75385812925,
+   "calibration_sha256": "c6e77e4b4d21f7171a5fd0222165d92072fdffe4adfaf0f9a713180e25f4f1e6"
+  },
+  {
+   "grid": 8,
+   "replicate": 43,
+   "status": "fit",
+   "fit_rms_code": 537.7344607938875,
+   "calibration_sha256": "0938a41df8db732d36ef772d8ee50ad9794b376a5132f03116d2293f1cd931b8"
+  },
+  {
+   "grid": 8,
+   "replicate": 44,
+   "status": "fit",
+   "fit_rms_code": 549.3130408044507,
+   "calibration_sha256": "a596e2ee2b79a1e183fc421511a8eb3b74854fed45c08a6b25c6433c69d8d1ec"
+  },
+  {
+   "grid": 8,
+   "replicate": 45,
+   "status": "fit",
+   "fit_rms_code": 520.954519708196,
+   "calibration_sha256": "87277ab6f025d1c7c4f35303316174683214a69d3acf224ae2b1f211228a1f17"
+  },
+  {
+   "grid": 8,
+   "replicate": 46,
+   "status": "fit",
+   "fit_rms_code": 522.8351372536163,
+   "calibration_sha256": "fe7e5218ecac222d0657defc45650789b3f3133e84a8465467560043552e2081"
+  },
+  {
+   "grid": 8,
+   "replicate": 47,
+   "status": "fit",
+   "fit_rms_code": 509.42630596598593,
+   "calibration_sha256": "4f0269de1c87d14c233dc7fd8baa855496b158a2baffb8f21b82f34435893a1c"
+  },
+  {
+   "grid": 8,
+   "replicate": 48,
+   "status": "fit",
+   "fit_rms_code": 517.083079784591,
+   "calibration_sha256": "9448fafdc8edabc7d2e9467689835e89199e484feb52dd04eb5c9f3199f60a11"
+  },
+  {
+   "grid": 8,
+   "replicate": 49,
+   "status": "fit",
+   "fit_rms_code": 480.3588590716578,
+   "calibration_sha256": "699c5573529e859d223452c5b173440d6649bb36073e5d965e6a37d81e42e497"
+  },
+  {
+   "grid": 8,
+   "replicate": 50,
+   "status": "fit",
+   "fit_rms_code": 498.5621317832486,
+   "calibration_sha256": "75e9cfa10075e57ba27bfcbb9218c0e74800af8994fd155537ce6a0ea0ec8f36"
+  },
+  {
+   "grid": 8,
+   "replicate": 51,
+   "status": "fit",
+   "fit_rms_code": 501.8710685314717,
+   "calibration_sha256": "a6737e8d2df6e5f99a7236377966b2b0557dff2ce00fb61ec4fd2a9569d8b853"
+  },
+  {
+   "grid": 8,
+   "replicate": 52,
+   "status": "fit",
+   "fit_rms_code": 515.5287432562249,
+   "calibration_sha256": "ffc23fdfcbe2f4659a484d379ba1cf7cbe265d16dca73b791119034958081171"
+  },
+  {
+   "grid": 8,
+   "replicate": 53,
+   "status": "fit",
+   "fit_rms_code": 504.18773269650427,
+   "calibration_sha256": "0a19871f288afd022bdc48ad1c4c3ec597355fce50d0b59aea55997c2d4da446"
+  },
+  {
+   "grid": 8,
+   "replicate": 54,
+   "status": "fit",
+   "fit_rms_code": 483.76968478908174,
+   "calibration_sha256": "85d35da6f4d0682a5f61bd48be3ea39d81dacd7dcbba9367546aa756d64aa4fd"
+  },
+  {
+   "grid": 8,
+   "replicate": 55,
+   "status": "fit",
+   "fit_rms_code": 531.192657440212,
+   "calibration_sha256": "558568992bf3f54d96a1a9d00c0f5d461796ef26331d388f6451b2c43b433604"
+  },
+  {
+   "grid": 8,
+   "replicate": 56,
+   "status": "fit",
+   "fit_rms_code": 524.1632026432479,
+   "calibration_sha256": "603617f1c7e0ddd98d672c5dbd93bb09b89fc1878bba37dfd245d4223885143f"
+  },
+  {
+   "grid": 8,
+   "replicate": 57,
+   "status": "fit",
+   "fit_rms_code": 523.3822397357483,
+   "calibration_sha256": "d755a67f72eed8d419d6ba4a812fe3384cb63a4cbae0341b3cac7cc114f3c40a"
+  },
+  {
+   "grid": 8,
+   "replicate": 58,
+   "status": "fit",
+   "fit_rms_code": 538.9647290232001,
+   "calibration_sha256": "1d2764d76a95697fb1a26871c8f9122162279d2d939685436c09ef97c7d2c54a"
+  },
+  {
+   "grid": 8,
+   "replicate": 59,
+   "status": "fit",
+   "fit_rms_code": 506.7564359185385,
+   "calibration_sha256": "1c1ab4baf4d973156f58588ac7221cabaf13669984013a3ca291226773e334c9"
+  },
+  {
+   "grid": 8,
+   "replicate": 60,
+   "status": "fit",
+   "fit_rms_code": 499.78960549219556,
+   "calibration_sha256": "ffb3026535076b4d725dfa9207ca97844ac00152a651e1c0de459ec61d147835"
+  },
+  {
+   "grid": 8,
+   "replicate": 61,
+   "status": "fit",
+   "fit_rms_code": 565.8784634780367,
+   "calibration_sha256": "1e70e18de78460807fce82dfd24f1709bc4c071cbc04af83964339b1ec94b1d6"
+  },
+  {
+   "grid": 8,
+   "replicate": 62,
+   "status": "fit",
+   "fit_rms_code": 528.4770393149904,
+   "calibration_sha256": "349005ad5db8c623b1a09d3223d0a9c9e0f1245bc419dc54b43615affb604d42"
+  },
+  {
+   "grid": 8,
+   "replicate": 63,
+   "status": "fit",
+   "fit_rms_code": 499.84932330919673,
+   "calibration_sha256": "bb25a00a59e664b844a3e5616dab26a165a55ae60582e2eda5a467675641c4ad"
+  },
+  {
+   "grid": 8,
+   "replicate": 64,
+   "status": "fit",
+   "fit_rms_code": 609.1214020717426,
+   "calibration_sha256": "18f3de5591f50428dd55d3c3feacc6ffe7d2959e7cbf0096fcdc3567bfcd8017"
+  },
+  {
+   "grid": 8,
+   "replicate": 65,
+   "status": "fit",
+   "fit_rms_code": 508.117909175212,
+   "calibration_sha256": "bf4817969a313064dcc92952ee084ed383443050b12f39d63779da72c3c467af"
+  },
+  {
+   "grid": 8,
+   "replicate": 66,
+   "status": "fit",
+   "fit_rms_code": 513.2956051146572,
+   "calibration_sha256": "7016384dec0db34ae43d3bd8f0abe5a244d76c94b14d8a84501ace4565149929"
+  },
+  {
+   "grid": 8,
+   "replicate": 67,
+   "status": "fit",
+   "fit_rms_code": 483.5482626445939,
+   "calibration_sha256": "199766d3425d3ecb71493137665d20da9f1e2fe88bb97274fa3752fa41562e25"
+  },
+  {
+   "grid": 8,
+   "replicate": 68,
+   "status": "fit",
+   "fit_rms_code": 513.3623587302461,
+   "calibration_sha256": "10ecef7f2f837c9490263494d1b89157db060b7bdd94728f9f5a9f87fd81cc2d"
+  },
+  {
+   "grid": 8,
+   "replicate": 69,
+   "status": "fit",
+   "fit_rms_code": 501.8750080180223,
+   "calibration_sha256": "eabf1acd9e9385cb01dd1bf55f67235df26c3519a8327ea7d139bd6e9c59f796"
+  },
+  {
+   "grid": 8,
+   "replicate": 70,
+   "status": "fit",
+   "fit_rms_code": 521.8290027796268,
+   "calibration_sha256": "05e7d17194db8e3f3b4b2b1bb1fd4d0f413c381b3fb44649ce98a078011a8bac"
+  },
+  {
+   "grid": 8,
+   "replicate": 71,
+   "status": "fit",
+   "fit_rms_code": 533.3692412700158,
+   "calibration_sha256": "70f5e6cde039f426de1de62d840674084b9dc64fdb4489ee177ab25091a41d8d"
+  },
+  {
+   "grid": 8,
+   "replicate": 72,
+   "status": "fit",
+   "fit_rms_code": 522.8944494921492,
+   "calibration_sha256": "2abb16b9a7ebee612aec091f80650443bb5ade2d6a96e6f48c9860d25414cd42"
+  },
+  {
+   "grid": 8,
+   "replicate": 73,
+   "status": "fit",
+   "fit_rms_code": 556.9948372240698,
+   "calibration_sha256": "83c253322ade9de6b8e6db5921f0a59ac5d4679656f5d3f1efad4a2ac7975fe8"
+  },
+  {
+   "grid": 8,
+   "replicate": 74,
+   "status": "fit",
+   "fit_rms_code": 532.5719841193978,
+   "calibration_sha256": "fe38b178c49d51b2862706130bf6cbf98c49dfa80b5a5c9abb9bc29ef103a5ce"
+  },
+  {
+   "grid": 8,
+   "replicate": 75,
+   "status": "fit",
+   "fit_rms_code": 485.8109466141604,
+   "calibration_sha256": "98930a13df742486631f0f2bed3a929d1498194c4c85304539ba4a0f4b4667ee"
+  },
+  {
+   "grid": 8,
+   "replicate": 76,
+   "status": "fit",
+   "fit_rms_code": 514.29213567765,
+   "calibration_sha256": "0a9f515eaa75bba697b65be3f08dd7e74fe899d8f176709df4c0d2b3506329d4"
+  },
+  {
+   "grid": 8,
+   "replicate": 77,
+   "status": "fit",
+   "fit_rms_code": 535.8176371947793,
+   "calibration_sha256": "3e83abae39a4d561b02aaf112d18ad677c98a7c34edd63a64d1a219731e94e09"
+  },
+  {
+   "grid": 8,
+   "replicate": 78,
+   "status": "fit",
+   "fit_rms_code": 551.7918688650525,
+   "calibration_sha256": "7619226cd6a2a262729c907b8f53cc1e98f881ab264fdd1c4107f3ed764023fd"
+  },
+  {
+   "grid": 8,
+   "replicate": 79,
+   "status": "fit",
+   "fit_rms_code": 512.556424758402,
+   "calibration_sha256": "280cfbda5e8627ccfe93bad17c12f616edf1c2cac0183ddd8803c3bcbb706d75"
+  },
+  {
+   "grid": 8,
+   "replicate": 80,
+   "status": "fit",
+   "fit_rms_code": 477.14139543044723,
+   "calibration_sha256": "e897ff9f4122a39f762ab463125d41a39e26c5869749b121b10c9f2233e126ec"
+  },
+  {
+   "grid": 8,
+   "replicate": 81,
+   "status": "fit",
+   "fit_rms_code": 504.5786757769343,
+   "calibration_sha256": "a0d4ffa2caee1b17d2abd29432e0631b78568c46c5a9639ef1b2ac0695dd9be8"
+  },
+  {
+   "grid": 8,
+   "replicate": 82,
+   "status": "fit",
+   "fit_rms_code": 509.07670363790265,
+   "calibration_sha256": "0b5269c0163fa395a0778672e4eabf3d9fb1c94391603a5c124b9b081366af0a"
+  },
+  {
+   "grid": 8,
+   "replicate": 83,
+   "status": "fit",
+   "fit_rms_code": 525.3512313022154,
+   "calibration_sha256": "0ed65a81d01e180dbd43bd88e86cefcd2858e4eeb0940617bf8f6e0e44474731"
+  },
+  {
+   "grid": 8,
+   "replicate": 84,
+   "status": "fit",
+   "fit_rms_code": 512.5345111540098,
+   "calibration_sha256": "41ff8cf3373264adebfe86d4e565f99ad28311e0cdb1203aaa0766adb24c9dee"
+  },
+  {
+   "grid": 8,
+   "replicate": 85,
+   "status": "fit",
+   "fit_rms_code": 516.7947238632887,
+   "calibration_sha256": "62e3efc58584465410b3266358e693398bb2aafd455e89ec331a8d43fa0ec540"
+  },
+  {
+   "grid": 8,
+   "replicate": 86,
+   "status": "fit",
+   "fit_rms_code": 576.345374317955,
+   "calibration_sha256": "6529441f464967354338be787ac1ed16b60c2d4c5403846d233c5abf77bb84d2"
+  },
+  {
+   "grid": 8,
+   "replicate": 87,
+   "status": "fit",
+   "fit_rms_code": 507.6685644166074,
+   "calibration_sha256": "4622c577eb049cdf06bb7f921a4080f238ca08cecf43e126a997ff52879bf4ab"
+  },
+  {
+   "grid": 8,
+   "replicate": 88,
+   "status": "fit",
+   "fit_rms_code": 497.2077754145159,
+   "calibration_sha256": "03c6c2845c49078b08035bba1c8fb4a94959ab94f353e9d07f293cdb4fbe2df7"
+  },
+  {
+   "grid": 8,
+   "replicate": 89,
+   "status": "fit",
+   "fit_rms_code": 488.55548274099027,
+   "calibration_sha256": "a3bcd57458a08da3e13d8b8d52f2dfc296c54e9d0dd013c288b26da73603ce90"
+  },
+  {
+   "grid": 8,
+   "replicate": 90,
+   "status": "fit",
+   "fit_rms_code": 523.0902759740103,
+   "calibration_sha256": "0a38849be78f2dc686d93d783404df43a6f3ea0560a4f7b3f94d1d0cede79dbf"
+  },
+  {
+   "grid": 8,
+   "replicate": 91,
+   "status": "fit",
+   "fit_rms_code": 504.45019792602466,
+   "calibration_sha256": "0d3e61663c0922ae29b672cee25cf30ed3efc5b58a297180f96d01e224f573b8"
+  },
+  {
+   "grid": 8,
+   "replicate": 92,
+   "status": "fit",
+   "fit_rms_code": 518.7508671353057,
+   "calibration_sha256": "d4da6491f77c80e30e5c6bc34d792924e8c320bb8fce9d151bd4455c7afcc2da"
+  },
+  {
+   "grid": 8,
+   "replicate": 93,
+   "status": "fit",
+   "fit_rms_code": 502.240329698441,
+   "calibration_sha256": "445e98867c5fd78140ca6dfe7b1c6f24c3f7a0761049f44bfdf2d0fe63c67274"
+  },
+  {
+   "grid": 8,
+   "replicate": 94,
+   "status": "fit",
+   "fit_rms_code": 524.1301432601529,
+   "calibration_sha256": "4de4bc1c843a20db2f8b46a520ba59b6318ddb8934d4343763029ef9cc666505"
+  },
+  {
+   "grid": 8,
+   "replicate": 95,
+   "status": "fit",
+   "fit_rms_code": 489.1420289866643,
+   "calibration_sha256": "d428a8af375160d4163c1611bfad633b477ac703e09a3e2efee060fa9bcb7a96"
+  },
+  {
+   "grid": 16,
+   "replicate": 0,
+   "status": "fit",
+   "fit_rms_code": 501.4041154954544,
+   "calibration_sha256": "a6a1b1e49569c0af36ed7f8e456b6fe05611c45192b84af584042147303a4b8b"
+  },
+  {
+   "grid": 16,
+   "replicate": 1,
+   "status": "fit",
+   "fit_rms_code": 526.1251417978623,
+   "calibration_sha256": "dd7c5ee557b27f7fe5041fc3ac6e25e63ffd01f87ccc4559cff9cb704203dded"
+  },
+  {
+   "grid": 16,
+   "replicate": 2,
+   "status": "fit",
+   "fit_rms_code": 485.4108954201521,
+   "calibration_sha256": "fc75907694fb9e93abd49c5c5036001853015f5f80bb9b8fe2d29cfc15b1f22e"
+  },
+  {
+   "grid": 16,
+   "replicate": 3,
+   "status": "fit",
+   "fit_rms_code": 586.6213297462116,
+   "calibration_sha256": "d1f8a75d4ec38ec2eb7d57365ab9b66dfafbd07849181251b3002c1858ab12bf"
+  },
+  {
+   "grid": 16,
+   "replicate": 4,
+   "status": "fit",
+   "fit_rms_code": 497.98482031325966,
+   "calibration_sha256": "2c812986013f90aae86c82aeeca9d3e99f57b3ceeccd6ce61e3d2d914018c3ad"
+  },
+  {
+   "grid": 16,
+   "replicate": 5,
+   "status": "fit",
+   "fit_rms_code": 537.7312139383963,
+   "calibration_sha256": "2d4ad62eea84888bcb88e7e820a51953f0ad5cb4ed35177f29404a201bf9435a"
+  },
+  {
+   "grid": 16,
+   "replicate": 6,
+   "status": "fit",
+   "fit_rms_code": 505.6308046231788,
+   "calibration_sha256": "79fd56add726a1e2d57a6de9e83f8e801cb7be698eaa7850f1c485a1169fbde4"
+  },
+  {
+   "grid": 16,
+   "replicate": 7,
+   "status": "fit",
+   "fit_rms_code": 481.42370575746503,
+   "calibration_sha256": "4540527150755d167fbf7f9d26b71c450897d7aa0a772c90ce568a8526974180"
+  },
+  {
+   "grid": 16,
+   "replicate": 8,
+   "status": "fit",
+   "fit_rms_code": 512.2747371895715,
+   "calibration_sha256": "870d4a5c0f1578bc9be40daac24c463f00b1fc1fa58b53c1c07a1a5a6d4e1526"
+  },
+  {
+   "grid": 16,
+   "replicate": 9,
+   "status": "fit",
+   "fit_rms_code": 490.71583967718385,
+   "calibration_sha256": "37215570bcb50e398e47823e6c9fda3f05f151d713ab0bd4e3e44895e91c6962"
+  },
+  {
+   "grid": 16,
+   "replicate": 10,
+   "status": "fit",
+   "fit_rms_code": 508.8882314932156,
+   "calibration_sha256": "4047ed5d82b997b62f12147a2e959824c3b3cddb14f52727ce4a0e5933c42ee8"
+  },
+  {
+   "grid": 16,
+   "replicate": 11,
+   "status": "fit",
+   "fit_rms_code": 503.63279421495486,
+   "calibration_sha256": "007f88ec416a4a3e373f309eec90a70a214289cf637c8e77a9e78dfbcccc473c"
+  },
+  {
+   "grid": 16,
+   "replicate": 12,
+   "status": "fit",
+   "fit_rms_code": 552.7979600429333,
+   "calibration_sha256": "f460526c4412ae3bd3b9f2600fa290eaf6cb6dfa8c5333be251f01776b850b08"
+  },
+  {
+   "grid": 16,
+   "replicate": 13,
+   "status": "fit",
+   "fit_rms_code": 468.75328141730853,
+   "calibration_sha256": "d885e9092789ad2c65d14cda2db2e1f8ac446112710cb2bd306a4e0790eaaa49"
+  },
+  {
+   "grid": 16,
+   "replicate": 14,
+   "status": "fit",
+   "fit_rms_code": 521.6666595589784,
+   "calibration_sha256": "3772e0cc685fdaff51af62877864dea11d982c4e8b17dc9e52f2654ffacc7d73"
+  },
+  {
+   "grid": 16,
+   "replicate": 15,
+   "status": "fit",
+   "fit_rms_code": 520.2103730473054,
+   "calibration_sha256": "262e36f5b4fcc5a4ade067737ea55bae110208dde710fa5c17946cecb0a13daf"
+  },
+  {
+   "grid": 16,
+   "replicate": 16,
+   "status": "fit",
+   "fit_rms_code": 501.4072953793169,
+   "calibration_sha256": "e92471ca070b25a58aefecbc30504a51ee07624f93fc7f6e55dc98d3d34f37ae"
+  },
+  {
+   "grid": 16,
+   "replicate": 17,
+   "status": "fit",
+   "fit_rms_code": 492.0785709226617,
+   "calibration_sha256": "949bb4a491dd0804bf94ba8f3fcaffaf25f44b1883a92f1bd159dbd226246a5d"
+  },
+  {
+   "grid": 16,
+   "replicate": 18,
+   "status": "fit",
+   "fit_rms_code": 526.242409484221,
+   "calibration_sha256": "b52cea9e77854e881037f0cdb1419e04474d0a1a1e4a131b3396972bfdda69c7"
+  },
+  {
+   "grid": 16,
+   "replicate": 19,
+   "status": "fit",
+   "fit_rms_code": 529.5114334948454,
+   "calibration_sha256": "b969664263b2176121f0fec795936adedcc0cad2d5534dd07bf0f5a0a6340cd8"
+  },
+  {
+   "grid": 16,
+   "replicate": 20,
+   "status": "fit",
+   "fit_rms_code": 468.9233781242255,
+   "calibration_sha256": "88fff94496f687c77ee0fdd76bfae1393e9098ec1b74cc0a67e69f05afdb3e4c"
+  },
+  {
+   "grid": 16,
+   "replicate": 21,
+   "status": "fit",
+   "fit_rms_code": 510.4624650816669,
+   "calibration_sha256": "f2a2350d651c613d338669f142fb6d185e9bab86db32209a8cd5c8394b2f5aa8"
+  },
+  {
+   "grid": 16,
+   "replicate": 22,
+   "status": "fit",
+   "fit_rms_code": 454.7220012263945,
+   "calibration_sha256": "be6d71ca008c054fa53d54fe613a3387b8883ac0c6dd0bdc943f7a1876ecedab"
+  },
+  {
+   "grid": 16,
+   "replicate": 23,
+   "status": "fit",
+   "fit_rms_code": 537.178193974259,
+   "calibration_sha256": "abf7b61ef28da3d6ab0fb195f87122d043c529f5f34b745c25514b906267465c"
+  },
+  {
+   "grid": 16,
+   "replicate": 24,
+   "status": "fit",
+   "fit_rms_code": 528.6538420466993,
+   "calibration_sha256": "75b9aa303b3e05ec4ab5a724a8381ebcc444bd0a3e9240aa1f4babbc4deb9ac3"
+  },
+  {
+   "grid": 16,
+   "replicate": 25,
+   "status": "fit",
+   "fit_rms_code": 516.0525927218084,
+   "calibration_sha256": "7d3f18fb89ee6e918149255966fb37d04acbdf7007bf7f8039c4c5bd62b6b3ac"
+  },
+  {
+   "grid": 16,
+   "replicate": 26,
+   "status": "fit",
+   "fit_rms_code": 499.7589400347606,
+   "calibration_sha256": "4e60694d47f1f3e0434e5dd8d9bb1ad9c8062fbd4c8b6f962c35f41131bb165c"
+  },
+  {
+   "grid": 16,
+   "replicate": 27,
+   "status": "fit",
+   "fit_rms_code": 493.5230873397998,
+   "calibration_sha256": "1b219023075221cea30629f64a060ae72409b64e4454c1497668ea960b2951de"
+  },
+  {
+   "grid": 16,
+   "replicate": 28,
+   "status": "fit",
+   "fit_rms_code": 518.1383575561051,
+   "calibration_sha256": "a91361c82f51c9ad79cbf92005d4dd443167ddb12502f2583166630bede51ad3"
+  },
+  {
+   "grid": 16,
+   "replicate": 29,
+   "status": "fit",
+   "fit_rms_code": 542.0328138520874,
+   "calibration_sha256": "6414cb6424f93c6aa176111de9b106ce2ab7de61d262f6148f66e5f5763e2f63"
+  },
+  {
+   "grid": 16,
+   "replicate": 30,
+   "status": "fit",
+   "fit_rms_code": 576.8775087570638,
+   "calibration_sha256": "f627cc8e5819c0791e2b5652d18b46493b866031dcd32a35289db50b570db558"
+  },
+  {
+   "grid": 16,
+   "replicate": 31,
+   "status": "fit",
+   "fit_rms_code": 488.2313872165577,
+   "calibration_sha256": "c30a83aaa142aea74b4964573c1f0712ecd89a5a0703f5b930c7f81a312d8d7e"
+  },
+  {
+   "grid": 16,
+   "replicate": 32,
+   "status": "fit",
+   "fit_rms_code": 589.0755763727574,
+   "calibration_sha256": "e803cc1fa49d44da7acc168308358f4da062af2674a4ad678c866b3b72129e35"
+  },
+  {
+   "grid": 16,
+   "replicate": 33,
+   "status": "fit",
+   "fit_rms_code": 474.1674638268776,
+   "calibration_sha256": "8731e9f5db7e29aa4924e5159a9a2a7361782d5f041bd78439f9f20c010e4929"
+  },
+  {
+   "grid": 16,
+   "replicate": 34,
+   "status": "fit",
+   "fit_rms_code": 484.0070718235348,
+   "calibration_sha256": "73b62c891c54859979296737b8f93a1a15c95915b24a17b06df0e6fa6fcf54f2"
+  },
+  {
+   "grid": 16,
+   "replicate": 35,
+   "status": "fit",
+   "fit_rms_code": 519.0338741327577,
+   "calibration_sha256": "8e3e6323cd7c96c02014282650405692727e5f84ed23412ba9244566c18e6a95"
+  },
+  {
+   "grid": 16,
+   "replicate": 36,
+   "status": "fit",
+   "fit_rms_code": 521.828694496416,
+   "calibration_sha256": "8a4c23ba626acd974f5070dedfce717231f03ef99fcb910da01df30a9b77c46f"
+  },
+  {
+   "grid": 16,
+   "replicate": 37,
+   "status": "fit",
+   "fit_rms_code": 543.6755369345924,
+   "calibration_sha256": "9c58e62a9f83ceba944c622bc6e463fb7576440e65198e29d62294c8def6e456"
+  },
+  {
+   "grid": 16,
+   "replicate": 38,
+   "status": "fit",
+   "fit_rms_code": 552.0067373330568,
+   "calibration_sha256": "81c8c5b3cf8e3578dbac38f99b474f8b188bbd0baf03efe474d39eb2df4a30b5"
+  },
+  {
+   "grid": 16,
+   "replicate": 39,
+   "status": "fit",
+   "fit_rms_code": 524.1688861193403,
+   "calibration_sha256": "196f1e427527fd9370c3927dfb345dfa68f8be88d903db9944e5182d70c11bd1"
+  },
+  {
+   "grid": 16,
+   "replicate": 40,
+   "status": "fit",
+   "fit_rms_code": 508.48794188148344,
+   "calibration_sha256": "51daa65149ce3a6df0f4f9013d890b13977412cbb7e2e8247b6450c82fb1a298"
+  },
+  {
+   "grid": 16,
+   "replicate": 41,
+   "status": "fit",
+   "fit_rms_code": 497.13333351855414,
+   "calibration_sha256": "d1482f41eb55a97a81b280328cdaac9c98e6c7a70b0c1ffaecbe90a7d7489295"
+  },
+  {
+   "grid": 16,
+   "replicate": 42,
+   "status": "fit",
+   "fit_rms_code": 573.6897107428108,
+   "calibration_sha256": "9c6d96f12bb535d8d9e8504f8aa459cb8364579b6749f59b7f7a7a0674d43e99"
+  },
+  {
+   "grid": 16,
+   "replicate": 43,
+   "status": "fit",
+   "fit_rms_code": 504.7621294324864,
+   "calibration_sha256": "e945002cdd2665cbd0c38e3aa40e4ddef70e44cd343071616a38fb2bb3ebd3e1"
+  },
+  {
+   "grid": 16,
+   "replicate": 44,
+   "status": "fit",
+   "fit_rms_code": 513.6978896529928,
+   "calibration_sha256": "4e3a847171d99c431fe9746d55ff8dc64d834d57f5facf5ba4375524f0d0da14"
+  },
+  {
+   "grid": 16,
+   "replicate": 45,
+   "status": "fit",
+   "fit_rms_code": 471.84604239685945,
+   "calibration_sha256": "9af7e49fd244892c95e3128be836b5bbf3c92f499281ff88f62449a3f99cd683"
+  },
+  {
+   "grid": 16,
+   "replicate": 46,
+   "status": "fit",
+   "fit_rms_code": 511.1977682927661,
+   "calibration_sha256": "4a958895820223308432d8700a4130ea7b51038cf53de69939e87a444ada60b7"
+  },
+  {
+   "grid": 16,
+   "replicate": 47,
+   "status": "fit",
+   "fit_rms_code": 551.0271678769305,
+   "calibration_sha256": "2444cfd81eed3657a098f12e497aca4268381558022e4d8bae9a5af01476ea53"
+  },
+  {
+   "grid": 16,
+   "replicate": 48,
+   "status": "fit",
+   "fit_rms_code": 569.7053000793148,
+   "calibration_sha256": "f607f33ba30c0dbaad43cf12fecc05a0a86b5460bb27162a8d39d07f0ee82562"
+  },
+  {
+   "grid": 16,
+   "replicate": 49,
+   "status": "fit",
+   "fit_rms_code": 493.68429340749765,
+   "calibration_sha256": "b879f37ee378f962ad6659e6f128ddc4441888383e75ff4cfc70c8c9ffe3ff69"
+  },
+  {
+   "grid": 16,
+   "replicate": 50,
+   "status": "fit",
+   "fit_rms_code": 513.9060970776403,
+   "calibration_sha256": "0e3d345420673282693c69c8e65e14cfe4b22ced846a9d1d328941c495c1c068"
+  },
+  {
+   "grid": 16,
+   "replicate": 51,
+   "status": "fit",
+   "fit_rms_code": 484.73383525836,
+   "calibration_sha256": "abdc09d638217da6ba657fc94fe6f554093c78430dfcb03744b6d77e14e840fa"
+  },
+  {
+   "grid": 16,
+   "replicate": 52,
+   "status": "fit",
+   "fit_rms_code": 505.43624659480906,
+   "calibration_sha256": "2911dfff3f2f6add56716294e11c0824743cc478c4ea29369648c1e18b49a099"
+  },
+  {
+   "grid": 16,
+   "replicate": 53,
+   "status": "fit",
+   "fit_rms_code": 506.9692971370863,
+   "calibration_sha256": "17fe091bbce3a1a698d0b31a12ed2a77e043d3888f40a57f3e8dc87402f6d903"
+  },
+  {
+   "grid": 16,
+   "replicate": 54,
+   "status": "fit",
+   "fit_rms_code": 507.22112773660683,
+   "calibration_sha256": "4df53c9d1188749b5e0ff4b8fc9a8f0b34f08d92edba1e15bfd74500973c28b0"
+  },
+  {
+   "grid": 16,
+   "replicate": 55,
+   "status": "fit",
+   "fit_rms_code": 534.2961878656996,
+   "calibration_sha256": "ce6f5b9db69cf196dd9e766ae7e56ef8d7b26a1043cb358d113054713c0296f9"
+  },
+  {
+   "grid": 16,
+   "replicate": 56,
+   "status": "fit",
+   "fit_rms_code": 497.744198544904,
+   "calibration_sha256": "09c40f0d414c1918e363c0386e81d61ec44d63a79c9d29f2469bc0d6b684209c"
+  },
+  {
+   "grid": 16,
+   "replicate": 57,
+   "status": "fit",
+   "fit_rms_code": 501.25858494270545,
+   "calibration_sha256": "d82cf374d9696cdb25796bd199e674d286f29eba5b9642a1f54794b33a0c1059"
+  },
+  {
+   "grid": 16,
+   "replicate": 58,
+   "status": "fit",
+   "fit_rms_code": 512.9306271581911,
+   "calibration_sha256": "16545847446c1e4d5f025c177fb8d61db000ade6874a3c8014d023ce95cac1bf"
+  },
+  {
+   "grid": 16,
+   "replicate": 59,
+   "status": "fit",
+   "fit_rms_code": 532.6581400729822,
+   "calibration_sha256": "a854f4589d24689890026bf92732b593e6407ced1eb15382ebe124035b1a8fdb"
+  },
+  {
+   "grid": 16,
+   "replicate": 60,
+   "status": "fit",
+   "fit_rms_code": 575.2641518057914,
+   "calibration_sha256": "995e168c90ef416a3455358c71fd91a391af19ff859bd6770f37ef0252f5c3e0"
+  },
+  {
+   "grid": 16,
+   "replicate": 61,
+   "status": "fit",
+   "fit_rms_code": 481.74719778839585,
+   "calibration_sha256": "b832ddec1869c342602d65bdef1da1f3fc6c77ce1e5c22ee5df01d9789be2ec6"
+  },
+  {
+   "grid": 16,
+   "replicate": 62,
+   "status": "fit",
+   "fit_rms_code": 521.3411042765279,
+   "calibration_sha256": "2b1c51c063b5e01db898a430b850315dff4e28f2022fb9eb15c34816313c95af"
+  },
+  {
+   "grid": 16,
+   "replicate": 63,
+   "status": "fit",
+   "fit_rms_code": 507.8052253237508,
+   "calibration_sha256": "eb0902ac1245042f1b96afce54aed6b585e7a40a584c08de34286be1fbb9ef59"
+  },
+  {
+   "grid": 16,
+   "replicate": 64,
+   "status": "fit",
+   "fit_rms_code": 511.0557836560842,
+   "calibration_sha256": "9fd7d2e05de410996560a324664dfca460342cfb910e449945d2661973bde60e"
+  },
+  {
+   "grid": 16,
+   "replicate": 65,
+   "status": "fit",
+   "fit_rms_code": 460.70808617984625,
+   "calibration_sha256": "57a3bd0f122c51a2805c8cf10da8fec703b6b07b84fef6f5dd6c24c85668ee52"
+  },
+  {
+   "grid": 16,
+   "replicate": 66,
+   "status": "fit",
+   "fit_rms_code": 507.8732961391301,
+   "calibration_sha256": "eff3ffd016afe77fa8dacb882b7781a5c0906853f20b54c2cdbf2f441f98cf45"
+  },
+  {
+   "grid": 16,
+   "replicate": 67,
+   "status": "fit",
+   "fit_rms_code": 529.6884768184586,
+   "calibration_sha256": "8d674837eebdeda33583177903f52f0769a6da0659c90adfc33554a2c9756bd5"
+  },
+  {
+   "grid": 16,
+   "replicate": 68,
+   "status": "fit",
+   "fit_rms_code": 504.87720410771226,
+   "calibration_sha256": "399568509978823e5b13241354855a664c54ef9688841fda96f642ee337b3710"
+  },
+  {
+   "grid": 16,
+   "replicate": 69,
+   "status": "fit",
+   "fit_rms_code": 591.4499476083471,
+   "calibration_sha256": "02c676b5d6168028e0616fdb091022146d5ea0fe6f48c4e2623ffc07cfda2bd3"
+  },
+  {
+   "grid": 16,
+   "replicate": 70,
+   "status": "fit",
+   "fit_rms_code": 550.0146102571408,
+   "calibration_sha256": "f5296c63b739a047399b29a104a30766dbee98892e11a47f5ac12eefa7b51646"
+  },
+  {
+   "grid": 16,
+   "replicate": 71,
+   "status": "fit",
+   "fit_rms_code": 476.5986048329555,
+   "calibration_sha256": "c85e45a0fb3888a06d92867ea9a0b38af4ca9c8da32b8ef3791113e244690c9f"
+  },
+  {
+   "grid": 16,
+   "replicate": 72,
+   "status": "fit",
+   "fit_rms_code": 506.48816142480456,
+   "calibration_sha256": "cdbd22af6b462d0b34da95c3cf455a29e002c494a4f41151b565c121ce33764d"
+  },
+  {
+   "grid": 16,
+   "replicate": 73,
+   "status": "fit",
+   "fit_rms_code": 534.1160096623462,
+   "calibration_sha256": "abb5ee411a844e7b958450f32c7a98bd26a7df8f4483cb7c919ec0edfa86ae2c"
+  },
+  {
+   "grid": 16,
+   "replicate": 74,
+   "status": "fit",
+   "fit_rms_code": 521.7081893126661,
+   "calibration_sha256": "f933a447323e02080aa44d08188156a9cf4faed766b6562c7fa5e915f852b169"
+  },
+  {
+   "grid": 16,
+   "replicate": 75,
+   "status": "fit",
+   "fit_rms_code": 522.1293955229913,
+   "calibration_sha256": "4caf861d729ff8ac7e06d6875a42f66e9a93764d99a43b9202c79afdce4b5bf1"
+  },
+  {
+   "grid": 16,
+   "replicate": 76,
+   "status": "fit",
+   "fit_rms_code": 488.63248398599154,
+   "calibration_sha256": "ad49f225c8951e5770e69bbb501853c3d8580158c3c35f54f707a949a0d34a95"
+  },
+  {
+   "grid": 16,
+   "replicate": 77,
+   "status": "fit",
+   "fit_rms_code": 522.5917530166589,
+   "calibration_sha256": "bf802492d8e51922fef419d1411b30f6869366426cce7d33c626d9ae9812b6fd"
+  },
+  {
+   "grid": 16,
+   "replicate": 78,
+   "status": "fit",
+   "fit_rms_code": 518.5845489517523,
+   "calibration_sha256": "d683f3e29ef558acfbe43db91a3f41fe79689854d0fa59ca7f7d3e766a266eae"
+  },
+  {
+   "grid": 16,
+   "replicate": 79,
+   "status": "fit",
+   "fit_rms_code": 448.2652322352056,
+   "calibration_sha256": "dde79691017810cfd9a700d548a353b740599e3978342d3c206449ebe11c9554"
+  },
+  {
+   "grid": 16,
+   "replicate": 80,
+   "status": "fit",
+   "fit_rms_code": 509.76044486249884,
+   "calibration_sha256": "8a8d2fab1d3021f65b394ad320fedb706a4d79ac3832a6eb37857044b98806e4"
+  },
+  {
+   "grid": 16,
+   "replicate": 81,
+   "status": "fit",
+   "fit_rms_code": 559.4013669484742,
+   "calibration_sha256": "668ce146c34ecce3a7194645cd49a23075d19e0abecf2fb125a0d600eb37e257"
+  },
+  {
+   "grid": 16,
+   "replicate": 82,
+   "status": "fit",
+   "fit_rms_code": 509.0124541304496,
+   "calibration_sha256": "18dfb46e06627ee2cf05a54bc455fc1ffb2805e89ac6da4ce612f8d4d6649511"
+  },
+  {
+   "grid": 16,
+   "replicate": 83,
+   "status": "fit",
+   "fit_rms_code": 556.4980239487533,
+   "calibration_sha256": "b153abe14cdfabcdc8ad7ce75f2587e6440278dd6ceb0ed3ade219451cbbafd5"
+  },
+  {
+   "grid": 16,
+   "replicate": 84,
+   "status": "fit",
+   "fit_rms_code": 504.05710066691637,
+   "calibration_sha256": "2a676faa4b0a27109d81645c50ef9d05d5376792c66d653cb8861f301c569ffc"
+  },
+  {
+   "grid": 16,
+   "replicate": 85,
+   "status": "fit",
+   "fit_rms_code": 568.7944378892798,
+   "calibration_sha256": "e0528c4c0ba84ab1cb4543aa037f8d9e66dcc5a16029142fa0ede4f067182b50"
+  },
+  {
+   "grid": 16,
+   "replicate": 86,
+   "status": "fit",
+   "fit_rms_code": 500.79744037579417,
+   "calibration_sha256": "b93fb65d9a46f9ad583ac185ed6e684146d460abfb828a829e1dade50bb1ea75"
+  },
+  {
+   "grid": 16,
+   "replicate": 87,
+   "status": "fit",
+   "fit_rms_code": 518.2306781779135,
+   "calibration_sha256": "e7a64efda46e32564c7ff4bd3210b38b9718c5244a4dd6d98fa539e7794632b6"
+  },
+  {
+   "grid": 16,
+   "replicate": 88,
+   "status": "fit",
+   "fit_rms_code": 514.2005643122131,
+   "calibration_sha256": "cf7821c2351447a2214450433aaa6c601a64403d5bfb63a72cb22617829e54ac"
+  },
+  {
+   "grid": 16,
+   "replicate": 89,
+   "status": "fit",
+   "fit_rms_code": 488.39940719490096,
+   "calibration_sha256": "e159f769b78e973065ea00512f0b11671f28899d7551942d14ffc9357d5aa50d"
+  },
+  {
+   "grid": 16,
+   "replicate": 90,
+   "status": "fit",
+   "fit_rms_code": 503.03313082533276,
+   "calibration_sha256": "ebefb87415afd49022bd8cc234065479ed96a72da47ad6b7b93b288632dc672a"
+  },
+  {
+   "grid": 16,
+   "replicate": 91,
+   "status": "fit",
+   "fit_rms_code": 509.5189634614342,
+   "calibration_sha256": "6592cf1a2ed0b625151c2b794aaadb00d736680fd4306200dbca7d691865eb11"
+  },
+  {
+   "grid": 16,
+   "replicate": 92,
+   "status": "fit",
+   "fit_rms_code": 494.7356437716363,
+   "calibration_sha256": "bbe6f2a7273a579133c08945df0d7417a0212a58ba1bb053a01aaab47cf6e4a5"
+  },
+  {
+   "grid": 16,
+   "replicate": 93,
+   "status": "fit",
+   "fit_rms_code": 528.4148707906038,
+   "calibration_sha256": "49c311654b98fc7798491e2509a2d96c37837a939766f87dae9cf2b65d780717"
+  },
+  {
+   "grid": 16,
+   "replicate": 94,
+   "status": "fit",
+   "fit_rms_code": 506.4884183034483,
+   "calibration_sha256": "03fd8247a46790d9ba46d6aab355521d4ef5effcb375a17718a9f6d32720f022"
+  },
+  {
+   "grid": 16,
+   "replicate": 95,
+   "status": "fit",
+   "fit_rms_code": 500.4314522363472,
+   "calibration_sha256": "76e74e8546edf620e2233072321946a1928660ca78790aca3a581f682e1b57cb"
+  },
+  {
+   "grid": 32,
+   "replicate": 0,
+   "status": "fit",
+   "fit_rms_code": 491.8042380706013,
+   "calibration_sha256": "07702c0038ae2a3e47b507676c9464f87191a2ad21a0ea11e94a40641ae99431"
+  },
+  {
+   "grid": 32,
+   "replicate": 1,
+   "status": "fit",
+   "fit_rms_code": 571.619406476064,
+   "calibration_sha256": "6b9651a22ea55fb8a1f8f0ef5617fee9c004179776ffe660ef027ad7a2d381e7"
+  },
+  {
+   "grid": 32,
+   "replicate": 2,
+   "status": "fit",
+   "fit_rms_code": 528.7792047310085,
+   "calibration_sha256": "900beea9ce4a778c03ae4e9d920043d9b4f2757a86e7df5d9f8c9606f0515e21"
+  },
+  {
+   "grid": 32,
+   "replicate": 3,
+   "status": "fit",
+   "fit_rms_code": 482.24635874062653,
+   "calibration_sha256": "f340758fb7b48ae3b6b0e8419fe754b3857b2ec63889ba5d2b095502b9fd0f23"
+  },
+  {
+   "grid": 32,
+   "replicate": 4,
+   "status": "fit",
+   "fit_rms_code": 517.6689789532821,
+   "calibration_sha256": "648c997ed7490ee154192cb20d0a539dc7b8090774d28feb54e3d5f5b763718a"
+  },
+  {
+   "grid": 32,
+   "replicate": 5,
+   "status": "fit",
+   "fit_rms_code": 540.7294066235628,
+   "calibration_sha256": "81bf770562990c6fe1cf2a3488217d3d5e77f35dbff8adcde12626eb453ec93f"
+  },
+  {
+   "grid": 32,
+   "replicate": 6,
+   "status": "fit",
+   "fit_rms_code": 527.2788918405063,
+   "calibration_sha256": "423a0f10f322949861b8914927dcea1fc026aa5b4232fecf460867c620e8c38b"
+  },
+  {
+   "grid": 32,
+   "replicate": 7,
+   "status": "fit",
+   "fit_rms_code": 527.0074298422928,
+   "calibration_sha256": "d356a1410fa6322fcca8fa5b5905cec2f1796c9b48d72af0162c71c300f11a78"
+  },
+  {
+   "grid": 32,
+   "replicate": 8,
+   "status": "fit",
+   "fit_rms_code": 549.3542226926431,
+   "calibration_sha256": "c14448bfcebbf37422fe78e243010833b5235480dc5847d1a27f99171631f713"
+  },
+  {
+   "grid": 32,
+   "replicate": 9,
+   "status": "fit",
+   "fit_rms_code": 518.1069913824052,
+   "calibration_sha256": "f76ba413363c91a21252123dc985722302a7331aeda407040a83127ba16fb74e"
+  },
+  {
+   "grid": 32,
+   "replicate": 10,
+   "status": "fit",
+   "fit_rms_code": 499.80996546389866,
+   "calibration_sha256": "8e5b158cd6c9714750c0d387328310480123f1ce18bb231200a503359d7d95d7"
+  },
+  {
+   "grid": 32,
+   "replicate": 11,
+   "status": "fit",
+   "fit_rms_code": 561.3969908074164,
+   "calibration_sha256": "ff2865bec47671d6ae1ddcdb8b67dd4d0f129f665ad33b9fdf51e7fc7164609c"
+  },
+  {
+   "grid": 32,
+   "replicate": 12,
+   "status": "fit",
+   "fit_rms_code": 600.7843596074487,
+   "calibration_sha256": "55c2ec2121c58ffcf96a0c6d4edbdd41f2c045c3b10bda57f6458b1ef69e5811"
+  },
+  {
+   "grid": 32,
+   "replicate": 13,
+   "status": "fit",
+   "fit_rms_code": 498.59379275313785,
+   "calibration_sha256": "96e643689d2bab8a2f3d82bc9ba25423a81688e9173af30d3d1898ea235e8d2a"
+  },
+  {
+   "grid": 32,
+   "replicate": 14,
+   "status": "fit",
+   "fit_rms_code": 569.4010310541563,
+   "calibration_sha256": "5efc8e69730a39b9b7a8249431f7b8fdbe4504fe2bf5cbc1203986044bb9c4fe"
+  },
+  {
+   "grid": 32,
+   "replicate": 15,
+   "status": "fit",
+   "fit_rms_code": 542.7686023130029,
+   "calibration_sha256": "82db90e7eb07ea3c04cea042021e50ce62bed33a97d4c3cc2913d71d05ad4ddb"
+  },
+  {
+   "grid": 32,
+   "replicate": 16,
+   "status": "fit",
+   "fit_rms_code": 520.7841514695444,
+   "calibration_sha256": "8e21a540ac449d777a878c249f9994d98ef3ca9efa3f3a1a836fbdc9f3841c2c"
+  },
+  {
+   "grid": 32,
+   "replicate": 17,
+   "status": "fit",
+   "fit_rms_code": 528.9512426384097,
+   "calibration_sha256": "efa172310434b1d629f06cdc902d0d7eec355c4151af29170e6732fdef268dcf"
+  },
+  {
+   "grid": 32,
+   "replicate": 18,
+   "status": "fit",
+   "fit_rms_code": 509.42435091342827,
+   "calibration_sha256": "da56b2973416adf22d1b38ba31b25d43f55db9f112d94c4ce956ed057c74c74c"
+  },
+  {
+   "grid": 32,
+   "replicate": 19,
+   "status": "fit",
+   "fit_rms_code": 560.0034113003737,
+   "calibration_sha256": "b280560bd9631d3899f0b39bbe20c88ab54ee70bed5a33728c3e0a0e0a4f1440"
+  },
+  {
+   "grid": 32,
+   "replicate": 20,
+   "status": "fit",
+   "fit_rms_code": 387.4188333489917,
+   "calibration_sha256": "d769bf80ca33368ee2fcf9b049ad327228eaf97a6bb3ad77e1e4a512459c04e0"
+  },
+  {
+   "grid": 32,
+   "replicate": 21,
+   "status": "fit",
+   "fit_rms_code": 512.1706711138352,
+   "calibration_sha256": "4ebc78cfdfe878d2ce0e57ab279afe52e5700c7624e6fe2e0a896f2c84efffb4"
+  },
+  {
+   "grid": 32,
+   "replicate": 22,
+   "status": "fit",
+   "fit_rms_code": 531.8734844936379,
+   "calibration_sha256": "6a287d253291deb2269590cfa843cea49498f05cb650529ca344f319f653b9df"
+  },
+  {
+   "grid": 32,
+   "replicate": 23,
+   "status": "fit",
+   "fit_rms_code": 509.9929596514001,
+   "calibration_sha256": "84db0c795c5e951918e61d437dcc1c576caf76adaa868d9f9e99570d0f52c58a"
+  },
+  {
+   "grid": 32,
+   "replicate": 24,
+   "status": "fit",
+   "fit_rms_code": 491.56764693596045,
+   "calibration_sha256": "6215009a77031de8b96a5a0e278902fb4446a3c457c4aa4f8aeb19e4e133c527"
+  },
+  {
+   "grid": 32,
+   "replicate": 25,
+   "status": "fit",
+   "fit_rms_code": 565.5694279117517,
+   "calibration_sha256": "0c54dbe799945ab87613e1950b54c94a14b28d8ab4ad7e7abb0ba4183dabd6ac"
+  },
+  {
+   "grid": 32,
+   "replicate": 26,
+   "status": "fit",
+   "fit_rms_code": 559.4763801792166,
+   "calibration_sha256": "f3a39abf9507dd62a61f0782e13f52f053e63855b44acf66452b8ff257a08fb0"
+  },
+  {
+   "grid": 32,
+   "replicate": 27,
+   "status": "fit",
+   "fit_rms_code": 491.03401412847836,
+   "calibration_sha256": "18d638e12bff66a04a95efc5f37fdfae4b6613f87833fbc3122c86c5cd0c641d"
+  },
+  {
+   "grid": 32,
+   "replicate": 28,
+   "status": "fit",
+   "fit_rms_code": 540.3354563858695,
+   "calibration_sha256": "2e47dce2349f592d22cdfca495a1550a17e64ae4b193354b61b1c384995adcc5"
+  },
+  {
+   "grid": 32,
+   "replicate": 29,
+   "status": "fit",
+   "fit_rms_code": 522.7142570804364,
+   "calibration_sha256": "c7b746bd16f8791cb830c9d880d5b0e8b6bc8500bd800d4c8cd94b18ab1d53d1"
+  },
+  {
+   "grid": 32,
+   "replicate": 30,
+   "status": "fit",
+   "fit_rms_code": 528.2588476305866,
+   "calibration_sha256": "23b0a7fe1d0315519d23a051a55c815181720510f720c79ed19b5a76498eb066"
+  },
+  {
+   "grid": 32,
+   "replicate": 31,
+   "status": "fit",
+   "fit_rms_code": 519.2645844107564,
+   "calibration_sha256": "a076dc41898671fa51389eb17672af475d9b477cbc0ac739687b6eb3720ed851"
+  },
+  {
+   "grid": 32,
+   "replicate": 32,
+   "status": "fit",
+   "fit_rms_code": 527.8369262531094,
+   "calibration_sha256": "010dac9b25573d605cb99d606e24193ce0e0a55b00e702367838ed33f54eae17"
+  },
+  {
+   "grid": 32,
+   "replicate": 33,
+   "status": "fit",
+   "fit_rms_code": 554.4754737586451,
+   "calibration_sha256": "147377dd479dc8c914164dcf25437dc3ca4528a1dd9300594b7330d19e2feed1"
+  },
+  {
+   "grid": 32,
+   "replicate": 34,
+   "status": "fit",
+   "fit_rms_code": 477.9149949843889,
+   "calibration_sha256": "bafbc880bb1f1544a6380ad2e273447ab0e7b3d16755879caf253672017b5906"
+  },
+  {
+   "grid": 32,
+   "replicate": 35,
+   "status": "fit",
+   "fit_rms_code": 486.26195270898194,
+   "calibration_sha256": "5a4bf7c45852932e835dee2ef4879275d2e07f1413f930e4400d250759dbff09"
+  },
+  {
+   "grid": 32,
+   "replicate": 36,
+   "status": "fit",
+   "fit_rms_code": 528.4256043071476,
+   "calibration_sha256": "cf5deee3f49bebc0beeff500167cb7a1f99561501efbfe9cd217b614b1c100b6"
+  },
+  {
+   "grid": 32,
+   "replicate": 37,
+   "status": "fit",
+   "fit_rms_code": 545.3428399432801,
+   "calibration_sha256": "6e9a3c193766c7fceb196b41be98363faeb3b41846fed2f1928d8bb29a8d6fc2"
+  },
+  {
+   "grid": 32,
+   "replicate": 38,
+   "status": "fit",
+   "fit_rms_code": 521.4018865419749,
+   "calibration_sha256": "275eef81e3f9e293ef710e23a53ce624a796e64271a30116d2af6bbe70c37ec2"
+  },
+  {
+   "grid": 32,
+   "replicate": 39,
+   "status": "fit",
+   "fit_rms_code": 544.881781678475,
+   "calibration_sha256": "61fe6630a32eea3d3312cc2546819618a0ca18c0f34c81df3ec94f48ab673d80"
+  },
+  {
+   "grid": 32,
+   "replicate": 40,
+   "status": "fit",
+   "fit_rms_code": 513.1998814568868,
+   "calibration_sha256": "5a257547c780e67291fd84f04b1e0218ad223732cae68683b9eafaaea2899eeb"
+  },
+  {
+   "grid": 32,
+   "replicate": 41,
+   "status": "fit",
+   "fit_rms_code": 500.9130729264218,
+   "calibration_sha256": "8ee6527a13d4681739edfdb6e049d50f5e67bc7a798a5e42a74e515ebd628cfc"
+  },
+  {
+   "grid": 32,
+   "replicate": 42,
+   "status": "fit",
+   "fit_rms_code": 531.3825275776242,
+   "calibration_sha256": "26c44d170f74db1de6e5b119c33f420812d6b90307fc0dd4ecd5ee3732317842"
+  },
+  {
+   "grid": 32,
+   "replicate": 43,
+   "status": "fit",
+   "fit_rms_code": 545.2624097176522,
+   "calibration_sha256": "8c690aae8df13784927615d9b05661afb50f4bde6c8664587956d3133d206ee6"
+  },
+  {
+   "grid": 32,
+   "replicate": 44,
+   "status": "fit",
+   "fit_rms_code": 502.7980429667153,
+   "calibration_sha256": "8dfaa67c5bde4cadfaaef833c481057aafeb6c45968b1ca03ea4fecacd9c9508"
+  },
+  {
+   "grid": 32,
+   "replicate": 45,
+   "status": "fit",
+   "fit_rms_code": 510.7647384959805,
+   "calibration_sha256": "8c3a3b6e17fb9c958f69ee79362e72997b685cf3759b2380d8a537b91ab3caf2"
+  },
+  {
+   "grid": 32,
+   "replicate": 46,
+   "status": "fit",
+   "fit_rms_code": 531.0887343412134,
+   "calibration_sha256": "0e9a19e5ebd76a09c180669bb805c8f35e8e589a48ea5151da35b826619dc584"
+  },
+  {
+   "grid": 32,
+   "replicate": 47,
+   "status": "fit",
+   "fit_rms_code": 526.2455313556021,
+   "calibration_sha256": "880e2cd8a3a948277043c76d5724031c1d5d8066115353cefd94d26a85253c9a"
+  },
+  {
+   "grid": 32,
+   "replicate": 48,
+   "status": "fit",
+   "fit_rms_code": 496.5059731643355,
+   "calibration_sha256": "876769ccf078779e7d7170871e540596f889ac30a5c8ef85b8ac902a6ec2d5ee"
+  },
+  {
+   "grid": 32,
+   "replicate": 49,
+   "status": "fit",
+   "fit_rms_code": 507.37218938879573,
+   "calibration_sha256": "438c6f6fda08e5398cce2d1b77e560cce5591ef78a6538c047300671d0d6d6ad"
+  },
+  {
+   "grid": 32,
+   "replicate": 50,
+   "status": "fit",
+   "fit_rms_code": 494.80662297568483,
+   "calibration_sha256": "99dabb1b23e1f7573e983a534d5144976c31dbacde4afa57f7058d02570d23e7"
+  },
+  {
+   "grid": 32,
+   "replicate": 51,
+   "status": "fit",
+   "fit_rms_code": 580.3595623978559,
+   "calibration_sha256": "9cecbcd43a146fbff5c22a8a173ce5bc7f4b0b0ad972d5287ec5dbc477066d78"
+  },
+  {
+   "grid": 32,
+   "replicate": 52,
+   "status": "fit",
+   "fit_rms_code": 525.6366653935697,
+   "calibration_sha256": "68b23ccc3f7e5868906472ae3e7fece1b68d96f20288137c7e66af0af785b5c6"
+  },
+  {
+   "grid": 32,
+   "replicate": 53,
+   "status": "fit",
+   "fit_rms_code": 556.7341962797357,
+   "calibration_sha256": "f8932c9528dbf980abf96e8c83fc9a2444443234692bf173dbd7a8c7fcaaf93d"
+  },
+  {
+   "grid": 32,
+   "replicate": 54,
+   "status": "fit",
+   "fit_rms_code": 492.6932694245766,
+   "calibration_sha256": "46f7bc99a7e3f9e5a6ff300008483f19ff2a4384a44b00c9c05406cb7c1a0cc4"
+  },
+  {
+   "grid": 32,
+   "replicate": 55,
+   "status": "fit",
+   "fit_rms_code": 520.1974475417654,
+   "calibration_sha256": "989f8891a25f87964ad40fabb59b511cdd792ad1189dd6e5b3f507ce72b1bf15"
+  },
+  {
+   "grid": 32,
+   "replicate": 56,
+   "status": "fit",
+   "fit_rms_code": 540.7913119353004,
+   "calibration_sha256": "9e0ff83bec29b19c2df2e1a2dff91097fdd0e16b18621a8874b0bd02d45f2a57"
+  },
+  {
+   "grid": 32,
+   "replicate": 57,
+   "status": "fit",
+   "fit_rms_code": 502.2544802790109,
+   "calibration_sha256": "20b4014cf66a5f8e49e753cfba5bb30c0eacff68801e0f9ea0e85f07d277012e"
+  },
+  {
+   "grid": 32,
+   "replicate": 58,
+   "status": "fit",
+   "fit_rms_code": 553.9019581866554,
+   "calibration_sha256": "35c0c828335494456b4f031d728448425ddd03ab27c313dc5756f34810153b01"
+  },
+  {
+   "grid": 32,
+   "replicate": 59,
+   "status": "fit",
+   "fit_rms_code": 523.594399095812,
+   "calibration_sha256": "3f7f68936d243d88d6b9f26fc3323a11afabd52bf3ae9d2e0c5e9d1b7e33700a"
+  },
+  {
+   "grid": 32,
+   "replicate": 60,
+   "status": "fit",
+   "fit_rms_code": 505.3956072398332,
+   "calibration_sha256": "368d7de1f2c194f766a5ce6f4f7d2160e6c2208616cacc2a14b2587eb575127e"
+  },
+  {
+   "grid": 32,
+   "replicate": 61,
+   "status": "fit",
+   "fit_rms_code": 508.90680325790646,
+   "calibration_sha256": "0bd9b3657eb9cb05dcf58bbfc1b27547928ed4ef745d8ff6914c539e3fe4672b"
+  },
+  {
+   "grid": 32,
+   "replicate": 62,
+   "status": "fit",
+   "fit_rms_code": 499.96602723695565,
+   "calibration_sha256": "2cfc5204616294e43bdd34c9191ac9ce9d07f5585657733eae1162468734695b"
+  },
+  {
+   "grid": 32,
+   "replicate": 63,
+   "status": "fit",
+   "fit_rms_code": 516.963559887184,
+   "calibration_sha256": "cd4a8af08cdff2ba97df8569c26f6fc868520b08e14b78228ec40e0284249d18"
+  },
+  {
+   "grid": 32,
+   "replicate": 64,
+   "status": "fit",
+   "fit_rms_code": 508.72640253555585,
+   "calibration_sha256": "d9ff2691b6b3debf313d1246319bbef2b79f0d5aee878034afd31017d0e108fe"
+  },
+  {
+   "grid": 32,
+   "replicate": 65,
+   "status": "fit",
+   "fit_rms_code": 496.6009406121317,
+   "calibration_sha256": "e73c89fdbd439073e9cbe53bba36af42e1b8e892e9f2262cca0bb14a6978f950"
+  },
+  {
+   "grid": 32,
+   "replicate": 66,
+   "status": "fit",
+   "fit_rms_code": 504.91159090271356,
+   "calibration_sha256": "f899d83ca8f8f777ff77a7882756a3dbf7b3d26f40de5f57891375463a98008a"
+  },
+  {
+   "grid": 32,
+   "replicate": 67,
+   "status": "fit",
+   "fit_rms_code": 571.6152631425454,
+   "calibration_sha256": "34399c8cd49c4ebc972a11ee55f153d648cab054ec9c3f06434cb73eedd8d93a"
+  },
+  {
+   "grid": 32,
+   "replicate": 68,
+   "status": "fit",
+   "fit_rms_code": 492.50044330096085,
+   "calibration_sha256": "17cf7083543a49ebd05dc2a6e790724902c103a9026c03339c53abea53e6b19c"
+  },
+  {
+   "grid": 32,
+   "replicate": 69,
+   "status": "fit",
+   "fit_rms_code": 492.80415100051835,
+   "calibration_sha256": "49b9714f8e1d0c44104d8c4b8cdfb97fc521a6b2232ebcb4e1ba39da3691e639"
+  },
+  {
+   "grid": 32,
+   "replicate": 70,
+   "status": "fit",
+   "fit_rms_code": 501.7585501626741,
+   "calibration_sha256": "3dd781a8a155d541204237fa6502a21805263f55cfc2d702fe8f460e708e9576"
+  },
+  {
+   "grid": 32,
+   "replicate": 71,
+   "status": "fit",
+   "fit_rms_code": 540.9704975621496,
+   "calibration_sha256": "3a6f5dacce7b6caffaed59dfc4ff1edfcbdfebdf8ca729c2079b5c12b56f9454"
+  },
+  {
+   "grid": 32,
+   "replicate": 72,
+   "status": "fit",
+   "fit_rms_code": 380.6130985502422,
+   "calibration_sha256": "fe4de0583237a8c30cf5f7762c113e4355811d0b252d8bd424e4e98bde849625"
+  },
+  {
+   "grid": 32,
+   "replicate": 73,
+   "status": "fit",
+   "fit_rms_code": 493.4014154821146,
+   "calibration_sha256": "d7d69aece401ec3e4cf5273eba460263739a6d78db36b0e4ab5ce2d5bcd4e45a"
+  },
+  {
+   "grid": 32,
+   "replicate": 74,
+   "status": "fit",
+   "fit_rms_code": 474.4968165496261,
+   "calibration_sha256": "612940ce61040c2c19123ab0b2173ef6043d256f17f3ae3056f35df896f968e4"
+  },
+  {
+   "grid": 32,
+   "replicate": 75,
+   "status": "fit",
+   "fit_rms_code": 537.1981563065306,
+   "calibration_sha256": "822b259b3ccc0795499066af0e416a3775da4211abac2be1dd72ddd051d0049c"
+  },
+  {
+   "grid": 32,
+   "replicate": 76,
+   "status": "fit",
+   "fit_rms_code": 516.9657811169641,
+   "calibration_sha256": "fd90a68f1a6ede7508dbf0e9484ec987c42c1f89343f0d3bee90061419cf13d3"
+  },
+  {
+   "grid": 32,
+   "replicate": 77,
+   "status": "fit",
+   "fit_rms_code": 508.0942976918638,
+   "calibration_sha256": "2763939310fdce7ec41325d181dd9e36fb4152b28e653b5056acb6ccf8a86997"
+  },
+  {
+   "grid": 32,
+   "replicate": 78,
+   "status": "fit",
+   "fit_rms_code": 506.6250601293991,
+   "calibration_sha256": "8cf76a43c4fa3ea684d53b2c10ce8ea3f921f82d552bc9f915f43b8cfdf58ff2"
+  },
+  {
+   "grid": 32,
+   "replicate": 79,
+   "status": "fit",
+   "fit_rms_code": 514.6603754922938,
+   "calibration_sha256": "3b38fe79282d5d01a4c40212e9e53c29636e87e9ec57e36b94d79d85dc89c61d"
+  },
+  {
+   "grid": 32,
+   "replicate": 80,
+   "status": "fit",
+   "fit_rms_code": 528.3745441680885,
+   "calibration_sha256": "d2a9f42dd2397edb98c6d5294be6dea5ea21dc696d842b4ff35fc76901e357e1"
+  },
+  {
+   "grid": 32,
+   "replicate": 81,
+   "status": "fit",
+   "fit_rms_code": 520.8810223939283,
+   "calibration_sha256": "936fec1fb8d36b410e8e103d1838a4ca64e1f77061ecc92de9c4812d3fa61915"
+  },
+  {
+   "grid": 32,
+   "replicate": 82,
+   "status": "fit",
+   "fit_rms_code": 528.9411536470279,
+   "calibration_sha256": "885e4c27ab0fe8bfb949b9f7aba6c9ea82b6fd47ca7ef14200a7415c5bd7d0c4"
+  },
+  {
+   "grid": 32,
+   "replicate": 83,
+   "status": "fit",
+   "fit_rms_code": 484.600155442263,
+   "calibration_sha256": "1f93f873d7e7cc75c4cc6a4b0acae32f4d93554fa720a16bc7d9b09c36ee03a7"
+  },
+  {
+   "grid": 32,
+   "replicate": 84,
+   "status": "fit",
+   "fit_rms_code": 496.66017153834235,
+   "calibration_sha256": "de0225733e202613a9c5f0c1705262c86b86a2caebb85b2fcf5ff93a91815eb3"
+  },
+  {
+   "grid": 32,
+   "replicate": 85,
+   "status": "fit",
+   "fit_rms_code": 514.7242621220546,
+   "calibration_sha256": "ace9fa5e3cf117f8384ce400a4a055fe2225028b27b9f80a207a560d1e48988f"
+  },
+  {
+   "grid": 32,
+   "replicate": 86,
+   "status": "fit",
+   "fit_rms_code": 529.3421710247814,
+   "calibration_sha256": "718c3ac2eb71227a1d2f68c4a54847cec5f28f4f758849aaedd67d533e8aac6b"
+  },
+  {
+   "grid": 32,
+   "replicate": 87,
+   "status": "fit",
+   "fit_rms_code": 504.1056700604602,
+   "calibration_sha256": "9a1a0c5e4583b353affae1a733d93866eb140468145d320c138c7d977324ac77"
+  },
+  {
+   "grid": 32,
+   "replicate": 88,
+   "status": "fit",
+   "fit_rms_code": 558.1248552327604,
+   "calibration_sha256": "e5e264076528436a659a4e0c624500ce36485165e8cae1213be6ff70aae308d7"
+  },
+  {
+   "grid": 32,
+   "replicate": 89,
+   "status": "fit",
+   "fit_rms_code": 494.9057165171414,
+   "calibration_sha256": "90f3a8a935a5f521fbe8461f344b4422d792d7d64edda11f72f3780d6f3585af"
+  },
+  {
+   "grid": 32,
+   "replicate": 90,
+   "status": "fit",
+   "fit_rms_code": 620.7477554492023,
+   "calibration_sha256": "ede2c32e52987bf123c8a140e004cc1217b6598700f51cb7bfef57d1daed98c4"
+  },
+  {
+   "grid": 32,
+   "replicate": 91,
+   "status": "fit",
+   "fit_rms_code": 516.3095343340921,
+   "calibration_sha256": "3c2a10b77f4e059a52745f4ef2038bb88b569a407d524c4e916d3a578e9be429"
+  },
+  {
+   "grid": 32,
+   "replicate": 92,
+   "status": "fit",
+   "fit_rms_code": 499.35649615170365,
+   "calibration_sha256": "dab1555896024c46c605b39f51f38997be7d8455d42dc36552af6617fd27026d"
+  },
+  {
+   "grid": 32,
+   "replicate": 93,
+   "status": "fit",
+   "fit_rms_code": 522.4526226353092,
+   "calibration_sha256": "26c4f7c6dd67e6b3bd54376bd131e3de1d780d386802b67eae3e9d1cfed48bf6"
+  },
+  {
+   "grid": 32,
+   "replicate": 94,
+   "status": "fit",
+   "fit_rms_code": 560.0060954905724,
+   "calibration_sha256": "062fbc5b6fe2453cfb10d281fdd7ab1131c03f45a71c0f3ccd769d2632c23d19"
+  },
+  {
+   "grid": 32,
+   "replicate": 95,
+   "status": "fit",
+   "fit_rms_code": 482.4243984014612,
+   "calibration_sha256": "50dfdb24e407dc39efefc235d1a63ee5e6c6f3c34122f0febb9f42fea8ecb850"
+  }
+ ],
+ "raw_inputs_unchanged": true,
+ "disjoint_seeds": true,
+ "high_density_capability": "not_validated"
+}

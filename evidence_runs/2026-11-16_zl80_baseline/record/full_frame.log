@@ -1,0 +1,21 @@
+physical_stream 模式完成：重建 complete，完整性 complete，写入 evidence_runs/2026-11-16_zl80_baseline/output/full_frame
+物理适用性：受限研究模型；不作为高密度测量能力或实机精度验证。
+     5918.27 real      4976.92 user        12.91 sys
+           613085184  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              183264  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1437  voluntary context switches
+              767054  involuntary context switches
+      59496721012567  instructions retired
+      15665916762472  cycles elapsed
+           588032640  peak memory footprint
+exit 0
