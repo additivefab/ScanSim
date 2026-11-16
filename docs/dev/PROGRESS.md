@@ -12,7 +12,7 @@
 |---|---|
 | 当前方向 | 按 `docs/plan/下一步开发方案_2026-11-15.md` 执行（D084）：停止新增接口，围绕 ZL80 纵向打通，并取得第一批实测 |
 | 进行中的任务 | 无。N0–N5 的软件部分已做完；剩余项都依赖你的决定或实测 |
-| 下一个任务 | 等你：Q015–Q020（扫描方式、产品规格、规格采用、stash）、N4 实测（`docs/dev/measurement_request.md`）、底板网表导出。收到后按该清单继续 |
+| 下一个任务 | 等你：Q016–Q020（产品规格、近期可做的测量、入库策略、stash、规格采用）、N4 实测（`docs/dev/measurement_request.md`）、底板网表导出。收到后按该清单继续 |
 | 最近一次全量测试 | 2026-11-16 `tools/run_stage34_gates.py`：ruff 通过；`pytest -m "not slow"` 通过（Icarus 缺失，2 项跳过）；slow 的 34 项另跑通过（39.5 s）；合计 1587+34 通过、2 跳过 |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`；2026-11-15 已推送并核对，见会话日志 |
 | 未跟踪 | `configs/zl80_r5_scenario.json`（用户 2026-11-15 新建，N1 处理后再入库）；`results/` 已加入 `.gitignore` |
@@ -88,6 +88,7 @@
 - N5：`tools/run_stage34_gates.py`，报告 `evidence_runs/2026-11-16_stage34_gates/record/gates.json`：9 通过、1 部分、0 失败、6 未执行。
 - N4：写了 `docs/dev/measurement_request.md`。未取得任何实测。
 - 编码器观测接入重建：`zlscan reconstruct --encoder`（`recon/encoder.py`，8 项新测试）；`tools/export_feed_encoder.py` 导出仿真编码器文件（带 0.3 纹波的 6 行实跑：计数 0,21,46,72,97,119，名义应为 0,20,40…）。逐时期标定路径不支持，明确拒绝。
+- Q015 已答：多面镜（D089）。N3 视为完成；振镜候选保持默认关闭，不再推进。待答仅剩 Q016–Q020。
 - 振镜：默认关闭的正弦轨迹候选（D088，规格 13.5，5 项测试）；无伺服/滞后/回程，不是闭环振镜模型，Q015 仍待你决定。
 - Icarus：2026-11-16 复试 `brew install icarus-verilog`，下载成功但 Homebrew 因 Command Line Tools 过旧拒绝安装（需你更新 CLT，可能要 sudo）；RTL 协同测试仍跳过，见 DECISIONS Q012。
 - 浏览器：跨时期成像页面部分执行（`split` 夹具的时期 1 像素谱系与原始块一致；多点标定集合、多行、mixed_epoch 未做）。验收入口现为 10 通过、4 部分、0 失败、2 未执行（M02–M08、Icarus）。
