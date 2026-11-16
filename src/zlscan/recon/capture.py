@@ -61,11 +61,14 @@ def reconstruct_capture(
     coding: str = "offset_binary",
     quality_path: Path | None = None,
     facet_path: Path | None = None,
+    encoder_path: Path | None = None,
 ) -> dict:
     """Process only observed sample rows and write the density and mask from disk scratch."""
     if isinstance(calibration, CalibrationSet) or capture.version == 2:
         from zlscan.recon.epoch_capture import reconstruct_epoch_capture
 
+        if encoder_path is not None:
+            raise ValueError("feed encoder rows are not supported with epoch calibration")
         if headerless_spp is not None:
             raise ValueError("epoch calibration selection requires ZLRAW sample identities")
         return reconstruct_epoch_capture(
@@ -102,6 +105,14 @@ def reconstruct_capture(
         if fitted_channel is None or fitted_channel == channel:
             delay_ticks = delay.value["delay_ticks"]
 
+    encoder_y = None
+    if encoder_path is not None:
+        from zlscan.recon.encoder import FeedEncoder
+
+        encoder = FeedEncoder.model_validate_json(encoder_path.read_bytes())
+        if encoder.raw_sha256 != capture.raw_sha256:
+            raise ValueError("encoder counts are bound to a different raw file")
+        encoder_y = encoder.row_y_m(capture.lines, grid.pitch_y_m, grid.origin_y_m)
     raw = None
     phases = None
     offset_samples = 0.0
@@ -182,6 +193,8 @@ def reconstruct_capture(
 
             def add_row(line: int, codes: np.ndarray, flags: np.ndarray) -> None:
                 y = grid.origin_y_m + (line + 0.5) / capture.lines * height_m
+                if encoder_y is not None:
+                    y = encoder_y[line]
                 x, gain = nominal_x, 1.0
                 mapping = "uniform"
                 if model is not None:
@@ -205,6 +218,8 @@ def reconstruct_capture(
                     "y_m": y,
                     "source": None if block is None else source_record(block),
                 }
+                if encoder_y is not None:
+                    row_plan["y_source"] = "encoder"
                 if segmented:
                     row_plan.pop("source")
                     row_plan["segments"] = [

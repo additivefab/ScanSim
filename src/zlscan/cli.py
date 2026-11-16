@@ -354,6 +354,7 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
     p.add_argument("--headerless-spp", type=int)
     p.add_argument("--quality", type=Path, help="observable quality event JSON")
     p.add_argument("--facets", type=Path, help="observable facet timing and calibration landmarks")
+    p.add_argument("--encoder", type=Path, help="observed feed-encoder counts (one per line)")
     p.add_argument(
         "--coding", choices=["offset_binary", "twos_complement"], default="offset_binary"
     )
@@ -373,6 +374,7 @@ def _run_reconstruct(argv: Sequence[str]) -> int:
             coding=args.coding,
             quality_path=args.quality,
             facet_path=args.facets,
+            encoder_path=args.encoder,
         )
     except (OSError, ValueError) as exc:
         print(f"重建失败：{exc}", file=sys.stderr)

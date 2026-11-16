@@ -399,8 +399,11 @@ count(t) = floor(y(t) / p_enc)                               编码器读数：�
 - 参数：`scan.feed_ripple` r（0 ≤ r < 1）、`scan.feed_ripple_hz` f（r>0 时必须 >0）、
   `scan.encoder_pitch_m` p_enc（可空；空表示没有编码器）。
 - 编码器观测的是真实送片位置，不是名义 `v_y t`；重建应使用观测位置估计，而不是名义行距。
-  **当前只实现了前向模型与观测函数 `scan.encoder_counts`，没有接入标定与重建**，
-  也没有打滑、轮径误差、偏心、张力变化、丢脉冲和编码器噪声（评审列出的这些仍未实现）。
+  重建侧：`zlscan reconstruct --encoder encoder.json`（合同 `zlscan-feed-encoder/1`，`recon/encoder.py`）
+  用观测计数放置行：`y_k = origin_y + (count_k − count_0)·pitch + pitch_y/2`；文件须绑定 raw 的 SHA-256、
+  每行一个计数、计数不减。谱系为每行记录 `y_source: "encoder"`。仅支持单标定路径，与逐时期标定
+  （capture v2/标定集合）同用时明确拒绝，不静默忽略。`tools/export_feed_encoder.py` 从仿真运行导出
+  SIMULATED 编码器文件。尚无打滑、轮径误差、偏心、张力变化、丢脉冲和编码器噪声模型，也没有实测编码器数据。
 - 未启用时 `ScanConfig` 的哈希载荷不含这三个键，旧配置身份不变。
 
 ### 13.4 收光位置响应表（候选，D087，待用户确认规格）
