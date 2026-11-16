@@ -1,0 +1,111 @@
+{
+  "format": "zlscan-stage34-gates/1",
+  "scope": "software gates for stages 3/4 on this host; no browser/hardware/measured claim",
+  "counts": {
+    "pass": 9,
+    "partial": 1,
+    "fail": 0,
+    "not_executed": 6
+  },
+  "status": "software_pass_with_open_items",
+  "criteria": [
+    {
+      "name": "tool:ruff",
+      "status": "pass",
+      "detail": "All checks passed!"
+    },
+    {
+      "name": "tool:pytest",
+      "status": "pass",
+      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1587 passed, 2 skipped, 34 deselected in 181.26s (0:03:01)"
+    },
+    {
+      "name": "archived:performance:4000x5000",
+      "status": "pass",
+      "detail": "wall_s=861.7966813340026; integrity=complete; lost_blocks=0"
+    },
+    {
+      "name": "archived:performance:7000x8600",
+      "status": "pass",
+      "detail": "wall_s=771.8218599590036; integrity=complete; lost_blocks=0"
+    },
+    {
+      "name": "archived:factorial:2^3 cases",
+      "status": "pass",
+      "detail": "cases=8; common_pixels=288; invalid_total=0"
+    },
+    {
+      "name": "archived:pair:independent edge alignment",
+      "status": "pass",
+      "detail": "demo_log: shift=2.00631627103121; uncorrected=0.16716666468704544; edge=0.01521576230851189; ad9268_50m_5x: shift=2.0933100750504536; uncorrected=0.18960184633068178; edge=0.027394450629991567"
+    },
+    {
+      "name": "archived:nominal:quality summary",
+      "status": "pass",
+      "detail": "valid_pixels=288; wedge_steps=4"
+    },
+    {
+      "name": "n2:low-light-protocol-2",
+      "status": "partial",
+      "detail": "{\"equivalent\": 35, \"inconclusive\": 1, \"no_invalid_observed\": 18, \"outside_usable_range\": 12}"
+    },
+    {
+      "name": "n1:zl80-full-frame-run",
+      "status": "pass",
+      "detail": "4000 lines, wall 5918.27 s, exit 0; evaluator lines 3998"
+    },
+    {
+      "name": "n1:zl80-noise-vs-budget",
+      "status": "pass",
+      "detail": "worst relative std error 0.011 over high-count steps (limit 0.05)"
+    },
+    {
+      "name": "browser:W07-paired-pages",
+      "status": "not_executed",
+      "detail": "paired off-film page scenario, see browser_workbench_2026-11-13.md"
+    },
+    {
+      "name": "browser:real-drag-frame-rate",
+      "status": "not_executed",
+      "detail": "mouse-drag frame rate on a real browser"
+    },
+    {
+      "name": "browser:full-trace-visual",
+      "status": "not_executed",
+      "detail": "full-length trace visual detail"
+    },
+    {
+      "name": "browser:cross-epoch-imaging",
+      "status": "not_executed",
+      "detail": "cross-epoch imaging page"
+    },
+    {
+      "name": "hardware:M02-M08",
+      "status": "not_executed",
+      "detail": "board/instrument measurements; none obtained"
+    },
+    {
+      "name": "rtl:icarus-cosim",
+      "status": "not_executed",
+      "detail": "Icarus Verilog unavailable on this host"
+    }
+  ],
+  "steps": {
+    "ruff": {
+      "returncode": 0,
+      "seconds": 0.1,
+      "tail": [
+        "All checks passed!"
+      ]
+    },
+    "pytest": {
+      "returncode": 0,
+      "seconds": 182.2,
+      "tail": [
+        "SKIPPED [1] tests/unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable",
+        "SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable",
+        "1587 passed, 2 skipped, 34 deselected in 181.26s (0:03:01)"
+      ]
+    }
+  }
+}
