@@ -157,7 +157,7 @@
 | Q009 | 交互指标是否作为验收（已缓存定位 150 毫秒、每秒 30 帧） | S3-T17 实测之后 | 实测后再定 |
 | Q010 | 用途优先级是否仍为 U0 → U2 → U1 → U3 | 现在 | 维持 |
 | Q011 | 本机 git 没有配置提交身份（`user.name`、`user.email` 为空）。提交用什么作者身份？ | 已在用临时身份提交（见下） | 你给出姓名与邮箱后，用 `git config user.name/user.email` 设在本仓库；已有提交的作者要改，需要改写历史，须你明确同意 |
-| Q012 | Icarus 12.0 已在临时目录构建并验证。Homebrew 的 CLT 版本限制仍在，SPICE 与 Vivado 未执行 | 阶段 0 外部仿真与后续协同 | 保留 Verilog 构建记录，后续补 SPICE 工具与证据 |
+| Q012 | 2026-11-16 复试 `brew install icarus-verilog`（13.0）：依赖可解析并已下载（新装 bison，升级 m4、autoconf，均在 D022 范围内），但仍因 Command Line Tools 过旧被拒；需要你在系统设置里更新 Command Line Tools（Xcode 26.3 对应版本），可能要 sudo，代理不执行。更新后重跑同一命令，再跑 `pytest tests/unit/test_capture_cosim.py`。下面是此前的记录：Icarus 12.0 已在临时目录构建并验证。Homebrew 的 CLT 版本限制仍在，SPICE 与 Vivado 未执行 | 阶段 0 外部仿真与后续协同 | 保留 Verilog 构建记录，后续补 SPICE 工具与证据 |
 | Q013 | 包 A 与带噪动态预设仍需验证整图指标。两套包的噪声序列与 V5 不同（D025）。包 A 与包 B 的理想预设已逐码复现 | 阶段 3 门槛“旧行为”项 | 先检查包 A 的确定性场景，再为动态场景提出有物理含义的容差 |
 | Q014 | 两项双通道全幅已实际运行，分别 1277.5 s 与 1108.2 s，均超过 900 s 研究目标；此前“没有实际运行”已过时 | 阶段 7 性能优化 | 数据见 `docs/reports/stage3_dual_frames.md`，优化仍待完成 |
 

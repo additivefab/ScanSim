@@ -88,6 +88,7 @@
 - N5：`tools/run_stage34_gates.py`，报告 `evidence_runs/2026-11-16_stage34_gates/record/gates.json`：9 通过、1 部分、0 失败、6 未执行。
 - N4：写了 `docs/dev/measurement_request.md`。未取得任何实测。
 - 编码器观测接入重建：`zlscan reconstruct --encoder`（`recon/encoder.py`，8 项新测试）；`tools/export_feed_encoder.py` 导出仿真编码器文件（带 0.3 纹波的 6 行实跑：计数 0,21,46,72,97,119，名义应为 0,20,40…）。逐时期标定路径不支持，明确拒绝。
+- Icarus：2026-11-16 复试 `brew install icarus-verilog`，下载成功但 Homebrew 因 Command Line Tools 过旧拒绝安装（需你更新 CLT，可能要 sudo）；RTL 协同测试仍跳过，见 DECISIONS Q012。
 - 浏览器：跨时期成像页面部分执行（`split` 夹具的时期 1 像素谱系与原始块一致；多点标定集合、多行、mixed_epoch 未做）。验收入口现为 10 通过、4 部分、0 失败、2 未执行（M02–M08、Icarus）。
 - 浏览器：全量迹线视觉已执行（总览摘要与放大原始细节，未记录的模拟窗口明确标 not_recorded）；拖动帧率只得到脚本代理指标（120 次逐帧更新中位 8.3 ms），真实鼠标拖动未取得。
 - 浏览器：W07 成对运行同游标状态已在页面实际验证（部分关闭，记录 `evidence_runs/2026-11-16_browser_w07/`）；
