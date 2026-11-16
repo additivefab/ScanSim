@@ -1,0 +1,33 @@
+{
+  "format": "zlscan.zl80-design-targets/1",
+  "note": "Recorded design targets confirmed by the user on 2026-11-16 (Q016, D090). Not read by any loader; the scenario files carry the working values and stay ASSUMED.",
+  "evidence": "design_target",
+  "targets": {
+    "film_width_m": {
+      "value": 0.08,
+      "unit": "m"
+    },
+    "film_height_m": {
+      "value": 0.2,
+      "unit": "m"
+    },
+    "pixel_pitch_m": {
+      "value": 5e-05,
+      "unit": "m"
+    },
+    "density_max_od": {
+      "value": 4.5,
+      "unit": "OD"
+    },
+    "noise_sigma_at_density_max_od": {
+      "value": 0.05,
+      "unit": "OD",
+      "meaning": "standard deviation of a pixel density at 4.5 OD, shot noise only in the budget"
+    },
+    "scan_time_s": {
+      "value": null,
+      "unit": "s",
+      "status": "not given"
+    }
+  }
+}
