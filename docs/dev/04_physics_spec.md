@@ -420,7 +420,22 @@ eta(u) = eta_pre · eta_collect · interp(u; profile_u, profile_rel)
 - 验收：均匀透明场的一行轮廓等于设定的效率表（`test_collection_table_gives_the_clear_field_line_profile`）。
 - 不得用制造条纹的同一条曲线的倒数来证明实机可校正：诊断积分筒亮线需要独立测得的响应表。
 
-### 13.5 运动模型接口与振镜（未实现）
+### 13.5 运动模型接口与正弦振镜轨迹（候选，D088，待用户确认规格，Q015）
 
-多面镜保留。单轴闭环振镜需要指令角、实际角、伺服动态、回程和稳定区，在 Q015 决定之前只留接口：
-`scan.geometry` 是运动的唯一入口，替换运动即替换该函数的位置输出，后面的光电链与重建不变。
+多面镜保留。`scan.geometry` 是运动的唯一入口：替换运动就是替换它的位置输出，后面的光电链与重建不变。
+候选的单轴振镜只给出位置轨迹，默认关闭。
+
+```text
+theta(u) = (2u − 1)·theta_max                      u 为窗口内线性时间坐标，theta 在窗口两端为 ±theta_max
+u_eff    = 1/2 + sin(theta) / (2 sin(theta_max))   窗口两端与多面镜窗口重合，中心速度最大
+x        = x_c − W/2 + W·u_eff·gain (+ 逐面偏移、三次畸变等原有项)
+奇数行（galvo_bidirectional）：u → 1 − u，同一窗口反向扫描
+```
+
+- 参数：`scan.galvo_max_phase_rad` theta_max ∈ (0, π/2]（空 = 多面镜）、`scan.galvo_bidirectional`。
+  振镜时 `facets=1`，`rpm/60` 为行频。边缘对中心速度比为 cos(theta_max)。
+- 窗口外 theta 夹在 ±π/2；**没有**指令角与实际角之分、伺服滞后与带宽、回程、稳定区、
+  非线性位置反馈和位置噪声。因此它只回答"正弦轨迹的速度不均匀与双向扫描对采样位置的影响"，
+  不能用来评价闭环振镜能否达到某一线性度或速度。
+- 未启用时 `ScanConfig` 的哈希载荷不含这两个键，旧配置身份不变。
+- 验收：窗口两端与中心位置、速度比、奇数行反向、分块独立（`test_galvo_motion.py`）。

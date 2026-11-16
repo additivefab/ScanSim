@@ -97,7 +97,16 @@ class ChainConfig:
             if d["detector"][key] is None:
                 del d["detector"][key]
         for part, keys in (
-            ("scan", ("feed_ripple", "feed_ripple_hz", "encoder_pitch_m")),
+            (
+                "scan",
+                (
+                    "feed_ripple",
+                    "feed_ripple_hz",
+                    "encoder_pitch_m",
+                    "galvo_max_phase_rad",
+                    "galvo_bidirectional",
+                ),
+            ),
             ("collect", ("profile_u", "profile_rel")),
         ):
             for key in keys:

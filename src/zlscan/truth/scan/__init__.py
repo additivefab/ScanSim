@@ -53,6 +53,9 @@ class ScanConfig:
     feed_ripple: float = 0.0  # fractional sinusoidal modulation of the feed speed
     feed_ripple_hz: float = 0.0
     encoder_pitch_m: float | None = None  # feed encoder resolution; None = no encoder
+    # Galvanometer trajectory candidate (spec 13.5), ASSUMED, off when None.
+    galvo_max_phase_rad: float | None = None  # sinusoid phase at the window edge, in (0, pi/2]
+    galvo_bidirectional: bool = False  # odd lines run the same window backwards
 
     def __post_init__(self) -> None:
         if not (math.isfinite(self.feed_ripple) and 0 <= self.feed_ripple < 1):
@@ -61,6 +64,12 @@ class ScanConfig:
             raise ValueError("feed ripple frequency must be finite and non-negative")
         if self.feed_ripple and self.feed_ripple_hz <= 0:
             raise ValueError("feed ripple needs a positive frequency")
+        if self.galvo_max_phase_rad is not None and not (
+            math.isfinite(self.galvo_max_phase_rad) and 0 < self.galvo_max_phase_rad <= math.pi / 2
+        ):
+            raise ValueError("galvo window phase must be finite in (0, pi/2]")
+        if self.galvo_bidirectional and self.galvo_max_phase_rad is None:
+            raise ValueError("bidirectional scanning needs the galvo trajectory")
         if self.encoder_pitch_m is not None and not (
             math.isfinite(self.encoder_pitch_m) and self.encoder_pitch_m > 0
         ):
@@ -120,6 +129,8 @@ def geometry(cfg: ScanConfig, t_s: np.ndarray, rng: CounterRng, domain: int):
     u = (tau - ta) / cfg.active_s  # physical trajectory continues outside the active window
     if cfg.legacy_clamped_coordinates:
         u = np.clip(u, 0, 1)
+    if cfg.galvo_max_phase_rad is not None:
+        u = _galvo_u(cfg, u, k)
     gain = np.ones_like(u)
     if cfg.facet_gain:
         gain = np.array(cfg.facet_gain)[facet]
@@ -130,6 +141,20 @@ def geometry(cfg: ScanConfig, t_s: np.ndarray, rng: CounterRng, domain: int):
         x = x + np.array(cfg.facet_offset_m)[facet]
     y = cfg.y0_m + (_feed(cfg, t_s) if cfg.continuous_feed else k * cfg.pitch_y_m)
     return k, x, y, facet, inside
+
+
+def _galvo_u(cfg: ScanConfig, u: np.ndarray, line: np.ndarray) -> np.ndarray:
+    """Normalised position of a sinusoidal sweep: sin(theta)/sin(theta_max), theta linear in time.
+
+    Time maps linearly to the phase theta in [-theta_max, theta_max] across the window; the speed
+    is highest at the centre. Outside the window theta is clipped at +-pi/2 (no servo, retrace or
+    settling model). Odd lines run backwards when bidirectional.
+    """
+    tmax = cfg.galvo_max_phase_rad
+    if cfg.galvo_bidirectional:
+        u = np.where(line % 2 == 1, 1.0 - u, u)
+    theta = np.clip((2.0 * u - 1.0) * tmax, -math.pi / 2, math.pi / 2)
+    return 0.5 + 0.5 * np.sin(theta) / math.sin(tmax)
 
 
 def _feed(cfg: ScanConfig, t_s: np.ndarray) -> np.ndarray:
