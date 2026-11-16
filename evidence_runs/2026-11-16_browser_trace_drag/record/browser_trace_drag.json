@@ -1,0 +1,22 @@
+{
+  "format": "zlscan-browser-check/1",
+  "date": "2026-11-16",
+  "source_commit": "6b25859",
+  "how": "zlscan serve --port 8765 --lines 6 in the Claude desktop built-in browser (viewport 1024x768)",
+  "full_trace_visual": {
+    "overview": "adc.code and afe.v_adc enabled; full run (0-15 ms) rendered as min/max summary envelopes, six scan lines with inter-line gaps and the wedge steps visible; both captions say summary_only",
+    "zoomed": "after three zoom clicks adc.code shows raw-resolution noise over 6562000000-8437000000 ps; afe.v_adc shows the explicit message 'not_recorded · window is finer than recorded summaries; replay it' instead of drawing invented samples",
+    "status": "executed"
+  },
+  "drag_frame_rate": {
+    "real_mouse_drag": "the browser tool's drag delivered 2 input events in 8 ms (an instantaneous jump), so it cannot measure a human drag; no real-drag frame rate was obtained",
+    "scripted_proxy": {
+      "method": "page script advanced the cursor slider once per animation frame, 120 updates over the full range, then waited 1.5 s",
+      "frame_ms_median": 8.3, "frame_ms_p95": 9.2, "frame_ms_max": 9.4, "mean_fps": 120.1,
+      "displayed_step_after": 59999, "slider_after": 59999,
+      "reading": "the page kept up with per-frame cursor updates on this display and no stale reply overwrote the final state; requests are asynchronous so this is not end-to-end latency"
+    },
+    "status": "partial"
+  },
+  "scope": "SIMULATED demo run, short 6-line record, one local machine; not a measured-source or full-size-record check"
+}

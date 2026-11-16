@@ -27,12 +27,11 @@ import audit_stage34_acceptance as archived  # noqa: E402
 
 LOW_LIGHT = ROOT / "evidence_runs/2026-11-16_low_light_protocol2/record/summary.json"
 ZL80_METRICS = ROOT / "evidence_runs/2026-11-16_zl80_baseline/record/metrics.json"
+TRACE_DRAG = ROOT / "evidence_runs/2026-11-16_browser_trace_drag/record/browser_trace_drag.json"
 W07 = ROOT / "evidence_runs/2026-11-16_browser_w07/record/w07.json"
 ZL80_LOG = ROOT / "evidence_runs/2026-11-16_zl80_baseline/record/full_frame.log"
 
 NOT_EXECUTED = [
-    ("browser:real-drag-frame-rate", "mouse-drag frame rate on a real browser"),
-    ("browser:full-trace-visual", "full-length trace visual detail"),
     ("browser:cross-epoch-imaging", "cross-epoch imaging page"),
     ("hardware:M02-M08", "board/instrument measurements; none obtained"),
     ("rtl:icarus-cosim", "Icarus Verilog unavailable on this host"),
@@ -98,6 +97,26 @@ def w07() -> dict:
     )
 
 
+def trace_drag() -> list[dict]:
+    d = json.loads(TRACE_DRAG.read_text(encoding="utf-8"))
+    ok = d["full_trace_visual"]["status"] == "executed"
+    proxy = d["drag_frame_rate"]["scripted_proxy"]
+    steady = proxy["displayed_step_after"] == proxy["slider_after"] and proxy["frame_ms_p95"] < 33
+    return [
+        criterion(
+            "browser:full-trace-visual",
+            "pass" if ok else "fail",
+            "summary overview and zoomed raw view rendered; unrecorded analog window states "
+            "'not_recorded' (short 6-line demo run only)",
+        ),
+        criterion(
+            "browser:drag-frame-rate",
+            "partial" if steady else "fail",
+            "scripted per-frame cursor proxy ok; real mouse-drag frame rate not obtained",
+        ),
+    ]
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--out", type=Path, required=True)
@@ -122,6 +141,7 @@ def main() -> None:
     criteria.append(low_light())
     criteria.extend(zl80())
     criteria.append(w07())
+    criteria.extend(trace_drag())
     criteria.extend(criterion(n, "not_executed", why) for n, why in NOT_EXECUTED)
     counts = {
         s: sum(c["status"] == s for c in criteria)

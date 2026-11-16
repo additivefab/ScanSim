@@ -2,10 +2,10 @@
   "format": "zlscan-stage34-gates/1",
   "scope": "software gates for stages 3/4 on this host; no browser/hardware/measured claim",
   "counts": {
-    "pass": 9,
-    "partial": 2,
+    "pass": 10,
+    "partial": 3,
     "fail": 0,
-    "not_executed": 5
+    "not_executed": 3
   },
   "status": "software_pass_with_open_items",
   "criteria": [
@@ -17,7 +17,7 @@
     {
       "name": "tool:pytest",
       "status": "pass",
-      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1587 passed, 2 skipped, 34 deselected in 179.99s (0:02:59)"
+      "detail": "unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable | SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable | 1596 passed, 2 skipped, 34 deselected in 180.13s (0:03:00)"
     },
     {
       "name": "archived:performance:4000x5000",
@@ -65,14 +65,14 @@
       "detail": "off-film run changes front-end state at the same cursor; paired image/waveform visual comparison not executed"
     },
     {
-      "name": "browser:real-drag-frame-rate",
-      "status": "not_executed",
-      "detail": "mouse-drag frame rate on a real browser"
+      "name": "browser:full-trace-visual",
+      "status": "pass",
+      "detail": "summary overview and zoomed raw view rendered; unrecorded analog window states 'not_recorded' (short 6-line demo run only)"
     },
     {
-      "name": "browser:full-trace-visual",
-      "status": "not_executed",
-      "detail": "full-length trace visual detail"
+      "name": "browser:drag-frame-rate",
+      "status": "partial",
+      "detail": "scripted per-frame cursor proxy ok; real mouse-drag frame rate not obtained"
     },
     {
       "name": "browser:cross-epoch-imaging",
@@ -104,7 +104,7 @@
       "tail": [
         "SKIPPED [1] tests/unit/test_capture_cosim.py:10: Icarus Verilog and vvp are unavailable",
         "SKIPPED [1] tests/unit/test_capture_cosim.py:35: Icarus unavailable",
-        "1587 passed, 2 skipped, 34 deselected in 179.99s (0:02:59)"
+        "1596 passed, 2 skipped, 34 deselected in 180.13s (0:03:00)"
       ]
     }
   }
