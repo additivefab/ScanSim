@@ -96,6 +96,13 @@ class ChainConfig:
         for key in ("sat_current_a", "droop_per_a", "droop_tau_s"):
             if d["detector"][key] is None:
                 del d["detector"][key]
+        for part, keys in (
+            ("scan", ("feed_ripple", "feed_ripple_hz", "encoder_pitch_m")),
+            ("collect", ("profile_u", "profile_rel")),
+        ):
+            for key in keys:
+                if not d[part][key]:  # unused option: identity of older configurations is kept
+                    del d[part][key]
         return d
 
     def hash(self) -> str:

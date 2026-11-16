@@ -49,6 +49,22 @@ class ScanConfig:
     row_jitter_s: float = 0.0
     extra: dict = field(default_factory=dict)
     legacy_clamped_coordinates: bool = False  # reproduce the obsolete V5 clipping bug explicitly
+    # Feed motion candidate (spec 13.3), ASSUMED, off by default.
+    feed_ripple: float = 0.0  # fractional sinusoidal modulation of the feed speed
+    feed_ripple_hz: float = 0.0
+    encoder_pitch_m: float | None = None  # feed encoder resolution; None = no encoder
+
+    def __post_init__(self) -> None:
+        if not (math.isfinite(self.feed_ripple) and 0 <= self.feed_ripple < 1):
+            raise ValueError("feed ripple must be finite in [0, 1)")
+        if not math.isfinite(self.feed_ripple_hz) or self.feed_ripple_hz < 0:
+            raise ValueError("feed ripple frequency must be finite and non-negative")
+        if self.feed_ripple and self.feed_ripple_hz <= 0:
+            raise ValueError("feed ripple needs a positive frequency")
+        if self.encoder_pitch_m is not None and not (
+            math.isfinite(self.encoder_pitch_m) and self.encoder_pitch_m > 0
+        ):
+            raise ValueError("encoder pitch must be positive and finite or null")
 
     @property
     def f_line(self) -> float:
@@ -112,8 +128,28 @@ def geometry(cfg: ScanConfig, t_s: np.ndarray, rng: CounterRng, domain: int):
         x = x + cfg.distortion_m * (2 * u - 1) ** 3
     if cfg.facet_offset_m:
         x = x + np.array(cfg.facet_offset_m)[facet]
-    y = cfg.y0_m + (cfg.v_y * t_s if cfg.continuous_feed else k * cfg.pitch_y_m)
+    y = cfg.y0_m + (_feed(cfg, t_s) if cfg.continuous_feed else k * cfg.pitch_y_m)
     return k, x, y, facet, inside
+
+
+def _feed(cfg: ScanConfig, t_s: np.ndarray) -> np.ndarray:
+    """Feed position: v_y t, plus the integral of a sinusoidal speed modulation if enabled."""
+    y = cfg.v_y * t_s
+    if cfg.feed_ripple:
+        w = 2 * math.pi * cfg.feed_ripple_hz
+        y = y + cfg.v_y * cfg.feed_ripple * (1 - np.cos(w * t_s)) / w
+    return y
+
+
+def encoder_counts(cfg: ScanConfig, t_s: np.ndarray) -> np.ndarray | None:
+    """Observable feed-encoder count at times ``t_s``: the true feed position, quantised.
+
+    The instrument's view of the feed, not the nominal ``v_y * t``; ``None`` without encoder.
+    """
+    if cfg.encoder_pitch_m is None:
+        return None
+    t = np.asarray(t_s, float)
+    return np.floor((cfg.y0_m + _feed(cfg, t)) / cfg.encoder_pitch_m + 1e-9)
 
 
 def sync_ticks(cfg: ScanConfig, lines: int, rng: CounterRng, domain: int) -> list[int]:
