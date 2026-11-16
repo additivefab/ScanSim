@@ -13,7 +13,7 @@
 | 当前方向 | 按 `docs/plan/下一步开发方案_2026-11-15.md` 执行（D084）：停止新增接口，围绕 ZL80 纵向打通，并取得第一批实测 |
 | 进行中的任务 | 无。N0–N5 的软件部分已做完；剩余项都依赖你的决定或实测 |
 | 下一个任务 | 等你：Q015–Q020（扫描方式、产品规格、规格采用、stash）、N4 实测（`docs/dev/measurement_request.md`）、底板网表导出。收到后按该清单继续 |
-| 最近一次全量测试 | 2026-11-16 `tools/run_stage34_gates.py`：ruff 通过；`pytest -m "not slow"` 通过（Icarus 缺失，2 项跳过）；含 slow 的全量未在 N1–N3 改动后重跑 |
+| 最近一次全量测试 | 2026-11-16 `tools/run_stage34_gates.py`：ruff 通过；`pytest -m "not slow"` 通过（Icarus 缺失，2 项跳过）；slow 的 34 项另跑通过（39.5 s）；合计 1587+34 通过、2 跳过 |
 | git | main；origin 为 `https://github.com/additivefab/ScanSim.git`；2026-11-15 已推送并核对，见会话日志 |
 | 未跟踪 | `configs/zl80_r5_scenario.json`（用户 2026-11-15 新建，N1 处理后再入库）；`results/` 已加入 `.gitignore` |
 | stash | `04da348`（S4-T09 进行中的工作台改动，P0 复核前暂存）保留未动，去留见 Q019 |
@@ -87,7 +87,7 @@
 - N3 候选（D087）：送片纹波、编码器观测、收光位置表；规格 13.3–13.5。快速集 1587 通过。
 - N5：`tools/run_stage34_gates.py`，报告 `evidence_runs/2026-11-16_stage34_gates/record/gates.json`：9 通过、1 部分、0 失败、6 未执行。
 - N4：写了 `docs/dev/measurement_request.md`。未取得任何实测。
-- 未做/未验证：含 slow 的全量 pytest 未重跑；编码器观测未接入标定重建；振镜；浏览器四项；
+- 未做/未验证：编码器观测未接入标定重建；振镜；浏览器四项；
   PMT、送片、收光候选都无实测约束，参数全为假设。
 - 下一步：等 Q015–Q020 与 N4 的资料。
 
